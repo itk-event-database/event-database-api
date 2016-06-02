@@ -1,0 +1,25 @@
+# Example PHP Schema file
+# Use the following command to regenerate entities:
+# bin/schema generate-types src/ app/config/schema.yml
+
+rdfa:
+  - https://raw.githubusercontent.com/schemaorg/schemaorg/sdo-gozer/data/schema.rdfa
+annotationGenerators:
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DunglasApiAnnotationGenerator
+namespaces:
+  entity: AppBundle\Entity
+types:
+  # https://schema.org/Event
+  Event:
+    properties:
+      startDate: ~
+      endDate: ~
+
+  # Parent class of Event
+  Thing:
+    properties:
+      name: ~
+      description: ~
