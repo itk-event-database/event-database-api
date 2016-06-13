@@ -85,3 +85,14 @@ nelmio_api_doc:
         request_format:
             formats:
                 json:       "application/json"
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+
+lexik_jwt_authentication:
+    private_key_path: %jwt_private_key_path%
+    public_key_path:  %jwt_public_key_path%
+    pass_phrase:      %jwt_key_pass_phrase%
+    token_ttl:        %jwt_token_ttl%

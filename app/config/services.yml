@@ -27,3 +27,7 @@ services:
             - method:    "initFilters"
               arguments: [ [ "@resource.event.order_filter", "@resource.event.search_filter", "@resource.event.date_filter" ] ]
         tags:      [ { name: "api.resource" } ]
+
+    # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
+    fos_user.doctrine_registry:
+        alias: doctrine
