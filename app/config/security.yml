@@ -1,7 +1,9 @@
 security:
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_API_READ:    [ ROLE_USER ]
+        ROLE_API_WRITE:   [ ROLE_API_READ ]
+        ROLE_ADMIN:       [ ROLE_API_WRITE ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
 
     providers:
         fos_userbundle:
@@ -35,4 +37,7 @@ security:
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        # Read/write API access
+        - { path: ^/api,       roles: [ ROLE_API_WRITE ], methods: [ POST, PUT, DELETE ] }
+        # Read only API access
+        - { path: ^/api,       roles: [ ROLE_API_READ ] }
