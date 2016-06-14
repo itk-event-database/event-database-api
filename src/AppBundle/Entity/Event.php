@@ -9,6 +9,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Dunglas\ApiBundle\Annotation\Iri;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.
@@ -37,6 +38,7 @@ class Event extends Thing
     /**
      * @var \DateTime The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
      *
+     * @Groups({"event_read", "event_write"})
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      * @Iri("https://schema.org/endDate")
@@ -46,6 +48,7 @@ class Event extends Thing
     /**
      * @var \DateTime The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
      *
+     * @Groups({"event_read", "event_write"})
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      * @Iri("https://schema.org/startDate")
