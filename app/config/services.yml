@@ -35,3 +35,17 @@ services:
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
         alias: doctrine
+
+    security.access.event_voter:
+        class:      AppBundle\Security\Authorization\Voter\EventVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+
+    # https://api-platform.com/doc/1.0/api-bundle/the-event-system
+    event.event_listener:
+        class: AppBundle\EventListener\EventListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: kernel.event_listener, event: api.pre_update, method: onPreUpdate }
+            - { name: kernel.event_listener, event: api.pre_delete, method: onPreDelete }
