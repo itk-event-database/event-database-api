@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Dunglas\ApiBundle\Annotation\Iri;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * The most generic type of item.
@@ -18,7 +19,8 @@ abstract class Thing
 {
     /**
      * @var string A short description of the item.
-     * 
+     *
+     * @Groups({"event_read", "event_write"})
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
      * @Iri("https://schema.org/description")
@@ -26,7 +28,8 @@ abstract class Thing
     private $description;
     /**
      * @var string The name of the item.
-     * 
+     *
+     * @Groups({"event_read", "event_write"})
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
      * @Iri("https://schema.org/name")
