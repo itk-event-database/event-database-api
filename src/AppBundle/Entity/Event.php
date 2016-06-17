@@ -36,26 +36,6 @@ class Event extends Thing
    */
   private $id;
 
-  // /**
-  //  * @var \DateTime The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
-  //  *
-  //  * @Groups({"event_read", "event_write"})
-  //  * @ORM\Column(type="date", nullable=true)
-  //  * @Assert\Date
-  //  * @Iri("https://schema.org/endDate")
-  //  */
-  // private $endDate;
-
-  // /**
-  //  * @var \DateTime The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
-  //  *
-  //  * @Groups({"event_read", "event_write"})
-  //  * @ORM\Column(type="date", nullable=true)
-  //  * @Assert\Date
-  //  * @Iri("https://schema.org/startDate")
-  //  */
-  // private $startDate;
-
   /**
    * @var ArrayCollection
    *

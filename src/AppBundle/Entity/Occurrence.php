@@ -33,17 +33,17 @@ class Occurrence {
 
   /**
    * @var \DateTime
-   * @ORM\Column(type="date", nullable=true)
+   * @ORM\Column(type="datetime", nullable=true)
    * @Groups({"event_read", "event_write"})
    */
-  protected $startTime;
+  protected $startDate;
 
   /**
    * @var \DateTime
-   * @ORM\Column(type="date", nullable=true)
+   * @ORM\Column(type="datetime", nullable=true)
    * @Groups({"event_read", "event_write"})
    */
-  protected $endTime;
+  protected $endDate;
 
   /**
    * @var string
@@ -85,47 +85,47 @@ class Occurrence {
   }
 
   /**
-   * Sets startTime.
+   * Sets startDate.
    *
-   * @param \DateTime $startTime
+   * @param \DateTime $startDate
    *
    * @return $this
    */
-  public function setStartTime(\DateTime $startTime = null) {
-    $this->startTime = $startTime;
+  public function setStartDate(\DateTime $startDate = null) {
+    $this->startDate = $startDate;
 
     return $this;
   }
 
   /**
-   * Gets startTime.
+   * Gets startDate.
    *
    * @return \DateTime
    */
-  public function getStartTime() {
-    return $this->startTime;
+  public function getStartDate() {
+    return $this->startDate;
   }
 
   /**
-   * Sets endTime.
+   * Sets endDate.
    *
-   * @param \DateTime $endTime
+   * @param \DateTime $endDate
    *
    * @return $this
    */
-  public function setEndTime(\DateTime $endTime = null) {
-    $this->endTime = $endTime;
+  public function setEndDate(\DateTime $endDate = null) {
+    $this->endDate = $endDate;
 
     return $this;
   }
 
   /**
-   * Gets endTime.
+   * Gets endDate.
    *
    * @return \DateTime
    */
-  public function getEndTime() {
-    return $this->endTime;
+  public function getEndDate() {
+    return $this->endDate;
   }
 
   /**
