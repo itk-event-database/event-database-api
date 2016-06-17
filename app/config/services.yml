@@ -49,3 +49,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: api.pre_update, method: onPreUpdate }
             - { name: kernel.event_listener, event: api.pre_delete, method: onPreDelete }
+
+    feed_reader.json:
+        class: AppBundle\Service\FeedReader\Json
+
+    feed_reader.xml:
+        class: AppBundle\Service\FeedReader\Xml

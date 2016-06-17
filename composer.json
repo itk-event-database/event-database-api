@@ -24,7 +24,8 @@
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "lexik/jwt-authentication-bundle": "^1.5",
-        "stof/doctrine-extensions-bundle": "^1.2"
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
