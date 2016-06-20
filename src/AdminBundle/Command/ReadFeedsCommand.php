@@ -1,0 +1,162 @@
+<?php
+
+namespace AdminBundle\Command;
+
+use AdminBundle\Service\FeedReader\Controller;
+use AdminBundle\Entity\Feed;
+use AppBundle\Entity\Event;
+
+use Guzzle\Http\Url;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
+
+class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
+  protected function configure() {
+    $this->setName('events:read:feeds')
+      ->setDescription('Read event feeds');
+  }
+
+  // app/console generate:doctrine:entity --no-interaction --entity=AdminBundle:Feed --fields="name:string(255) url:string(255) baseUrl:string(255) type:string(50) root:string(50) mapping:text defaults:text lastRead:date" --format=annotation
+
+  private $em;
+  private $output;
+  private $feed;
+
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    $this->output = $output;
+    $this->em = $this->getContainer()->get('doctrine')->getEntityManager('default');
+
+    $feeds = $this->getFeeds();
+
+    $client = new Client();
+
+    foreach ($feeds as $name => $feed) {
+      $this->feed = $feed;
+      $res = $client->request('GET', $feed->getUrl());
+      if ($res->getStatusCode() === 200) {
+        $content = $res->getBody();
+        // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
+        $bom = pack('H*','EFBBBF');
+        $content = preg_replace("/^$bom/", '', $content);
+
+        switch ($feed->getType()) {
+          case 'json':
+            $json = json_decode($content, true);
+            $reader = $this->getContainer()->get('feed_reader.json');
+            $reader
+              ->setController($this)
+              ->setFeed($feed);
+            $reader->read($json);
+            $feed->setLastRead(new \DateTime());
+            break;
+
+          case 'xml':
+            $xml = new \SimpleXmlElement($content);
+            $reader = $this->getContainer()->get('feed_reader.xml');
+            $reader
+              ->setController($this)
+              ->setFeed($feed);
+            $reader->read($xml);
+            $feed->setLastRead(new \DateTime());
+            break;
+
+          default:
+            throw new \Exception('Unknown feed type: ' . $feed->getType());
+        }
+      }
+    }
+  }
+
+  private function getFeeds() {
+    $query = $this->em->createQuery('SELECT f FROM AdminBundle:Feed f');
+    return $query->getResult();
+  }
+
+  private function getFeedEventId($id) {
+    return $this->feed->getName() . ' - ' . $id;
+  }
+
+  public function createEvent(array $eventData) {
+    $id = isset($eventData['id']) ? $eventData['id'] : uniqid();
+    unset($eventData['id']);
+
+    $event = $this->getEvent($id);
+
+    $isNew = !$event->getId();
+
+    $event->setValues($eventData);
+    $event->setFeed($this->feed);
+    $this->em->persist($event);
+    $this->em->flush();
+
+    $this->output->writeln(sprintf('%s: Event %s: %s (%s)', $this->feed->getName(), ($isNew ? 'created' : 'updated'), $event->getName(), $event->getFeedEventId()));
+
+    return $event;
+  }
+
+  private function getEvent($id) {
+    $feedEventId = $this->getFeedEventId($id);
+
+    $query = $this->em->createQuery('SELECT e FROM AppBundle:Event e WHERE e.feedEventId = :feedEventId');
+    $query->setParameter('feedEventId', $feedEventId);
+
+    $events = $query->getResult();
+
+    if (count($events) === 0) {
+      $event = new Event();
+      $event->setFeedEventId($feedEventId);
+      return $event;
+    } else if (count($events) > 1) {
+    }
+    return $events[0];
+  }
+
+  public function convertValue($value, $name) {
+    switch ($name) {
+      case 'startDate':
+      case 'endDate':
+        return $this->parseDate($value);
+        break;
+      case 'url':
+        $baseUrl = $this->feed->getBaseUrl();
+        if ($baseUrl) {
+          $parts = parse_url($baseUrl);
+          if (strpos($value, '/') === 0) {
+            $parts['path'] = $value;
+          } else {
+            $parts['path'] = rtrim($parts['path'], '/') . '/' . $value;
+          }
+          $value = Url::buildUrl($parts);
+        }
+        break;
+    }
+
+    return $value;
+  }
+
+  private function parseDate($value) {
+    $date = null;
+    // JSON date (/Date(...)/)
+    if (preg_match('@/Date\(([0-9]+)\)/@', $value, $matches)) {
+      $date = new \DateTime();
+      $date->setTimestamp(((int)$matches[1]) / 1000);
+    } else if (is_numeric($value)) {
+      $date = new \DateTime();
+      $date->setTimestamp($value);
+    }
+
+    if ($date === null) {
+      try {
+        $date = new \DateTime($value);
+      } catch (\Exception $e) {}
+    }
+
+    return $date;
+  }
+}

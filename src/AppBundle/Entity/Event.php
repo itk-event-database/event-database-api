@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AdminBundle\Entity\Feed;
+
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
@@ -43,6 +45,13 @@ class Event extends Thing
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"})
    */
   private $occurrences;
+
+  /**
+   * @var Feed
+   *
+   * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
+   */
+  private $feed;
 
   /**
    * @var string
@@ -146,6 +155,16 @@ class Event extends Thing
    */
   public function getOccurrences() {
     return $this->occurrences;
+  }
+
+  public function setFeed($feed) {
+    $this->feed = $feed;
+
+    return $this;
+  }
+
+  public function getFeed() {
+    return $this->feed;
   }
 
   public function setFeedEventId($feedEventId) {

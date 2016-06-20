@@ -32,6 +32,11 @@ services:
               arguments: [ { groups: [ "event_write" ] } ]
         tags:      [ { name: "api.resource" } ]
 
+    resource.occurrence:
+        parent:      "api.resource"
+        arguments: [ "AppBundle\\Entity\\Occurrence" ]
+        tags:      [ { name: "api.resource" } ]
+
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
         alias: doctrine
@@ -51,7 +56,7 @@ services:
             - { name: kernel.event_listener, event: api.pre_delete, method: onPreDelete }
 
     feed_reader.json:
-        class: AppBundle\Service\FeedReader\Json
+        class: AdminBundle\Service\FeedReader\Json
 
     feed_reader.xml:
-        class: AppBundle\Service\FeedReader\Xml
+        class: AdminBundle\Service\FeedReader\Xml

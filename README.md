@@ -13,6 +13,12 @@ Add feed import configurations in app/config/feeds.yml:
 cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml app/config
 ```
 
+Load feed configurations into database:
+
+```
+app/console doctrine:fixtures:load --append --no-interaction
+```
+
 Run console command to import events from feeds:
 
 ```
