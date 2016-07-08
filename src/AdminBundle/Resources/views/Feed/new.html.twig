@@ -107,6 +107,7 @@
 
    var options = {
      schema: schema,
+     modes: [ 'tree', 'view', 'form', 'code', 'text' ],
      onChange: function() {
        try {
          el.value = JSON.stringify(editor.get());
