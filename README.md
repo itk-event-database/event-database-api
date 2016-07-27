@@ -32,7 +32,7 @@ app/console doctrine:fixtures:load --append --no-interaction
 Run console command to import events from feeds:
 
 ```
-cd /vagrant/htdocs/app/console events:read:feeds
+app/console events:read:feeds
 ```
 
 Security
