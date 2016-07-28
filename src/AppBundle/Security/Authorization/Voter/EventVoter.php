@@ -35,7 +35,7 @@ class EventVoter extends AbstractVoter {
       case self::DELETE:
         // this assumes that the data object has a getOwner() method
         // to get the entity of the user who owns this data object
-        if ($user->getId() === $event->getCreatedBy()->getId()) {
+        if ($event->getCreatedBy() && $user->getId() === $event->getCreatedBy()->getId()) {
           return true;
         }
 

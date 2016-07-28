@@ -48,11 +48,33 @@ Create an event:
 ```
 curl --silent --verbose --request POST --header "Authorization: Bearer $token" http://event-database-api.vm/api/events --data @- <<'JSON'
 {
-"_format":"json",
-"name":"test",
-"endDate":"2100-01-01",
-"startDate":"2000-01-01",
-"description":"xxx"
+  "_format":"json",
+  "name":"test",
+  "endDate":"2100-01-01",
+  "startDate":"2000-01-01",
+  "description":"xxx"
 }
 JSON
+```
+
+
+Import feeds
+------------
+
+Add feed import configurations in app/config/feeds.yml:
+
+```
+cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml app/config
+```
+
+Load feed configurations into database:
+
+```
+app/console doctrine:fixtures:load --append --no-interaction
+```
+
+Run console command to import events from feeds:
+
+```
+app/console events:read:feeds
 ```
