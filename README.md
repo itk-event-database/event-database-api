@@ -62,6 +62,20 @@ Get all events:
 curl --silent --verbose --request GET --header "Authorization: Bearer $token" http://event-database-api.vm/api/events
 ```
 
+Running tests
+-------------
+
+Run all tests like this:
+
+```
+vendor/behat/behat/bin/behat
+```
+
+or run some tests like this, say:
+
+```
+vendor/behat/behat/bin/behat features/events.feature
+```
 
 Import feeds
 ------------
