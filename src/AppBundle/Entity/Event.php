@@ -4,12 +4,13 @@ namespace AppBundle\Entity;
 
 use AdminBundle\Entity\Feed;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Dunglas\ApiBundle\Annotation\Iri;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,7 +22,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- * @Iri("http://schema.org/Event")
+ * @ApiResource(
+ *   iri="http://schema.org/Event",
+ *   attributes={
+ *     "normalization_context" = { "groups" = { "event_read" } },
+ *     "denormalization_context" = { "groups" = { "event_write" } }
+ *   }
+ * )
  */
 class Event extends Thing
 {
@@ -82,54 +89,6 @@ class Event extends Thing
   public function getId()
   {
     return $this->id;
-  }
-
-  /**
-   * Sets endDate.
-   *
-   * @param \DateTime $endDate
-   *
-   * @return $this
-   */
-  public function setEndDate(\DateTime $endDate = null)
-  {
-    $this->endDate = $endDate;
-
-    return $this;
-  }
-
-  /**
-   * Gets endDate.
-   *
-   * @return \DateTime
-   */
-  public function getEndDate()
-  {
-    return $this->endDate;
-  }
-
-  /**
-   * Sets startDate.
-   *
-   * @param \DateTime $startDate
-   *
-   * @return $this
-   */
-  public function setStartDate(\DateTime $startDate = null)
-  {
-    $this->startDate = $startDate;
-
-    return $this;
-  }
-
-  /**
-   * Gets startDate.
-   *
-   * @return \DateTime
-   */
-  public function getStartDate()
-  {
-    return $this->startDate;
   }
 
   public function setOccurrences($occurrences) {

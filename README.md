@@ -8,17 +8,8 @@ Installation
 
 ```
 composer install
-```
-
-## Patches ##
-
-We need to apply a couple of patches to [Handle circular references in DunglasApiParser](https://github.com/nelmio/NelmioApiDocBundle/commit/c1c711bc26fd5f74a94923f93b11153ede6d06be):
-
-```
-cd vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle
-curl --silent https://github.com/nelmio/NelmioApiDocBundle/commit/abb100b29b54ae0167fc0cfbea5a3db762d56c8b.patch | patch --strip=1
-curl --silent https://github.com/nelmio/NelmioApiDocBundle/commit/c1c711bc26fd5f74a94923f93b11153ede6d06be.patch | patch --strip=1
-cd -
+bin/console doctrine:database:create
+bin/console doctrine:schema:create
 ```
 
 Security
@@ -35,11 +26,11 @@ openssl rsa -pubout -in app/var/jwt/private.pem -out app/var/jwt/public.pem -pas
 Create test users
 
 ```
-app/console fos:user:create api-read api-read@example.com apipass
-app/console fos:user:promote api-read ROLE_API_READ
+bin/console fos:user:create api-read api-read@example.com apipass
+bin/console fos:user:promote api-read ROLE_API_READ
 
-app/console fos:user:create api-write api-write@example.com apipass
-app/console fos:user:promote api-write ROLE_API_WRITE
+bin/console fos:user:create api-write api-write@example.com apipass
+bin/console fos:user:promote api-write ROLE_API_WRITE
 ```
 
 Test the API using username and password to get a token:
@@ -77,11 +68,11 @@ cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml app/config
 Load feed configurations into database:
 
 ```
-app/console doctrine:fixtures:load --append --no-interaction
+bin/console doctrine:fixtures:load --append --no-interaction
 ```
 
 Run console command to import events from feeds:
 
 ```
-app/console events:read:feeds
+bin/console events:read:feeds
 ```

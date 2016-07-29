@@ -2,8 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Dunglas\ApiBundle\Annotation\Iri;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @see http://schema.org/Thing Documentation on Schema.org
  *
  * @ORM\MappedSuperclass
- * @Iri("http://schema.org/Thing")
+ * @ ApiResource(iri="http://schema.org/Thing")
  */
 abstract class Thing
 {
@@ -23,7 +24,7 @@ abstract class Thing
      * @Groups({"event_read", "event_write"})
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
-     * @Iri("https://schema.org/description")
+     * @ApiProperty(iri="https://schema.org/description")
      */
     private $description;
     /**
@@ -32,7 +33,7 @@ abstract class Thing
      * @Groups({"event_read", "event_write"})
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
-     * @Iri("http://schema.org/image")
+     * @ApiProperty(iri="http://schema.org/image")
      */
     private $image;
     /**
@@ -41,7 +42,7 @@ abstract class Thing
      * @Groups({"event_read", "event_write"})
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
-     * @Iri("https://schema.org/name")
+     * @ApiProperty(iri="https://schema.org/name")
      */
     private $name;
     /**
@@ -50,7 +51,7 @@ abstract class Thing
      * @Groups({"event_read", "event_write"})
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
-     * @Iri("http://schema.org/url")
+     * @ApiProperty(iri="http://schema.org/url")
      */
     private $url;
 

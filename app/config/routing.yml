@@ -1,15 +1,18 @@
-api:
-    resource: "."
-    type:     "api"
-    prefix:   "/api"
+app:
+    resource: '@AppBundle/Action/'
+    type:     'annotation'
 
-NelmioApiDocBundle:
-    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   "/doc"
+api:
+    resource: '.'
+    type:     'api_platform'
+    prefix:   '/api'
+
+doc:
+    resource: '@ApiPlatformBundle/Resources/config/routing/swagger-ui.xml'
 
 api_login_check:
-    path: /api/login_check
+    path: '/api/login_check'
 
 admin:
-  resource: @AdminBundle/Controller/
-  type:     annotation
+  resource: '@AdminBundle/Controller/'
+  type:     'annotation'

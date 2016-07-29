@@ -4,38 +4,19 @@ parameters:
 #    parameter_name: value
 
 services:
-
-# Examples of API resource mapping, learn more at
-# https://github.com/dunglas/DunglasApiBundle
-
-    resource.event.order_filter:
-        parent:    "api.doctrine.orm.order_filter"
-        arguments: [ { "startDate": ~, "endDate": ~ } ]
+    # @TODO
+    # resource.event.order_filter:
+    #     parent:    "api_platform.doctrine.orm.order_filter"
+    #     arguments: [ { "startDate": ~, "endDate": ~ } ]
 
     resource.event.search_filter:
-        parent:    "api.doctrine.orm.search_filter"
+        parent:    "api_platform.doctrine.orm.search_filter"
         arguments: [ { name: "partial", description: "partial" } ]
 
-    resource.event.date_filter:
-        parent:    "api.doctrine.orm.date_filter"
-        arguments: [ { startDate: ~, endDate: ~ } ]
-
-    resource.event:
-        parent:      "api.resource"
-        arguments: [ "AppBundle\\Entity\\Event" ]
-        calls:
-            - method:    "initFilters"
-              arguments: [ [ "@resource.event.order_filter", "@resource.event.search_filter", "@resource.event.date_filter" ] ]
-            - method:    "initNormalizationContext"
-              arguments: [ { groups: [ "event_read" ] } ]
-            - method:    "initDenormalizationContext"
-              arguments: [ { groups: [ "event_write" ] } ]
-        tags:      [ { name: "api.resource" } ]
-
-    resource.occurrence:
-        parent:      "api.resource"
-        arguments: [ "AppBundle\\Entity\\Occurrence" ]
-        tags:      [ { name: "api.resource" } ]
+    # @TODO
+    # resource.event.date_filter:
+    #     parent:    "api_platform.doctrine.orm.date_filter"
+    #     arguments: [ { startDate: ~, endDate: ~ } ]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
@@ -50,7 +31,7 @@ services:
     # https://api-platform.com/doc/1.0/api-bundle/the-event-system
     event.event_listener:
         class: AppBundle\EventListener\EventListener
-        arguments: [ @service_container ]
+        arguments: [ "@service_container" ]
         tags:
             - { name: kernel.event_listener, event: api.pre_update, method: onPreUpdate }
             - { name: kernel.event_listener, event: api.pre_delete, method: onPreDelete }

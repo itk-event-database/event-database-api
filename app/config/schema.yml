@@ -1,16 +1,7 @@
-# Example PHP Schema file
+# Example config file for the Schema Generator
 # Use the following command to regenerate entities:
 # bin/schema generate-types src/ app/config/schema.yml
 
-rdfa:
-  - https://raw.githubusercontent.com/schemaorg/schemaorg/sdo-gozer/data/schema.rdfa
-annotationGenerators:
-    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
-    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
-    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
-    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DunglasApiAnnotationGenerator
-namespaces:
-  entity: AppBundle\Entity
 types:
   # https://schema.org/Event
   Event:
@@ -25,3 +16,12 @@ types:
       description: ~
       image: ~
       url: ~
+
+namespaces:
+  entity: AppBundle\Entity
+
+annotationGenerators:
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
