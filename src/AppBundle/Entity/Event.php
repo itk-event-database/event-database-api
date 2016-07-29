@@ -23,8 +23,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @ApiResource(
- *   iri="http://schema.org/Event",
- *   attributes={
+ *   iri = "http://schema.org/Event",
+ *   attributes = {
+ *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } }
  *   }

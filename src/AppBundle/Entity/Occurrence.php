@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,6 +14,12 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  *
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @ApiResource(
+ *   attributes = {
+ *     "normalization_context" = { "groups" = { "event_read" } },
+ *     "denormalization_context" = { "groups" = { "event_write" } }
+ *   }
+ * )
  */
 class Occurrence {
   use SoftdeleteableEntity;

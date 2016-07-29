@@ -47,12 +47,19 @@ Create an event:
 curl --silent --verbose --request POST --header "Authorization: Bearer $token" http://event-database-api.vm/api/events --data @- <<'JSON'
 {
   "_format":"json",
-  "name":"test",
-  "endDate":"2100-01-01",
-  "startDate":"2000-01-01",
-  "description":"xxx"
+  "name":"Big bang",
+  "description":"The first event",
+  "occurrences": [ {
+    "startDate": "2000-01-01"
+  } ]
 }
 JSON
+```
+
+Get all events:
+
+```
+curl --silent --verbose --request GET --header "Authorization: Bearer $token" http://event-database-api.vm/api/events
 ```
 
 
