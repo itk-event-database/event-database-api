@@ -27,7 +27,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   attributes = {
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
- *     "denormalization_context" = { "groups" = { "event_write" } }
+ *     "denormalization_context" = { "groups" = { "event_write" } },
+ *     "filters" = { "event.search", "event.search.date", "event.order", "event.order.default" }
  *   }
  * )
  */
@@ -51,6 +52,7 @@ class Event extends Thing
    *
    * @Groups({"event_read", "event_write"})
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"})
+   * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
    */
   private $occurrences;
 

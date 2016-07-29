@@ -4,19 +4,20 @@ parameters:
 #    parameter_name: value
 
 services:
-    # @TODO
-    # resource.event.order_filter:
-    #     parent:    "api_platform.doctrine.orm.order_filter"
-    #     arguments: [ { "startDate": ~, "endDate": ~ } ]
+    resource.event.order_filter:
+        parent:    "api_platform.doctrine.orm.order_filter"
+        arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.order' } ]
 
     resource.event.search_filter:
         parent:    "api_platform.doctrine.orm.search_filter"
         arguments: [ { name: "partial", description: "partial" } ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.search' } ]
 
-    # @TODO
-    # resource.event.date_filter:
-    #     parent:    "api_platform.doctrine.orm.date_filter"
-    #     arguments: [ { startDate: ~, endDate: ~ } ]
+    resource.event.search_date_filter:
+        parent:    "api_platform.doctrine.orm.date_filter"
+        arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
