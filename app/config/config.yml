@@ -3,6 +3,11 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
+api_platform:
+    title:                Event Database
+    description:          API for creating and querying events
+    version:              0.1.0
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
