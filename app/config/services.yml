@@ -19,6 +19,16 @@ services:
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
+    resource.occurrence.order_filter:
+        parent:    "api_platform.doctrine.orm.order_filter"
+        arguments: [ { startDate: ~, endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
+
+    resource.occurrence.search_date_filter:
+        parent:    "api_platform.doctrine.orm.date_filter"
+        arguments: [ { startDate: ~, endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
+
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
         alias: doctrine

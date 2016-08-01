@@ -16,8 +16,10 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @ApiResource(
  *   attributes = {
+ *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
- *     "denormalization_context" = { "groups" = { "event_write" } }
+ *     "denormalization_context" = { "groups" = { "event_write" } },
+ *     "filters" = { "occurrence.search.date", "occurrence.order" }
  *   }
  * )
  */
