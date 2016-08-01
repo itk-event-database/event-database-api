@@ -165,7 +165,7 @@ Feature: Events
     }
     """
 
-  Scenario: Delete an event with multiple occurrences
+  Scenario: Unauthorized attempt to delete an event
     When I authenticate as "api-read"
     When I send a "DELETE" request to "/api/events/2"
     Then the response status code should be 403
