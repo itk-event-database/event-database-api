@@ -7,9 +7,12 @@ Installation
 ------------
 
 ```
+vagrant ssh
+
+cd /vagrant/htdocs
 composer install
 bin/console doctrine:database:create
-bin/console doctrine:schema:create
+bin/console doctrine:migrations:migrate
 ```
 
 Security
