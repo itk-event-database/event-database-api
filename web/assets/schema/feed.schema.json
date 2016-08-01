@@ -1,0 +1,96 @@
+{
+	"description": "JSON Schema for a feed",
+  "title": "Feed",
+  "type": "object",
+  "properties": {
+    "url": {
+			"description": "The url of the feed",
+      "type": "string"
+    },
+    "type": {
+			"description": "The content type of the feed",
+      "enum": ["json", "xml"]
+    },
+    "root": {
+			"description": "An json path or XPath (depending on feed type) for getting events in the feed",
+      "type": "string"
+    },
+    "occurrenceRoot": {
+			"description": "An json path or XPath (depending on feed type) for getting the occurrences",
+      "type": "string"
+    },
+    "baseUrl": {
+			"description": "A base url to use when converting relative urls in the feed to absolute urls",
+      "type": "string"
+    },
+    "mapping": { "$ref": "#/definitions/mapping" },
+    "defaults": {
+    },
+  },
+  "required": ["url", "type"],
+  "additionalProperties": false,
+
+  "definitions": {
+    "mapping": {
+			"description": "A mapping of fields",
+      "type": "object",
+      "properties": {
+        "id": {
+					"description": "A unique id identifying the event within the feed",
+					"$ref": "#/definitions/mappedField"
+				},
+        "name": {
+					"description": "Name of the event",
+					"$ref": "#/definitions/mappedField"
+				},
+        "url": {
+					"description": "Url of the event. Uses baseUrl to make an absolute url",
+					"$ref": "#/definitions/mappedField"
+				},
+        "occurrences": {
+          "type": "object",
+          "properties": {
+            "path": {
+							"description": "An optional json path or XPath to the actual value",
+							"type": "string"
+						},
+            "mapping": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+									"description": "The start date (time) of the occurrence",
+									"$ref": "#/definitions/mappedField"
+								},
+                "endDate": {
+									"description": "The end date (time) of the occurrence",
+									"$ref": "#/definitions/mappedField"
+								},
+                "venue": {
+									"description": "The venue of the occurrence",
+									"$ref": "#/definitions/mappedField"
+								},
+              },
+              "required": [ "startDate", "endDate" ]
+            }
+          }
+        }
+      },
+      "required": [ "id", "name", "occurrences" ]
+    },
+
+    "mappedField": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "path": { "type": "string" }
+          },
+          "required": [ "path" ]
+        }
+      ]
+    }
+  }
+}
