@@ -56,12 +56,12 @@ Feature: Events
     {
       "name": "Repeating event",
       "occurrences": [ {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       },
       {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       } ]
     }
     """
@@ -122,12 +122,12 @@ Feature: Events
     {
       "name": "Repeating event (updated)",
       "occurrences": [ {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       },
       {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       } ]
     }
     """
