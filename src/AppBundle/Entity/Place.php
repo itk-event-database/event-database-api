@@ -16,9 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.
+ * Entities that have a somewhat fixed, physical extension.
  *
- * @see http://schema.org/Event Documentation on Schema.org
+ * @see http://schema.org/Place Documentation on Schema.org
  *
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
@@ -32,7 +32,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   }
  * )
  */
-class Event extends Thing
+class Place extends Thing
 {
   use TimestampableEntity;
   use BlameableEntity;
@@ -48,15 +48,6 @@ class Event extends Thing
   private $id;
 
   /**
-   * @var ArrayCollection
-   *
-   * @Groups({"event_read", "event_write"})
-   * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"})
-   * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
-   */
-  private $occurrences;
-
-  /**
    * @var Feed
    *
    * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
@@ -64,11 +55,12 @@ class Event extends Thing
   private $feed;
 
   /**
-   * @var string
+   * @var ArrayCollection
    *
-   * @ORM\Column(type="string", length=255, nullable=true)
+   * @Groups({"event_read", "event_write"})
+   * @ORM\OneToMany(targetEntity="Event", mappedBy="place")
    */
-  private $feedEventId;
+  private $events;
 
   /**
    * Sets id.
@@ -94,19 +86,19 @@ class Event extends Thing
     return $this->id;
   }
 
-  public function setOccurrences($occurrences) {
+  public function setEvents($events) {
     // Orphan any existing occurrences.
-    if ($this->occurrences) {
+    if ($this->events) {
       $now = new \DateTime();
-      foreach ($this->occurrences as $occurrence) {
-        $occurrence->setDeletedAt($now);
+      foreach ($this->occurrences as $event) {
+        $event->setDeletedAt($now);
       }
     }
 
-    $this->occurrences = $occurrences;
+    $this->events = $events;
 
-    foreach ($this->occurrences as $occurrence) {
-      $occurrence->setEvent($this);
+    foreach ($this->events as $event) {
+      $event->setPlace($this);
     }
 
     return $this;
@@ -115,8 +107,8 @@ class Event extends Thing
   /**
    * @return Collection
    */
-  public function getOccurrences() {
-    return $this->occurrences;
+  public function getEvents() {
+    return $this->events;
   }
 
   public function setFeed($feed) {
@@ -129,18 +121,8 @@ class Event extends Thing
     return $this->feed;
   }
 
-  public function setFeedEventId($feedEventId) {
-    $this->feedEventId = $feedEventId;
-
-    return $this;
-  }
-
-  public function getFeedEventId() {
-    return $this->feedEventId;
-  }
-
   public function __construct() {
-    $this->occurrences = new ArrayCollection();
+    $this->events = new ArrayCollection();
   }
 
 }

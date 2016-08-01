@@ -161,18 +161,4 @@ class Occurrence {
 
   }
 
-  public function setValues(array $values) {
-    foreach ($values as $key => $value) {
-      switch ($key) {
-        case 'event':
-          break;
-        default:
-          $methodName = 'set' . $key;
-          if (method_exists($this, $methodName)) {
-            $this->{$methodName}($value);
-          }
-          break;
-      }
-    }
-  }
 }

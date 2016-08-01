@@ -40,7 +40,8 @@
         "lexik/jwt-authentication-bundle": "^1.5",
         "stof/doctrine-extensions-bundle": "^1.2",
         "guzzlehttp/guzzle": "^6.2",
-        "doctrine/doctrine-migrations-bundle": "^1.1"
+        "doctrine/doctrine-migrations-bundle": "^1.1",
+        "symfony/property-access": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
