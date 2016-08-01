@@ -52,3 +52,8 @@ services:
 
     feed_reader.xml:
         class: AdminBundle\Service\FeedReader\Xml
+
+    twig_extension:
+        class: AdminBundle\Twig\Extension\TwigExtension
+        tags:
+            - { name: "twig.extension" }

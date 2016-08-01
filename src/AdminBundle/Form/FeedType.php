@@ -4,6 +4,7 @@ namespace AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -17,7 +18,7 @@ class FeedType extends AbstractType
     {
         $builder
           ->add('name')
-          ->add('configuration', 'text')
+          ->add('configuration', TextType::class)
         ;
 
         $builder->get('configuration')
