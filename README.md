@@ -18,9 +18,9 @@ Security
 Create keys for JWT with password (test) matching jwt_key_pass_phrase in parameters.yml:
 
 ```
-mkdir -p app/var/jwt
-openssl genrsa -out app/var/jwt/private.pem -aes256 -passout pass:test 4096
-openssl rsa -pubout -in app/var/jwt/private.pem -out app/var/jwt/public.pem -passin pass:test
+mkdir -p var/jwt
+openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:test 4096
+openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
 ```
 
 Create test users
