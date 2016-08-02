@@ -65,10 +65,25 @@ Get all events:
 curl --silent --verbose --request GET --header "Authorization: Bearer $token" http://event-database-api.vm/api/events
 ```
 
+### Disabling security for development
+
+Ypu may want to be able to access the api in your browser without having to provide credentials. To do this add
+
+```
+security:
+    firewalls:
+        dev:
+            pattern: ^/
+            security: false
+```
+
+at the bottom of app/config/config_dev.yml.
+
+
 Running tests
 -------------
 
-Run all tests like this:
+Run all behat tests like this:
 
 ```
 vendor/behat/behat/bin/behat
@@ -79,6 +94,13 @@ or run some tests like this, say:
 ```
 vendor/behat/behat/bin/behat features/events.feature
 ```
+
+To run unit tests:
+
+```
+vendor/symfony/symfony/phpunit
+```
+
 
 Import feeds
 ------------
