@@ -51,7 +51,7 @@ class Event extends Thing
    * @var ArrayCollection
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"})
+   * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"}, orphanRemoval=true)
    * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
    */
   private $occurrences;
@@ -95,12 +95,8 @@ class Event extends Thing
   }
 
   public function setOccurrences($occurrences) {
-    // Orphan any existing occurrences.
     if ($this->occurrences) {
-      $now = new \DateTime();
-      foreach ($this->occurrences as $occurrence) {
-        $occurrence->setDeletedAt($now);
-      }
+      $this->occurrences->clear();
     }
 
     $this->occurrences = $occurrences;
