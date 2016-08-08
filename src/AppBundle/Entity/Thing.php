@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * The most generic type of item.
@@ -178,7 +179,7 @@ abstract class Thing
               $occurrence->setValues($item);
               $occurrences->add($occurrence);
             }
-            $accessor->setValue($this, $key, $events);
+            $accessor->setValue($this, $key, $occurrences);
             break;
           default:
             $accessor->setValue($this, $key, $value);

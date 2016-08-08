@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * An occurrence of an Event.
@@ -159,6 +160,24 @@ class Occurrence {
   public function getVenue() {
     return $this->venue;
 
+  }
+
+    /**
+   * Set values from an array.
+   */
+  public function setValues(array $values)
+  {
+    $accessor = PropertyAccess::createPropertyAccessor();
+
+    foreach ($values as $key => $value) {
+      if ($accessor->isWritable($this, $key)) {
+        switch ($key) {
+          default:
+            $accessor->setValue($this, $key, $value);
+            break;
+        }
+      }
+    }
   }
 
 }
