@@ -7,18 +7,12 @@ Installation
 ------------
 
 ```
+vagrant ssh
+
+cd /vagrant/htdocs
 composer install
-```
-
-## Patches ##
-
-We need to apply a couple of patches to [Handle circular references in DunglasApiParser](https://github.com/nelmio/NelmioApiDocBundle/commit/c1c711bc26fd5f74a94923f93b11153ede6d06be):
-
-```
-cd vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle
-curl --silent https://github.com/nelmio/NelmioApiDocBundle/commit/abb100b29b54ae0167fc0cfbea5a3db762d56c8b.patch | patch --strip=1
-curl --silent https://github.com/nelmio/NelmioApiDocBundle/commit/c1c711bc26fd5f74a94923f93b11153ede6d06be.patch | patch --strip=1
-cd -
+bin/console doctrine:database:create
+bin/console doctrine:migrations:migrate
 ```
 
 Security
@@ -27,19 +21,19 @@ Security
 Create keys for JWT with password (test) matching jwt_key_pass_phrase in parameters.yml:
 
 ```
-mkdir -p app/var/jwt
-openssl genrsa -out app/var/jwt/private.pem -aes256 -passout pass:test 4096
-openssl rsa -pubout -in app/var/jwt/private.pem -out app/var/jwt/public.pem -passin pass:test
+mkdir -p var/jwt
+openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:test 4096
+openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
 ```
 
 Create test users
 
 ```
-app/console fos:user:create api-read api-read@example.com apipass
-app/console fos:user:promote api-read ROLE_API_READ
+bin/console fos:user:create api-read api-read@example.com apipass
+bin/console fos:user:promote api-read ROLE_API_READ
 
-app/console fos:user:create api-write api-write@example.com apipass
-app/console fos:user:promote api-write ROLE_API_WRITE
+bin/console fos:user:create api-write api-write@example.com apipass
+bin/console fos:user:promote api-write ROLE_API_WRITE
 ```
 
 Test the API using username and password to get a token:
@@ -56,12 +50,55 @@ Create an event:
 curl --silent --verbose --request POST --header "Authorization: Bearer $token" http://event-database-api.vm/api/events --data @- <<'JSON'
 {
   "_format":"json",
-  "name":"test",
-  "endDate":"2100-01-01",
-  "startDate":"2000-01-01",
-  "description":"xxx"
+  "name":"Big bang",
+  "description":"The first event",
+  "occurrences": [ {
+    "startDate": "2000-01-01"
+  } ]
 }
 JSON
+```
+
+Get all events:
+
+```
+curl --silent --verbose --request GET --header "Authorization: Bearer $token" http://event-database-api.vm/api/events
+```
+
+### Disabling security for development
+
+Ypu may want to be able to access the api in your browser without having to provide credentials. To do this add
+
+```
+security:
+    firewalls:
+        dev:
+            pattern: ^/
+            security: false
+```
+
+at the bottom of app/config/config_dev.yml.
+
+
+Running tests
+-------------
+
+Run all behat tests like this:
+
+```
+vendor/bin/behat
+```
+
+or run some tests like this, say:
+
+```
+vendor/bin/behat features/events.feature
+```
+
+To run unit tests:
+
+```
+vendor/symfony/symfony/phpunit
 ```
 
 
@@ -77,11 +114,11 @@ cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml app/config
 Load feed configurations into database:
 
 ```
-app/console doctrine:fixtures:load --append --no-interaction
+bin/console doctrine:fixtures:load --append --no-interaction
 ```
 
 Run console command to import events from feeds:
 
 ```
-app/console events:read:feeds
+bin/console events:read:feeds
 ```

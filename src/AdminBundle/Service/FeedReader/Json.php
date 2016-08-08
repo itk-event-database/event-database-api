@@ -38,7 +38,7 @@ class Json extends FeedReader {
     return $data;
   }
 
-    private function getData(array $item, array $mapping) {
+  private function getData(array $item, array $mapping) {
     $data = [];
 
     foreach ($mapping as $key => $spec) {

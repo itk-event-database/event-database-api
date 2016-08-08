@@ -2,16 +2,27 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * An occurrence of an Event.
  *
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @ApiResource(
+ *   attributes = {
+ *     "jsonld_embed_context" = true,
+ *     "normalization_context" = { "groups" = { "event_read" } },
+ *     "denormalization_context" = { "groups" = { "event_write" } },
+ *     "filters" = { "occurrence.search.date", "occurrence.order" }
+ *   }
+ * )
  */
 class Occurrence {
   use SoftdeleteableEntity;
@@ -151,18 +162,22 @@ class Occurrence {
 
   }
 
-  public function setValues(array $values) {
+    /**
+   * Set values from an array.
+   */
+  public function setValues(array $values)
+  {
+    $accessor = PropertyAccess::createPropertyAccessor();
+
     foreach ($values as $key => $value) {
-      switch ($key) {
-        case 'event':
-          break;
-        default:
-          $methodName = 'set' . $key;
-          if (method_exists($this, $methodName)) {
-            $this->{$methodName}($value);
-          }
-          break;
+      if ($accessor->isWritable($this, $key)) {
+        switch ($key) {
+          default:
+            $accessor->setValue($this, $key, $value);
+            break;
+        }
       }
     }
   }
+
 }

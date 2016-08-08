@@ -18,6 +18,14 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json"
     And the JSON node "hydra:member" should have 0 elements
 
+  Scenario: Cannot create an event as read-only user
+    When I authenticate as "api-read"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {"name": "Big bang"}
+    """
+    Then the response status code should be 403
+
   Scenario: Create an event
     When I authenticate as "api-write"
     And I send a "POST" request to "/api/events" with body:
@@ -48,12 +56,12 @@ Feature: Events
     {
       "name": "Repeating event",
       "occurrences": [ {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       },
       {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       } ]
     }
     """
@@ -114,12 +122,12 @@ Feature: Events
     {
       "name": "Repeating event (updated)",
       "occurrences": [ {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       },
       {
-        "startDate": "2000-01-01",
-        "endDate": "2100-01-01"
+        "startDate": "2000-01T00:00:00+00:00",
+        "endDate": "2100-01T00:00:00+00:00"
       } ]
     }
     """
@@ -156,6 +164,11 @@ Feature: Events
       "url": null
     }
     """
+
+  Scenario: Unauthorized attempt to delete an event
+    When I authenticate as "api-read"
+    When I send a "DELETE" request to "/api/events/2"
+    Then the response status code should be 403
 
   Scenario: Delete an event with multiple occurrences
     When I authenticate as "api-write"

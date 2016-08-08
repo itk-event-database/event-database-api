@@ -4,12 +4,13 @@ namespace AppBundle\Entity;
 
 use AdminBundle\Entity\Feed;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Dunglas\ApiBundle\Annotation\Iri;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,7 +22,15 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- * @Iri("http://schema.org/Event")
+ * @ApiResource(
+ *   iri = "http://schema.org/Event",
+ *   attributes = {
+ *     "jsonld_embed_context" = true,
+ *     "normalization_context" = { "groups" = { "event_read" } },
+ *     "denormalization_context" = { "groups" = { "event_write" } },
+ *     "filters" = { "event.search", "event.search.date", "event.order", "event.order.default" }
+ *   }
+ * )
  */
 class Event extends Thing
 {
@@ -42,7 +51,8 @@ class Event extends Thing
    * @var ArrayCollection
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"})
+   * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"}, orphanRemoval=true)
+   * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
    */
   private $occurrences;
 
@@ -84,61 +94,9 @@ class Event extends Thing
     return $this->id;
   }
 
-  /**
-   * Sets endDate.
-   *
-   * @param \DateTime $endDate
-   *
-   * @return $this
-   */
-  public function setEndDate(\DateTime $endDate = null)
-  {
-    $this->endDate = $endDate;
-
-    return $this;
-  }
-
-  /**
-   * Gets endDate.
-   *
-   * @return \DateTime
-   */
-  public function getEndDate()
-  {
-    return $this->endDate;
-  }
-
-  /**
-   * Sets startDate.
-   *
-   * @param \DateTime $startDate
-   *
-   * @return $this
-   */
-  public function setStartDate(\DateTime $startDate = null)
-  {
-    $this->startDate = $startDate;
-
-    return $this;
-  }
-
-  /**
-   * Gets startDate.
-   *
-   * @return \DateTime
-   */
-  public function getStartDate()
-  {
-    return $this->startDate;
-  }
-
   public function setOccurrences($occurrences) {
-    // Orphan any existing occurrences.
     if ($this->occurrences) {
-      $now = new \DateTime();
-      foreach ($this->occurrences as $occurrence) {
-        $occurrence->setDeletedAt($now);
-      }
+      $this->occurrences->clear();
     }
 
     $this->occurrences = $occurrences;
@@ -181,28 +139,4 @@ class Event extends Thing
     $this->occurrences = new ArrayCollection();
   }
 
-  /**
-   * Set values from an array.
-   */
-  public function setValues(array $values) {
-    foreach ($values as $key => $value) {
-      switch ($key) {
-        case 'occurrences':
-          $occurrences = new ArrayCollection();
-          foreach ($value as $item) {
-            $occurrence = new Occurrence();
-            $occurrence->setValues($item);
-            $occurrences->add($occurrence);
-          }
-          $this->setOccurrences($occurrences);
-          break;
-        default:
-          $methodName = 'set' . $key;
-          if (method_exists($this, $methodName)) {
-            $this->{$methodName}($value);
-          }
-          break;
-      }
-    }
-  }
 }

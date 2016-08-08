@@ -8,79 +8,10 @@
 {% block javascripts %}
   {{ parent() }}
   <script src="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.js') }}"/></script>
-
   <script>
-   var schema = {
-     "title": "Feed",
-     "type": "object",
-     "properties": {
-       "url": {
-         "type": "string"
-       },
-       "type": {
-         "enum": ["json", "xml"]
-       },
-       "root": {
-         "type": "string"
-       },
-       "occurrenceRoot": {
-         "type": "string"
-       },
-       "baseUrl": {
-         "type": "string"
-       },
-       "mapping": { "$ref": "#/definitions/mapping" },
-       "defaults": {
-       },
-     },
-     "required": ["url", "type"],
-     "additionalProperties": false,
-
-     "definitions": {
-       "mapping": {
-         "type": "object",
-         "properties": {
-           "id": { "$ref": "#/definitions/mappedField" },
-           "name": { "$ref": "#/definitions/mappedField" },
-           "url": { "$ref": "#/definitions/mappedField" },
-           "occurrences": {
-             "type": "object",
-             "properties": {
-               "path": { "type": "string" },
-               "mapping": {
-                 "type": "object",
-                 "properties": {
-                   "startDate": { "$ref": "#/definitions/mappedField" },
-                   "endDate": { "$ref": "#/definitions/mappedField" },
-                   "venue": { "$ref": "#/definitions/mappedField" },
-                 },
-                 "required": [ "startDate", "endDate" ]
-               }
-             }
-           }
-         },
-         "required": [ "id", "name", "occurrences" ]
-       },
-
-       "mappedField": {
-         "oneOf": [
-           {
-             "type": "string"
-           },
-           {
-             "type": "object",
-             "properties": {
-               "path": { "type": "string" }
-             },
-             "required": [ "path" ]
-           }
-         ]
-       }
-     }
-   };
-
-   var el = document.getElementById('{{ edit_form.configuration.vars.id }}')
-   el.type = 'hidden';
+		var schema = {{ include_file(kernelRootDir ~ '/../web/assets/schema/feed.schema.json') }},
+		el = document.getElementById('{{ edit_form.configuration.vars.id }}')
+		el.type = 'hidden';
 
    var container = document.createElement('div');
    el.parentNode.insertBefore(container, el);
