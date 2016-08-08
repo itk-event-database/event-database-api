@@ -86,13 +86,13 @@ Running tests
 Run all behat tests like this:
 
 ```
-vendor/behat/behat/bin/behat
+vendor/bin/behat
 ```
 
 or run some tests like this, say:
 
 ```
-vendor/behat/behat/bin/behat features/events.feature
+vendor/bin/behat features/events.feature
 ```
 
 To run unit tests:
