@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * The most generic type of item.
@@ -29,6 +28,7 @@ abstract class Thing
    * @ApiProperty(iri="https://schema.org/description")
    */
   private $description;
+
   /**
    * @var string The name of the item.
    *
@@ -38,6 +38,7 @@ abstract class Thing
    * @ApiProperty(iri="http://schema.org/image")
    */
   private $image;
+
   /**
    * @var string The name of the item.
    *
@@ -47,6 +48,7 @@ abstract class Thing
    * @ApiProperty(iri="https://schema.org/name")
    */
   private $name;
+
   /**
    * @var string The name of the item.
    *

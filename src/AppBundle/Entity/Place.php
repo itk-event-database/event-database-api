@@ -63,6 +63,29 @@ class Place extends Thing
   private $events;
 
   /**
+   * @var PostalAddress Physical address of the item.
+   * @ORM\ManyToOne(targetEntity="PostalAddress")
+   */
+  private $address;
+
+  /**
+   * @var string The telephone number.
+   * @Assert\Type(type="string")
+   * @ORM\Column(nullable=true)
+   */
+  private $telephone;
+
+  /**
+   * @var string The name of the item.
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/image")
+   */
+  private $logo;
+
+  /**
    * Sets id.
    *
    * @param int $id
@@ -119,6 +142,53 @@ class Place extends Thing
 
   public function getFeed() {
     return $this->feed;
+  }
+
+  /**
+   * Sets address.
+   *
+   * @param  PostalAddress $address
+   * @return $this
+   */
+  public function setAddress(PostalAddress $address)
+  {
+    $this->address = $address;
+
+    return $this;
+  }
+
+  /**
+   * Gets address.
+   *
+   * @return PostalAddress
+   */
+  public function getAddress()
+  {
+    return $this->address;
+  }
+
+  /**
+   * Sets logo.
+   *
+   * @param string $logo
+   *
+   * @return $this
+   */
+  public function setLogo($logo)
+  {
+    $this->logo = $logo;
+
+    return $this;
+  }
+
+  /**
+   * Gets logo.
+   *
+   * @return string
+   */
+  public function getLogo()
+  {
+    return $this->logo;
   }
 
   public function __construct() {
