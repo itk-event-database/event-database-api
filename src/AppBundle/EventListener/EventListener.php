@@ -2,12 +2,11 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Security\Authorization\Voter\EventVoter;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PostFlushEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Event;
-use Dunglas\ApiBundle\Event\DataEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class EventListener {
@@ -17,21 +16,21 @@ class EventListener {
     $this->container = $container;
   }
 
-  public function onPreUpdate(DataEvent $event) {
-    $object = $event->getData();
+  public function preUpdate(LifecycleEventArgs $args) {
+      $object = $args->getObject();
 
     if ($object instanceof Event) {
-      if (!$this->isGranted('edit', $object)) {
-        throw new AccessDeniedHttpException('Access denied');
+      if (!$this->isGranted(EventVoter::UPDATE, $object)) {
+          throw new AccessDeniedHttpException('Access denied');
       }
     }
   }
 
-  public function onPreDelete(DataEvent $event) {
-    $object = $event->getData();
+  public function preRemove(LifecycleEventArgs $args) {
+    $object = $args->getObject();
 
     if ($object instanceof Event) {
-      if (!$this->isGranted('delete', $object)) {
+      if (!$this->isGranted(EventVoter::REMOVE, $object)) {
         throw new AccessDeniedHttpException('Access denied');
       }
     }

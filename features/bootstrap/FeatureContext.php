@@ -74,6 +74,7 @@ class FeatureContext implements Context, SnippetAcceptingContext, KernelAwareCon
         $users = [ // username, email, password, roles
             [ 'api-read', 'api-read@example.com', 'apipass', [ 'ROLE_API_READ' ] ],
             [ 'api-write', 'api-write@example.com', 'apipass', [ 'ROLE_API_WRITE' ] ],
+            [ 'api-write2', 'api-write2@example.com', 'apipass', [ 'ROLE_API_WRITE' ] ],
         ];
 
         $repository = $this->manager->getRepository(User::class);

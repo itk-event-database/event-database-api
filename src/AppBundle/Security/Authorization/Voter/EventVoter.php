@@ -2,6 +2,7 @@
 
 namespace AppBundle\Security\Authorization\Voter;
 
+use AppBundle\Entity\Event;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -9,65 +10,71 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use AppBundle\Entity\User;
 
 class EventVoter extends Voter {
-  const EDIT = 'edit';
-  const DELETE = 'delete';
+  const UPDATE = 'update';
+  const REMOVE = 'remove';
 
-  protected function getSupportedAttributes() {
-    return [ self::EDIT, self::DELETE ];
-  }
-
-  protected function getSupportedClasses() {
-    return [ 'AppBundle\Entity\Event' ];
-  }
-
-  protected function isGranted($attribute, $event, $user = null) {
-    if (!$user instanceof UserInterface) {
+  /**
+   * Determines if the attribute and subject are supported by this voter.
+   *
+   * @param string $attribute An attribute
+   * @param mixed $subject The subject to secure, e.g. an object the user wants to access or any other PHP type
+   *
+   * @return bool True if the attribute and subject are supported, false otherwise
+   */
+  protected function supports($attribute, $subject)
+  {
+    // if the attribute isn't one we support, return false
+    if (!in_array($attribute, array(self::UPDATE, self::REMOVE))) {
       return false;
     }
 
-    if (!$user instanceof User) {
-      throw new \LogicException('The user is somehow not our User class!');
+    if (!$subject instanceof Event) {
+      return false;
     }
 
-    switch($attribute) {
-      case self::EDIT:
-      case self::DELETE:
-        // this assumes that the data object has a getOwner() method
-        // to get the entity of the user who owns this data object
-        if ($event->getCreatedBy() && $user->getId() === $event->getCreatedBy()->getId()) {
-          return true;
-        }
-
-        break;
-    }
-
-    return false;
+    return true;
   }
 
-    /**
-     * Determines if the attribute and subject are supported by this voter.
-     *
-     * @param string $attribute An attribute
-     * @param mixed $subject The subject to secure, e.g. an object the user wants to access or any other PHP type
-     *
-     * @return bool True if the attribute and subject are supported, false otherwise
-     */
-    protected function supports($attribute, $subject)
-    {
-        // TODO: Implement supports() method.
+  /**
+   * Perform a single access check operation on a given attribute, subject and token.
+   *
+   * @param string $attribute
+   * @param mixed $subject
+   * @param TokenInterface $token
+   *
+   * @return bool
+   */
+  protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+  {
+    $user = $token->getUser();
+
+    if (!$user instanceof User) {
+      // the user must be logged in; if not, deny access
+      return false;
     }
 
-    /**
-     * Perform a single access check operation on a given attribute, subject and token.
-     *
-     * @param string $attribute
-     * @param mixed $subject
-     * @param TokenInterface $token
-     *
-     * @return bool
-     */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
-    {
-        // TODO: Implement voteOnAttribute() method.
+    $event = $subject;
+
+    switch ($attribute) {
+      case self::UPDATE:
+        return $this->canUpdate($event, $user);
+      case self::REMOVE:
+        return $this->canRemove($event, $user);
     }
+
+    throw new \LogicException('This code should not be reached!');
+  }
+
+  private function isOwner(Event $event, User $user) {
+    // @TODO: Check user's groups as well.
+    return $event->getCreatedBy() && $user->getId() === $event->getCreatedBy()->getId();
+  }
+
+  private function canUpdate(Event $event, User $user) {
+    return $this->isOwner($event, $user);
+  }
+
+  private function canRemove(Event $event, User $user) {
+    return $this->isOwner($event, $user);
+  }
 }
