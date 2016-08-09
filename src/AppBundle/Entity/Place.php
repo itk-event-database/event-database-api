@@ -58,7 +58,7 @@ class Place extends Thing
    * @var ArrayCollection
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\OneToMany(targetEntity="Event", mappedBy="place")
+   * @ORM\OneToMany(targetEntity="Event", mappedBy="location")
    */
   private $events;
 

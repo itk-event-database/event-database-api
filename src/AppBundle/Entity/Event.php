@@ -48,6 +48,12 @@ class Event extends Thing
   private $id;
 
   /**
+   * @var Place The location of for example where the event is happening, an organization is located, or where an action takes place.
+   * @ORM\ManyToOne(targetEntity="Place", inversedBy="events")
+   */
+  private $location;
+
+  /**
    * @var ArrayCollection
    *
    * @Groups({"event_read", "event_write"})
@@ -92,6 +98,22 @@ class Event extends Thing
   public function getId()
   {
     return $this->id;
+  }
+
+  /**
+   * @return Place
+   */
+  public function getLocation()
+  {
+    return $this->location;
+  }
+
+  /**
+   * @param Place $location
+   */
+  public function setLocation($location)
+  {
+    $this->location = $location;
   }
 
   public function setOccurrences($occurrences) {
