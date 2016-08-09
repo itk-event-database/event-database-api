@@ -22,6 +22,7 @@ class AppKernel extends Kernel
       new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
       new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
       new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+      new FPN\TagBundle\FPNTagBundle(),
 
       new AppBundle\AppBundle(),
       new AdminBundle\AdminBundle(),
