@@ -43,8 +43,17 @@ security:
             # http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
-            # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            # form_login:
+
+            pattern:   ^/
+            form_login:
+                provider: fos_userbundle
+                check_path: fos_user_security_check
+                login_path: fos_user_security_login
+                # csrf_provider: security.csrf.token_manager
+            logout:
+            anonymous: true
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -52,3 +61,8 @@ security:
         - { path: ^/api,       roles: [ ROLE_API_WRITE ], methods: [ POST, PUT, DELETE ] }
         # Read only API access
         - { path: ^/api,       roles: [ ROLE_API_READ ] }
+
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }

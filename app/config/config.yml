@@ -8,6 +8,11 @@ api_platform:
     description:          API for creating and querying events
     version:              0.1.0
 
+    collection:
+        pagination:
+            client_items_per_page: true # Disabled by default
+            items_per_page_parameter_name: items_per_page
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
@@ -107,6 +112,8 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    group:
+        group_class: AppBundle\Entity\Group
 
 lexik_jwt_authentication:
     private_key_path: "%jwt_private_key_path%"
