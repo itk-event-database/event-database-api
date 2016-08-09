@@ -169,6 +169,10 @@ class Event extends Thing implements Taggable
     return $this->getId();
   }
 
+  // Method stub needed to make CustomItemNormalizer work. If no setter is
+  // defined, tags will not be processed during normalization.
+  function setTags($tags) {}
+
   /**
    * Returns the collection of tags for this Taggable entity
    *
