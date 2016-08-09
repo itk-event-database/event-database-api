@@ -2,6 +2,9 @@
 
 namespace AppBundle\EventListener;
 
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostFlushEventArgs;
+use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Event;
 use Dunglas\ApiBundle\Event\DataEvent;
@@ -31,6 +34,14 @@ class EventListener {
       if (!$this->isGranted('delete', $object)) {
         throw new AccessDeniedHttpException('Access denied');
       }
+    }
+  }
+
+  public function postPersist(LifecycleEventArgs $args) {
+    $object = $args->getObject();
+    if ($object instanceof Taggable) {
+      $tagManager = $this->container->get('fpn_tag.tag_manager');
+      $tagManager->saveTagging($object);
     }
   }
 

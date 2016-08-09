@@ -120,3 +120,8 @@ stof_doctrine_extensions:
             timestampable: true
             blameable: true
             softdeleteable: true
+
+fpn_tag:
+    model:
+        tag_class:     AppBundle\Entity\Tag
+        tagging_class: AppBundle\Entity\Tagging

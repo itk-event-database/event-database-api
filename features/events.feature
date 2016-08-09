@@ -42,6 +42,7 @@ Feature: Events
       "@id": "\/api\/events\/1",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "tags": [],
       "description": null,
       "image": null,
       "name": "Big bang",
@@ -92,6 +93,7 @@ Feature: Events
           "venue": null
         }
       ],
+      "tags": [],
       "description": null,
       "image": null,
       "name": "Repeating event",
@@ -158,6 +160,7 @@ Feature: Events
           "venue": null
         }
       ],
+      "tags": [],
       "description": null,
       "image": null,
       "name": "Repeating event (updated)",

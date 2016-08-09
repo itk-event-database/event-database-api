@@ -27,11 +27,12 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   private $em;
   private $output;
   private $feed;
+  private $tagManager;
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     $this->output = $output;
     $this->em = $this->getContainer()->get('doctrine')->getEntityManager('default');
-
+    $this->tagManager = $this->getContainer()->get('fpn_tag.tag_manager');
     $feeds = $this->getFeeds();
 
     $client = new Client();
@@ -100,10 +101,11 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
     $isNew = !$event->getId();
 
-    $event->setValues($eventData);
+    $event->setValues($eventData, $this->tagManager);
     $event->setFeed($this->feed);
     $this->em->persist($event);
     $this->em->flush();
+    $this->tagManager->saveTagging($event);
 
     $this->output->writeln(sprintf('%s: Event %s: %s (%s)', $this->feed->getName(), ($isNew ? 'created' : 'updated'), $event->getName(), $event->getFeedEventId()));
 

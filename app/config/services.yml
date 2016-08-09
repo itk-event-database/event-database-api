@@ -19,6 +19,16 @@ services:
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
+    app_bundle.doctrine.orm.tag_filter:
+        class:      AppBundle\Filter\TagFilter
+        arguments:  [ "@doctrine", "@request_stack", "@fpn_tag.tag_manager" ]
+        public:     false
+
+    resource.event.search_tag_filter:
+        parent:    "app_bundle.doctrine.orm.tag_filter"
+        arguments: [ 'tags' ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.tag' } ]
+
     resource.occurrence.order_filter:
         parent:    "api_platform.doctrine.orm.order_filter"
         arguments: [ { startDate: ~, endDate: ~ } ]
@@ -46,6 +56,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: api.pre_update, method: onPreUpdate }
             - { name: kernel.event_listener, event: api.pre_delete, method: onPreDelete }
+            - { name: doctrine.event_listener, event: postPersist }
 
     feed_reader.json:
         class: AdminBundle\Service\FeedReader\Json
@@ -57,3 +68,19 @@ services:
         class: AdminBundle\Twig\Extension\TwigExtension
         tags:
             - { name: "twig.extension" }
+
+    # Override vendor/api-platform/core/src/Bridge/Symfony/Bundle/Resources/config/jsonld.xml
+    api_platform.jsonld.normalizer.item:
+        public: false
+        class: AppBundle\Serializer\CustomItemNormalizer
+        arguments:
+            - "@api_platform.metadata.resource.metadata_factory"
+            - "@api_platform.metadata.property.name_collection_factory"
+            - "@api_platform.metadata.property.metadata_factory"
+            - "@api_platform.iri_converter"
+            - "@api_platform.resource_class_resolver"
+            - "@api_platform.jsonld.context_builder"
+            - "@api_platform.property_accessor"
+            - "@?api_platform.name_converter"
+            - "@fpn_tag.tag_manager"
+        tags: [ { name: serializer.normalizer, priority: 10 } ]
