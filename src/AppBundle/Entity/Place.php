@@ -23,13 +23,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @ApiResource(
- *   iri = "http://schema.org/Event",
+ *   iri = "http://schema.org/Place",
  *   attributes = {
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.order", "event.order.default" }
- *   }
+  *   }
  * )
  */
 class Place extends Thing

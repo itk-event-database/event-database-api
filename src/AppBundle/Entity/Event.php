@@ -49,7 +49,7 @@ class Event extends Thing
 
   /**
    * @var Place The location of for example where the event is happening, an organization is located, or where an action takes place.
-   * @ORM\ManyToOne(targetEntity="Place", inversedBy="events")
+   * @ORM\ManyToOne(targetEntity="Place", inversedBy="events", cascade={"persist"})
    */
   private $location;
 

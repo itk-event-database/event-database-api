@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * The mailing address.
@@ -12,6 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/PostalAddress Documentation on Schema.org
  *
  * @ORM\Entity
+ * @ApiResource(
+ *   iri = "http://schema.org/PostalAddress",
+ *   attributes = {
+ *     "jsonld_embed_context" = true,
+ *     "normalization_context" = { "groups" = { "event_read" } },
+ *     "denormalization_context" = { "groups" = { "event_write" } },
+  *   }
+ * )
  */
 class PostalAddress
 {
