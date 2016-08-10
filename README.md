@@ -122,3 +122,9 @@ Run console command to import events from feeds:
 ```
 bin/console events:read:feeds
 ```
+
+To read specific feed use either 'name' or 'id' as parameter: 
+```
+bin/console events:read:feeds --name="Feed name"
+bin/console events:read:feeds --id=3
+```

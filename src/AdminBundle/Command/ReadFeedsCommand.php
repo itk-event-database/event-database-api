@@ -14,12 +14,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Yaml\Yaml;
 
 class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   protected function configure() {
-    $this->setName('events:read:feeds')
-      ->setDescription('Read event feeds');
+    $this
+      ->setName('events:feeds:read')
+      ->setDescription('Read event feeds')
+      ->addOption('name', null, InputOption::VALUE_REQUIRED, 'The name of the feed')
+      ->addOption('id', null, InputOption::VALUE_REQUIRED, 'The ID of the feed');
   }
 
   // app/console generate:doctrine:entity --no-interaction --entity=AdminBundle:Feed --fields="name:string(255) url:string(255) baseUrl:string(255) type:string(50) root:string(50) mapping:text defaults:text lastRead:date" --format=annotation
@@ -29,10 +33,22 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   private $feed;
 
   protected function execute(InputInterface $input, OutputInterface $output) {
+    $name = $input->getOption('name');
+    $id = $input->getOption('id');
+
     $this->output = $output;
     $this->em = $this->getContainer()->get('doctrine')->getEntityManager('default');
 
-    $feeds = $this->getFeeds();
+    $feeds = $this->getFeeds($id, $name);
+    $noOfFeeds = count($feeds);
+
+    if($noOfFeeds == 0) {
+      $this->output->writeln('No feeds found!');
+    } else if($noOfFeeds == 1) {
+      $this->output->writeln('Reading 1 feed:');
+    } else {
+      $this->output->writeln(sprintf('Reading %s feed(s):', $noOfFeeds));
+    }
 
     $client = new Client();
 
@@ -83,8 +99,16 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
     return $template->render([]);
   }
 
-  private function getFeeds() {
-    $query = $this->em->createQuery('SELECT f FROM AdminBundle:Feed f');
+  private function getFeeds($id, $name) {
+    $qb = $this->em->createQueryBuilder();
+    $qb->select('f')->from('AdminBundle:Feed', 'f');
+    if($id) {
+      $qb->andWhere('f.id = :identifier')->setParameter('identifier', $id);
+    }
+    if($name) {
+      $qb->andWhere('f.name = :name')->setParameter('name', $name);
+    }
+    $query = $qb->getQuery();
     return $query->getResult();
   }
 
@@ -102,6 +126,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
     $event->setValues($eventData);
     $event->setFeed($this->feed);
+
     $this->em->persist($event);
     $this->em->flush();
 
