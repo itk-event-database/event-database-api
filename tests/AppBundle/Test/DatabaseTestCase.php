@@ -19,9 +19,9 @@ class DatabaseTestCase extends ContainerTestCase {
 
     $this->em = $this->container->get('doctrine')->getManager();
 
-    self::runCommand('doctrine:database:create');
-    self::runCommand('doctrine:schema:create');
-    self::runCommand('doctrine:schema:update', ['--force' => true]);
+    self::runCommand('doctrine:database:create', ['--quiet' => true]);
+    self::runCommand('doctrine:schema:create', ['--quiet' => true]);
+    self::runCommand('doctrine:schema:update', ['--quiet' => true, '--force' => true]);
   }
 
   /**
@@ -34,7 +34,7 @@ class DatabaseTestCase extends ContainerTestCase {
     $this->em->close();
     $this->em = null; // avoid memory leaks
 
-    self::runCommand('doctrine:database:drop', ['--force' => true]);
+    self::runCommand('doctrine:database:drop', ['--quiet' => true, '--force' => true]);
   }
 
   protected static function runCommand($command, array $args = [])
