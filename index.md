@@ -4,4 +4,4 @@ layout: default
 
 # {{ site.title }}
 
-* [API](/api.html)
+* [API](api)
