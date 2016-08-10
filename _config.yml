@@ -10,7 +10,7 @@ title: Event database – The API
 email:
 description: > # this means to ignore newlines until "baseurl:"
   Event database – The API
-baseurl: "event-database-api" # the subpath of your site, e.g. /blog
+baseurl: "/event-database-api" # the subpath of your site, e.g. /blog
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 twitter_username:
 github_username:
