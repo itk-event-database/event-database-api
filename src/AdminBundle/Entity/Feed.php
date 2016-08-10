@@ -149,4 +149,8 @@ class Feed
   public function getBaseUrl() {
     return isset($this->configuration['baseUrl']) ? $this->configuration['baseUrl'] : null;
   }
+
+  public function getDefaults() {
+    return isset($this->configuration['defaults']) ? $this->configuration['defaults'] : null;
+  }
 }

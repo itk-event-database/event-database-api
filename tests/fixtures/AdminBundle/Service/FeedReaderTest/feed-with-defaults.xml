@@ -1,0 +1,120 @@
+<events>
+  <event>
+    <Country_Code>NO</Country_Code>
+    <Latest_Published_Item></Latest_Published_Item>
+    <Extra3>https://soundcloud.com/sushi-x-kobe</Extra3>
+    <Soloist>false</Soloist>
+    <Details>
+			<e>
+        <Culture>da-DK</Culture>
+        <Genre></Genre>
+        <Sub_Genre></Sub_Genre>
+			</e>
+		</Details>
+    <Scheme>Koncert</Scheme>
+    <Extra1></Extra1>
+    <Created_Year>0</Created_Year>
+    <Id>1723</Id>
+    <Tags>app_festival,Music,NO,UrbanMusicNetwork,LineUp</Tags>
+    <Extra6></Extra6>
+    <People/>
+    <Pictures>
+			<e>
+        <File_Medium>48/eventitems/1723/pictures/UMN sushi-x-kobe SH_medium.jpg</File_Medium>
+        <File_Icon>48/eventitems/1723/pictures/UMN sushi-x-kobe SH_icon.jpg</File_Icon>
+        <AlternateText></AlternateText>
+        <CopyRight>PR</CopyRight>
+        <Picture_Type>web_detail</Picture_Type>
+        <_Primary>true</_Primary>
+        <File_Original>48/eventitems/1723/pictures/UMN sushi-x-kobe SH.jpg</File_Original>
+        <File_Small>48/eventitems/1723/pictures/UMN sushi-x-kobe SH_small.jpg</File_Small>
+        <File_Large>48/eventitems/1723/pictures/UMN sushi-x-kobe SH_large.jpg</File_Large>
+        <Title>Sushi x Kobe</Title>
+			</e>
+		</Pictures>
+    <End>2016-04-30T23:00:00</End>
+    <Extra2></Extra2>
+    <Youtube></Youtube>
+    <Title>$ushi x Kobe (NO) - presented by Urban Music Network</Title>
+    <Shop_Url></Shop_Url>
+    <Website></Website>
+    <Alphabetized_Name>$ushi x Kobe (NO)</Alphabetized_Name>
+    <Facebook>https://www.facebook.com/Sushi-x-Kobe-1581207052140283/</Facebook>
+    <Texts>
+			<e>
+				<Body><p>Rap-gruppen $ushi x Kobe består af de to rappere Onge $ushimane og Kobe-Wan Kenobi. Rapscenen i Bergen har de seneste år vist sig at være en innovativ drivkraft I norsk hiphop og $ushi x Kobe har på ganske kort tid markeret sig som frontløbere I denne udvikling.</p>\r\n<p><em>Præsenteres af Urban Music Network - internationalt netværk for bands og artister. Et samarbejde mellem Promus (Aarhus), RockCity (Hamborg) og Brak (Bergen).</em></p></Body>
+        <Culture>da-DK</Culture>
+        <Text_Type>web_app</Text_Type>
+        <Title>$ushi x Kobe (NO) - presented by Urban Music Network</Title>
+        <Teaser></Teaser>
+      </e>
+		</Texts>
+    <Venue_Id></Venue_Id>
+    <Canceled>false</Canceled>
+    <Start>2016-04-30T22:30:00</Start>
+    <Label></Label>
+    <Extra4></Extra4>
+    <Venue_Shifted>0001-01-01T00:00:00</Venue_Shifted>
+    <Time_Shifted>0001-01-01T00:00:00</Time_Shifted>
+    <Extra5></Extra5>
+  </event>
+	<event>
+    <Venue_Id>41</Venue_Id>
+    <Extra5></Extra5>
+    <Venue_Shifted>0001-01-01T00:00:00</Venue_Shifted>
+    <Time_Shifted>0001-01-01T00:00:00</Time_Shifted>
+    <Label></Label>
+    <Extra4></Extra4>
+    <Start>2016-04-29T18:05:00</Start>
+    <Canceled>false</Canceled>
+    <Website></Website>
+    <Shop_Url></Shop_Url>
+    <Title>0SIX - presented by KarriereKanonen</Title>
+    <Youtube></Youtube>
+    <Texts>
+			<e>
+        <Body><p>Svedig R'n'B med hurtige flows fra København.</p>\r\n<p>KarriereKanonens jury siger: <em>“Det er usædvanlig at en kunstner har så mange sange med i opløbet, som det er tilfældet med 0SIX. Det er pop, det er hele pakken – inklusiv en spændende og sød baggrundsfortælling om en mand, der er landet i Danmark pga. kærligheden. Et stort talent og potentiale at arbejde med.”</em></p>\r\n<p><em>Præsenteres som del af KarriereKanonen.</em></p></Body>
+        <Text_Type>web_app</Text_Type>
+        <Culture>da-DK</Culture>
+        <Teaser></Teaser>
+        <Title>0SIX - presented by KarriereKanonen</Title>
+			</e>
+		</Texts>
+    <Facebook></Facebook>
+    <Alphabetized_Name>OSIX</Alphabetized_Name>
+    <People/>
+    <Tags>app_festival,DK,KarriereKanonen,Music,LineUp</Tags>
+    <Extra6></Extra6>
+    <End>2016-04-29T18:25:00</End>
+    <Extra2></Extra2>
+    <Pictures>
+			<e>
+        <File_Medium>48/eventitems/1682/pictures/0SIX_medium.jpg</File_Medium>
+        <File_Icon>48/eventitems/1682/pictures/0SIX_icon.jpg</File_Icon>
+        <CopyRight>PR</CopyRight>
+        <AlternateText></AlternateText>
+        <Picture_Type></Picture_Type>
+        <_Primary>true</_Primary>
+        <File_Original>48/eventitems/1682/pictures/0SIX.jpg</File_Original>
+        <File_Small>48/eventitems/1682/pictures/0SIX_small.jpg</File_Small>
+        <File_Large>48/eventitems/1682/pictures/0SIX_large.jpg</File_Large>
+        <Title>oSIX</Title>
+			</e>
+		</Pictures>
+    <Soloist>false</Soloist>
+    <Extra3></Extra3>
+    <Latest_Published_Item></Latest_Published_Item>
+    <Country_Code>DK</Country_Code>
+    <Created_Year>0</Created_Year>
+    <Id>1682</Id>
+    <Details>
+			<e>
+        <Sub_Genre></Sub_Genre>
+        <Culture>da-DK</Culture>
+        <Genre></Genre>
+			</e>
+		</Details>
+    <Scheme>Koncert</Scheme>
+    <Extra1></Extra1>
+	</event>
+</events>
