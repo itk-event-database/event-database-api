@@ -65,16 +65,42 @@ class EventVoter extends Voter {
     throw new \LogicException('This code should not be reached!');
   }
 
-  private function isOwner(Event $event, User $user) {
-    // @TODO: Check user's groups as well.
-    return $event->getCreatedBy() && $user->getId() === $event->getCreatedBy()->getId();
+  /**
+   * Check if a user can edit an event.
+   *
+   *
+   */
+  private function canEdit(Event $event, User $user) {
+    $createdByUser = $event->getCreatedBy();
+    if (!$createdByUser) {
+      return false;
+    }
+
+    if ($user->getId() === $createdByUser->getId()) {
+      return true;
+    }
+
+    // Check user's groups.
+    $groups = $user->getGroups();
+    $createdByGroups = $createdByUser->getGroups();
+    if (!$groups || !$createdByGroups) {
+      return false;
+    }
+
+    foreach ($groups as $group) {
+      if ($createdByGroups->contains($group)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private function canUpdate(Event $event, User $user) {
-    return $this->isOwner($event, $user);
+    return $this->canEdit($event, $user);
   }
 
   private function canRemove(Event $event, User $user) {
-    return $this->isOwner($event, $user);
+    return $this->canEdit($event, $user);
   }
 }
