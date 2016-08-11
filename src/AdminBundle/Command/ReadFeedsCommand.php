@@ -22,8 +22,6 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
       ->setDescription('Read event feeds');
   }
 
-  // app/console generate:doctrine:entity --no-interaction --entity=AdminBundle:Feed --fields="name:string(255) url:string(255) baseUrl:string(255) type:string(50) root:string(50) mapping:text defaults:text lastRead:date" --format=annotation
-
   private $em;
   private $output;
   private $feed;
