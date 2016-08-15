@@ -16,9 +16,11 @@ class Json extends FeedReader {
       $events = $this->jsonPath($events, $this->feed->getRoot());
     }
 
-    foreach ($events as $event) {
-      $eventData = $this->getData($event, $this->feed->getMapping());
-      $this->createEvent($eventData);
+    if ($events) {
+      foreach ($events as $event) {
+        $eventData = $this->getData($event, $this->feed->getMapping());
+        $this->createEvent($eventData);
+      }
     }
   }
 

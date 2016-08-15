@@ -6,12 +6,19 @@ use AppBundle\Entity\Event;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use AppBundle\Entity\User;
 
 class EventVoter extends Voter {
   const UPDATE = 'update';
   const REMOVE = 'remove';
+
+  private $roleHierarchy;
+
+  public function __construct(RoleHierarchyInterface $roleHierarchy) {
+    $this->roleHierarchy = $roleHierarchy;
+  }
 
   /**
    * Determines if the attribute and subject are supported by this voter.
@@ -46,8 +53,11 @@ class EventVoter extends Voter {
    */
   protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
   {
-    $user = $token->getUser();
+    if ($this->hasRole($token, 'ROLE_ADMIN')) {
+      return true;
+    }
 
+    $user = $token->getUser();
     if (!$user instanceof User) {
       // the user must be logged in; if not, deny access
       return false;
@@ -103,4 +113,19 @@ class EventVoter extends Voter {
   private function canRemove(Event $event, User $user) {
     return $this->canEdit($event, $user);
   }
+
+  private function hasRole(TokenInterface $token, $roleName) {
+    if (null === $this->roleHierarchy) {
+      return in_array($roleName, $token->getRoles(), true);
+    }
+
+    foreach ($this->roleHierarchy->getReachableRoles($token->getRoles()) as $role) {
+      if ($roleName === $role->getRole()) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 }

@@ -33,7 +33,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
 
   public function testReadXmlFeedWithDefaults() {
     $feedConfiguration = $this->readFixture('feed-with-defaults.yml');
-    $xml = new \SimpleXmlElement($this->readFixture('feed-with-defaults.xml'));
+    $xml = $this->readFixture('feed-with-defaults.xml');
 
     $feed = $this->createFeed($feedConfiguration);
 
@@ -50,7 +50,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
     $this->assertEquals('Musikhuset Aarhus', $event['occurrences'][0]['venue']);
   }
 
-  public function testReadFeedWithImages() { return;
+  public function testReadFeedWithImages() {
     $feedConfiguration = $this->readFixture('feed-with-images.yml');
     $json = $this->readFixture('feed-with-images.json');
 

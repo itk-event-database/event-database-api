@@ -15,6 +15,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Yaml\Yaml;
 
 class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
@@ -32,17 +34,19 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $this->output = $output;
     $container = $this->getContainer();
+    $this->authenticate($container);
     $this->em = $container->get('doctrine')->getEntityManager('default');
     $this->tagManager = $container->get('fpn_tag.tag_manager');
     $feeds = $this->getFeeds();
 
     $client = new Client();
 
-    $filesPath = $container->get('kernel')->getRootDir() . '/../web/images';
+    $imagesPath = $container->getParameter('admin.images_path');
+    $baseUrl = $container->getParameter('admin.base_url');
 
     foreach ($feeds as $name => $feed) {
       $this->feed = $feed;
-      $this->converter = new ValueConverter($this->feed, $filesPath);
+      $this->converter = new ValueConverter($this->feed, $imagesPath, $baseUrl);
       $feedUrl = $this->processUrl($feed->getUrl());
       echo str_repeat('-', 80), PHP_EOL;
       echo $feedUrl, PHP_EOL;
@@ -80,6 +84,14 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
         }
       }
     }
+  }
+
+  private function authenticate(ContainerInterface $container) {
+    $username = $container->getParameter('admin.feed_reader.username');
+    $password = $container->getParameter('admin.feed_reader.password');
+    $firewall = $container->getParameter('admin.feed_reader.firewall');
+    $token = new UsernamePasswordToken($username, $password, $firewall);
+    $this->getContainer()->get('security.token_storage')->setToken($token);
   }
 
   private function processUrl($url) {

@@ -26,3 +26,9 @@ parameters:
     jwt_public_key_path:  %kernel.root_dir%/../var/jwt/public.pem    # ssh public key path
     jwt_key_pass_phrase:  'test'                                     # ssh key pass phrase
     jwt_token_ttl:        86400
+
+    admin.base_url: http://event-database-api.vm
+    admin.images_path: web/images/
+    admin.feed_reader.username: feed-reader
+    admin.feed_reader.password:	feed-reader
+    admin.feed_reader.firewall: main

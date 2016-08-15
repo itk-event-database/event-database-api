@@ -46,6 +46,7 @@ services:
     security.access.event_voter:
         class:      AppBundle\Security\Authorization\Voter\EventVoter
         public:     false
+        arguments: [ "@?security.role_hierarchy" ]
         tags:
             - { name: security.voter }
 

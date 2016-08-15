@@ -40,6 +40,9 @@ class ContainerTestCase extends BaseTestCase {
       case 'json':
         $content = json_decode($content, true);
         break;
+      case 'xml':
+        $content = new \SimpleXmlElement($content);
+        break;
     }
 
     return $content;
