@@ -25,7 +25,7 @@ class Json extends FeedReader {
   }
 
   // http://goessner.net/articles/JsonPath/
-  private function jsonPath($data, $path, $failOnError = false) {
+  protected function jsonPath($data, $path, $failOnError = false) {
     $steps = preg_split('@\s*\.\s*@', $path);
     foreach ($steps as $step) {
       if (!isset($data[$step])) {
@@ -40,7 +40,7 @@ class Json extends FeedReader {
     return $data;
   }
 
-  private function getData(array $item, array $mapping) {
+  protected function getData(array $item, array $mapping) {
     $data = [];
 
     foreach ($mapping as $key => $spec) {

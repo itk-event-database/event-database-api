@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa4fe503a6706803efa776efab89686e",
-    "content-hash": "55263886fffa5a367667055847aec0e7",
+    "hash": "b07e701dc7ef53ddc38065959c5b399c",
+    "content-hash": "f6e42c43a665fb384121fa9dd4b6bd1b",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2936,6 +2936,60 @@
             ],
             "description": "A security checker for your composer.lock",
             "time": "2015-11-07 08:07:40"
+        },
+        {
+            "name": "skyscanner/jsonpath",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Skyscanner/JsonPath-PHP.git",
+                "reference": "edc433c215d0eef65a1db470be4e4e81f93aba3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Skyscanner/JsonPath-PHP/zipball/edc433c215d0eef65a1db470be4e4e81f93aba3f",
+                "reference": "edc433c215d0eef65a1db470be4e4e81f93aba3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "sami/sami": "dev-master",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JsonPath\\": "src/Skyscanner/",
+                    "Utilities\\": "src/Skyscanner/",
+                    "Tests\\": "tests/Skyscanner/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alessio Linares",
+                    "email": "alessio@alessio.cc",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tudor Barbu",
+                    "email": "tudor.barbu@skyscanner.net",
+                    "role": "Senior Developer"
+                }
+            ],
+            "description": "JSONPath implementation for querying and updating JSON objects",
+            "keywords": [
+                "json",
+                "jsonpath",
+                "path"
+            ],
+            "time": "2015-10-20 15:02:36"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
