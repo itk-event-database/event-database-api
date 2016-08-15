@@ -3,6 +3,9 @@
 namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\TransferStats;
 use Symfony\Component\Filesystem\Filesystem;
 use League\Uri\Schemes\Http as HttpUri;
 use League\Uri\Modifiers\Resolve;
@@ -46,17 +49,6 @@ class ValueConverter {
    * Download image an return its url.
    */
   public function downloadImage(string $url) {
-    $uri = HttpUri::createFromString($url);
-    $normalizedPath = $uri->path
-      ->withoutLeadingSlash()
-      ->withoutTrailingSlash()
-      ->withoutDotSegments();
-
-    $info = pathinfo($normalizedPath);
-    $filename = md5($url);
-    if (!empty($info['extension'])) {
-      $filename .= '.' . $info['extension'];
-    }
     $filesystem = new Filesystem();
     if (!$filesystem->exists($this->filePath)) {
       $filesystem->mkdir($this->filePath);
@@ -64,12 +56,27 @@ class ValueConverter {
     if (!$filesystem->exists($this->filePath)) {
       throw new \Exception('Cannot create download directory ' . $this->filePath);
     }
-    $path = rtrim($this->filePath, '/') . '/' . $filename;
-    // @TODO: Use Guzzle or something for downloading image.
-    $content = @file_get_contents($url);
+
+    $actualUrl = $url;
+    $content = null;
+    try {
+      $client = new Client();
+      $content = $client->get($url, [
+        'on_stats' => function (TransferStats $stats) use (&$actualUrl) {
+          $actualUrl = $stats->getEffectiveUri();
+        }
+      ])->getBody()->getContents();
+    } catch (ClientException $ex) {}
     if (empty($content)) {
-      return $content;
+      return null;
     }
+
+    $filename = md5($actualUrl);
+    $info = pathinfo($actualUrl);
+    if (!empty($info['extension'])) {
+      $filename .= '.' . $info['extension'];
+    }
+    $path = rtrim($this->filePath, '/') . '/' . $filename;
     file_put_contents($path, $content);
     // @TODO: Return url to image rather than full file path.
     // @HACK!
@@ -92,6 +99,10 @@ class ValueConverter {
       try {
         $date = new \DateTime($value);
       } catch (\Exception $e) {}
+    }
+
+    if ($date !== null && $this->feed->getTimeZone()) {
+      $date->setTimezone($this->feed->getTimeZone());
     }
 
     return $date;

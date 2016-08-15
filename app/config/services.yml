@@ -60,7 +60,7 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
 
     feed_reader.json:
-        class: AdminBundle\Service\FeedReader\Json
+        class: AdminBundle\Service\FeedReader\JsonPath
 
     feed_reader.xml:
         class: AdminBundle\Service\FeedReader\Xml

@@ -153,4 +153,8 @@ class Feed
   public function getDefaults() {
     return isset($this->configuration['defaults']) ? $this->configuration['defaults'] : null;
   }
+
+  public function getTimeZone() {
+    return isset($this->configuration['timezone']) ? new \DateTimeZone($this->configuration['timezone']) : null;
+  }
 }

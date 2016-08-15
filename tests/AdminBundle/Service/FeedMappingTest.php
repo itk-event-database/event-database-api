@@ -6,8 +6,10 @@ use Tests\AppBundle\Test\ContainerTestCase;
 
 use AdminBundle\Entity\Feed;
 use AdminBundle\Service\FeedReader\Controller;
+use AdminBundle\Service\FeedReader\ValueConverter;
 
 class FeedMappingTest extends ContainerTestCase implements Controller {
+  private $converter;
   private $events;
 
   public function testMappingBibliotekerne() {
@@ -43,6 +45,26 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
   }
 
+  public function testMappingBilletlugen() {
+    $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
+
+    $this->assertEquals(50, count($this->events));
+
+    $event = $this->events[0];
+    $this->assertEquals(['Opera'], $event['tags']);
+    $this->assertEquals('http://www.billetlugen.dk/images/primary/37548', $event['original_image']);
+    $this->assertEquals(1, count($event['occurrences']));
+    $occurrence = $event['occurrences'][0];
+    $this->assertEquals('Musikhuset Aarhus', $occurrence['venue']);
+    $this->assertEquals('Store Sal', $occurrence['room']);
+    $this->assertEquals('http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/37548/71992/', $occurrence['url']);
+    $this->assertEquals(new \DateTime('2016-08-17T19:30:00', new \DateTimeZone('CEST')), $occurrence['startDate']);
+
+    $event = $this->events[5];
+    $this->assertEquals(['Show', 'Comedy', 'Stand-Up'], $event['tags']);
+    $this->assertEquals(1, count($event['occurrences']));
+  }
+
   private function readFeed(string $name) {
     $feedConfiguration = $this->readFixture($name .'.yml');
     $type = $feedConfiguration['type'];
@@ -50,6 +72,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
 
     $feed = new Feed();
     $feed->setConfiguration($feedConfiguration);
+    $this->converter = new ValueConverter($feed, sys_get_temp_dir(), 'http://example.com/');
 
     $this->events = [];
     $reader = $this->container->get('feed_reader.' . $type);
@@ -59,11 +82,16 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     $reader->read($data);
   }
 
-  public function convertValue($value, $name) {
-    return $value;
+  public function createEvent(array $data) {
+    if (isset($data['image'])) {
+      $data['original_image'] = $data['image'];
+      $data['image'] = $this->converter->downloadImage($data['image']);
+    }
+
+    $this->events[] = $data;
   }
 
-  public function createEvent(array $data) {
-    $this->events[] = $data;
+  public function convertValue($value, $name) {
+    return $this->converter->convert($value, $name);
   }
 }
