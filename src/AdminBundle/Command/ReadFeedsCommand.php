@@ -3,6 +3,7 @@
 namespace AdminBundle\Command;
 
 use AdminBundle\Service\FeedReader\Controller;
+use AdminBundle\Service\FeedReader\ValueConverter;
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Event;
 
@@ -14,6 +15,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Yaml\Yaml;
 
 class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
@@ -26,17 +29,24 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   private $output;
   private $feed;
   private $tagManager;
+  private $converter;
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     $this->output = $output;
-    $this->em = $this->getContainer()->get('doctrine')->getEntityManager('default');
-    $this->tagManager = $this->getContainer()->get('fpn_tag.tag_manager');
+    $container = $this->getContainer();
+    $this->authenticate($container);
+    $this->em = $container->get('doctrine')->getEntityManager('default');
+    $this->tagManager = $container->get('fpn_tag.tag_manager');
     $feeds = $this->getFeeds();
 
     $client = new Client();
 
+    $imagesPath = $container->getParameter('admin.images_path');
+    $baseUrl = $container->getParameter('admin.base_url');
+
     foreach ($feeds as $name => $feed) {
       $this->feed = $feed;
+      $this->converter = new ValueConverter($this->feed, $imagesPath, $baseUrl);
       $feedUrl = $this->processUrl($feed->getUrl());
       echo str_repeat('-', 80), PHP_EOL;
       echo $feedUrl, PHP_EOL;
@@ -51,7 +61,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
         switch ($feed->getType()) {
           case 'json':
             $json = json_decode($content, true);
-            $reader = $this->getContainer()->get('feed_reader.json');
+            $reader = $container->get('feed_reader.json');
             $reader
               ->setController($this)
               ->setFeed($feed);
@@ -61,7 +71,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
           case 'xml':
             $xml = new \SimpleXmlElement($content);
-            $reader = $this->getContainer()->get('feed_reader.xml');
+            $reader = $container->get('feed_reader.xml');
             $reader
               ->setController($this)
               ->setFeed($feed);
@@ -74,6 +84,14 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
         }
       }
     }
+  }
+
+  private function authenticate(ContainerInterface $container) {
+    $username = $container->getParameter('admin.feed_reader.username');
+    $password = $container->getParameter('admin.feed_reader.password');
+    $firewall = $container->getParameter('admin.feed_reader.firewall');
+    $token = new UsernamePasswordToken($username, $password, $firewall);
+    $this->getContainer()->get('security.token_storage')->setToken($token);
   }
 
   private function processUrl($url) {
@@ -91,15 +109,20 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
     return $this->feed->getName() . ' - ' . $id;
   }
 
-  public function createEvent(array $eventData) {
-    $id = isset($eventData['id']) ? $eventData['id'] : uniqid();
-    unset($eventData['id']);
+  public function createEvent(array $data) {
+    $id = isset($data['id']) ? $data['id'] : uniqid();
+    unset($data['id']);
+
+    if (isset($data['image'])) {
+      $data['originalImage'] = $data['image'];
+      $data['image'] = $this->converter->downloadImage($data['image']);
+    }
 
     $event = $this->getEvent($id);
 
     $isNew = !$event->getId();
 
-    $event->setValues($eventData, $this->tagManager);
+    $event->setValues($data, $this->tagManager);
     $event->setFeed($this->feed);
     $this->em->persist($event);
     $this->em->flush();
@@ -128,26 +151,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   }
 
   public function convertValue($value, $name) {
-    switch ($name) {
-      case 'startDate':
-      case 'endDate':
-        return $this->parseDate($value);
-        break;
-      case 'url':
-        $baseUrl = $this->feed->getBaseUrl();
-        if ($baseUrl) {
-          $parts = parse_url($baseUrl);
-          if (strpos($value, '/') === 0) {
-            $parts['path'] = $value;
-          } else {
-            $parts['path'] = rtrim($parts['path'], '/') . '/' . $value;
-          }
-          $value = $this->unparse_url($parts);
-        }
-        break;
-    }
-
-    return $value;
+    return $this->converter->convert($value, $name);
   }
 
   // http://php.net/manual/en/function.parse-url.php#106731

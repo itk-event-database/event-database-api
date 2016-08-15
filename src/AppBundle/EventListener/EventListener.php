@@ -17,7 +17,7 @@ class EventListener {
   }
 
   public function preUpdate(LifecycleEventArgs $args) {
-      $object = $args->getObject();
+    $object = $args->getObject();
 
     if ($object instanceof Event) {
       if (!$this->isGranted(EventVoter::UPDATE, $object)) {
@@ -50,8 +50,12 @@ class EventListener {
    * @throws AccessDeniedHttpException
    */
   private function checkOwner(Event $event) {
-    $token = $this->container->get('security.context')->getToken();
+    $token = $this->container->get('security.token_storage')->getToken();
     $user = $token ? $token->getUser() : null;
+
+    if ($token->getRoles()) {
+
+    }
 
     if (!$user || !$event->getCreatedBy() || $user->getId() != $event->getCreatedBy()->getId()) {
       throw new AccessDeniedHttpException('Access denied');

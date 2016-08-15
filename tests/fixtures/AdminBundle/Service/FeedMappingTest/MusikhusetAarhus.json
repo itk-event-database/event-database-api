@@ -1,0 +1,1043 @@
+{
+   "events" : [
+      {
+         "Categories" : [
+            "Udstilling",
+            "Gratis"
+         ],
+         "Image" : "/media/2738/kultur-3.jpg",
+         "PurchaseUrl" : null,
+         "Url" : "/arrangementer/fotos-fra-egne-scener/",
+         "FutureEventDates" : [
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Strøget",
+               "Price" : "Gratis",
+               "Name" : "Fotos fra egne scener",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1471251600000)/"
+            },
+            {
+               "StartDate" : "/Date(1471338000000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "Fotos fra egne scener",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Strøget",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1473238800000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Price" : "Gratis",
+               "EventVenueHall" : "Strøget",
+               "Name" : "Fotos fra egne scener"
+            }
+         ],
+         "ExtraSearchWords" : "",
+         "Name" : "Fotos fra egne scener",
+         "Id" : 4855
+      },
+      {
+         "Categories" : [
+            "Andet",
+            "Gratis"
+         ],
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1471374000000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "Amfiscenen",
+               "EventStatusText" : "",
+               "Name" : "Hackernes hemmelige våben",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            }
+         ],
+         "Url" : "/arrangementer/hackernes-hemmelige-vaaben/",
+         "Image" : "/media/2755/161679_1ok_2016_dokumania_hoved.jpg",
+         "PurchaseUrl" : null,
+         "Id" : 4805,
+         "ExtraSearchWords" : "",
+         "Name" : "Hackernes hemmelige våben"
+      },
+      {
+         "ExtraSearchWords" : "",
+         "Name" : "I puritani",
+         "Id" : 1770,
+         "FutureEventDates" : [
+            {
+               "EventSalesStatus" : 0,
+               "Price" : "335.00 - 675.00 DKK",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Name" : "I puritani",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1471455000000)/"
+            },
+            {
+               "EventVenueHall" : "Store Sal",
+               "EventStatusText" : "",
+               "Name" : "I puritani",
+               "Price" : "335.00 - 675.00 DKK",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1471627800000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "Price" : "335.00 - 675.00 DKK",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Name" : "I puritani",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1471784400000)/"
+            }
+         ],
+         "Image" : "/media/2729/10x6_300dpi_puritani.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/37548/",
+         "Url" : "/arrangementer/i-puritani/",
+         "Categories" : [
+            "Opera"
+         ]
+      },
+      {
+         "Categories" : [
+            "Koncert",
+            "Gratis"
+         ],
+         "FutureEventDates" : [
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1471543200000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Name" : "Girl Power in Jazz",
+               "EventVenueHall" : "Kammermusiksalen",
+               "Price" : "Gratis"
+            }
+         ],
+         "Url" : "/arrangementer/girl-power-in-jazz/",
+         "Image" : "/media/2768/maxresdefault.jpg",
+         "PurchaseUrl" : null,
+         "Id" : 5904,
+         "ExtraSearchWords" : "",
+         "Name" : "Girl Power in Jazz"
+      },
+      {
+         "Categories" : [
+            "Familie/Børn",
+            "Gratis"
+         ],
+         "PurchaseUrl" : null,
+         "Image" : "/media/2757/cykelmasse_koerestol_low_1920x800jpg.jpg",
+         "Url" : "/arrangementer/cyklo/",
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1471680000000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "CYKLO",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Musikhusparken",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1471762800000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Musikhusparken",
+               "Price" : "Gratis",
+               "Name" : "CYKLO"
+            }
+         ],
+         "ExtraSearchWords" : "",
+         "Name" : "CYKLO",
+         "Id" : 4819
+      },
+      {
+         "Categories" : [
+            "Andet"
+         ],
+         "FutureEventDates" : [
+            {
+               "EventStatusText" : "Få billetter",
+               "EventVenueHall" : "Rytmisk Sal",
+               "Price" : "210.00 DKK",
+               "Name" : "Karen-Marie Lillelund",
+               "EventSalesStatus" : 1,
+               "StartDate" : "/Date(1471798800000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            }
+         ],
+         "Image" : "/media/2754/skaerm-karen-marie-lillelund.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41890/",
+         "Url" : "/arrangementer/karen-marie-lillelund/",
+         "ExtraSearchWords" : "",
+         "Name" : "Karen-Marie Lillelund",
+         "Id" : 4540
+      },
+      {
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1471973400000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventStatusText" : "",
+               "Name" : "New Music for Strings - Exploring String Instruments",
+               "EventVenueHall" : "Lille Sal",
+               "Price" : "50.00 - 100.00 DKK",
+               "EventSalesStatus" : 0
+            },
+            {
+               "StartDate" : "/Date(1472319000000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventStatusText" : "",
+               "Price" : "50.00 - 100.00 DKK",
+               "EventVenueHall" : "Symfonisk Sal",
+               "Name" : "New Music for Strings – Masters of the String Quartet",
+               "EventSalesStatus" : 0
+            },
+            {
+               "Price" : "50.00 - 100.00 DKK",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Symfonisk Sal",
+               "Name" : "New Music for Strings – In the Wake of Magnitude",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472405400000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "Name" : "New Music for Strings – Musical Landscapes",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Kammermusiksalen",
+               "Price" : "50.00 - 100.00 DKK",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472491800000)/"
+            }
+         ],
+         "Image" : "http://static.billetlugen.dk/images/events/b/42763.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42763/",
+         "Url" : "/arrangementer/new-music-for-strings/",
+         "ExtraSearchWords" : "",
+         "Name" : "New Music for Strings",
+         "Id" : 4854,
+         "Categories" : [
+            "Koncert"
+         ]
+      },
+      {
+         "Categories" : [
+            "Comedy"
+         ],
+         "Url" : "/arrangementer/christian-fuhlendorff-mikkel-klint-thorius-og-pelle-lundberg/",
+         "Image" : "/media/2516/coverbillede-til-billetlugens-system.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42461/",
+         "FutureEventDates" : [
+            {
+               "EventStatusText" : "",
+               "Price" : "180.00 DKK",
+               "EventVenueHall" : "Filursalen min 15 år.",
+               "Name" : "Christian Fuhlendorff, Mikkel Klint Thorius og Pelle Lundberg",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472234400000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Filursalen min 15 år.",
+               "Name" : "Christian Fuhlendorff, Mikkel Klint Thorius og Pelle Lundberg",
+               "Price" : "180.00 DKK",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472320800000)/"
+            }
+         ],
+         "Id" : 4786,
+         "Name" : "Christian Fuhlendorff, Mikkel Klint Thorius og Pelle Lundberg",
+         "ExtraSearchWords" : "Comedy Zoo"
+      },
+      {
+         "FutureEventDates" : [
+            {
+               "EventSalesStatus" : 0,
+               "Name" : "Keiichiro Shibuya/Hatsune Miku: Vocaloid Opera THE END",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Price" : "140.00 - 200.00 DKK",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472238000000)/"
+            }
+         ],
+         "Image" : "/media/2747/hatsune-galla.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42625/",
+         "Url" : "/arrangementer/keiichiro-shibuyahatsune-miku-vocaloid-opera-the-end/",
+         "Name" : "Keiichiro Shibuya/Hatsune Miku: Vocaloid Opera THE END",
+         "ExtraSearchWords" : "",
+         "Id" : 4827,
+         "Categories" : [
+            "Teater"
+         ]
+      },
+      {
+         "Name" : "A B Se Det",
+         "ExtraSearchWords" : "",
+         "Id" : 4814,
+         "FutureEventDates" : [
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472288400000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "2. Balkon",
+               "Price" : "Gratis",
+               "Name" : "A B Se Det"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "2. Balkon",
+               "Price" : "Gratis",
+               "Name" : "A B Se Det",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472374800000)/"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472457600000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "2. Balkon",
+               "Price" : "Gratis",
+               "Name" : "A B Se Det"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472544000000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "2. Balkon",
+               "Name" : "A B Se Det",
+               "Price" : "Gratis"
+            },
+            {
+               "StartDate" : "/Date(1472630400000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "A B Se Det",
+               "EventStatusText" : "",
+               "EventVenueHall" : "2. Balkon",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472716800000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Name" : "A B Se Det",
+               "EventVenueHall" : "2. Balkon",
+               "Price" : "Gratis"
+            },
+            {
+               "EventVenueHall" : "2. Balkon",
+               "EventStatusText" : "",
+               "Price" : "Gratis",
+               "Name" : "A B Se Det",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472803200000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "StartDate" : "/Date(1472893200000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "2. Balkon",
+               "EventStatusText" : "",
+               "Price" : "Gratis",
+               "Name" : "A B Se Det",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "2. Balkon",
+               "Price" : "Gratis",
+               "Name" : "A B Se Det",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472979600000)/"
+            }
+         ],
+         "Image" : "/media/2721/2016-festuge-plakat-2.jpg",
+         "PurchaseUrl" : null,
+         "Url" : "/arrangementer/a-b-se-det/",
+         "Categories" : [
+            "Familie/Børn",
+            "Gratis"
+         ]
+      },
+      {
+         "ExtraSearchWords" : "",
+         "Name" : "Børnekulissens Hatteteater",
+         "Id" : 4802,
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1472288400000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Price" : "Gratis",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "Name" : "Børnekulissens Hatteteater",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472302800000)/"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472374800000)/",
+               "EventSalesStatus" : 0,
+               "EventVenueHall" : "Caféscenen",
+               "EventStatusText" : "",
+               "Name" : "Børnekulissens Hatteteater",
+               "Price" : "Gratis"
+            },
+            {
+               "StartDate" : "/Date(1472389200000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "Caféscenen",
+               "EventStatusText" : "",
+               "Name" : "Børnekulissens Hatteteater",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472457600000)/"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Price" : "Gratis",
+               "EventVenueHall" : "Caféscenen",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472475600000)/"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472544000000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "Name" : "Børnekulissens Hatteteater"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Price" : "Gratis",
+               "EventVenueHall" : "Caféscenen",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472562000000)/"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472630400000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "Name" : "Børnekulissens Hatteteater"
+            },
+            {
+               "StartDate" : "/Date(1472716800000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventStatusText" : "",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472734800000)/",
+               "EventSalesStatus" : 0,
+               "Name" : "Børnekulissens Hatteteater",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472803200000)/"
+            },
+            {
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Price" : "Gratis",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472821200000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventVenueHall" : "Caféscenen",
+               "EventStatusText" : "",
+               "Price" : "Gratis",
+               "Name" : "Børnekulissens Hatteteater",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472893200000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "StartDate" : "/Date(1472979600000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "Caféscenen",
+               "EventStatusText" : "",
+               "Name" : "Børnekulissens Hatteteater",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472994000000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Caféscenen",
+               "Name" : "Børnekulissens Hatteteater",
+               "Price" : "Gratis"
+            }
+         ],
+         "Image" : "/media/2715/teat-hat-mariane13.jpg",
+         "PurchaseUrl" : null,
+         "Url" : "/arrangementer/boernekulissens-hatteteater/",
+         "Categories" : [
+            "Familie/Børn",
+            "Gratis"
+         ]
+      },
+      {
+         "ExtraSearchWords" : "",
+         "Name" : "Cirkus Krone",
+         "Id" : 4823,
+         "PurchaseUrl" : null,
+         "Image" : "/media/2758/bweb_mg_4690.jpg",
+         "Url" : "/arrangementer/cirkus-krone/",
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1472295600000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "Cirkus Krone",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "Name" : "Cirkus Krone",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472306400000)/"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472382000000)/",
+               "EventSalesStatus" : 0,
+               "EventVenueHall" : "Amfiscenen",
+               "EventStatusText" : "",
+               "Price" : "150",
+               "Name" : "Cirkus Krone"
+            },
+            {
+               "EventStatusText" : "",
+               "Name" : "Cirkus Krone",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472392800000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "StartDate" : "/Date(1472490000000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "Amfiscenen",
+               "EventStatusText" : "",
+               "Price" : "150",
+               "Name" : "Cirkus Krone",
+               "EventSalesStatus" : 0
+            },
+            {
+               "Name" : "Cirkus Krone",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472544000000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventStatusText" : "",
+               "Name" : "Cirkus Krone",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472565600000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventStatusText" : "",
+               "Name" : "Cirkus Krone",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472630400000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "StartDate" : "/Date(1472652000000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "Cirkus Krone",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventVenueHall" : "Amfiscenen",
+               "EventStatusText" : "",
+               "Price" : "150",
+               "Name" : "Cirkus Krone",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472738400000)/"
+            },
+            {
+               "EventStatusText" : "",
+               "Name" : "Cirkus Krone",
+               "EventVenueHall" : "Amfiscenen",
+               "Price" : "150",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472824800000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472900400000)/",
+               "EventSalesStatus" : 0,
+               "Price" : "150",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Amfiscenen",
+               "Name" : "Cirkus Krone"
+            },
+            {
+               "StartDate" : "/Date(1472911200000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "Amfiscenen",
+               "EventStatusText" : "",
+               "Price" : "150",
+               "Name" : "Cirkus Krone",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Price" : "150",
+               "EventVenueHall" : "Amfiscenen",
+               "Name" : "Cirkus Krone",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472986800000)/"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Price" : "150",
+               "EventVenueHall" : "Amfiscenen",
+               "Name" : "Cirkus Krone",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472997600000)/"
+            }
+         ],
+         "Categories" : [
+            "Familie/Børn"
+         ]
+      },
+      {
+         "Url" : "/arrangementer/huebbe-og-den-kongelige-ballet/",
+         "Image" : "/media/2761/huebbe-og-den-kongelige-ballet-hd.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42039/",
+         "FutureEventDates" : [
+            {
+               "EventVenueHall" : "Store Sal",
+               "EventStatusText" : "",
+               "Price" : "180.00 - 270.00 DKK",
+               "Name" : "Hübbe og Den Kongelige Ballet",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472319000000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            }
+         ],
+         "Id" : 4738,
+         "Name" : "Hübbe og Den Kongelige Ballet",
+         "ExtraSearchWords" : "",
+         "Categories" : [
+            "Andet",
+            "Dans"
+         ]
+      },
+      {
+         "Categories" : [
+            "Show",
+            "Comedy",
+            "Teater"
+         ],
+         "Url" : "/arrangementer/skud-fra-hoften/",
+         "Image" : "/media/2720/hjemmeside_holdfoto-duckface.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42316/",
+         "FutureEventDates" : [
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472580000000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "Price" : "195.00 DKK",
+               "EventVenueHall" : "Lille Sal",
+               "Name" : "Skud fra hoften"
+            }
+         ],
+         "Id" : 4740,
+         "Name" : "Skud fra hoften",
+         "ExtraSearchWords" : ""
+      },
+      {
+         "Url" : "/arrangementer/smells-like-teens/",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42326/",
+         "Image" : "/media/2760/adam-noah.jpg",
+         "FutureEventDates" : [
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472655600000)/",
+               "EventSalesStatus" : 0,
+               "Price" : "30.00 DKK",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Rytmisk Sal",
+               "Name" : "Adam & Noah"
+            }
+         ],
+         "Id" : 4784,
+         "Name" : "Smells like Teens",
+         "ExtraSearchWords" : "",
+         "Categories" : [
+            "Comedy"
+         ]
+      },
+      {
+         "Categories" : [
+            "Show"
+         ],
+         "Url" : "/arrangementer/tam-tam-i-musikhuset-2016/",
+         "Image" : "/media/2764/skærmtamtam16_key_visual_final_musikhuset_02_u_hatten.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/40389/",
+         "FutureEventDates" : [
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472666400000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Name" : "Tam Tam i Musikhuset",
+               "Price" : "275.00 - 485.00 DKK"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Price" : "275.00 - 485.00 DKK",
+               "Name" : "Tam Tam i Musikhuset",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472752800000)/"
+            },
+            {
+               "StartDate" : "/Date(1472839200000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "Tam Tam i Musikhuset",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Price" : "275.00 - 485.00 DKK",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventVenueHall" : "Store Sal",
+               "EventStatusText" : "",
+               "Price" : "275.00 - 485.00 DKK",
+               "Name" : "Tam Tam i Musikhuset",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472907600000)/"
+            },
+            {
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Store Sal",
+               "Price" : "275.00 - 485.00 DKK",
+               "Name" : "Tam Tam i Musikhuset",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472925600000)/"
+            }
+         ],
+         "Id" : 3134,
+         "Name" : "Tam Tam i Musikhuset 2016",
+         "ExtraSearchWords" : ""
+      },
+      {
+         "Categories" : [
+            "Klassisk"
+         ],
+         "FutureEventDates" : [
+            {
+               "EventVenueHall" : "Symfonisk Sal",
+               "EventStatusText" : "",
+               "Name" : "Festugekoncert",
+               "Price" : "140.00 - 325.00 DKK",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1472751000000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            }
+         ],
+         "Url" : "/arrangementer/festugekoncert/",
+         "Image" : "/media/2762/carmenlinares_vanesaaibar_02-hd.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41385/",
+         "Id" : 4493,
+         "Name" : "Festugekoncert",
+         "ExtraSearchWords" : ""
+      },
+      {
+         "Categories" : [
+            "Jazz",
+            "Koncert"
+         ],
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1472752800000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Price" : "170.00 DKK",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Rytmisk Sal",
+               "Name" : "Blood Sweat Drum + Bass feat. Palle Mikkelborg & Jeppe Kjellberg",
+               "EventSalesStatus" : 0
+            }
+         ],
+         "Url" : "/arrangementer/blood-sweat-drum-plus-bass/",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42800/",
+         "Image" : "/media/2763/bsdnb_2016.jpg",
+         "Id" : 4863,
+         "Name" : "Blood Sweat Drum + Bass",
+         "ExtraSearchWords" : ""
+      },
+      {
+         "Url" : "/arrangementer/michael-schoet-omar-marzouk-og-staff/",
+         "Image" : "http://static.billetlugen.dk/images/events/b/42462.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42462/",
+         "FutureEventDates" : [
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472839200000)/",
+               "EventSalesStatus" : 0,
+               "EventStatusText" : "",
+               "EventVenueHall" : "Filursalen min 15 år.",
+               "Name" : "Michael Schøt, Omar Marzouk og Staff",
+               "Price" : "170.00 DKK"
+            },
+            {
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1472925600000)/",
+               "EventSalesStatus" : 0,
+               "Name" : "Michael Schøt, Omar Marzouk og Staff",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Filursalen min 15 år.",
+               "Price" : "170.00 DKK"
+            }
+         ],
+         "Id" : 4788,
+         "ExtraSearchWords" : "Comedy Zoo",
+         "Name" : "Michael Schøt, Omar Marzouk og Staff",
+         "Categories" : [
+            "Comedy"
+         ]
+      },
+      {
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41345/",
+         "Image" : "http://static.billetlugen.dk/images/events/b/41345.jpg",
+         "Url" : "/arrangementer/jo-lawry-med-mads-baerentzens-trio/",
+         "FutureEventDates" : [
+            {
+               "EventStatusText" : "",
+               "Price" : "120.00 - 200.00 DKK",
+               "EventVenueHall" : "Lille Sal",
+               "Name" : "Jo Lawry med Mads Bærentzens Trio",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1473184800000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            }
+         ],
+         "ExtraSearchWords" : "",
+         "Name" : "Jo Lawry med Mads Bærentzens Trio",
+         "Id" : 4122,
+         "Categories" : [
+            "Jazz"
+         ]
+      },
+      {
+         "ExtraSearchWords" : "",
+         "Name" : "Små synger sammen",
+         "Id" : 4836,
+         "FutureEventDates" : [
+            {
+               "EventStatusText" : "",
+               "EventVenueHall" : "Foyer Syd",
+               "Name" : "Små synger sammen",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0,
+               "StartDate" : "/Date(1473319800000)/",
+               "EventVenueName" : "Musikhuset Aarhus"
+            },
+            {
+               "StartDate" : "/Date(1473323400000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventStatusText" : "",
+               "Name" : "Små synger sammen",
+               "EventVenueHall" : "Foyer Syd",
+               "Price" : "Gratis",
+               "EventSalesStatus" : 0
+            }
+         ],
+         "PurchaseUrl" : null,
+         "Image" : "/media/2730/smaasynger2016.jpg",
+         "Url" : "/arrangementer/smaa-synger-sammen/",
+         "Categories" : [
+            "Familie/Børn",
+            "Gratis"
+         ]
+      },
+      {
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/42022/",
+         "Image" : "/media/2664/bwebudklip.jpg",
+         "Url" : "/arrangementer/specialklassen-jeg-gi-r-show/",
+         "FutureEventDates" : [
+            {
+               "StartDate" : "/Date(1473350400000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "EventVenueHall" : "Lille Sal",
+               "EventStatusText" : "",
+               "Name" : "Specialklassen - \"Jeg gi´r show\"",
+               "Price" : "50.00 DKK",
+               "EventSalesStatus" : 0
+            },
+            {
+               "EventSalesStatus" : 0,
+               "Name" : "Specialklassen - \"Jeg gi´r show\"",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Lille Sal",
+               "Price" : "50.00 DKK",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1473357600000)/"
+            }
+         ],
+         "Name" : "Specialklassen - \"Jeg gi´r show\"",
+         "ExtraSearchWords" : "",
+         "Id" : 4662,
+         "Categories" : [
+            "Comedy"
+         ]
+      },
+      {
+         "Categories" : [
+            "Andet"
+         ],
+         "Id" : 4177,
+         "ExtraSearchWords" : "",
+         "Name" : "Mikkel Beha",
+         "FutureEventDates" : [
+            {
+               "EventSalesStatus" : 2,
+               "EventVenueHall" : "Rytmisk Sal",
+               "EventStatusText" : "Udsolgt",
+               "Name" : "Mikkel Beha",
+               "Price" : "130.00 - 210.00 DKK",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1473354000000)/"
+            }
+         ],
+         "Url" : "/arrangementer/mikkel-beha-1/",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41414/",
+         "Image" : "/media/2398/bweb_mikkel_beha_5.jpg"
+      },
+      {
+         "Id" : 4494,
+         "ExtraSearchWords" : "",
+         "Name" : "Saints-Saëns eksotiske klaverkoncert",
+         "Url" : "/arrangementer/saints-saëns-eksotiske-klaverkoncert/",
+         "Image" : "http://static.billetlugen.dk/images/events/b/41675.jpg",
+         "PurchaseUrl" : "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41675/",
+         "FutureEventDates" : [
+            {
+               "EventSalesStatus" : 0,
+               "EventVenueHall" : "Symfonisk Sal",
+               "EventStatusText" : "",
+               "Name" : "Saints-Saëns eksotiske klaverkoncert",
+               "Price" : "120.00 - 280.00 DKK",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "StartDate" : "/Date(1473355800000)/"
+            },
+            {
+               "StartDate" : "/Date(1473442200000)/",
+               "EventVenueName" : "Musikhuset Aarhus",
+               "Name" : "Saints-Saëns eksotiske klaverkoncert",
+               "EventStatusText" : "",
+               "EventVenueHall" : "Symfonisk Sal",
+               "Price" : "120.00 - 280.00 DKK",
+               "EventSalesStatus" : 0
+            }
+         ],
+         "Categories" : [
+            "Klassisk"
+         ]
+      }
+   ],
+   "meta" : {
+      "totalResults" : 176,
+      "query" : "",
+      "startDate" : "",
+      "totalPages" : 8,
+      "endDate" : "",
+      "ids" : [],
+      "categoryFilter" : "",
+      "itemsPerPage" : 24,
+      "onlyBannerEvent" : false,
+      "page" : 1,
+      "category2Filter" : "",
+      "randomize" : false
+   }
+}

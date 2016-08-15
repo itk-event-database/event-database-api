@@ -1,0 +1,13 @@
+# Bibliotekerne
+type: json
+root: result.records
+mapping:
+    id: id
+    name: title
+    description: content
+    url: url
+    image: imageurl
+    occurrences:
+        mapping:
+            startDate: starttime
+            endDate: endtime

@@ -42,7 +42,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "doctrine/doctrine-migrations-bundle": "^1.1",
         "symfony/property-access": "^3.1",
-        "fpn/tag-bundle": "^0.9.0"
+        "fpn/tag-bundle": "^0.9.0",
+        "league/uri": "^4.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
