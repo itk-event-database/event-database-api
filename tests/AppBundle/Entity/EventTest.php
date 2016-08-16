@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Tests\AppBundle\Test\DatabaseTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class EventTest extends DatabaseTestCase {
   public function testTags() {
@@ -50,6 +51,13 @@ class EventTest extends DatabaseTestCase {
   }
 
   public function testOrphanedOccurrences() {
+    $username = 'test';
+    $password = 'test';
+    $firewall = 'main';
+    $roles = ['ROLE_ADMIN'];
+    $token = new UsernamePasswordToken($username, $password, $firewall, $roles);
+    $this->container->get('security.token_storage')->setToken($token);
+
     $event = new Event();
     $event->setName(__METHOD__);
 
