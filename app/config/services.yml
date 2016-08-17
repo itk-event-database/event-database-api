@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
+    # Factories
+    place_factory:
+        class: AdminBundle\Factory\PlaceFactory
+        arguments: [ @doctrine.orm.entity_manager ]
+
+    # Filters
     resource.event.order_filter:
         parent:    "api_platform.doctrine.orm.order_filter"
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]

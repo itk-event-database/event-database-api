@@ -120,6 +120,11 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
     $id = isset($eventData['id']) ? $eventData['id'] : uniqid();
     unset($eventData['id']);
 
+    $placeString = $eventData['place'];
+    unset($eventData['place']);
+
+    $place = $this->getContainer()->get('twig');
+
     $event = $this->getEvent($id);
 
     $isNew = !$event->getId();
