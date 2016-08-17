@@ -4,10 +4,30 @@ parameters:
 #    parameter_name: value
 
 services:
+    value_converter:
+        class: AdminBundle\Service\ValueConverter
+
     # Factories
+    entity_factory:
+        class: AdminBundle\Factory\EntityFactory
+        abstract:  true
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@fpn_tag.tag_manager" ]
+
     place_factory:
+        parent: entity_factory
         class: AdminBundle\Factory\PlaceFactory
-        arguments: [ @doctrine.orm.entity_manager ]
+
+    occurrence_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\OccurrenceFactory
+        calls:
+            - [setPlaceFactory, ["@place_factory"]]
+
+    event_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\EventFactory
+        calls:
+            - [setOccurrenceFactory, ["@occurrence_factory"]]
 
     # Filters
     resource.event.order_filter:

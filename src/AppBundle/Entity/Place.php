@@ -54,14 +54,6 @@ class Place extends Thing
   private $feed;
 
   /**
-   * @var ArrayCollection
-   *
-   * @Groups({"event_read", "event_write"})
-   * @ORM\OneToMany(targetEntity="Event", mappedBy="location")
-   */
-  private $events;
-
-  /**
    * @var PostalAddress Physical address of the item.
    * @ORM\ManyToOne(targetEntity="PostalAddress")
    */
@@ -106,31 +98,6 @@ class Place extends Thing
   public function getId()
   {
     return $this->id;
-  }
-
-  public function setEvents($events) {
-    // Orphan any existing occurrences.
-    if ($this->events) {
-      $now = new \DateTime();
-      foreach ($this->occurrences as $event) {
-        $event->setDeletedAt($now);
-      }
-    }
-
-    $this->events = $events;
-
-    foreach ($this->events as $event) {
-      $event->setPlace($this);
-    }
-
-    return $this;
-  }
-
-  /**
-   * @return Collection
-   */
-  public function getEvents() {
-    return $this->events;
   }
 
   public function setFeed($feed) {
@@ -189,9 +156,4 @@ class Place extends Thing
   {
     return $this->logo;
   }
-
-  public function __construct() {
-    $this->events = new ArrayCollection();
-  }
-
 }

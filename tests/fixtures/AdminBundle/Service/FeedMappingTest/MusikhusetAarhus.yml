@@ -13,7 +13,10 @@ mapping:
         mapping:
             startDate: StartDate
             endDate: EndDate
-            venue: EventVenueName
-    defaults:
-        categories: [ 'Musikhuset Aarhus' ]
-        occurrences.venue: 'Musikhuset Aarhus'
+            room: EventVenueHall
+            place:
+                mapping:
+                    name: EventVenueName
+defaults:
+    categories: [ 'Musikhuset Aarhus' ]
+    occurrences.venue: 'Musikhuset Aarhus'

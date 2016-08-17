@@ -69,7 +69,8 @@ Feature: Events
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json"
-    And the JSON should be equal to:
+    And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
+    And the JSON should not differ from:
     """
     {
       "@context": "\/api\/contexts\/Event",
@@ -82,7 +83,7 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "venue": null
+          "place": null
         },
         {
           "@id": "\/api\/occurrences\/2",
@@ -90,7 +91,7 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "venue": null
+          "place": null
         }
       ],
       "tags": [],
@@ -149,7 +150,7 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "venue": null
+          "place": null
         },
         {
           "@id": "\/api\/occurrences\/4",
@@ -157,7 +158,7 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "venue": null
+          "place": null
         }
       ],
       "tags": [],

@@ -57,4 +57,16 @@ class DatabaseTestCase extends ContainerTestCase {
 
     return self::$application;
   }
+
+  protected function persist($entity) {
+    $this->em->persist($entity);
+
+    return $this;
+  }
+
+  protected function flush() {
+    $this->em->flush();
+
+    return $this;
+  }
 }

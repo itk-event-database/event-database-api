@@ -155,6 +155,6 @@ class Feed
   }
 
   public function getTimeZone() {
-    return isset($this->configuration['timezone']) ? new \DateTimeZone($this->configuration['timezone']) : null;
+    return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : null;
   }
 }

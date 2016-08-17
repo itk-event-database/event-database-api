@@ -42,7 +42,6 @@ Feature: Places
       "@context": "\/api\/contexts\/Place",
       "@id": "\/api\/places\/1",
       "@type": "http:\/\/schema.org\/Place",
-      "events": [],
       "logo": null,
       "description": null,
       "image": null,

@@ -9,7 +9,6 @@ use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -20,7 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\MappedSuperclass
  * @ ApiResource(iri="http://schema.org/Thing")
  */
-abstract class Thing
+abstract class Thing extends Entity
 {
   /**
    * @var string A short description of the item.
@@ -156,50 +155,6 @@ abstract class Thing
   public function getUrl()
   {
     return $this->url;
-  }
-
-  /**
-   * Set values from an array.
-   */
-  public function setValues(array $values, TagManager $tagManager)
-  {
-    $accessor = PropertyAccess::createPropertyAccessor();
-
-    foreach ($values as $key => $value) {
-      if ($accessor->isWritable($this, $key)) {
-        switch ($key) {
-          case 'events':
-            $events = new ArrayCollection();
-            foreach ($value as $item) {
-              $event = new Event();
-              $event->setValues($item);
-              $events->add($event);
-            }
-            $accessor->setValue($this, $key, $events);
-            break;
-          case 'occurrences':
-            $occurrences = new ArrayCollection();
-            foreach ($value as $item) {
-              $occurrence = new Occurrence();
-              $occurrence->setValues($item);
-              $occurrences->add($occurrence);
-            }
-            $accessor->setValue($this, $key, $occurrences);
-            break;
-          case 'location':
-            $location = new Place();
-            $location->setName($value);
-            $accessor->setValue($this, $key, $location);
-            break;
-          default:
-            $accessor->setValue($this, $key, $value);
-            break;
-        }
-      } elseif ($key == 'tags' && $this instanceof Taggable) {
-        $tags = $tagManager->loadOrCreateTags(array_map('strtolower', $value));
-        $tagManager->addTags($tags, $this);
-      }
-    }
   }
 
 }

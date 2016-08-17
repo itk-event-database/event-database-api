@@ -11,5 +11,5 @@ mapping:
         mapping:
             startDate: Start
             endDate: End
-    defaults:
-        categories: [ 'SPOT Festival' ]
+defaults:
+    categories: [ 'SPOT Festival' ]

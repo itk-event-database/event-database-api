@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use FPN\TagBundle\Entity\TagManager;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -24,7 +26,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  *   }
  * )
  */
-class Occurrence {
+class Occurrence extends Entity {
   use SoftdeleteableEntity;
 
   /**
@@ -57,11 +59,11 @@ class Occurrence {
   protected $endDate;
 
   /**
-   * @var string
-   * @ORM\Column(type="string", length=255, nullable=true)
+   * @var Place
+   * @ORM\ManyToOne(targetEntity="Place")
    * @Groups({"event_read", "event_write"})
    */
-  protected $venue;
+  protected $place;
 
   /**
    * Sets id.
@@ -139,6 +141,16 @@ class Occurrence {
     return $this->endDate;
   }
 
+  public function setPlace(Place $place) {
+    $this->place = $place;
+
+    return $this;
+  }
+
+  public function getPlace() {
+    return $this->place;
+  }
+
   /**
    * Sets venue.
    *
@@ -161,23 +173,4 @@ class Occurrence {
     return $this->venue;
 
   }
-
-    /**
-   * Set values from an array.
-   */
-  public function setValues(array $values)
-  {
-    $accessor = PropertyAccess::createPropertyAccessor();
-
-    foreach ($values as $key => $value) {
-      if ($accessor->isWritable($this, $key)) {
-        switch ($key) {
-          default:
-            $accessor->setValue($this, $key, $value);
-            break;
-        }
-      }
-    }
-  }
-
 }

@@ -3,7 +3,6 @@
 namespace AdminBundle\Command;
 
 use AdminBundle\Service\FeedReader\Controller;
-use AdminBundle\Service\FeedReader\ValueConverter;
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Event;
 
@@ -33,6 +32,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   private $feed;
   private $tagManager;
   private $converter;
+  private $eventFactory;
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     $name = $input->getOption('name');
@@ -57,10 +57,12 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
     $imagesPath = $container->getParameter('admin.images_path');
     $baseUrl = $container->getParameter('admin.base_url');
+    $this->converter = $container->get('value_converter');
 
     foreach ($feeds as $name => $feed) {
       $this->feed = $feed;
-      $this->converter = new ValueConverter($this->feed, $imagesPath, $baseUrl);
+      $this->eventFactory = $container->get('event_factory');
+      $this->eventFactory->setFeed($feed);
       $feedUrl = $this->processUrl($feed->getUrl());
       echo str_repeat('-', 80), PHP_EOL;
       echo $feedUrl, PHP_EOL;
@@ -127,50 +129,12 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
     return $query->getResult();
   }
 
-  private function getFeedEventId($id) {
-    return $this->feed->getName() . ' - ' . $id;
-  }
-
   public function createEvent(array $data) {
-    $id = isset($data['id']) ? $data['id'] : uniqid();
-    unset($data['id']);
+    $data['feed'] = $this->feed;
+    $event = $this->eventFactory->get($data);
 
-    if (isset($data['image'])) {
-      $data['originalImage'] = $data['image'];
-      $data['image'] = $this->converter->downloadImage($data['image']);
-    }
-
-    $event = $this->getEvent($id);
-
-    $isNew = !$event->getId();
-
-    $event->setValues($data, $this->tagManager);
-    $event->setFeed($this->feed);
-
-    $this->em->persist($event);
-    $this->em->flush();
-    $this->tagManager->saveTagging($event);
-
-    $this->output->writeln(sprintf('%s: Event %s: %s (%s)', $this->feed->getName(), ($isNew ? 'created' : 'updated'), $event->getName(), $event->getFeedEventId()));
-
-    return $event;
-  }
-
-  private function getEvent($id) {
-    $feedEventId = $this->getFeedEventId($id);
-
-    $query = $this->em->createQuery('SELECT e FROM AppBundle:Event e WHERE e.feedEventId = :feedEventId');
-    $query->setParameter('feedEventId', $feedEventId);
-
-    $events = $query->getResult();
-
-    if (count($events) === 0) {
-      $event = new Event();
-      $event->setFeedEventId($feedEventId);
-      return $event;
-    } else if (count($events) > 1) {
-    }
-    return $events[0];
+    $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
+    $this->output->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
   }
 
   public function convertValue($value, $name) {

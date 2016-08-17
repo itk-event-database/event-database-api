@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "string"
+    },
+    "@id": {
+      "type": "string"
+    },
+    "@type": {
+      "type": "string"
+    },
+    "occurrences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "event": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "place": {
+            "type": [ "object", "null" ]
+          }
+        },
+        "required": [
+          "@id",
+          "@type",
+          "event",
+          "startDate",
+          "endDate",
+          "place"
+        ]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {}
+    },
+    "description": {
+			"type": [ "string", "null" ]
+    },
+    "image": {
+			"type": [ "string", "null" ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "url": {
+			"type": [ "string", "null" ]
+    }
+  },
+  "required": [
+    "@id",
+    "@type",
+    "occurrences",
+    "tags",
+    "description",
+    "image",
+    "name",
+    "url"
+  ]
+}

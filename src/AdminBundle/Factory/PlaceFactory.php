@@ -1,33 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: turegjorup
- * Date: 11/08/16
- * Time: 13:32
- */
 
 namespace AdminBundle\Factory;
 
-
 use AppBundle\Entity\Place;
 
-class PlaceFactory extends EntityFactory
-{
+class PlaceFactory extends EntityFactory {
+  public function get(array $data) {
+    $entity = $this->getEntity($data);
+    $this->setValues($entity, $data);
+    $this->persist($entity);
+    $this->flush();
 
-  public function get(Feed $feed, $name)
-  {
-    $query = $this->em->createQuery('SELECT p FROM AppBundle:Place p WHERE p.feed_id = :feedId AND WHERE p.name = :name');
-    $query->setParameter('feedId', $feed->id);
+    return $entity;
+  }
+
+  private function getEntity(array $data) {
+    $name = $data['name'];
+    $query = $this->em->createQuery('SELECT p FROM AppBundle:Place p WHERE p.feed = :feed AND p.name = :name');
+    $query->setParameter('feed', $this->feed);
     $query->setParameter('name', $name);
 
-    $places = $query->getResult();
-
-    if (count($places) === 0) {
+    $place = $query->getOneOrNullResult();
+    if ($place === null) {
       $place = new Place();
-      $place->setFeedEventId($feed->id);
-      return $place;
+      $place->setFeed($this->feed);
     }
-    return $places[0];
 
+    return $place;
   }
 }

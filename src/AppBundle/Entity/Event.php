@@ -8,11 +8,13 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DoctrineExtensions\Taggable\Doctrine;
 use DoctrineExtensions\Taggable\Taggable;
+use FPN\TagBundle\Entity\TagManager;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -48,12 +50,6 @@ class Event extends Thing implements Taggable
    * @ORM\GeneratedValue(strategy="AUTO")
    */
   private $id;
-
-  /**
-   * @var Place The location of for example where the event is happening, an organization is located, or where an action takes place.
-   * @ORM\ManyToOne(targetEntity="Place", inversedBy="events", cascade={"persist"})
-   */
-  private $location;
 
   /**
    * @var ArrayCollection
@@ -100,22 +96,6 @@ class Event extends Thing implements Taggable
   public function getId()
   {
     return $this->id;
-  }
-
-  /**
-   * @return Place
-   */
-  public function getLocation()
-  {
-    return $this->location;
-  }
-
-  /**
-   * @param Place $location
-   */
-  public function setLocation($location)
-  {
-    $this->location = $location;
   }
 
   public function setOccurrences($occurrences) {

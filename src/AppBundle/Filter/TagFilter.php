@@ -61,10 +61,6 @@ class TagFilter extends AbstractFilter
           }
         }
 
-
-        // header('Content-type: text/plain'); echo var_export([$property, $this->name, $tagNames, $ids], true); die(__FILE__.':'.__LINE__.':'.__METHOD__);
-
-
         $alias = 'o';
         $valueParameter = QueryNameGenerator::generateParameterName($property);
         $queryBuilder

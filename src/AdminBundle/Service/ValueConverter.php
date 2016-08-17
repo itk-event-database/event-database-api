@@ -1,6 +1,6 @@
 <?php
 
-namespace AdminBundle\Service\FeedReader;
+namespace AdminBundle\Service;
 
 use AdminBundle\Entity\Feed;
 use GuzzleHttp\Client;
@@ -13,14 +13,10 @@ use Symfony\Component\HttpFoundation\Tests\RequestContentProxy;
 
 class ValueConverter {
   protected $feed;
-  protected $filePath;
   protected $downloadUrlResolver;
-  protected $baseUrlResolver;
 
-  public function __construct(Feed $feed, string $filePath, string $baseUrl) {
+  public function setFeed(Feed $feed) {
     $this->feed = $feed;
-    $this->filePath = $filePath;
-    $this->baseUrlResolver = new Resolve(HttpUri::createFromString($baseUrl));
     $this->downloadUrlResolver = $this->feed->getBaseUrl() ? new Resolve(HttpUri::createFromString($this->feed->getBaseUrl())) : null;
   }
 
@@ -29,13 +25,12 @@ class ValueConverter {
       case 'startDate':
       case 'endDate':
         return $this->parseDate($value);
-        break;
 
       case 'image':
       case 'url':
         if ($this->downloadUrlResolver) {
           $relativeUrl = HttpUri::createFromString($value);
-          $url = ($this->downloadUrlResolver)($relativeUrl);
+          $url = $this->downloadUrlResolver->__invoke($relativeUrl);
           $value = (string)$url;
         }
         break;
@@ -85,6 +80,10 @@ class ValueConverter {
   }
 
   private function parseDate($value) {
+    if ($value instanceof \DateTime) {
+      return $value;
+    }
+
     $date = null;
     // JSON date (/Date(...)/)
     if (preg_match('@/Date\(([0-9]+)\)/@', $value, $matches)) {
@@ -101,7 +100,7 @@ class ValueConverter {
       } catch (\Exception $e) {}
     }
 
-    if ($date !== null && $this->feed->getTimeZone()) {
+    if ($date !== null && $this->feed && $this->feed->getTimeZone()) {
       $date->setTimezone($this->feed->getTimeZone());
     }
 

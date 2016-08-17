@@ -72,7 +72,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
   private function createFeed(array $configuration) {
     $feed = new Feed();
     $feed->setConfiguration($configuration);
-    $this->converter = new ValueConverter($feed, sys_get_temp_dir(), 'http://example.com/');
+    $this->converter = $this->container->get('value_converter');
 
     return $feed;
   }

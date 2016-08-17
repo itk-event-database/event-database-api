@@ -8,16 +8,60 @@
 
 namespace AdminBundle\Factory;
 
+use AdminBundle\Service\ValueConverter;
+use Doctrine\ORM\EntityManagerInterface;
+use FPN\TagBundle\Entity\TagManager;
 
-use Doctrine\ORM\EntityManager;
+use AppBundle\Entity\Entity;
+use AdminBundle\Entity\Feed;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-abstract class EntityFactory
-{
+abstract class EntityFactory {
+  protected $container;
   protected $em;
+  protected $valueConverter;
+  protected $tagManager;
+  protected $feed;
 
-  public function __construct(EntityManager $em)
-  {
+  public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = null)  {
+    $this->container = $container;
     $this->em = $em;
+    $this->valueConverter = $valueConverter;
+    $this->tagManager = $tagManager;
+  }
+
+  public function setFeed(Feed $feed) {
+    $this->feed = $feed;
+    if ($this->valueConverter) {
+      $this->valueConverter->setFeed($feed);
+    }
+  }
+
+  protected function persist($entity) {
+    $this->em->persist($entity);
+  }
+
+  protected function flush() {
+    $this->em->flush();
+  }
+
+  protected function setValues(Entity $entity, array $values) {
+    $accessor = PropertyAccess::createPropertyAccessor();
+
+    foreach ($values as $key => $value) {
+      $value = $this->valueConverter->convert($value, $key);
+      $this->setValue($entity, $key, $value, $accessor);
+    }
+
+    return $this;
+  }
+
+  protected function setValue(Entity $entity, $key, $value, PropertyAccessor $accessor) {
+    if ($accessor->isWritable($entity, $key)) {
+      $accessor->setValue($entity, $key, $value);
+    }
   }
 
 }
