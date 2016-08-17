@@ -1,0 +1,15 @@
+# SPOT Festival
+type: json
+mapping:
+    id: Id
+    name: Title
+    tags:
+        path: Tags
+        split: ','
+    occurrences:
+        path: .
+        mapping:
+            startDate: Start
+            endDate: End
+    defaults:
+        categories: [ 'SPOT Festival' ]

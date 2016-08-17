@@ -1,0 +1,19 @@
+# Musikhuset Aarhus:
+type: json
+# XPath, i.e. "data/events"
+root: events
+baseUrl: http://musikhusetaarhus.dk/
+mapping:
+    id: Id
+    name: Name
+    url: Url
+    tags: Categories
+    occurrences:
+        path: FutureEventDates
+        mapping:
+            startDate: StartDate
+            endDate: EndDate
+            venue: EventVenueName
+    defaults:
+        categories: [ 'Musikhuset Aarhus' ]
+        occurrences.venue: 'Musikhuset Aarhus'

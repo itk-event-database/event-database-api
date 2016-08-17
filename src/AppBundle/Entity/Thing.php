@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use DoctrineExtensions\Taggable\Taggable;
+use FPN\TagBundle\Entity\TagManager;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -159,7 +161,7 @@ abstract class Thing
   /**
    * Set values from an array.
    */
-  public function setValues(array $values)
+  public function setValues(array $values, TagManager $tagManager)
   {
     $accessor = PropertyAccess::createPropertyAccessor();
 
@@ -193,6 +195,9 @@ abstract class Thing
             $accessor->setValue($this, $key, $value);
             break;
         }
+      } elseif ($key == 'tags' && $this instanceof Taggable) {
+        $tags = $tagManager->loadOrCreateTags(array_map('strtolower', $value));
+        $tagManager->addTags($tags, $this);
       }
     }
   }

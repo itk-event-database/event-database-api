@@ -35,13 +35,14 @@ Feature: Events
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json"
-    And the JSON should be equal to:
+    And the JSON should not differ from:
     """
     {
       "@context": "\/api\/contexts\/Event",
       "@id": "\/api\/events\/1",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "tags": [],
       "description": null,
       "image": null,
       "name": "Big bang",
@@ -92,6 +93,7 @@ Feature: Events
           "venue": null
         }
       ],
+      "tags": [],
       "description": null,
       "image": null,
       "name": "Repeating event",
@@ -158,6 +160,7 @@ Feature: Events
           "venue": null
         }
       ],
+      "tags": [],
       "description": null,
       "image": null,
       "name": "Repeating event (updated)",

@@ -22,7 +22,7 @@
         "php": ">=7.0",
         "symfony/symfony": "3.1.*",
         "symfony/property-info": "3.2.*@dev",
-        "api-platform/core": "^2.0@beta",
+        "api-platform/core": "^2.0@dev",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6@dev",
         "doctrine/doctrine-cache-bundle": "^1.2",
@@ -41,7 +41,10 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "guzzlehttp/guzzle": "^6.2",
         "doctrine/doctrine-migrations-bundle": "^1.1",
-        "symfony/property-access": "^3.1"
+        "symfony/property-access": "^3.1",
+        "fpn/tag-bundle": "^0.9.0",
+        "league/uri": "^4.1",
+        "skyscanner/jsonpath": "^0.7.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

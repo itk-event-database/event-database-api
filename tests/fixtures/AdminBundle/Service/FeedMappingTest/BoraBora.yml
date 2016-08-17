@@ -1,0 +1,13 @@
+# BORA BORA
+type: xml
+root: channel/item
+mapping:
+    id: id
+    name: title
+    description: description
+    occurrences:
+        path: eventDates
+        mapping:
+            startDate: startDate
+            endDate: endDate
+            venue: ../venue

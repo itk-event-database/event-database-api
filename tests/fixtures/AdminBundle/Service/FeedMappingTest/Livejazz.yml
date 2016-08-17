@@ -1,0 +1,12 @@
+# livejazz.dk:
+type: json
+mapping:
+    id: id
+    name: name
+    description: description
+    occurrences:
+        mapping:
+            startDate: start
+            endDate: finish
+defaults:
+    categories: [ live, jazz ]

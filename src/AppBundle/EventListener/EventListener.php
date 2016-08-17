@@ -2,9 +2,11 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Security\Authorization\Voter\EventVoter;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Event;
-use Dunglas\ApiBundle\Event\DataEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class EventListener {
@@ -14,23 +16,31 @@ class EventListener {
     $this->container = $container;
   }
 
-  public function onPreUpdate(DataEvent $event) {
-    $object = $event->getData();
+  public function preUpdate(LifecycleEventArgs $args) {
+    $object = $args->getObject();
 
     if ($object instanceof Event) {
-      if (!$this->isGranted('edit', $object)) {
+      if (!$this->isGranted(EventVoter::UPDATE, $object)) {
+          throw new AccessDeniedHttpException('Access denied');
+      }
+    }
+  }
+
+  public function preRemove(LifecycleEventArgs $args) {
+    $object = $args->getObject();
+
+    if ($object instanceof Event) {
+      if (!$this->isGranted(EventVoter::REMOVE, $object)) {
         throw new AccessDeniedHttpException('Access denied');
       }
     }
   }
 
-  public function onPreDelete(DataEvent $event) {
-    $object = $event->getData();
-
-    if ($object instanceof Event) {
-      if (!$this->isGranted('delete', $object)) {
-        throw new AccessDeniedHttpException('Access denied');
-      }
+  public function postPersist(LifecycleEventArgs $args) {
+    $object = $args->getObject();
+    if ($object instanceof Taggable) {
+      $tagManager = $this->container->get('fpn_tag.tag_manager');
+      $tagManager->saveTagging($object);
     }
   }
 
@@ -40,8 +50,12 @@ class EventListener {
    * @throws AccessDeniedHttpException
    */
   private function checkOwner(Event $event) {
-    $token = $this->container->get('security.context')->getToken();
+    $token = $this->container->get('security.token_storage')->getToken();
     $user = $token ? $token->getUser() : null;
+
+    if ($token->getRoles()) {
+
+    }
 
     if (!$user || !$event->getCreatedBy() || $user->getId() != $event->getCreatedBy()->getId()) {
       throw new AccessDeniedHttpException('Access denied');

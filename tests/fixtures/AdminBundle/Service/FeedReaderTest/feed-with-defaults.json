@@ -1,0 +1,605 @@
+[
+   {
+      "Country_Code" : "NO",
+      "Latest_Published_Item" : "",
+      "Extra3" : "https://soundcloud.com/sushi-x-kobe",
+      "Soloist" : false,
+      "Details" : [
+         {
+            "Culture" : "da-DK",
+            "Genre" : "",
+            "Sub_Genre" : ""
+         }
+      ],
+      "Scheme" : "Koncert",
+      "Extra1" : "",
+      "Created_Year" : 0,
+      "Id" : 1723,
+      "Tags" : "app_festival,Music,NO,UrbanMusicNetwork,LineUp",
+      "Extra6" : "",
+      "People" : [],
+      "Pictures" : [
+         {
+            "File_Medium" : "48/eventitems/1723/pictures/UMN sushi-x-kobe SH_medium.jpg",
+            "File_Icon" : "48/eventitems/1723/pictures/UMN sushi-x-kobe SH_icon.jpg",
+            "AlternateText" : "",
+            "CopyRight" : "PR",
+            "Picture_Type" : "web_detail",
+            "_Primary" : true,
+            "File_Original" : "48/eventitems/1723/pictures/UMN sushi-x-kobe SH.jpg",
+            "File_Small" : "48/eventitems/1723/pictures/UMN sushi-x-kobe SH_small.jpg",
+            "File_Large" : "48/eventitems/1723/pictures/UMN sushi-x-kobe SH_large.jpg",
+            "Title" : "Sushi x Kobe"
+         }
+      ],
+      "End" : "2016-04-30T23:00:00",
+      "Extra2" : "",
+      "Youtube" : "",
+      "Title" : "$ushi x Kobe (NO) - presented by Urban Music Network",
+      "Shop_Url" : "",
+      "Website" : "",
+      "Alphabetized_Name" : "$ushi x Kobe (NO)",
+      "Facebook" : "https://www.facebook.com/Sushi-x-Kobe-1581207052140283/",
+      "Texts" : [
+         {
+            "Body" : "<p>Rap-gruppen $ushi x Kobe best&aring;r af de to rappere Onge $ushimane og Kobe-Wan Kenobi. Rapscenen i Bergen har de seneste &aring;r vist sig at v&aelig;re en innovativ drivkraft I norsk hiphop og $ushi x Kobe har p&aring; ganske kort tid markeret sig som frontl&oslash;bere I denne udvikling.</p>\r\n<p><em>Pr&aelig;senteres af Urban Music Network - internationalt netv&aelig;rk for bands og artister. Et samarbejde mellem Promus (Aarhus), RockCity (Hamborg) og Brak (Bergen).</em></p>",
+            "Culture" : "da-DK",
+            "Text_Type" : "web_app",
+            "Title" : "$ushi x Kobe (NO) - presented by Urban Music Network",
+            "Teaser" : ""
+         }
+      ],
+      "//Venue_Id" : 84,
+      "Venue_Id" : "",
+      "Canceled" : false,
+      "Start" : "2016-04-30T22:30:00",
+      "Label" : "",
+      "Extra4" : "",
+      "Venue_Shifted" : "0001-01-01T00:00:00",
+      "Time_Shifted" : "0001-01-01T00:00:00",
+      "Extra5" : ""
+   },
+   {
+      "Venue_Id" : 41,
+      "Extra5" : "",
+      "Venue_Shifted" : "0001-01-01T00:00:00",
+      "Time_Shifted" : "0001-01-01T00:00:00",
+      "Label" : "",
+      "Extra4" : "",
+      "Start" : "2016-04-29T18:05:00",
+      "Canceled" : false,
+      "Website" : "",
+      "Shop_Url" : "",
+      "Title" : "0SIX - presented by KarriereKanonen",
+      "Youtube" : "",
+      "Texts" : [
+         {
+            "Body" : "<p>Svedig R&rsquo;n'B med hurtige flows fra K&oslash;benhavn.</p>\r\n<p>KarriereKanonens jury siger:&nbsp;<em>&ldquo;Det er us&aelig;dvanlig at en kunstner har s&aring; mange sange med i opl&oslash;bet, som det er tilf&aelig;ldet med 0SIX. Det er pop, det er hele pakken &ndash; inklusiv en sp&aelig;ndende og s&oslash;d baggrundsfort&aelig;lling om en mand, der er landet i Danmark pga. k&aelig;rligheden. Et stort talent og potentiale at arbejde med.&rdquo;</em></p>\r\n<p><em>Pr&aelig;senteres som del af KarriereKanonen.</em></p>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK",
+            "Teaser" : "",
+            "Title" : "0SIX - presented by KarriereKanonen"
+         }
+      ],
+      "Facebook" : "",
+      "Alphabetized_Name" : "OSIX",
+      "People" : [],
+      "Tags" : "app_festival,DK,KarriereKanonen,Music,LineUp",
+      "Extra6" : "",
+      "End" : "2016-04-29T18:25:00",
+      "Extra2" : "",
+      "Pictures" : [
+         {
+            "File_Medium" : "48/eventitems/1682/pictures/0SIX_medium.jpg",
+            "File_Icon" : "48/eventitems/1682/pictures/0SIX_icon.jpg",
+            "CopyRight" : "PR",
+            "AlternateText" : "",
+            "Picture_Type" : "",
+            "_Primary" : true,
+            "File_Original" : "48/eventitems/1682/pictures/0SIX.jpg",
+            "File_Small" : "48/eventitems/1682/pictures/0SIX_small.jpg",
+            "File_Large" : "48/eventitems/1682/pictures/0SIX_large.jpg",
+            "Title" : "oSIX"
+         }
+      ],
+      "Soloist" : false,
+      "Extra3" : "",
+      "Latest_Published_Item" : "",
+      "Country_Code" : "DK",
+      "Created_Year" : 0,
+      "Id" : 1682,
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Culture" : "da-DK",
+            "Genre" : ""
+         }
+      ],
+      "Scheme" : "Koncert",
+      "Extra1" : ""
+   },
+   {
+      "Facebook" : "https//www.facebook.com/11thstreetkids",
+      "Alphabetized_Name" : "11th Street Kids",
+      "Texts" : [
+         {
+            "Teaser" : "",
+            "Title" : "11th Street Kids - presented by HQ",
+            "Body" : "<p>11th Street Kids er bandet, der sparker d&oslash;ren ind og holder en fest i en time, med en derudaf-energi, der hentes i kernen af deres st&aelig;rke fem-enighed. Rock-bandet er oprindeligt udsprunget af The Floor is Made of Lava som en vild og kompromisl&oslash;s lillebror med trang til mindre snak og mere spil - i &oslash;vrigt ogs&aring; opskriften p&aring; den kommende plade: Blue Skies and High Fives, som rammer alverdens streamingtjenester 6. maj.</p>\r\n<p><em>Pr&aelig;senteres af HeadQuarters</em></p>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK"
+         }
+      ],
+      "Title" : "11th Street Kids - presented by HQ",
+      "Youtube" : "https://www.youtube.com/watch?v=hqnL7VSWxfI&feature=youtu.be",
+      "Shop_Url" : "",
+      "Website" : "",
+      "Start" : "2016-04-29T18:00:00",
+      "Canceled" : false,
+      "Extra4" : "https://www.youtube.com/watch?v=hqnL7VSWxfI&feature=youtu.be",
+      "Label" : "",
+      "Time_Shifted" : "0001-01-01T00:00:00",
+      "Venue_Shifted" : "0001-01-01T00:00:00",
+      "Extra5" : "",
+      "Venue_Id" : 120,
+      "Details" : [
+         {
+            "Culture" : "da-DK",
+            "Genre" : "",
+            "Sub_Genre" : ""
+         }
+      ],
+      "Extra1" : "",
+      "Scheme" : "Koncert",
+      "Id" : 1820,
+      "Created_Year" : 0,
+      "Country_Code" : "DK",
+      "Latest_Published_Item" : "",
+      "Extra3" : "",
+      "Soloist" : false,
+      "Pictures" : [
+         {
+            "Title" : "11th Street Kids",
+            "File_Small" : "48/eventitems/1820/pictures/HQ-11th-Street-Kids_small.jpg",
+            "File_Large" : "48/eventitems/1820/pictures/HQ-11th-Street-Kids_large.jpg",
+            "_Primary" : true,
+            "File_Original" : "48/eventitems/1820/pictures/HQ-11th-Street-Kids.jpg",
+            "Picture_Type" : "web_detail",
+            "AlternateText" : "",
+            "CopyRight" : "PR",
+            "File_Icon" : "48/eventitems/1820/pictures/HQ-11th-Street-Kids_icon.jpg",
+            "File_Medium" : "48/eventitems/1820/pictures/HQ-11th-Street-Kids_medium.jpg"
+         }
+      ],
+      "End" : "2016-04-29T18:30:00",
+      "Extra2" : "",
+      "Extra6" : "",
+      "Tags" : "app_festival,DK,HQ,Music,LineUp",
+      "People" : []
+   },
+   {
+      "Website" : "",
+      "Title" : "2 Bit Crew - presented by TAPE",
+      "Youtube" : "",
+      "Shop_Url" : "",
+      "Texts" : [
+         {
+            "Culture" : "da-DK",
+            "Text_Type" : "web_app",
+            "Body" : "<div title=\"Page 2\">\r\n<div>\r\n<div>\r\n<div>\r\n<p>2 Bit Crew er en duo, der laver elektronisk musik og besta&deg;r af C.K og O.P.T, som begge er bosiddende i Aarhus. Siden starten i 2012 har de udgivet pa&deg; forskellige pladeselskaber i USA og Spanien, og startede selv deres eget label i 2013, som nu t&aelig;ller fem udgivelser. Udover at v&aelig;re aktive med eget materiale, kan de ogsa&deg; ses i andre Aarhusianske tiltag som NORD Records, Regelbau, Maizena etc. 2 Bit Crew&rsquo;s tidligere materiale hentede meget inspiration i 9?0&rsquo;ernes deep house. I det nyere materiale er der i h&oslash;jere grad fokus pa&deg; at simple repetitive elementer og breaks der skal skabe grooves, som driver duoens musik fremad.</p>\r\n<p><em>Pr&aelig;senteres af TAPE</em></p>\r\n</div>\r\n</div>\r\n</div>\r\n</div>",
+            "Title" : "2 Bit Crew - presented by TAPE",
+            "Teaser" : ""
+         }
+      ],
+      "Facebook" : "",
+      "Alphabetized_Name" : "2 Bit Crew",
+      "Venue_Id" : 135,
+      "Venue_Shifted" : "1900-01-01T00:00:00",
+      "Extra5" : "",
+      "Time_Shifted" : "1900-01-01T00:00:00",
+      "Canceled" : false,
+      "Start" : "2016-05-01T02:00:00",
+      "Extra4" : "",
+      "Label" : "",
+      "Country_Code" : "DK",
+      "Extra3" : "https://soundcloud.com/twobitcrew/2bc006",
+      "Latest_Published_Item" : "",
+      "Soloist" : false,
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Culture" : "da-DK",
+            "Genre" : ""
+         }
+      ],
+      "Scheme" : "Koncert",
+      "Extra1" : "",
+      "Created_Year" : 0,
+      "Id" : 1784,
+      "People" : [],
+      "Tags" : "app_festival,DK,Music,TAPE,LineUp",
+      "Extra6" : "",
+      "Extra2" : "",
+      "End" : "2016-05-01T02:30:00",
+      "Pictures" : [
+         {
+            "File_Icon" : "48/eventitems/1784/pictures/TAPE 2 bit crew_icon.jpg",
+            "File_Medium" : "48/eventitems/1784/pictures/TAPE 2 bit crew_medium.jpg",
+            "Picture_Type" : "web_detail",
+            "AlternateText" : "",
+            "CopyRight" : "PR",
+            "File_Large" : "48/eventitems/1784/pictures/TAPE 2 bit crew_large.jpg",
+            "File_Small" : "48/eventitems/1784/pictures/TAPE 2 bit crew_small.jpg",
+            "File_Original" : "48/eventitems/1784/pictures/TAPE 2 bit crew.jpg",
+            "_Primary" : true,
+            "Title" : "2 Bit Crew"
+         }
+      ]
+   },
+   {
+      "Texts" : [
+         {
+            "Body" : "<div>\r\n<div><strong>Kl. 12:00-12:30&nbsp;M&oslash;d talentet:&nbsp;</strong></div>\r\n<div>3 sangskrivertalenter pr&aelig;senterer spritnye sange skrevet p&aring; &aring;rets Aarhus Calling Camp. Blandt sangskriverne er artisten Micky Skeel, som mange kender som den ene del af popgruppen PULS og senest fra covernumre p&aring; Youtube. Han udgiver sin f&oslash;rste solo-single d. 6. maj, som har snigpremiere i Magasin.</div>\r\n<div>&nbsp;</div>\r\n<div><strong>Kl. 13:00-13:30&nbsp;M&oslash;d talentet:&nbsp;</strong><br />3 sangskrivertalenter pr&aelig;senterer spritnye sange skrevet p&aring; &aring;rets Aarhus Calling Camp. Blandt sangskriverne er 19-&aring;rige Nicklas Sahl fra Aarhus, som er en spirende artist, der er enorme forventninger til i branchen.</div>\r\n<div>&nbsp;</div>\r\n<div><strong>Kl. 14:00-14:40&nbsp;Kendrick Dean og &aring;rets Aarhus Calling-hit:</strong></div>\r\n<div>Amerikaneren Kendrick Dean, der bl.a. har arbejdet med Usher og Chris Brown, fort&aelig;ller om sit arbejde og svarer p&aring; sp&oslash;rgsm&aring;l fra publikum.&nbsp;</div>\r\n<div>H&oslash;r den sang, der er udr&aring;bt til den bedste sang, skrevet p&aring; dette &aring;rs Aarhus Calling. Teamet bag sangen fort&aelig;ller om processen bag hittet. Derudover synger Melanie Ivy sin nyeste single \"Leaving You\", der er playlistet p&aring; P4.&nbsp;</div>\r\n<div>&nbsp;</div>\r\n<div><strong>Kl. 15.00-15:40&nbsp;Open Session - hvordan skrives et hit:&nbsp;</strong></div>\r\n</div>\r\n<div>\r\n<div dir=\"ltr\">\r\n<div dir=\"ltr\">Oplev hvordan de helt store internationale sangskrivere og producere arbejder. Et internationalt team &aring;bner op for processen og viser helt konkret, hvordan et hit bliver skabt.</div>\r\n</div>\r\n</div>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK",
+            "Teaser" : "",
+            "Title" : "Aarhus Calling - the biggest songwriting event in Denmark"
+         }
+      ],
+      "Facebook" : "https://www.facebook.com/AAcalling/",
+      "Alphabetized_Name" : "Aarhus Calling!",
+      "Website" : "http://www.aarhuscalling.com/",
+      "Youtube" : "",
+      "Title" : "Aarhus Calling - the biggest songwriting event in Denmark",
+      "Shop_Url" : "",
+      "Time_Shifted" : "1900-01-01T00:00:00",
+      "Venue_Shifted" : "1900-01-01T00:00:00",
+      "Extra5" : "",
+      "Start" : "2016-04-30T12:00:00",
+      "Canceled" : false,
+      "Extra4" : "",
+      "Label" : "",
+      "Venue_Id" : 150,
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Genre" : "",
+            "Culture" : "da-DK"
+         }
+      ],
+      "Extra1" : "",
+      "Scheme" : "Koncert",
+      "Id" : 1895,
+      "Created_Year" : 0,
+      "Country_Code" : "DK",
+      "Latest_Published_Item" : "",
+      "Extra3" : "",
+      "Soloist" : false,
+      "Extra2" : "",
+      "End" : "2016-04-30T15:40:00",
+      "Pictures" : [
+         {
+            "Title" : "Aarhus Calling",
+            "File_Large" : "48/eventitems/1895/pictures/Aarhus Calling_0_large.png",
+            "File_Small" : "48/eventitems/1895/pictures/Aarhus Calling_0_small.png",
+            "File_Original" : "48/eventitems/1895/pictures/Aarhus Calling_0.png",
+            "_Primary" : true,
+            "Picture_Type" : "web_detail",
+            "CopyRight" : "",
+            "AlternateText" : "",
+            "File_Icon" : "48/eventitems/1895/pictures/Aarhus Calling_0_icon.png",
+            "File_Medium" : "48/eventitems/1895/pictures/Aarhus Calling_0_medium.png"
+         }
+      ],
+      "People" : [],
+      "Extra6" : "",
+      "Tags" : "app_festival,DK,Music,MusicTalks,Speciel Event,LineUp"
+   },
+   {
+      "Shop_Url" : "",
+      "Youtube" : "",
+      "Title" : "Aarhus Record Fair + DJ-set w. Domino / Malte & Mads (kulturlyd)",
+      "Website" : "",
+      "Facebook" : "https://www.facebook.com/events/998394253581174/",
+      "Alphabetized_Name" : "Aarhus Record Fair",
+      "Texts" : [
+         {
+            "Body" : "<p>Aarhus Record Fair finder denne gang sted i Ridehuset under SPOT Festivalen.<br />Der kommer s&aelig;lgere fra ind og udland med fokus p&aring; nyt og brugt vinyl.<br />Diverse pladeselskaber vil ogs&aring; v&aelig;re v&aelig;re pr&aelig;senteret.</p>\r\n<p>Kig forbi og g&oslash;r en god handel.</p>\r\n<p>DJ's:<br />10-14: Domino<br />14-18: Malte &amp; Mads (Kulturlyd)</p>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK",
+            "Teaser" : "",
+            "Title" : "Aarhus Record Fair + DJ-set w. Domino / Malte & Mads (kulturlyd)"
+         }
+      ],
+      "Venue_Id" : 155,
+      "Label" : "",
+      "Extra4" : "",
+      "Start" : "2016-04-30T10:00:00",
+      "Canceled" : false,
+      "Venue_Shifted" : "1900-01-01T00:00:00",
+      "Time_Shifted" : "1900-01-01T00:00:00",
+      "Extra5" : "",
+      "Extra3" : "",
+      "Soloist" : false,
+      "Latest_Published_Item" : "",
+      "Country_Code" : "",
+      "Created_Year" : 0,
+      "Id" : 1906,
+      "Extra1" : "",
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Culture" : "da-DK",
+            "Genre" : ""
+         }
+      ],
+      "Scheme" : "Generisk",
+      "Extra6" : "",
+      "Tags" : "app_festival",
+      "People" : [],
+      "Pictures" : [
+         {
+            "File_Large" : "48/eventitems/1906/pictures/AarhusRecordFair_large.jpg",
+            "File_Small" : "48/eventitems/1906/pictures/AarhusRecordFair_small.jpg",
+            "File_Original" : "48/eventitems/1906/pictures/AarhusRecordFair.jpg",
+            "_Primary" : true,
+            "Title" : "Aarhus Record Fair",
+            "File_Icon" : "48/eventitems/1906/pictures/AarhusRecordFair_icon.jpg",
+            "File_Medium" : "48/eventitems/1906/pictures/AarhusRecordFair_medium.jpg",
+            "Picture_Type" : "web_detail",
+            "CopyRight" : "PR",
+            "AlternateText" : ""
+         }
+      ],
+      "End" : "2016-04-30T17:00:00",
+      "Extra2" : ""
+   },
+   {
+      "Texts" : [
+         {
+            "Teaser" : "",
+            "Title" : "Albin Lee Meldau (SE)",
+            "Body" : "<p>Albin Lee Meldau er en svensk singer-songwriter fra G&ouml;teborg, der de seneste &aring;r, langt fra pladeselskaber og talentshows, har jagtet musikdr&oslash;mmen ved at spille p&aring; gadehj&oslash;rner, pubs og spillesteder rundt omkring i Europ&aelig;iske byer. Nu er gaderne blevet erstattet af studiet - med debutsinglen &lsquo;Lou Lou&rsquo; udforsker den erfarne debutant en mere poppet lyd med inspiration hentet i alt fra Otis Redding til Bob Dylan.</p>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK"
+         }
+      ],
+      "Facebook" : "https://www.facebook.com/Albinleemeldau/",
+      "Alphabetized_Name" : "Albin Lee Meldau (SE)",
+      "Website" : "",
+      "Shop_Url" : "",
+      "Youtube" : "",
+      "Title" : "Albin Lee Meldau (SE)",
+      "Extra5" : "",
+      "Venue_Shifted" : "0001-01-01T00:00:00",
+      "Time_Shifted" : "0001-01-01T00:00:00",
+      "Extra4" : "",
+      "Label" : "",
+      "Canceled" : false,
+      "Start" : "2016-04-29T22:15:00",
+      "Venue_Id" : 37,
+      "Created_Year" : 0,
+      "Id" : 1612,
+      "Extra1" : "",
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Culture" : "da-DK",
+            "Genre" : ""
+         }
+      ],
+      "Scheme" : "Koncert",
+      "Extra3" : "https://soundcloud.com/albinleemeldau",
+      "Latest_Published_Item" : "",
+      "Soloist" : false,
+      "Country_Code" : "SE",
+      "End" : "2016-04-29T22:50:00",
+      "Extra2" : "",
+      "Pictures" : [
+         {
+            "File_Original" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST.jpg",
+            "_Primary" : true,
+            "File_Large" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_large.jpg",
+            "File_Small" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_small.jpg",
+            "Title" : "Albin Lee Meldau (SE)",
+            "File_Medium" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_medium.jpg",
+            "File_Icon" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_icon.jpg",
+            "CopyRight" : "FREDRIK SKOGKVIST",
+            "AlternateText" : "",
+            "Picture_Type" : "web_detail"
+         },
+         {
+            "Picture_Type" : "web_overview",
+            "AlternateText" : "",
+            "CopyRight" : "",
+            "File_Icon" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_overview_icon.jpg",
+            "File_Medium" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_overview_medium.jpg",
+            "Title" : "Albin Lee Meldau (SE)",
+            "File_Large" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_overview_large.jpg",
+            "File_Small" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_overview_small.jpg",
+            "File_Original" : "48/eventitems/1612/pictures/ALBIN LEE__BY FREDRIK SKOGKVIST_overview.jpg",
+            "_Primary" : false
+         }
+      ],
+      "People" : [],
+      "Extra6" : "",
+      "Tags" : "app_festival,Music,SE,LineUp"
+   },
+   {
+      "Texts" : [
+         {
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK",
+            "Body" : "<p>Med en yderst karismatisk udstr&aring;ling, et drenget glimt i &oslash;jet og ikke mindst sin tryllebindende stemme, har danske Alex Vargas i l&oslash;bet af det sidste &aring;rs tid imponeret musikkritikere, radiolyttere og ikke mindst koncertg&aelig;ngere.</p>\r\n<p>Herhjemme i Danmark topper b&aring;de EP&rsquo;en og den nye single 'Shackled Up', der tidligere p&aring; &aring;ret var P3&rsquo;s Uundg&aring;elige, ligeledes iTunes hitlisterne. Det samme sker hos streaming-tjenesten Spotify, der udn&aelig;vnte Alex Vargas som Spotlight Artist 2016, og dermed et af de navne, som tjenesten bakker ekstra meget op om dette &aring;r. Alex Vargas ligger samtidig #1 p&aring; en hollandske iTunes hitliste med den aktuelle EP, 'Giving Up The Ghost'.</p>\r\n<p><em>&ldquo;... in Alex Vargas they've got a regular curly-permed sex-hunk of a frontman who just happens to have one of the most impressive white soul voices since Mick Hucknall, Paul Young, Robert Palmer and Marti Pellow; it even recalls the young Steve Winwood with its thick, deep, rumbling bluesy quality&rdquo; - Paul Lester, The Guardian</em></p>",
+            "Teaser" : "",
+            "Title" : "Alex Vargas"
+         }
+      ],
+      "Facebook" : "https://www.facebook.com/alexvargasofficial",
+      "Alphabetized_Name" : "Alex Vargas",
+      "Website" : "",
+      "Youtube" : "https://www.youtube.com/watch?v=4gub8JR7yHw&feature=youtu.be",
+      "Title" : "Alex Vargas",
+      "Shop_Url" : "",
+      "Venue_Shifted" : "0001-01-01T00:00:00",
+      "Time_Shifted" : "0001-01-01T00:00:00",
+      "Extra5" : "",
+      "Start" : "2016-04-29T19:30:00",
+      "Canceled" : false,
+      "Extra4" : "https://www.youtube.com/watch?v=4gub8JR7yHw&feature=youtu.be",
+      "Label" : "",
+      "Venue_Id" : 29,
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Culture" : "da-DK",
+            "Genre" : ""
+         }
+      ],
+      "Scheme" : "Koncert",
+      "Extra1" : "",
+      "Created_Year" : 0,
+      "Id" : 1600,
+      "Country_Code" : "DK",
+      "Latest_Published_Item" : "",
+      "Extra3" : "https://soundcloud.com/alexvargas",
+      "Soloist" : false,
+      "End" : "2016-04-29T20:05:00",
+      "Extra2" : "",
+      "Pictures" : [
+         {
+            "File_Icon" : "48/eventitems/1600/pictures/Alex-Vargas-foto-april-2016_icon.jpg",
+            "File_Medium" : "48/eventitems/1600/pictures/Alex-Vargas-foto-april-2016_medium.jpg",
+            "Picture_Type" : "app",
+            "AlternateText" : "",
+            "CopyRight" : "PR",
+            "File_Large" : "48/eventitems/1600/pictures/Alex-Vargas-foto-april-2016_large.jpg",
+            "File_Small" : "48/eventitems/1600/pictures/Alex-Vargas-foto-april-2016_small.jpg",
+            "File_Original" : "48/eventitems/1600/pictures/Alex-Vargas-foto-april-2016.jpg",
+            "_Primary" : true,
+            "Title" : "Alex Vargas"
+         }
+      ],
+      "People" : [],
+      "Tags" : "app_festival,DK,Music,LineUp",
+      "Extra6" : ""
+   },
+   {
+      "Details" : [
+         {
+            "Genre" : "",
+            "Culture" : "da-DK",
+            "Sub_Genre" : ""
+         }
+      ],
+      "Extra1" : "",
+      "Scheme" : "Generisk",
+      "Created_Year" : 0,
+      "Id" : 1909,
+      "Country_Code" : "",
+      "Soloist" : false,
+      "Extra3" : "",
+      "Latest_Published_Item" : "",
+      "Pictures" : [
+         {
+            "CopyRight" : "PR",
+            "AlternateText" : "",
+            "Picture_Type" : "web_detail",
+            "File_Medium" : "48/eventitems/1909/pictures/Budskaber og udgivelsesplan - Ark1_medium.jpg",
+            "File_Icon" : "48/eventitems/1909/pictures/Budskaber og udgivelsesplan - Ark1_icon.jpg",
+            "Title" : "DJ at Ridehuset",
+            "_Primary" : true,
+            "File_Original" : "48/eventitems/1909/pictures/Budskaber og udgivelsesplan - Ark1.jpg",
+            "File_Small" : "48/eventitems/1909/pictures/Budskaber og udgivelsesplan - Ark1_small.jpg",
+            "File_Large" : "48/eventitems/1909/pictures/Budskaber og udgivelsesplan - Ark1_large.jpg"
+         }
+      ],
+      "Extra2" : "",
+      "End" : "2016-04-29T23:00:00",
+      "Extra6" : "",
+      "Tags" : "app_festival",
+      "People" : [],
+      "Facebook" : "",
+      "Alphabetized_Name" : "Andreas Torres DJ-Set",
+      "Texts" : [
+         {
+            "Teaser" : "",
+            "Title" : "Andreas Torres DJ-Set",
+            "Body" : "<p>DJ-set med Andreas Torres.</p>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK"
+         }
+      ],
+      "Youtube" : "",
+      "Title" : "Andreas Torres DJ-Set",
+      "Shop_Url" : "",
+      "Website" : "",
+      "Canceled" : false,
+      "Start" : "2016-04-29T21:00:00",
+      "Extra4" : "",
+      "Label" : "",
+      "Time_Shifted" : "1900-01-01T00:00:00",
+      "Venue_Shifted" : "1900-01-01T00:00:00",
+      "Extra5" : "",
+      "Venue_Id" : 155
+   },
+   {
+      "Extra2" : "http://www.instagram.com/scharlingmusic",
+      "End" : "2016-04-30T17:05:00",
+      "Pictures" : [
+         {
+            "Picture_Type" : "web_detail",
+            "CopyRight" : "Nanna Kreutzmann",
+            "AlternateText" : "",
+            "File_Icon" : "48/eventitems/1636/pictures/AnnaScharling DV Foto Nanna Kreutzmann_icon.jpg",
+            "File_Medium" : "48/eventitems/1636/pictures/AnnaScharling DV Foto Nanna Kreutzmann_medium.jpg",
+            "Title" : "Anna Scharling",
+            "File_Small" : "48/eventitems/1636/pictures/AnnaScharling DV Foto Nanna Kreutzmann_small.jpg",
+            "File_Large" : "48/eventitems/1636/pictures/AnnaScharling DV Foto Nanna Kreutzmann_large.jpg",
+            "_Primary" : true,
+            "File_Original" : "48/eventitems/1636/pictures/AnnaScharling DV Foto Nanna Kreutzmann.jpg"
+         }
+      ],
+      "People" : [],
+      "Tags" : "app_festival,DanishVibes,DK,Music,LineUp",
+      "Extra6" : "",
+      "Created_Year" : 0,
+      "Id" : 1636,
+      "Extra1" : "",
+      "Details" : [
+         {
+            "Sub_Genre" : "",
+            "Culture" : "da-DK",
+            "Genre" : ""
+         }
+      ],
+      "Scheme" : "Koncert",
+      "Extra3" : " www.soundcloud.com/annascharling ",
+      "Latest_Published_Item" : "",
+      "Soloist" : false,
+      "Country_Code" : "DK",
+      "Extra5" : "",
+      "Venue_Shifted" : "0001-01-01T00:00:00",
+      "Time_Shifted" : "0001-01-01T00:00:00",
+      "Label" : "",
+      "Extra4" : "",
+      "Start" : "2016-04-30T16:30:00",
+      "Canceled" : false,
+      "Venue_Id" : 39,
+      "Texts" : [
+         {
+            "Teaser" : "",
+            "Title" : "Anna Scharling - presented by Danish Vibes",
+            "Body" : "<p>Pr&aelig;cis som hendes musik, er Anna Scharlings stemme et fleksibelt instrument. Den danske singer-songwriter rammer - med sin nordiske fortolkning af den velkendte amerikanske folktradition, nye emotionelle h&oslash;jder, stadig med begge ben p&aring; jorden. Til september udkommer hendes debutalbum, der ligesom debut-ep&rsquo;en fra 2015 er produceret af den awardvindende svenske multiinstrumentalist Gustaf Ljunggren.</p>\r\n<p><em>Pr&aelig;senteres af Danish Vibes</em></p>",
+            "Text_Type" : "web_app",
+            "Culture" : "da-DK"
+         }
+      ],
+      "Alphabetized_Name" : "Anna Scharling",
+      "Facebook" : "https://www.facebook.com/scharlingmusic/",
+      "Website" : "",
+      "Shop_Url" : "",
+      "Title" : "Anna Scharling - presented by Danish Vibes",
+      "Youtube" : ""
+   }
+]

@@ -4,17 +4,26 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Exception\ExpectationException;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\ORM\Tools\SchemaTool;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Group;
+use Sanpi\Behatch\Context\BaseContext;
+use Sanpi\Behatch\Json\Json;
+use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Sanpi\Behatch\HttpCall\Request;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context, SnippetAcceptingContext, KernelAwareContext
+class FeatureContext extends BaseContext implements Context, SnippetAcceptingContext, KernelAwareContext
 {
   private $kernel;
   private $container;
@@ -68,35 +77,58 @@ class FeatureContext implements Context, SnippetAcceptingContext, KernelAwareCon
     $this->schemaTool->dropSchema($this->classes);
   }
 
+  private $users = [ // username, password, roles
+    [ 'api-read', 'apipass', [ 'ROLE_API_READ' ], null ],
+    [ 'api-write', 'apipass', [ 'ROLE_API_WRITE' ], null ],
+    [ 'api-write2', 'apipass', [ 'ROLE_API_WRITE' ], null ],
+    // [ 'user0-group0-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group0'] ],
+    // [ 'user1-group0-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group0'] ],
+    // [ 'user0-group1-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group1'] ],
+    // [ 'user1-group1-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group1'] ],
+  ];
+
   /** @BeforeScenario */
-  public function createApiUsers(BeforeScenarioScope $scope)
-  {
-    $users = [ // username, email, password, roles
-      ['api-read', 'api-read@example.com', 'apipass', ['ROLE_API_READ']],
-      ['api-write', 'api-write@example.com', 'apipass', ['ROLE_API_WRITE']],
-    ];
+  public function createApiUsers(BeforeScenarioScope $scope) {
+    // foreach ($this->groups as $data) {
+    //   list($name, $roles) = $data;
+    //   $group = new Group($name, $roles ?: []);
+    //   $this->manager->persist($group);
+    // }
+    // $this->manager->flush();
 
-    $repository = $this->manager->getRepository(User::class);
+    $groupRepository = $this->manager->getRepository(Group::class);
 
-    foreach ($users as $data) {
-      list($username, $email, $password, $roles) = $data;
-      $user = $repository->findOneBy(['username' => $username]);
-      if ($user == null) {
-        $user = new User();
-        $user
-          ->setUsername($username)
-          ->setPlainPassword($password)
-          ->setEmail($email)
-          ->setRoles($roles);
-        $this->manager->persist($user);
-        $this->manager->flush();
-      }
+    foreach ($this->users as $data) {
+      list($username, $password, $roles, $groups) = $data;
+      $email = $username . '@example.com';
+      $roles = $roles ?: [];
+      $groups = $groups ?: [];
+
+      $this->createUser($username, $email, $password, $roles, $groups);
     }
   }
 
   /** @AfterScenario */
-  public function signOut(AfterScenarioScope $scope)
-  {
+  public function removeApiUsers(AfterScenarioScope $scope) {
+    try {
+      $userRepository = $this->manager->getRepository(User::class);
+      $users = $userRepository->findBy(['username' => array_map(function($data) {
+        return $data[0];
+      }, $this->users)]);
+      foreach ($users as $user) {
+        foreach ($user->getGroups() as $group) {
+          $this->manager->remove($group);
+        }
+        $this->manager->remove($user);
+      }
+      $this->manager->flush();
+    } catch (TableNotFoundException $ex) {
+      // The table may no longer exist.
+    }
+  }
+
+  /** @AfterScenario */
+  public function signOut(AfterScenarioScope $scope) {
     $this->removeAuthenticationHeader();
   }
 
@@ -132,6 +164,86 @@ class FeatureContext implements Context, SnippetAcceptingContext, KernelAwareCon
   }
 
   /**
+   * @Then the JSON should not differ from:
+   */
+  public function theJsonShouldNotDifferFrom(PyStringNode $content) {
+    $actual = $this->getJson();
+
+    try {
+      $expected = new Json($content);
+    }
+    catch (\Exception $e) {
+      throw new \Exception('The expected JSON is not a valid');
+    }
+
+    try {
+      $this->assertSame(
+        (string)$expected,
+        (string)$actual,
+        "The json is equal to:\n" . $actual->encode()
+      );
+    } catch (ExpectationException $ex) {
+      $differ = new Differ("--- Expected\n+++ Actual\n", true);
+      $message = $differ->diff($expected->encode(), $actual->encode());
+      throw new ExpectationException($message, $this->getSession(), $ex);
+    }
+  }
+
+  /**
+   * @Given the following users exist:
+   */
+  public function theFollowingUsersExist(TableNode $table) {
+    foreach ($table->getHash() as $row) {
+      $username = $row['username'];
+      $email = $username . '@example.com';
+      $password = isset($row['password']) ? $row['password'] : uniqid();
+      $roles = preg_split('/\s*,\s*/', $row['roles'], -1, PREG_SPLIT_NO_EMPTY);
+      $groups = preg_split('/\s*,\s*/', $row['groups'], -1, PREG_SPLIT_NO_EMPTY);
+
+      $this->createUser($username, $email, $password, $roles, $groups);
+    }
+  }
+
+  private function createUser(string $username, string $email, string $password, array $roles, array $groups) {
+    $groups = $this->createGroups($groups);
+
+    $user = new User();
+    $user
+      ->setUsername($username)
+      ->setPlainPassword($password)
+      ->setEmail($email)
+      ->setRoles($roles);
+
+    foreach ($groups as $group) {
+      $user->addGroup($group);
+    }
+    $this->manager->persist($user);
+    $this->manager->flush();
+  }
+
+  private function createGroups(array $names, array $roles = null) {
+    $groups = new ArrayCollection();
+    $repository = $this->manager->getRepository(Group::class);
+
+    foreach ($names as $name) {
+      $group = $repository->findOneBy(['name' => $name]);
+      if (!$group) {
+        $group = new Group($name, $roles ?: []);
+        $this->manager->persist($group);
+        $this->manager->flush();
+      }
+      $groups[] = $group;
+    }
+
+    return $groups;
+  }
+
+  protected function getJson()
+  {
+    return new Json($this->request->getContent());
+  }
+
+  /**
    * Get a user by username.
    *
    * @param $username
@@ -146,17 +258,15 @@ class FeatureContext implements Context, SnippetAcceptingContext, KernelAwareCon
   /**
    * Add authentication header to request.
    */
-  private function addAuthenticationHeader(User $user)
-  {
+  private function addAuthenticationHeader(User $user) {
     // @see https://github.com/Behat/Behat/issues/901
     $token = $this->container->get('lexik_jwt_authentication.encoder')
-      ->encode(['username' => $user->getUsername()]);
+           ->encode(['username' => $user->getUsername()]);
 
     $this->request->setHttpHeader('Authorization', 'Bearer ' . $token);
   }
 
-  private function removeAuthenticationHeader()
-  {
+  private function removeAuthenticationHeader() {
     $this->request->setHttpHeader('Authorization', '');
   }
 }

@@ -6,6 +6,8 @@ use AdminBundle\Entity\Feed;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use DoctrineExtensions\Taggable\Doctrine;
+use DoctrineExtensions\Taggable\Taggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
@@ -28,11 +30,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.order", "event.order.default" }
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.order", "event.order.default" }
  *   }
  * )
  */
-class Event extends Thing
+class Event extends Thing implements Taggable
 {
   use TimestampableEntity;
   use BlameableEntity;
@@ -161,4 +163,46 @@ class Event extends Thing
     $this->occurrences = new ArrayCollection();
   }
 
+  /**
+   * @var ArrayCollection
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ ORM\Column(type="array", nullable=true)
+   */
+  private $tags;
+
+  /**
+   * Returns the unique taggable resource type
+   *
+   * @return string
+   */
+  function getTaggableType()
+  {
+    return 'event';
+  }
+
+  /**
+   * Returns the unique taggable resource identifier
+   *
+   * @return string
+   */
+  function getTaggableId()
+  {
+    return $this->getId();
+  }
+
+  // Method stub needed to make CustomItemNormalizer work. If no setter is
+  // defined, tags will not be processed during normalization.
+  function setTags($tags) {}
+
+  /**
+   * Returns the collection of tags for this Taggable entity
+   *
+   * @return Doctrine\Common\Collections\Collection
+   */
+  function getTags()
+  {
+    $this->tags = $this->tags ?: new ArrayCollection();
+    return $this->tags;
+  }
 }

@@ -83,6 +83,12 @@ at the bottom of app/config/config_dev.yml.
 Running tests
 -------------
 
+First, clear out the test cache:
+
+```
+bin/console --env=test cache:clear
+```
+
 Run all behat tests like this:
 
 ```

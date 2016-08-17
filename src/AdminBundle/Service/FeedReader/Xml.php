@@ -16,9 +16,11 @@ class Xml extends FeedReader {
       $events = $this->getItems($events, $this->feed->getRoot());
     }
 
-    foreach ($events as $event) {
-      $eventData = $this->getData($event, $this->feed->getMapping());
-      $this->controller->createEvent($eventData);
+    if ($events) {
+      foreach ($events as $event) {
+        $eventData = $this->getData($event, $this->feed->getMapping());
+        $this->createEvent($eventData);
+      }
     }
   }
 
@@ -51,7 +53,7 @@ class Xml extends FeedReader {
         $path = $spec;
         $value = $this->getValue($item, $path);
         if ($value !== null) {
-          $data[$key] = $this->controller->convertValue($value, $key);
+          $data[$key] = $this->convertValue($value, $key);
         }
       } else if (isset($spec['mapping'])) {
         $mapping = $spec['mapping'];
@@ -69,7 +71,7 @@ class Xml extends FeedReader {
           if (isset($spec['split'])) {
             $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
           } else {
-            $data[$key] = $this->controller->convertValue($value, $key);
+            $data[$key] = $this->convertValue($value, $key);
           }
         }
       }

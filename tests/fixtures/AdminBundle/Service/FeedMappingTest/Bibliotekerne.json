@@ -1,0 +1,311 @@
+{
+  "help": "http://www.odaa.dk/api/3/action/help_show?name=datastore_search_sql",
+  "success": true,
+  "result": {
+    "records": [
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-11-04T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10990",
+        "price": 0.0,
+        "changed": "2016-07-08T20:15:51",
+        "_full_text": "'+0100':30,91 '+0200':23 '-04':26,87 '-07':18 '-08':19 '-11':25,86 '-12':63 '/node/10990':103 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':16 '0':84 '00':28,29,89,90 '10':62 '10.2142':83 '10990':93 '12':12 '15':21 '2':92,97 '2016':17,24,85 '51':22 '56.1535':98 '8000':100 'aarhus':99 'all':68 'andr':56 'begynd':33 'begynder':9 'brætspilstrinnet':65 'både':7 'dokk1':6 'du':32,36,44,48,72 'eller':42 'er':31,43,69 'fredag':60 'gern':37,49 'hack':94 'har':71 'hovedbiblioteket':13 'hver':59 'kampmann':95 'kl':61 'kom':1 'kontakt':75 'kræfter':51 'lære':38 'med':52 'mod':55 'mødes':58 'oet@aarhus.dk':79 'og':2,10,34,46 'ole':76 'plad':96 'prøve':50 'på':5,64,66,78,81 'rampen':67,82 'skak':4,41,80 'spil':3 'spill':40,54 'spørgsmål':73 'så':74 't10':27 't12':88 't20':20 'thiessen':77 'velkomn':70 'vi':57 'vil':35,47 'www.aakb.dk':15,102 'www.aakb.dk/node/10990':101 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':14 'øvede':11 'øvet':45",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-11-04T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4788,
+        "id": 10990,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-11-11T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10991",
+        "price": 0.0,
+        "changed": "2016-07-08T20:14:28",
+        "_full_text": "'+0100':19,30 '+0200':99 '-07':94 '-08':95 '-11':14,15,25,26 '-12':64 '/node/10991':102 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':23 '0':85 '00':17,18,28,29 '10':63 '10.2142':103 '10991':84 '12':12 '14':97 '2':86,91 '2016':13,24,93 '28':98 '56.1535':92 '8000':31 'aarhus':87 'all':69 'andr':57 'begynd':34 'begynder':9 'brætspilstrinnet':66 'både':7 'dokk1':6 'du':33,37,45,49,73 'eller':43 'er':32,44,70 'fredag':61 'gern':38,50 'hack':88 'har':72 'hovedbiblioteket':20 'hver':60 'kampmann':89 'kl':62 'kom':1 'kontakt':76 'kræfter':52 'lære':39 'med':53 'mod':56 'mødes':59 'oet@aarhus.dk':80 'og':2,10,35,47 'ole':77 'plad':90 'prøve':51 'på':5,65,67,79,82 'rampen':68,83 'skak':4,42,81 'spil':3 'spill':41,55 'spørgsmål':74 'så':75 't10':27 't12':16 't20':96 'thiessen':78 'velkomn':71 'vi':58 'vil':36,48 'www.aakb.dk':22,101 'www.aakb.dk/node/10991':100 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':21 'øvede':11 'øvet':46",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-11-11T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4789,
+        "id": 10991,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-11-18T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10992",
+        "price": 0.0,
+        "changed": "2016-07-08T20:13:33",
+        "_full_text": "'+0100':26,38 '+0200':18 '-07':13 '-08':14 '-11':21,33 '-12':74 '-18':22,34 '/node/10992':103 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':30 '0':91 '00':24,25,36,37 '10':73 '10.2142':100 '10992':31 '12':19 '13':16 '2':92,97 '2016':12,20,32 '33':17 '56.1535':98 '8000':99 'aarhus':93 'all':79 'andr':67 'begynd':44 'begynder':9 'brætspilstrinnet':76 'både':7 'dokk1':6 'du':43,47,55,59,83 'eller':53 'er':42,54,80 'fredag':71 'gern':48,60 'hack':94 'har':82 'hovedbiblioteket':27 'hver':70 'kampmann':95 'kl':72 'kom':1 'kontakt':86 'kræfter':62 'lære':49 'med':63 'mod':66 'mødes':69 'oet@aarhus.dk':90 'og':2,10,45,57 'ole':87 'plad':96 'prøve':61 'på':5,40,75,77,89 'rampen':41,78 'skak':4,39,52 'spil':3 'spill':51,65 'spørgsmål':84 'så':85 't10':23 't12':35 't20':15 'thiessen':88 'velkomn':81 'vi':68 'vil':46,58 'www.aakb.dk':29,102 'www.aakb.dk/node/10992':101 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':28 'øvede':11 'øvet':56",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-11-18T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4790,
+        "id": 10992,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-11-25T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10993",
+        "price": 0.0,
+        "changed": "2016-07-08T20:12:54",
+        "_full_text": "'+0100':18,26 '+0200':103 '-07':98 '-08':99 '-11':13,21 '-12':64 '-25':14,22 '/node/10993':96 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':86 '0':81 '00':16,17,24,25 '10':63 '10.2142':93 '10993':28 '12':82,101 '2':88,92 '2016':12,20,97 '54':102 '56.1535':87 '8000':27 'aarhus':83 'all':69 'andr':57 'begynd':34 'begynder':9 'brætspilstrinnet':66 'både':7 'dokk1':6 'du':33,37,45,49,73 'eller':43 'er':32,44,70 'fredag':61 'gern':38,50 'hack':89 'har':72 'hovedbiblioteket':19 'hver':60 'kampmann':90 'kl':62 'kom':1 'kontakt':76 'kræfter':52 'lære':39 'med':53 'mod':56 'mødes':59 'oet@aarhus.dk':80 'og':2,10,35,47 'ole':77 'plad':91 'prøve':51 'på':5,30,65,67,79 'rampen':31,68 'skak':4,29,42 'spil':3 'spill':41,55 'spørgsmål':74 'så':75 't10':15 't12':23 't20':100 'thiessen':78 'velkomn':71 'vi':58 'vil':36,48 'www.aakb.dk':85,95 'www.aakb.dk/node/10993':94 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':84 'øvede':11 'øvet':46",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-11-25T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4791,
+        "id": 10993,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-12-02T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10994",
+        "price": 0.0,
+        "changed": "2016-07-08T20:12:18",
+        "_full_text": "'+0100':86,94 '+0200':25 '-02':82,90 '-07':20 '-08':21 '-12':59,81,89 '/node/10994':98 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':17 '0':79 '00':84,85,92,93 '10':58 '10.2142':103 '10994':18 '12':13,23 '18':24 '2':1,102 '2016':19,80,88 '56.1535':95 '8000':26 'aarhus':87 'all':64 'andr':52 'begynd':29 'begynder':10 'brætspilstrinnet':61 'både':8 'dokk1':7 'du':28,32,40,44,68 'eller':38 'er':27,39,65 'fredag':56 'gern':33,45 'hack':99 'har':67 'hovedbiblioteket':14 'hver':55 'kampmann':100 'kl':57 'kom':2 'kontakt':71 'kræfter':47 'lære':34 'med':48 'mod':51 'mødes':54 'oet@aarhus.dk':75 'og':3,11,30,42 'ole':72 'plad':101 'prøve':46 'på':6,60,62,74,77 'rampen':63,78 'skak':5,37,76 'spil':4 'spill':36,50 'spørgsmål':69 'så':70 't10':83 't12':91 't20':22 'thiessen':73 'velkomn':66 'vi':53 'vil':31,43 'www.aakb.dk':16,97 'www.aakb.dk/node/10994':96 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':15 'øvede':12 'øvet':41",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-12-02T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4792,
+        "id": 10994,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-12-09T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10995",
+        "price": 0.0,
+        "changed": "2016-07-08T20:11:50",
+        "_full_text": "'+0100':18,102 '+0200':86 '-07':81 '-08':82 '-09':14,98 '-12':13,58,97 '/node/10995':94 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':23 '0':78 '00':16,17,100,101 '10':57 '10.2142':103 '10995':24 '11':84 '12':19 '2':79,91 '2016':12,80,96 '50':85 '56.1535':95 '8000':25 'aarhus':87 'all':63 'andr':51 'begynd':28 'begynder':9 'brætspilstrinnet':60 'både':7 'dokk1':6 'du':27,31,39,43,67 'eller':37 'er':26,38,64 'fredag':55 'gern':32,44 'hack':88 'har':66 'hovedbiblioteket':20 'hver':54 'kampmann':89 'kl':56 'kom':1 'kontakt':70 'kræfter':46 'lære':33 'med':47 'mod':50 'mødes':53 'oet@aarhus.dk':74 'og':2,10,29,41 'ole':71 'plad':90 'prøve':45 'på':5,59,61,73,76 'rampen':62,77 'skak':4,36,75 'spil':3 'spill':35,49 'spørgsmål':68 'så':69 't10':99 't12':15 't20':83 'thiessen':72 'velkomn':65 'vi':52 'vil':30,42 'www.aakb.dk':22,93 'www.aakb.dk/node/10995':92 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':21 'øvede':11 'øvet':40",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-12-09T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4793,
+        "id": 10995,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-12-16T12:00:00",
+        "title": "Skak på rampen",
+        "url": "https://www.aakb.dk/node/10996",
+        "price": 0.0,
+        "changed": "2016-07-08T20:11:10",
+        "_full_text": "'+0100':30,91 '+0200':19 '-07':14 '-08':15 '-12':25,63,86 '-16':26,87 '/node/10996':101 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':23 '0':84 '00':28,29,89,90 '10':18,62 '10.2142':103 '10996':20 '11':17 '12':12 '2':92,97 '2016':13,24,85 '56.1535':98 '8000':102 'aarhus':93 'all':68 'andr':56 'begynd':33 'begynder':9 'brætspilstrinnet':65 'både':7 'dokk1':6 'du':32,36,44,48,72 'eller':42 'er':31,43,69 'fredag':60 'gern':37,49 'hack':94 'har':71 'hovedbiblioteket':83 'hver':59 'kampmann':95 'kl':61 'kom':1 'kontakt':75 'kræfter':51 'lære':38 'med':52 'mod':55 'mødes':58 'oet@aarhus.dk':79 'og':2,10,34,46 'ole':76 'plad':96 'prøve':50 'på':5,64,66,78,81 'rampen':67,82 'skak':4,41,80 'spil':3 'spill':40,54 'spørgsmål':73 'så':74 't10':27 't12':88 't20':16 'thiessen':77 'velkomn':70 'vi':57 'vil':35,47 'www.aakb.dk':22,100 'www.aakb.dk/node/10996':99 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg':21 'øvede':11 'øvet':45",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/skak_0.jpg",
+        "teaser": "Kom og spil skak på Dokk1 - både for begyndere og øvede.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-12-16T10:00:00",
+        "latitude": 56.1535,
+        "_id": 4794,
+        "id": 10996,
+        "content": "<p>Er du begynder, og vil du gerne lære at spille skak? Eller er du øvet, og vil du gerne prøve kræfter med at spille mod andre?</p><p>Vi mødes hver fredag kl. 10-12 på Brætspilstrinnet på Rampen - alle er velkomne!</p><p>Har du spørgsmål, så kontakt Ole Thiessen på <a href=\"mailto:oet@aarhus.dk\">oet@aarhus.dk</a>.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-09-08T19:00:00",
+        "title": "Design Thinking – sammen med os",
+        "url": "https://www.aakb.dk/node/11125",
+        "price": 0.0,
+        "changed": "2016-07-08T21:00:07",
+        "_full_text": "'+0200':93,108,115 '-07':88 '-08':89,104,111 '-09':103,110 '/node/11125':118 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/designthinking_proces.png':81 '0':100 '00':91,106,107,113,114 '07':92 '10.2142':121 '11125':122 '12':78 '2':86,101 '2016':87,102,109 '56.1535':119 '8000':120 'aarhus':94 'arbejdet':76 'benytt':52 'bill':16 'bruger':31 'ces':39 'chicago':8 'denn':32 'der':67 'design':53,95 'designpro':38 'designpro-c':37 'du':42,55 'efterfølgend':65 'eftermiddag':33 'en':49 'er':11,60,66 'et':44 'felt':75 'felt-arbejdet':74 'feltet':63 'founda':20 'founda-t':19 'fra':15 'får':43 'fælles':68 'gang':23 'gate':18 'generelt':72 'hack':83 'holdet':59 'hovedbiblioteket':6,82 'hvordan':48 'indblik':46 'innov':27 'institut':51 'kampmann':84 'kom':1 'kommer':56 'lave':26 'librari':10 'lær':3 'med':4,12,24,57,61,98 'melinda':17 'metoden':71 'offentlig':50 'og':2,7,41,64,73 'op':40 'os':5,99 'plad':85 'public':9 'på':58 'refleks':69 'sammen':97 'specifikt':77 'støtte':14 't16':105 't19':112 't21':90 'think':54,96 'til':29 'tilbud':28 'tion':21 'unikt':45 'vi':35 'vore':30,36 'www.aakb.dk':80,117 'www.aakb.dk/node/11125':116 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/designthinking_proces.png':79 'åbner':34 'økonomisk':13",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/designthinking_proces.png",
+        "teaser": "Kom og lær med os. ",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-09-08T16:00:00",
+        "latitude": 56.1535,
+        "_id": 4902,
+        "id": 11125,
+        "content": "<p>Hovedbiblioteket og Chicago Public Libraries er med økonomisk støtte fra Bill &amp; Melinda Gates Founda-tion i gang med at lave innovative tilbud til vores brugere. Denne eftermiddag åbner vi vores designpro-ces op – og du får et unikt indblik i, hvordan en offentlig institution benytter design thinking. Du kommer med på holdet, er med i feltet, og efterfølgende er der fælles refleksion over metoden generelt og ”felt-arbejdet” specifikt.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-09-15T19:00:00",
+        "title": "Design Thinking – sammen med os",
+        "url": "https://www.aakb.dk/node/11126",
+        "price": 0.0,
+        "changed": "2016-07-08T21:00:07",
+        "_full_text": "'+0200':84,115,122 '-07':117 '-08':118 '-09':79,110 '-15':80,111 '/node/11126':103 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/designthinking_proces.png':87 '0':99 '00':82,83,113,114,120 '07':121 '10.2142':108 '11126':104 '12':100 '2':92,106 '2016':78,109,116 '56.1535':105 '8000':107 'aarhus':93 'arbejdet':76 'benytt':52 'bill':16 'bruger':31 'ces':39 'chicago':8 'denn':32 'der':67 'design':53,94 'designpro':38 'designpro-c':37 'du':42,55 'efterfølgend':65 'eftermiddag':33 'en':49 'er':11,60,66 'et':44 'felt':75 'felt-arbejdet':74 'feltet':63 'founda':20 'founda-t':19 'fra':15 'får':43 'fælles':68 'gang':23 'gate':18 'generelt':72 'hack':89 'holdet':59 'hovedbiblioteket':6,88 'hvordan':48 'indblik':46 'innov':27 'institut':51 'kampmann':90 'kom':1 'kommer':56 'lave':26 'librari':10 'lær':3 'med':4,12,24,57,61,97 'melinda':17 'metoden':71 'offentlig':50 'og':2,7,41,64,73 'op':40 'os':5,98 'plad':91 'public':9 'på':58 'refleks':69 'sammen':96 'specifikt':77 'støtte':14 't16':112 't19':81 't21':119 'think':54,95 'til':29 'tilbud':28 'tion':21 'unikt':45 'vi':35 'vore':30,36 'www.aakb.dk':86,102 'www.aakb.dk/node/11126':101 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/designthinking_proces.png':85 'åbner':34 'økonomisk':13",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/designthinking_proces.png",
+        "teaser": "Kom og lær med os. ",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-09-15T16:00:00",
+        "latitude": 56.1535,
+        "_id": 4903,
+        "id": 11126,
+        "content": "<p>Hovedbiblioteket og Chicago Public Libraries er med økonomisk støtte fra Bill &amp; Melinda Gates Founda-tion i gang med at lave innovative tilbud til vores brugere. Denne eftermiddag åbner vi vores designpro-ces op – og du får et unikt indblik i, hvordan en offentlig institution benytter design thinking. Du kommer med på holdet, er med i feltet, og efterfølgende er der fælles refleksion over metoden generelt og ”felt-arbejdet” specifikt.</p>"
+      },
+      {
+        "lid": 12,
+        "city": "Aarhus",
+        "endtime": "2016-08-17T18:30:00",
+        "title": "Startmøde for iværksættere",
+        "url": "https://www.aakb.dk/node/10358",
+        "price": 0.0,
+        "changed": "2016-07-20T13:28:28",
+        "_full_text": "'+0200':14,26,65 '-07':9 '-08':21,60 '-17':22,61 '-20':10 '/node/10358':56 '/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/clipboard01.jpg':7 '0':57 '00':25,64 '10.2142':133 '10358':52 '12':4 '2':19,58 '2016':8,20,59 '28':12,13 '30':24,63 '56.1535':131 '8000':132 'aarhus':40,53,114 'af':91 'blive':50 'de':96 'der':31,99 'dig':30 'du':69,73,78,124 'egen':37,92 'en':45,75,110,120,126 'er':28 'faktuell':80 'find':100 'forbindels':88 'forretningsplan':77 'fortæll':128 'fra':112 'få':44 'får':79 'god':76 'hack':16 'har':32 'histori':130 'hovedbiblioteket':15 'hvordan':72 'høre':70,125 'informationsmødet':27 'introdukt':47 'introduktionen':118 'iværksætter':3,51,102 'iværksætterhistori':121 'kampmann':17 'kan':68,123 'konsul':111 'lejligh':104 'mang':97 'med':89,119 'mom':84 'mulighed':98 'mv':86 'mød':41 'mødet':67 'nystart':127 'oft':115 'og':43,103 'om':34,71,82 'op':42 'oplysning':81 'overblik':94 'plad':18 'planer':33 'på':66 'registr':85 'regler':83 'sin':129 'spørgsmål':108 'start':36,90 'startmød':1 'startvækst':113 'still':107 'suppler':116 't13':11 't16':23 't18':62 'til':48,105,109 'udarbejd':74 'uforpligtend':46 'vi':117 'virksomh':38,93 'www.aakb.dk':6,55 'www.aakb.dk/node/10358':54 'www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/clipboard01.jpg':5",
+        "zipcode": "8000",
+        "library": "Hovedbiblioteket",
+        "imageurl": "https://www.aakb.dk/sites/www.aakb.dk/files/styles/ding_list_medium/public/list_image/event/clipboard01.jpg",
+        "teaser": "Informationsmødet er for dig, der har planer om at starte egen virksomhed i Aarhus. Mød op og få en uforpligtende introduktion til at blive iværksætter.",
+        "street": "Hack Kampmanns Plads 2",
+        "status": 2,
+        "longitude": 10.2142,
+        "starttime": "2016-08-17T16:30:00",
+        "latitude": 56.1535,
+        "_id": 4330,
+        "id": 10358,
+        "content": "<p>På mødet kan du høre om, hvordan du udarbejder en god forretningsplan. Du får faktuelle oplysninger om regler, moms, registrering mv i forbindelse med start af egen virksomhed. Overblik over de mange muligheder, der findes for iværksættere og lejlighed til at stille spørgsmål til en konsulent fra STARTVÆKST Aarhus.<br />Ofte supplerer vi introduktionen med en iværksætterhistorie. Her kan du høre en nystarter fortælle sin historie.</p>"
+      }
+    ],
+    "fields": [
+      {
+        "type": "int4",
+        "id": "_id"
+      },
+      {
+        "type": "tsvector",
+        "id": "_full_text"
+      },
+      {
+        "type": "int4",
+        "id": "id"
+      },
+      {
+        "type": "text",
+        "id": "title"
+      },
+      {
+        "type": "text",
+        "id": "url"
+      },
+      {
+        "type": "timestamp",
+        "id": "starttime"
+      },
+      {
+        "type": "timestamp",
+        "id": "endtime"
+      },
+      {
+        "type": "float8",
+        "id": "price"
+      },
+      {
+        "type": "text",
+        "id": "imageurl"
+      },
+      {
+        "type": "int4",
+        "id": "lid"
+      },
+      {
+        "type": "text",
+        "id": "library"
+      },
+      {
+        "type": "text",
+        "id": "street"
+      },
+      {
+        "type": "text",
+        "id": "zipcode"
+      },
+      {
+        "type": "text",
+        "id": "city"
+      },
+      {
+        "type": "float8",
+        "id": "latitude"
+      },
+      {
+        "type": "float8",
+        "id": "longitude"
+      },
+      {
+        "type": "text",
+        "id": "teaser"
+      },
+      {
+        "type": "text",
+        "id": "content"
+      },
+      {
+        "type": "timestamp",
+        "id": "changed"
+      },
+      {
+        "type": "int4",
+        "id": "status"
+      }
+    ],
+    "sql": "SELECT * from \"12d12106-4c83-4456-8464-5eb205149f02\" WHERE starttime>current_timestamp limit 10"
+  }
+}

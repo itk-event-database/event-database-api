@@ -3,6 +3,7 @@
 namespace AdminBundle\Command;
 
 use AdminBundle\Service\FeedReader\Controller;
+use AdminBundle\Service\FeedReader\ValueConverter;
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Event;
 
@@ -14,7 +15,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Yaml\Yaml;
 
 class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
@@ -26,34 +28,39 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
       ->addOption('id', null, InputOption::VALUE_REQUIRED, 'The ID of the feed');
   }
 
-  // app/console generate:doctrine:entity --no-interaction --entity=AdminBundle:Feed --fields="name:string(255) url:string(255) baseUrl:string(255) type:string(50) root:string(50) mapping:text defaults:text lastRead:date" --format=annotation
-
   private $em;
   private $output;
   private $feed;
+  private $tagManager;
+  private $converter;
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     $name = $input->getOption('name');
     $id = $input->getOption('id');
 
     $this->output = $output;
-    $this->em = $this->getContainer()->get('doctrine')->getEntityManager('default');
+    $container = $this->getContainer();
+    $this->authenticate($container);
+    $this->em = $container->get('doctrine')->getEntityManager('default');
+    $this->tagManager = $container->get('fpn_tag.tag_manager');
 
     $feeds = $this->getFeeds($id, $name);
     $noOfFeeds = count($feeds);
 
-    if($noOfFeeds == 0) {
+    if ($noOfFeeds == 0) {
       $this->output->writeln('No feeds found!');
-    } else if($noOfFeeds == 1) {
-      $this->output->writeln('Reading 1 feed:');
     } else {
-      $this->output->writeln(sprintf('Reading %s feed(s):', $noOfFeeds));
+      $this->output->writeln(sprintf('Reading %s feed%s:', $noOfFeeds, ($noOfFeeds == 1) ? '' : 's'));
     }
 
     $client = new Client();
 
+    $imagesPath = $container->getParameter('admin.images_path');
+    $baseUrl = $container->getParameter('admin.base_url');
+
     foreach ($feeds as $name => $feed) {
       $this->feed = $feed;
+      $this->converter = new ValueConverter($this->feed, $imagesPath, $baseUrl);
       $feedUrl = $this->processUrl($feed->getUrl());
       echo str_repeat('-', 80), PHP_EOL;
       echo $feedUrl, PHP_EOL;
@@ -68,7 +75,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
         switch ($feed->getType()) {
           case 'json':
             $json = json_decode($content, true);
-            $reader = $this->getContainer()->get('feed_reader.json');
+            $reader = $container->get('feed_reader.json');
             $reader
               ->setController($this)
               ->setFeed($feed);
@@ -78,7 +85,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
           case 'xml':
             $xml = new \SimpleXmlElement($content);
-            $reader = $this->getContainer()->get('feed_reader.xml');
+            $reader = $container->get('feed_reader.xml');
             $reader
               ->setController($this)
               ->setFeed($feed);
@@ -91,6 +98,14 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
         }
       }
     }
+  }
+
+  private function authenticate(ContainerInterface $container) {
+    $username = $container->getParameter('admin.feed_reader.username');
+    $password = $container->getParameter('admin.feed_reader.password');
+    $firewall = $container->getParameter('admin.feed_reader.firewall');
+    $token = new UsernamePasswordToken($username, $password, $firewall);
+    $this->getContainer()->get('security.token_storage')->setToken($token);
   }
 
   private function processUrl($url) {
@@ -116,24 +131,25 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
     return $this->feed->getName() . ' - ' . $id;
   }
 
-  public function createEvent(array $eventData) {
-    $id = isset($eventData['id']) ? $eventData['id'] : uniqid();
-    unset($eventData['id']);
+  public function createEvent(array $data) {
+    $id = isset($data['id']) ? $data['id'] : uniqid();
+    unset($data['id']);
 
-    $placeString = $eventData['place'];
-    unset($eventData['place']);
-
-    $place = $this->getContainer()->get('twig');
+    if (isset($data['image'])) {
+      $data['originalImage'] = $data['image'];
+      $data['image'] = $this->converter->downloadImage($data['image']);
+    }
 
     $event = $this->getEvent($id);
 
     $isNew = !$event->getId();
 
-    $event->setValues($eventData);
+    $event->setValues($data, $this->tagManager);
     $event->setFeed($this->feed);
 
     $this->em->persist($event);
     $this->em->flush();
+    $this->tagManager->saveTagging($event);
 
     $this->output->writeln(sprintf('%s: Event %s: %s (%s)', $this->feed->getName(), ($isNew ? 'created' : 'updated'), $event->getName(), $event->getFeedEventId()));
 
@@ -158,59 +174,6 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   }
 
   public function convertValue($value, $name) {
-    switch ($name) {
-      case 'startDate':
-      case 'endDate':
-        return $this->parseDate($value);
-        break;
-      case 'url':
-        $baseUrl = $this->feed->getBaseUrl();
-        if ($baseUrl) {
-          $parts = parse_url($baseUrl);
-          if (strpos($value, '/') === 0) {
-            $parts['path'] = $value;
-          } else {
-            $parts['path'] = rtrim($parts['path'], '/') . '/' . $value;
-          }
-          $value = $this->unparse_url($parts);
-        }
-        break;
-    }
-
-    return $value;
-  }
-
-  // http://php.net/manual/en/function.parse-url.php#106731
-  private function unparse_url($parsed_url) {
-    $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
-    $host     = isset($parsed_url['host']) ? $parsed_url['host'] : '';
-    $port     = isset($parsed_url['port']) ? ':' . $parsed_url['port'] : '';
-    $user     = isset($parsed_url['user']) ? $parsed_url['user'] : '';
-    $pass     = isset($parsed_url['pass']) ? ':' . $parsed_url['pass']  : '';
-    $pass     = ($user || $pass) ? "$pass@" : '';
-    $path     = isset($parsed_url['path']) ? $parsed_url['path'] : '';
-    $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : '';
-    $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
-    return "$scheme$user$pass$host$port$path$query$fragment";
-  }
-
-  private function parseDate($value) {
-    $date = null;
-    // JSON date (/Date(...)/)
-    if (preg_match('@/Date\(([0-9]+)\)/@', $value, $matches)) {
-      $date = new \DateTime();
-      $date->setTimestamp(((int)$matches[1]) / 1000);
-    } else if (is_numeric($value)) {
-      $date = new \DateTime();
-      $date->setTimestamp($value);
-    }
-
-    if ($date === null) {
-      try {
-        $date = new \DateTime($value);
-      } catch (\Exception $e) {}
-    }
-
-    return $date;
+    return $this->converter->convert($value, $name);
   }
 }
