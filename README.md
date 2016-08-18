@@ -123,14 +123,22 @@ Load feed configurations into database:
 bin/console doctrine:fixtures:load --append --no-interaction
 ```
 
+Create a user for reading feeds (matching username and password in parameters.yml):
+
+```
+bin/console fos:user:create feed-reader feed-reader@example.com feed-reader
+bin/console fos:user:promote feed-reader ROLE_ADMIN
+```
+
 Run console command to import events from feeds:
 
 ```
-bin/console events:read:feeds
+bin/console events:feeds:read
 ```
 
-To read specific feed use either 'name' or 'id' as parameter: 
+To read specific feed use either 'name' or 'id' as parameter:
+
 ```
-bin/console events:read:feeds --name="Feed name"
-bin/console events:read:feeds --id=3
+bin/console events:feeds:read --name="Feed name"
+bin/console events:feeds:read --id=3
 ```
