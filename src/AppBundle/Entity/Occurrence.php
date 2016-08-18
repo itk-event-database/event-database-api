@@ -20,7 +20,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  * @ApiResource(
  *   attributes = {
  *     "jsonld_embed_context" = true,
- *     "normalization_context" = { "groups" = { "event_read" } },
+ *     "normalization_context" = { "groups" = { "event_read", "place_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
  *     "filters" = { "occurrence.search.date", "occurrence.order" }
  *   }
@@ -60,7 +60,7 @@ class Occurrence extends Entity {
 
   /**
    * @var Place
-   * @ORM\ManyToOne(targetEntity="Place")
+   * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences")
    * @Groups({"event_read", "event_write"})
    */
   protected $place;

@@ -26,9 +26,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   iri = "http://schema.org/Place",
  *   attributes = {
  *     "jsonld_embed_context" = true,
- *     "normalization_context" = { "groups" = { "event_read" } },
- *     "denormalization_context" = { "groups" = { "event_write" } },
-  *   }
+ *     "normalization_context" = { "groups" = { "place_read" } },
+ *     "denormalization_context" = { "groups" = { "place_write" } },
+ *   }
  * )
  */
 class Place extends Thing
@@ -75,6 +75,13 @@ class Place extends Thing
    * @ApiProperty(iri="http://schema.org/image")
    */
   private $logo;
+
+  /**
+   * @var ArrayCollection
+   * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="place")
+   * @Groups({"place_read"})
+   */
+  private $occurrences;
 
   /**
    * Sets id.
@@ -155,5 +162,29 @@ class Place extends Thing
   public function getLogo()
   {
     return $this->logo;
+  }
+
+  /**
+   * Sets occurrences.
+   *
+   * @param ArrayCollection $occurrences
+   *
+   * @return $this
+   */
+  public function setOccurrences(ArrayCollection $occurrences)
+  {
+    $this->occurrences = $occurrences;
+
+    return $this;
+  }
+
+  /**
+   * Gets occurrences.
+   *
+   * @return ArrayCollection
+   */
+  public function getOccurrences()
+  {
+    return $this->occurrences;
   }
 }
