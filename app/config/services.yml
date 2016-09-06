@@ -110,4 +110,5 @@ services:
             - "@api_platform.property_accessor"
             - "@?api_platform.name_converter"
             - "@fpn_tag.tag_manager"
+            - "@place_factory"
         tags: [ { name: serializer.normalizer, priority: 10 } ]

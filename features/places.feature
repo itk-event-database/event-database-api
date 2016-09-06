@@ -43,6 +43,7 @@ Feature: Places
       "@id": "\/api\/places\/1",
       "@type": "http:\/\/schema.org\/Place",
       "logo": null,
+      "occurrences": null,
       "description": null,
       "image": null,
       "name": "Dokk1",

@@ -16,11 +16,11 @@ class PlaceFactory extends EntityFactory {
 
   private function getEntity(array $data) {
     $name = $data['name'];
-    $query = $this->em->createQuery('SELECT p FROM AppBundle:Place p WHERE p.feed = :feed AND p.name = :name');
-    $query->setParameter('feed', $this->feed);
-    $query->setParameter('name', $name);
-
-    $place = $query->getOneOrNullResult();
+    $query = [
+      'feed' => $this->feed,
+      'name' => $name,
+    ];
+    $place = $this->em->getRepository('AppBundle:Place')->findOneBy($query);
     if ($place === null) {
       $place = new Place();
       $place->setFeed($this->feed);

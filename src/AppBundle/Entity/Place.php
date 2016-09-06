@@ -26,8 +26,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   iri = "http://schema.org/Place",
  *   attributes = {
  *     "jsonld_embed_context" = true,
- *     "normalization_context" = { "groups" = { "place_read" } },
- *     "denormalization_context" = { "groups" = { "place_write" } },
+ *     "normalization_context" = { "groups" = { "event_read", "place_read" } },
+ *     "denormalization_context" = { "groups" = { "event_write", "place_write" } },
  *   }
  * )
  */
