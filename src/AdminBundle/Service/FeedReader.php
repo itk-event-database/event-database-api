@@ -2,69 +2,99 @@
 
 namespace AdminBundle\Service;
 
+use AdminBundle\Factory\EventFactory;
+use AdminBundle\Factory\PlaceFactory;
 use AdminBundle\Service\FeedReader\Controller;
+use AdminBundle\Service\FeedReader\ValueConverter;
 use AdminBundle\Entity\Feed;
+use AppBundle\Entity\User;
+use Gedmo\Blameable\BlameableListener;
+use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class FeedReader {
+class FeedReader implements Controller {
+  protected $eventFactory;
+  protected $placeFactory;
+  protected $valueConverter;
+  protected $readers;
+  protected $blameableListener;
+
   protected $feed;
-  private $controller;
+  protected $output;
 
-  public function setController(Controller $controller) {
-    $this->controller = $controller;
-
-    return $this;
+  public function __construct(EventFactory $eventFactory, PlaceFactory $placeFactory, ValueConverter $valueConverter, array $readers, BlameableListener $blameableListener) {
+    $this->eventFactory = $eventFactory;
+    $this->placeFactory = $placeFactory;
+    $this->valueConverter = $valueConverter;
+    $this->readers = $readers;
+    $this->blameableListener = $blameableListener;
   }
 
-  public function setFeed(Feed $feed) {
+  public function setOutput(OutputInterface $output) {
+    $this->output = $output;
+  }
+
+  public function read($content, Feed $feed, User $user) {
     $this->feed = $feed;
+    $this->eventFactory->setFeed($feed);
 
-    return $this;
-  }
-
-  public abstract function read($data);
-
-  protected function convertValue($value, $key) {
-    return $this->controller->convertValue($value, $key);
-  }
-
-  protected function createEvent(array $data) {
-    $defaults = $this->feed->getDefaults();
-    if ($defaults) {
-      $this->setDefaults($data, $defaults);
-    }
-    return $this->controller->createEvent($data);
-  }
-
-  private function setDefaults(array &$data, array $defaults) {
-    foreach ($defaults as $key => $spec) {
-      switch ($key) {
-        case 'occurrences':
-          if (isset($data['occurrences'])) {
-            foreach ($data['occurrences'] as &$occurrence) {
-              $this->setDefaults($occurrence, $spec);
-            }
-          }
-          break;
-        default:
-          $this->setDefaultValue($data, $key, $spec);
-          break;
+    if ($user) {
+      // Tell Blameable which user is creating entities.
+      if ($this->blameableListener) {
+        $this->blameableListener->setUserValue($user);
       }
+      $this->placeFactory->setUser($user);
     }
+
+    // $imagesPath = $container->getParameter('admin.images_path');
+    // $baseUrl = $container->getParameter('admin.base_url');
+
+    list($reader, $content) = $this->getReader($feed, $content);
+    $reader->read($content);
+    $feed->setLastRead(new \DateTime());
   }
 
-  private function setDefaultValue(array &$data, string $key, $spec) {
-    if (empty($data[$key])) {
-      $data[$key] = isset($spec['value']) ? $spec['value'] : $spec;
-    } elseif (isset($spec['append']) && $spec['append'] == 'true') {
-      if (is_array($data[$key])) {
-        if (is_array($spec['value'])) {
-          foreach ($spec['value'] as $item) {
-            $data[$key][] = $item;
-          }
-        } else {
-          $data[$key][] = $spec['value'];
-        }
-      }
+  private function getReader(Feed $feed, string $content) {
+    $type = $feed->getType();
+
+    if (!isset($this->readers[$type])) {
+      throw new \Exception('Unknown feed type: ' . $type);
+    }
+
+    $reader = $this->readers[$type];
+    $reader
+      ->setController($this)
+      ->setFeed($feed)
+      // ->setUser($user)
+      ;
+
+    switch ($type) {
+      case 'json':
+        $content = json_decode($content, true);
+        break;
+
+      case 'xml':
+        $content = new \SimpleXmlElement($content);
+        break;
+    }
+
+    return array($reader, $content);
+  }
+
+  public function createEvent(array $data) {
+    $data['feed'] = $this->feed;
+    $event = $this->eventFactory->get($data);
+
+    $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
+    $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
+  }
+
+  public function convertValue($value, $name) {
+    return $this->valueConverter->convert($value, $name);
+  }
+
+  protected function writeln($messages, $options = 0) {
+    if ($this->output) {
+      $this->output->writeln($messages, $options);
     }
   }
 }

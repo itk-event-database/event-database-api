@@ -5,7 +5,7 @@ parameters:
 
 services:
     value_converter:
-        class: AdminBundle\Service\ValueConverter
+        class: AdminBundle\Service\FeedReader\ValueConverter
 
     # Factories
     entity_factory:
@@ -90,6 +90,17 @@ services:
 
     feed_reader.xml:
         class: AdminBundle\Service\FeedReader\Xml
+
+    feed_reader:
+        class: AdminBundle\Service\FeedReader
+        arguments:
+            - "@event_factory"
+            - "@place_factory"
+            - "@value_converter"
+            -
+                json: "@feed_reader.json"
+                xml: "@feed_reader.xml"
+            - "@stof_doctrine_extensions.listener.blameable"
 
     twig_extension:
         class: AdminBundle\Twig\Extension\TwigExtension

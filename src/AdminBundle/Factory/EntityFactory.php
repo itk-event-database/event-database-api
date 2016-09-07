@@ -8,7 +8,7 @@
 
 namespace AdminBundle\Factory;
 
-use AdminBundle\Service\ValueConverter;
+use AdminBundle\Service\FeedReader\ValueConverter;
 use Doctrine\ORM\EntityManagerInterface;
 use FPN\TagBundle\Entity\TagManager;
 use AppBundle\Entity\Entity;

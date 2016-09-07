@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Command;
 
-use AdminBundle\Service\FeedReader\Controller;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
+class ReadFeedsCommand extends ContainerAwareCommand {
   protected function configure() {
     $this
       ->setName('events:feeds:read')
@@ -21,56 +20,41 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   }
 
   private $em;
-  private $output;
-  private $feed;
-  private $tagManager;
-  private $converter;
-  private $eventFactory;
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    $name = $input->getOption('name');
-    $id = $input->getOption('id');
-
-    $this->output = $output;
     $container = $this->getContainer();
     $this->em = $container->get('doctrine')->getEntityManager('default');
+
     $this->authenticate($container);
-    $this->tagManager = $container->get('fpn_tag.tag_manager');
+
+    $name = $input->getOption('name');
+    $id = $input->getOption('id');
 
     $feeds = $this->getFeeds($id, $name);
     $noOfFeeds = count($feeds);
 
     if ($noOfFeeds == 0) {
-      $this->output->writeln('No feeds found!');
+      $output->writeln('No feeds found!');
     } else {
-      $this->output->writeln(sprintf('Reading %s feed%s:', $noOfFeeds, ($noOfFeeds == 1) ? '' : 's'));
+      $output->writeln(sprintf('Reading %s feed%s:', $noOfFeeds, ($noOfFeeds == 1) ? '' : 's'));
     }
 
     $client = new Client();
 
-    $imagesPath = $container->getParameter('admin.images_path');
-    $baseUrl = $container->getParameter('admin.base_url');
-    $this->converter = $container->get('value_converter');
+    $reader = $container->get('feed_reader');
+    $reader->setOutput($output);
 
     foreach ($feeds as $name => $feed) {
-      $this->feed = $feed;
       $user = $feed->getCreatedBy();
-      if ($user) {
-        // Tell Blameable which user is creating entities.
-        if ($container->has('stof_doctrine_extensions.listener.blameable')) {
-          $container->get('stof_doctrine_extensions.listener.blameable')->setUserValue($user);
-        }
-        $container->get('place_factory')->setUser($user);
-      }
-
-      $this->eventFactory = $container->get('event_factory');
-      $this->eventFactory->setFeed($feed);
       $feedUrl = $this->processUrl($feed->getUrl());
 
-      echo str_repeat('-', 80), PHP_EOL;
-      echo 'url:  ' . $feedUrl, PHP_EOL;
-      echo 'user: ' . $user, PHP_EOL;
-      echo str_repeat('-', 80), PHP_EOL;
+      $output->writeln([
+        str_repeat('-', 80),
+        'feed id: ' . $feed->getId(),
+        'url:     ' . $feedUrl,
+        'user:    ' . $user,
+        str_repeat('-', 80)
+      ]);
 
       $res = $client->request('GET', $feedUrl);
       if ($res->getStatusCode() === 200) {
@@ -79,30 +63,7 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
         $bom = pack('H*','EFBBBF');
         $content = preg_replace("/^$bom/", '', $content);
 
-        switch ($feed->getType()) {
-          case 'json':
-            $json = json_decode($content, true);
-            $reader = $container->get('feed_reader.json');
-            $reader
-              ->setController($this)
-              ->setFeed($feed);
-            $reader->read($json);
-            $feed->setLastRead(new \DateTime());
-            break;
-
-          case 'xml':
-            $xml = new \SimpleXmlElement($content);
-            $reader = $container->get('feed_reader.xml');
-            $reader
-              ->setController($this)
-              ->setFeed($feed);
-            $reader->read($xml);
-            $feed->setLastRead(new \DateTime());
-            break;
-
-          default:
-            throw new \Exception('Unknown feed type: ' . $feed->getType());
-        }
+        $reader->read($content, $feed, $user);
       }
     }
   }
@@ -133,17 +94,5 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
     }
     $query = $qb->getQuery();
     return $query->getResult();
-  }
-
-  public function createEvent(array $data) {
-    $data['feed'] = $this->feed;
-    $event = $this->eventFactory->get($data);
-
-    $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
-    $this->output->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
-  }
-
-  public function convertValue($value, $name) {
-    return $this->converter->convert($value, $name);
   }
 }

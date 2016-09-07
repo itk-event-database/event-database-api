@@ -1,6 +1,6 @@
 <?php
 
-namespace AdminBundle\Service;
+namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
 use GuzzleHttp\Client;

@@ -2,8 +2,6 @@
 
 namespace AdminBundle\Service\FeedReader;
 
-use AdminBundle\Service\FeedReader;
-
 class Json extends FeedReader {
   public function read($data) {
     if (!is_array($data)) {
