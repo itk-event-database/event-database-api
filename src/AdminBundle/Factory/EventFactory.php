@@ -6,20 +6,21 @@ use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Entity;
 use AppBundle\Entity\Event;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
-use FPN\TagBundle\Entity\TagManager;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class EventFactory extends EntityFactory {
+  protected $feed;
   protected $occurrenceFactory;
+
+  public function setFeed(Feed $feed) {
+    $this->feed = $feed;
+    if ($this->valueConverter) {
+      $this->valueConverter->setFeed($feed);
+    }
+  }
 
   public function setOccurrenceFactory(OccurrenceFactory $occurrenceFactory) {
     $this->occurrenceFactory = $occurrenceFactory;
-  }
-
-  public function setFeed(Feed $feed) {
-    parent::setFeed($feed);
-    $this->occurrenceFactory->setFeed($feed);
   }
 
   public function get(array $data) {

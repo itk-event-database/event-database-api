@@ -84,7 +84,7 @@ class EventFactoryTest extends DatabaseTestCase {
     $this->persist($user);
     $this->flush();
 
-    $token = new UsernamePasswordToken($username, $password, $firewall);
+    $token = new UsernamePasswordToken($user, $password, $firewall);
     $container->get('security.token_storage')->setToken($token);
   }
 

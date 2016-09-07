@@ -3,12 +3,7 @@
 namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Entity;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
-use FPN\TagBundle\Entity\TagManager;
-
 use AppBundle\Entity\Occurrence;
-use AdminBundle\Entity\Feed;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class OccurrenceFactory extends EntityFactory
@@ -17,11 +12,6 @@ class OccurrenceFactory extends EntityFactory
 
   public function setPlaceFactory(PlaceFactory $placeFactory) {
     $this->placeFactory = $placeFactory;
-  }
-
-  public function setFeed(Feed $feed) {
-    parent::setFeed($feed);
-    $this->placeFactory->setFeed($feed);
   }
 
   public function get(array $data) {

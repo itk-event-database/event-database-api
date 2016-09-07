@@ -3,8 +3,15 @@
 namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Place;
+use AppBundle\Entity\User;
 
 class PlaceFactory extends EntityFactory {
+  protected $user;
+
+  public function setUser(User $user) {
+    $this->user = $user;
+  }
+
   public function get(array $data) {
     $entity = $this->getEntity($data);
     $this->setValues($entity, $data);
@@ -16,16 +23,31 @@ class PlaceFactory extends EntityFactory {
 
   private function getEntity(array $data) {
     $name = $data['name'];
+    $user = $this->getUser();
     $query = [
-      'feed' => $this->feed,
+      'createdBy' => $user,
       'name' => $name,
     ];
     $place = $this->em->getRepository('AppBundle:Place')->findOneBy($query);
     if ($place === null) {
       $place = new Place();
-      $place->setFeed($this->feed);
+      // We need to explicitly set createdBy to make the findByOne query above
+      // work. (Caching issue?)
+      $place
+        ->setCreatedBy($user)
+        ->setUpdatedBy($user);
     }
 
     return $place;
+  }
+
+  private function getUser() {
+    if ($this->user) {
+      return $this->user;
+    }
+
+    $token = $this->container->get('security.token_storage')->getToken();
+
+    return $token ? $token->getUser() : null;
   }
 }

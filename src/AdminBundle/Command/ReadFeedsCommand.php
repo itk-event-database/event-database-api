@@ -3,20 +3,13 @@
 namespace AdminBundle\Command;
 
 use AdminBundle\Service\FeedReader\Controller;
-use AdminBundle\Entity\Feed;
-use AppBundle\Entity\Event;
-
-use Guzzle\Http\Url;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Yaml\Yaml;
 
 class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
   protected function configure() {
@@ -40,8 +33,8 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
     $this->output = $output;
     $container = $this->getContainer();
-    $this->authenticate($container);
     $this->em = $container->get('doctrine')->getEntityManager('default');
+    $this->authenticate($container);
     $this->tagManager = $container->get('fpn_tag.tag_manager');
 
     $feeds = $this->getFeeds($id, $name);
@@ -61,12 +54,24 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
     foreach ($feeds as $name => $feed) {
       $this->feed = $feed;
+      $user = $feed->getCreatedBy();
+      if ($user) {
+        // Tell Blameable which user is creating entities.
+        if ($container->has('stof_doctrine_extensions.listener.blameable')) {
+          $container->get('stof_doctrine_extensions.listener.blameable')->setUserValue($user);
+        }
+        $container->get('place_factory')->setUser($user);
+      }
+
       $this->eventFactory = $container->get('event_factory');
       $this->eventFactory->setFeed($feed);
       $feedUrl = $this->processUrl($feed->getUrl());
+
       echo str_repeat('-', 80), PHP_EOL;
-      echo $feedUrl, PHP_EOL;
+      echo 'url:  ' . $feedUrl, PHP_EOL;
+      echo 'user: ' . $user, PHP_EOL;
       echo str_repeat('-', 80), PHP_EOL;
+
       $res = $client->request('GET', $feedUrl);
       if ($res->getStatusCode() === 200) {
         $content = $res->getBody();
@@ -104,9 +109,10 @@ class ReadFeedsCommand extends ContainerAwareCommand implements Controller {
 
   private function authenticate(ContainerInterface $container) {
     $username = $container->getParameter('admin.feed_reader.username');
+    $user = $this->em->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
     $password = $container->getParameter('admin.feed_reader.password');
     $firewall = $container->getParameter('admin.feed_reader.firewall');
-    $token = new UsernamePasswordToken($username, $password, $firewall);
+    $token = new UsernamePasswordToken($user, $password, $firewall);
     $this->getContainer()->get('security.token_storage')->setToken($token);
   }
 
