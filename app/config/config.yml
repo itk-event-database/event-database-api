@@ -135,8 +135,3 @@ fpn_tag:
 
 admin:
     base_url: "%admin.base_url%"
-    images_path: "%admin.images_path%"
-    feed_reader:
-        username: "%admin.feed_reader.username%"
-        password: "%admin.feed_reader.password%"
-        firewall: "%admin.feed_reader.firewall%"

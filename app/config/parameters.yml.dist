@@ -29,6 +29,4 @@ parameters:
 
     admin.base_url: http://event-database-api.vm
     admin.images_path: web/images/
-    admin.feed_reader.username: feed-reader
-    admin.feed_reader.password:	feed-reader
-    admin.feed_reader.firewall: main
+    admin.images_url: images/

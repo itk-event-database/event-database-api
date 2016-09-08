@@ -91,15 +91,28 @@ services:
     feed_reader.xml:
         class: AdminBundle\Service\FeedReader\Xml
 
-    feed_reader:
-        class: AdminBundle\Service\FeedReader
+    feed_reader_event_importer:
+        class: AdminBundle\Service\FeedReader\EventImporter
         arguments:
             - "@event_factory"
             - "@place_factory"
-            - "@value_converter"
             -
-                json: "@feed_reader.json"
-                xml: "@feed_reader.xml"
+                base_url: "%admin.base_url%"
+                images:
+                    path: "%admin.images_path%"
+                    url: "%admin.images_url%"
+
+    feed_reader:
+        class: AdminBundle\Service\FeedReader
+        arguments:
+            - "@value_converter"
+            - "@feed_reader_event_importer"
+            -
+                readers:
+                    json: "@feed_reader.json"
+                    xml: "@feed_reader.xml"
+            - "@logger"
+            - "@security.token_storage"
             - "@stof_doctrine_extensions.listener.blameable"
 
     twig_extension:

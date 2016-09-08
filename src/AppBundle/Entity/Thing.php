@@ -5,11 +5,8 @@ namespace AppBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use DoctrineExtensions\Taggable\Taggable;
-use FPN\TagBundle\Entity\TagManager;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * The most generic type of item.
@@ -32,7 +29,7 @@ abstract class Thing extends Entity
   private $description;
 
   /**
-   * @var string The name of the item.
+   * @var string
    *
    * @Groups({"event_read", "event_write"})
    * @ORM\Column(nullable=true)
@@ -40,6 +37,15 @@ abstract class Thing extends Entity
    * @ApiProperty(iri="http://schema.org/image")
    */
   private $image;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/image")
+   */
+  private $originalImage;
 
   /**
    * @var string The name of the item.
@@ -107,6 +113,30 @@ abstract class Thing extends Entity
   public function getImage()
   {
     return $this->image;
+  }
+
+  /**
+   * Sets originalImage.
+   *
+   * @param string $originalImage
+   *
+   * @return $this
+   */
+  public function setOriginalImage($originalImage)
+  {
+    $this->originalImage = $originalImage;
+
+    return $this;
+  }
+
+  /**
+   * Gets originalImage.
+   *
+   * @return string
+   */
+  public function getOriginalImage()
+  {
+    return $this->originalImage;
   }
 
   /**

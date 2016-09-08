@@ -2,30 +2,35 @@
 
 namespace AdminBundle\Service;
 
-use AdminBundle\Factory\EventFactory;
-use AdminBundle\Factory\PlaceFactory;
-use AdminBundle\Service\FeedReader\Controller;
-use AdminBundle\Service\FeedReader\ValueConverter;
 use AdminBundle\Entity\Feed;
+use AdminBundle\Service\FeedReader\Controller;
+use AdminBundle\Service\FeedReader\EventImporter;
+use AdminBundle\Service\FeedReader\ValueConverter;
 use AppBundle\Entity\User;
 use Gedmo\Blameable\BlameableListener;
+use GuzzleHttp\Client;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class FeedReader implements Controller {
-  protected $eventFactory;
-  protected $placeFactory;
+  protected $eventImporter;
   protected $valueConverter;
-  protected $readers;
+  protected $configuration;
+  protected $logger;
+  protected $tokenStorage;
   protected $blameableListener;
 
   protected $feed;
   protected $output;
 
-  public function __construct(EventFactory $eventFactory, PlaceFactory $placeFactory, ValueConverter $valueConverter, array $readers, BlameableListener $blameableListener) {
-    $this->eventFactory = $eventFactory;
-    $this->placeFactory = $placeFactory;
+  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, Logger $logger, TokenStorage $tokenStorage, BlameableListener $blameableListener) {
+    $this->eventImporter = $eventImporter;
     $this->valueConverter = $valueConverter;
-    $this->readers = $readers;
+    $this->configuration = $configuration;
+    $this->logger = $logger;
+    $this->tokenStorage = $tokenStorage;
     $this->blameableListener = $blameableListener;
   }
 
@@ -33,40 +38,65 @@ class FeedReader implements Controller {
     $this->output = $output;
   }
 
-  public function read($content, Feed $feed, User $user) {
+  public function read(Feed $feed, User $user = null) {
     $this->feed = $feed;
-    $this->eventFactory->setFeed($feed);
+    if (!$user) {
+      $user = $this->feed->getCreatedBy();
+    }
+    $this->authenticate($user);
+    $this->eventImporter
+      ->setFeed($feed)
+      ->setUser($user)
+      ->setLogger($this->logger);
+    $this->valueConverter->setFeed($feed);
 
     if ($user) {
       // Tell Blameable which user is creating entities.
       if ($this->blameableListener) {
         $this->blameableListener->setUserValue($user);
       }
-      $this->placeFactory->setUser($user);
     }
 
-    // $imagesPath = $container->getParameter('admin.images_path');
-    // $baseUrl = $container->getParameter('admin.base_url');
-
-    list($reader, $content) = $this->getReader($feed, $content);
+    $reader = $this->getReader();
+    $content = $this->getContent();
     $reader->read($content);
     $feed->setLastRead(new \DateTime());
   }
 
-  private function getReader(Feed $feed, string $content) {
-    $type = $feed->getType();
+  private function authenticate(User $user) {
+    $token = new UsernamePasswordToken($user, null, 'main');
+    $this->tokenStorage->setToken($token);
+  }
 
-    if (!isset($this->readers[$type])) {
+  private function getReader() {
+    $readers = isset($this->configuration['readers']) ? $this->configuration['readers'] : [];
+    $type = $this->feed->getType();
+
+    if (!isset($readers[$type])) {
       throw new \Exception('Unknown feed type: ' . $type);
     }
 
-    $reader = $this->readers[$type];
+    $reader = $readers[$type];
     $reader
       ->setController($this)
-      ->setFeed($feed)
-      // ->setUser($user)
-      ;
+      ->setFeed($this->feed);
 
+    return $reader;
+  }
+
+  private function getContent() {
+    $client = new Client();
+    $feedUrl = $this->processUrl($this->feed->getUrl());
+
+    $res = $client->request('GET', $feedUrl);
+    if ($res->getStatusCode() === 200) {
+      $content = $res->getBody();
+      // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
+      $bom = pack('H*','EFBBBF');
+      $content = preg_replace("/^$bom/", '', $content);
+    }
+
+    $type = $this->feed->getType();
     switch ($type) {
       case 'json':
         $content = json_decode($content, true);
@@ -77,12 +107,17 @@ class FeedReader implements Controller {
         break;
     }
 
-    return array($reader, $content);
+    return $content;
+  }
+
+  private function processUrl($url) {
+    return $url;
   }
 
   public function createEvent(array $data) {
     $data['feed'] = $this->feed;
-    $event = $this->eventFactory->get($data);
+    $data['feed_event_id'] = $data['id'];
+    $event = $this->eventImporter->import($data);
 
     $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
     $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
@@ -92,7 +127,7 @@ class FeedReader implements Controller {
     return $this->valueConverter->convert($value, $name);
   }
 
-  protected function writeln($messages, $options = 0) {
+  public function writeln($messages, $options = 0) {
     if ($this->output) {
       $this->output->writeln($messages, $options);
     }

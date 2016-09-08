@@ -24,11 +24,6 @@ class EventFactory extends EntityFactory {
   }
 
   public function get(array $data) {
-    // if (isset($data['image'])) {
-    //   $data['originalImage'] = $data['image'];
-    //   $data['image'] = $this->converter->downloadImage($data['image']);
-    // }
-
     $entity = $this->getEntity($data);
     $this->setValues($entity, $data);
     $this->persist($entity);
@@ -38,13 +33,15 @@ class EventFactory extends EntityFactory {
   }
 
   private function getEntity(array $data) {
+    $feed = isset($data['feed']) ? $data['feed'] : null;
+    $feedEventId = isset($data['feed_event_id']) ? $data['feed_event_id'] : null;
     $id = isset($data['id']) ? $data['id'] : uniqid();
 
-    $query = $this->em->createQuery('SELECT e FROM AppBundle:Event e WHERE e.feedEventId = :feedEventId AND e.feed = :feed');
-    $query->setParameter('feed', $this->feed);
-    $query->setParameter('feedEventId', $id);
+    $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
+      'feed' => $feed,
+      'feedEventId' => $feedEventId,
+    ]);
 
-    $event = $query->getOneOrNullResult();
     if ($event === null) {
       $event = new Event();
       $event->setFeedEventId($id);
