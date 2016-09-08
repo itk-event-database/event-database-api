@@ -30,8 +30,13 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
 
     $this->assertEquals(24, count($this->events));
     $event = $this->events[0];
-    $this->assertEquals(3, count($event['occurrences']));
     $this->assertEquals(['Udstilling', 'Gratis'], $event['tags']);
+    $this->assertEquals(3, count($event['occurrences']));
+    $occurrence = $event['occurrences'][0];
+    $this->assertEquals('Strøget', $occurrence['room']);
+    $this->assertEquals(1, count($occurrence['place']));
+    $place = $occurrence['place'][0];
+    $this->assertEquals('Musikhuset Aarhus', $place['name']);
 
     $event = $this->events[1];
     $this->assertEquals(1, count($event['occurrences']));
@@ -72,7 +77,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
 
     $feed = new Feed();
     $feed->setConfiguration($feedConfiguration);
-    $this->converter = new ValueConverter($feed, sys_get_temp_dir(), 'http://example.com/');
+    $this->converter = $this->container->get('value_converter');
 
     $this->events = [];
     $reader = $this->container->get('feed_reader.' . $type);
@@ -85,7 +90,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
   public function createEvent(array $data) {
     if (isset($data['image'])) {
       $data['original_image'] = $data['image'];
-      $data['image'] = $this->converter->downloadImage($data['image']);
+      // $data['image'] = $this->converter->downloadImage($data['image']);
     }
 
     $this->events[] = $data;

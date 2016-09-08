@@ -2,6 +2,7 @@
 
 namespace AppBundle\Serializer;
 
+use AdminBundle\Factory\PlaceFactory;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\ResourceClassResolverInterface;
 use ApiPlatform\Core\JsonLd\ContextBuilderInterface;
@@ -11,6 +12,7 @@ use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInte
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
 use ApiPlatform\Core\Serializer\ContextTrait;
+use AppBundle\Entity\Occurrence;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -20,8 +22,10 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  * Class CustomItemNormalizer
  *
  * This is an almost verbatim copy of
- * ApiPlatform\Core\JsonLd\Serializer\ItemNormalize
- * with handling of tags added.
+ *
+ * final class ApiPlatform\Core\JsonLd\Serializer\ItemNormalizer
+ *
+ * with handling of tags and places added.
  *
  * @package AppBundle\Serializer
  */
@@ -34,14 +38,16 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   private $resourceMetadataFactory;
   private $contextBuilder;
   private $tagManager;
+  private $placeFactory;
 
-  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager)
+  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, PlaceFactory $placeFactory)
   {
     parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
 
     $this->resourceMetadataFactory = $resourceMetadataFactory;
     $this->contextBuilder = $contextBuilder;
     $this->tagManager = $tagManager;
+    $this->placeFactory = $placeFactory;
   }
 
   /**
@@ -99,6 +105,16 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
       $tags = $this->tagManager->loadOrCreateTags($value);
       $this->tagManager->addTags($tags, $object);
       return;
+    }
+    if ($object instanceof Occurrence && $attribute === 'place') {
+      if (empty($value['@id'])) {
+        // Get unidentified place (with no specified id) from factory.
+        $place = $this->placeFactory->get($value);
+        if ($place) {
+          $object->setPlace($place);
+          return;
+        }
+      }
     }
     parent::setAttributeValue($object, $attribute, $value, $format, $context);
   }

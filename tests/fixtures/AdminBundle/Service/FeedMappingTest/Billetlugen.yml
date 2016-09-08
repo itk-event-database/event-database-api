@@ -1,7 +1,7 @@
 url: Billetlugen.json
 type: json
 root: events.event
-timezone: CEST
+timeZone: CEST
 mapping:
     id: id
     name: name

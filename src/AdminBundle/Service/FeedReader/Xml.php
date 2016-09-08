@@ -2,8 +2,6 @@
 
 namespace AdminBundle\Service\FeedReader;
 
-use AdminBundle\Service\FeedReader;
-
 class Xml extends FeedReader {
   public function read($data) {
     if (!$data instanceof \SimpleXmlElement) {

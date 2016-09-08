@@ -4,6 +4,32 @@ parameters:
 #    parameter_name: value
 
 services:
+    value_converter:
+        class: AdminBundle\Service\FeedReader\ValueConverter
+
+    # Factories
+    entity_factory:
+        class: AdminBundle\Factory\EntityFactory
+        abstract:  true
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@fpn_tag.tag_manager" ]
+
+    place_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\PlaceFactory
+
+    occurrence_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\OccurrenceFactory
+        calls:
+            - [setPlaceFactory, ["@place_factory"]]
+
+    event_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\EventFactory
+        calls:
+            - [setOccurrenceFactory, ["@occurrence_factory"]]
+
+    # Filters
     resource.event.order_filter:
         parent:    "api_platform.doctrine.orm.order_filter"
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
@@ -65,6 +91,30 @@ services:
     feed_reader.xml:
         class: AdminBundle\Service\FeedReader\Xml
 
+    feed_reader_event_importer:
+        class: AdminBundle\Service\FeedReader\EventImporter
+        arguments:
+            - "@event_factory"
+            - "@place_factory"
+            -
+                base_url: "%admin.base_url%"
+                images:
+                    path: "%admin.images_path%"
+                    url: "%admin.images_url%"
+
+    feed_reader:
+        class: AdminBundle\Service\FeedReader
+        arguments:
+            - "@value_converter"
+            - "@feed_reader_event_importer"
+            -
+                readers:
+                    json: "@feed_reader.json"
+                    xml: "@feed_reader.xml"
+            - "@logger"
+            - "@security.token_storage"
+            - "@stof_doctrine_extensions.listener.blameable"
+
     twig_extension:
         class: AdminBundle\Twig\Extension\TwigExtension
         tags:
@@ -84,4 +134,5 @@ services:
             - "@api_platform.property_accessor"
             - "@?api_platform.name_converter"
             - "@fpn_tag.tag_manager"
+            - "@place_factory"
         tags: [ { name: serializer.normalizer, priority: 10 } ]

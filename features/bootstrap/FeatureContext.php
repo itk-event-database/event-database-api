@@ -243,7 +243,6 @@ class FeatureContext extends BaseContext implements Context, SnippetAcceptingCon
     return new Json($this->request->getContent());
   }
 
-
   /**
    * Get a user by username.
    *
@@ -253,16 +252,7 @@ class FeatureContext extends BaseContext implements Context, SnippetAcceptingCon
   private function getUser($username)
   {
     $repository = $this->manager->getRepository(User::class);
-
-    $user = $repository->findOneBy([ 'username' => $username ]);
-
-    // $sql = 'select * from fos_user_user_group';
-    // $stmt = $this->manager->getConnection()->prepare($sql);
-    // $stmt->execute();
-    // $result = $stmt->fetchAll();
-    // var_export([ __METHOD__, $result, count($user->getGroups()) ]);
-
-    return $repository->findOneBy([ 'username' => $username ]);
+    return $repository->findOneBy(['username' => $username]);
   }
 
   /**
