@@ -3,3 +3,5 @@
 
 * Add tags/categories
   * http://mykees.github.io/MkTagBundle/
+
+* Batch process events to download images to local storage.
