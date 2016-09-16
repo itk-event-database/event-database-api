@@ -24,7 +24,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "Created by api-write",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 
@@ -47,7 +48,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "Created by api-write",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 

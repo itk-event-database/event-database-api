@@ -68,6 +68,16 @@ abstract class Thing extends Entity
   private $url;
 
   /**
+   * @var string The language code of the item.
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/langcode")
+   */
+  private $langcode;
+
+  /**
    * Sets description.
    *
    * @param string $description
@@ -185,6 +195,30 @@ abstract class Thing extends Entity
   public function getUrl()
   {
     return $this->url;
+  }
+
+  /**
+   * Sets langcode.
+   *
+   * @param string $langcode
+   *
+   * @return $this
+   */
+  public function setLangcode($langcode)
+  {
+    $this->langcode = $langcode;
+
+    return $this;
+  }
+
+  /**
+   * Gets langcode.
+   *
+   * @return string
+   */
+  public function getLangcode()
+  {
+    return $this->langcode;
   }
 
 }

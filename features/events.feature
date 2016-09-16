@@ -46,7 +46,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "Big bang",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 
@@ -98,7 +99,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "Repeating event",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 
@@ -117,6 +119,7 @@ Feature: Events
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json"
     And the JSON node "hydra:member" should have 2 elements
+    # And the JSON should be valid according to the schema "features/schema/api.events.response.schema.json"
 
   Scenario: Update an event with multiple occurrences
     When I authenticate as "api-write"
@@ -165,7 +168,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "Repeating event (updated)",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 

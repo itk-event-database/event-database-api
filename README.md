@@ -52,8 +52,13 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" h
   "_format":"json",
   "name":"Big bang",
   "description":"The first event",
+  "langcode": "en",
   "occurrences": [ {
-    "startDate": "2000-01-01"
+    "startDate": "2000-01-01",
+    "startDate": "2001-01-01",
+	"place": {
+	  "name": "Some place"
+	}
   } ]
 }
 JSON

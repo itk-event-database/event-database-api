@@ -25,7 +25,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "A tagged event",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 
@@ -48,7 +49,8 @@ Feature: Events
       "description": null,
       "image": null,
       "name": "Another tagged event",
-      "url": null
+      "url": null,
+      "langcode": null
     }
     """
 

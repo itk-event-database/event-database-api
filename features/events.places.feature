@@ -50,7 +50,8 @@ Feature: Events
              "description": null,
              "image": null,
              "name": "Place 1",
-             "url": null
+             "url": null,
+             "langcode": null
            }
          },
          {
@@ -66,7 +67,8 @@ Feature: Events
              "description": null,
              "image": null,
              "name": "Place 1",
-             "url": null
+             "url": null,
+             "langcode": null
            }
          }
        ],
@@ -74,7 +76,8 @@ Feature: Events
        "description": null,
        "image": null,
        "name": "Repeating event with multiple places",
-       "url": null
+       "url": null,
+       "langcode": null
      }
      """
 
@@ -117,7 +120,8 @@ Feature: Events
              "description": null,
              "image": null,
              "name": "Place 1",
-             "url": null
+             "url": null,
+             "langcode": null
            }
          }
        ],
@@ -125,7 +129,8 @@ Feature: Events
        "description": null,
        "image": null,
        "name": "Repeating event with multiple places",
-       "url": null
+       "url": null,
+       "langcode": null
      }
      """
 
