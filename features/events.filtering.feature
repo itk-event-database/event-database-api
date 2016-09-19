@@ -12,7 +12,10 @@ Feature: Events
       "name": "The first event",
       "langcode": "en",
       "occurrences": [ {
-        "startDate": "2000-01-01"
+        "startDate": "2000-01-01",
+        "place": {
+          "name": "Place 1"
+        }
       }, {
         "startDate": "2100-01-01"
       } ]
@@ -27,7 +30,10 @@ Feature: Events
       "name": "The second event",
       "langcode": "da",
       "occurrences": [ {
-        "startDate": "2010-01-01"
+        "startDate": "2010-01-01",
+        "place": {
+          "name": "Place 2"
+        }
       }, {
         "startDate": "2110-01-01"
       } ]
@@ -88,6 +94,18 @@ Feature: Events
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/events/1"
+
+  Scenario: Filter by place name
+    When I authenticate as "api-write"
+    When I send a "GET" request to "/api/events?occurrences.place.name=Place 1"
+    And the JSON node "hydra:member" should have 1 element
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
+
+  Scenario: Filter by place name
+    When I authenticate as "api-write"
+    When I send a "GET" request to "/api/events?occurrences.place.name=Place 2"
+    And the JSON node "hydra:member" should have 1 element
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
 
   @dropSchema
   Scenario: Drop schema
