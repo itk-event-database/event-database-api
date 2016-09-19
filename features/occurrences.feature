@@ -26,11 +26,17 @@ Feature: Occurrences
       "name": "Repeating event",
       "occurrences": [ {
         "startDate": "2000-01-01",
-        "endDate": "2001-01-01"
+        "endDate": "2001-01-01",
+        "place": {
+          "name": "Some place"
+        }
       },
       {
         "startDate": "2020-01-01",
-        "endDate": "2100-01-01"
+        "endDate": "2100-01-01",
+        "place": {
+          "name": "Another place"
+        }
       } ]
     }
     """
@@ -65,6 +71,20 @@ Feature: Occurrences
     And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
     When I send a "GET" request to "/api/occurrences?startDate[after]=2020-01-01&endDate[before]=2100-01-01"
+    And the JSON node "hydra:member" should have 1 element
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
+    And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
+    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
+
+  Scenario: Filter by place name
+    When I authenticate as "api-write"
+    When I send a "GET" request to "/api/occurrences?place.name=Some place"
+    And the JSON node "hydra:member" should have 1 element
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
+    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
+
+    When I send a "GET" request to "/api/occurrences?place.name=Another place"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"

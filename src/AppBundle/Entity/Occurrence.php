@@ -22,7 +22,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read", "place_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "occurrence.search.date", "occurrence.order" }
+ *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.order" }
  *   }
  * )
  */

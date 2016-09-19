@@ -60,6 +60,11 @@ services:
         arguments: [ { startDate: ~, endDate: ~ } ]
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
 
+    resource.occurrence.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments: [ { place.name: "partial" } ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search' } ]
+
     resource.occurrence.search_date_filter:
         parent:    "api_platform.doctrine.orm.date_filter"
         arguments: [ { startDate: ~, endDate: ~ } ]
