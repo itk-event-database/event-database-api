@@ -7,11 +7,14 @@ Installation
 ------------
 
 ```
+./install.sh 
+
+vagrant up
 vagrant ssh
 
 cd /vagrant/htdocs
+mysql -u root -e "create database symfony"
 composer install
-bin/console doctrine:database:create
 bin/console doctrine:migrations:migrate
 ```
 
