@@ -119,13 +119,13 @@ vendor/symfony/symfony/phpunit
 Import feeds
 ------------
 
-Add feed import configurations in app/config/feeds.yml:
+Add feed import configurations in app/config/feeds.yml (Outside vagrant):
 
 ```
-cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml app/config
+cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml htdocs/app/config
 ```
 
-Load feed configurations into database:
+Load feed configurations into database (In vagrant):
 
 ```
 bin/console doctrine:fixtures:load --append --no-interaction
