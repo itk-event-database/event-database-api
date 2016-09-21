@@ -7,7 +7,7 @@ Installation
 ------------
 
 ```
-./install.sh 
+./install.sh
 
 vagrant up
 vagrant ssh
