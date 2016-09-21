@@ -9,28 +9,31 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use AdminBundle\Entity\Feed;
 use Symfony\Component\Yaml\Yaml;
 
-class LoadFeeds implements FixtureInterface, ContainerAwareInterface {
-    use ContainerAwareTrait;
+class LoadFeeds extends LoadData {
+  protected $order = 2;
 
-    public function load(ObjectManager $manager) {
-        $feedConfigPath = $this->container->get('kernel')->getRootDir() . '/config/feeds.yml';
-        $yaml = file_get_contents($feedConfigPath);
-        $config = Yaml::parse($yaml);
-        
-        $repository = $this->container->get('doctrine')->getRepository('AdminBundle:Feed');
+  public function load(ObjectManager $manager) {
+    $yaml = $this->loadFixture('feeds.yml');
+    $config = Yaml::parse($yaml);
 
-        foreach ($config as $name => $configuration) {
-            $feed = $repository->findOneByName($name);
-            if (!$feed) {
-                $feed = new Feed();
-            }
-            $feed
-                ->setName($name)
-                ->setConfiguration($configuration);
+    $userRepository = $this->container->get('doctrine')->getRepository('AppBundle:User');
+    $repository = $this->container->get('doctrine')->getRepository('AdminBundle:Feed');
 
-            $manager->persist($feed);
-            $manager->flush();
-        }
+    foreach ($config as $name => $configuration) {
+      $feed = $repository->findOneByName($name);
+      $user = $userRepository->findOneByUsername($configuration['user']);
+      unset($configuration['user']);
+      if (!$feed) {
+        $feed = new Feed();
+      }
+      $feed
+        ->setCreatedBy($user)
+        ->setName($name)
+        ->setConfiguration($configuration);
+
+      $manager->persist($feed);
+      $manager->flush();
     }
+  }
 
 }
