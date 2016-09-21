@@ -119,10 +119,9 @@ vendor/symfony/symfony/phpunit
 Import feeds
 ------------
 
-Add feed import configurations in app/config/feeds.yml:
-
 ```
-cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml app/config
+mkdir -p src/AdminBundle/DataFixtures/Data
+cp ~/Dropbox*/Projekter/events-database-api/fixtures/*.yml src/AdminBundle/DataFixtures/Data/
 ```
 
 Load feed configurations into database:
