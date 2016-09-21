@@ -7,7 +7,7 @@ Installation
 ------------
 
 ```
-./install.sh 
+./install.sh
 
 vagrant up
 vagrant ssh
@@ -119,13 +119,14 @@ vendor/symfony/symfony/phpunit
 Import feeds
 ------------
 
-Add feed import configurations in app/config/feeds.yml (Outside vagrant):
+Add feed import configuration files (Outside vagrant, from htdocs directory):
 
 ```
-cp ~/Dropbox*/Projekter/events-database-api/app/config/feeds.yml htdocs/app/config
+mkdir -p src/AdminBundle/DataFixtures/Data
+cp ~/Dropbox*/Projekter/events-database-api/fixtures/*.yml src/AdminBundle/DataFixtures/Data/
 ```
 
-Load feed configurations into database (In vagrant):
+Load feed configurations into database:
 
 ```
 bin/console doctrine:fixtures:load --append --no-interaction

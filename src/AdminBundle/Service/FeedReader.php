@@ -22,6 +22,9 @@ class FeedReader implements Controller {
   protected $tokenStorage;
   protected $blameableListener;
 
+  /**
+   * @var AdminBundle\Entity\Feed
+   */
   protected $feed;
   protected $output;
 
@@ -88,7 +91,11 @@ class FeedReader implements Controller {
     $client = new Client();
     $feedUrl = $this->processUrl($this->feed->getUrl());
 
-    $res = $client->request('GET', $feedUrl);
+    $configuration = $this->feed->getConfiguration();
+    $method = isset($configuration['method']) ? $configuration['method'] : 'GET';
+    $options = isset($configuration['options']) ? $configuration['options'] : [];
+
+    $res = $client->request($method, $feedUrl, $options);
     if ($res->getStatusCode() === 200) {
       $content = $res->getBody();
       // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
