@@ -66,6 +66,16 @@ class Occurrence extends Entity {
   protected $place;
 
   /**
+   * @var string The range of prices for tickets.
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="https://schema.org/name")
+   */
+  private $ticketPriceRange;
+
+  /**
    * Sets id.
    *
    * @param int $id
@@ -173,4 +183,21 @@ class Occurrence extends Entity {
     return $this->venue;
 
   }
+
+  /**
+   * @return string
+   */
+  public function getTicketPriceRange()
+  {
+    return $this->ticketPriceRange;
+  }
+
+  /**
+   * @param string $ticketPriceRange
+   */
+  public function setTicketPriceRange($ticketPriceRange)
+  {
+    $this->ticketPriceRange = $ticketPriceRange;
+  }
+  
 }
