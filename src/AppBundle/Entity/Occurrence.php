@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * An occurrence of an Event.
@@ -71,9 +72,35 @@ class Occurrence extends Entity {
    * @Groups({"event_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
-   * @ApiProperty(iri="https://schema.org/name")
    */
   private $ticketPriceRange;
+
+  /**
+   * @var string The status of the event
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   */
+  private $eventStatusText;
+
+  /**
+   * @var integer The status code of the event
+   *
+   * 0: Normal
+   * 1: Few tickets left
+   * 2: Sold out
+   * 3: Cancelled
+   * 4: Not in sale
+   * 5: Waiting
+   * 6: Moved
+   * 7: Ekstra show
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="integer")
+   */
+  private $eventSalesStatus;
 
   /**
    * Sets id.
@@ -198,6 +225,22 @@ class Occurrence extends Entity {
   public function setTicketPriceRange($ticketPriceRange)
   {
     $this->ticketPriceRange = $ticketPriceRange;
+  }
+
+  /**
+   * @return string
+   */
+  public function getEventStatusText()
+  {
+    return $this->eventStatusText;
+  }
+
+  /**
+   * @param string $eventStatusText
+   */
+  public function setEventStatusText($eventStatusText)
+  {
+    $this->eventStatusText = $eventStatusText;
   }
 
 }
