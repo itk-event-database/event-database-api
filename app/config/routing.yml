@@ -7,8 +7,8 @@ api:
     type:     'api_platform'
     prefix:   '/api'
 
-doc:
-    resource: '@ApiPlatformBundle/Resources/config/routing/swagger-ui.xml'
+# doc:
+#     resource: '@ApiPlatformBundle/Resources/config/routing/swagger-ui.xml'
 
 api_login_check:
     path: '/api/login_check'
