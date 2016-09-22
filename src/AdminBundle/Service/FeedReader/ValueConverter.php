@@ -36,6 +36,9 @@ class ValueConverter {
   }
 
   private function parseDate($value) {
+    if (!$value) {
+      return null;
+    }
     if ($value instanceof \DateTime) {
       return $value;
     }
