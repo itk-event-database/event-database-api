@@ -67,7 +67,7 @@ class Place extends Thing
   private $telephone;
 
   /**
-   * @var string The name of the item.
+   * @var string The logo of the item.
    *
    * @Groups({"event_read", "event_write"})
    * @ORM\Column(nullable=true)
@@ -75,6 +75,15 @@ class Place extends Thing
    * @ApiProperty(iri="http://schema.org/image")
    */
   private $logo;
+
+  /**
+   * @var boolean Does the place have disability access?
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="boolean")
+   */
+  private $disabilityAccess;
 
   /**
    * @var ArrayCollection

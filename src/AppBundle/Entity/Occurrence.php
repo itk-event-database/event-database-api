@@ -199,5 +199,5 @@ class Occurrence extends Entity {
   {
     $this->ticketPriceRange = $ticketPriceRange;
   }
-  
+
 }
