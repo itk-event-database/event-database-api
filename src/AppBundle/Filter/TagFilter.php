@@ -3,7 +3,7 @@
 namespace AppBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGenerator;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Taggable\TagManager;
@@ -12,20 +12,20 @@ use DoctrineExtensions\Taggable\Taggable;
 
 class TagFilter extends AbstractFilter
 {
-  private $requestStack;
   private $tagManager;
   private $name;
 
   /**
    * @param ManagerRegistry $managerRegistry
-   * @param RequestStack    $requestStack
-   * @param array|null      $properties
+   * @param RequestStack $requestStack
+   * @param \DoctrineExtensions\Taggable\TagManager $tagManager
+   * @param string $name
+   * @internal param array|null $properties
    */
   public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack, TagManager $tagManager, string $name)
   {
-    parent::__construct($managerRegistry, null);
+    parent::__construct($managerRegistry, $requestStack, null);
 
-    $this->requestStack = $requestStack;
     $this->tagManager = $tagManager;
     $this->name = $name;
   }
@@ -33,7 +33,7 @@ class TagFilter extends AbstractFilter
   /**
    * {@inheritdoc}
    */
-  public function apply(QueryBuilder $queryBuilder, string $resourceClass, string $operationName = null)
+  protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
   {
     if (null === ($request = $this->requestStack->getCurrentRequest())) {
       return;
@@ -62,7 +62,7 @@ class TagFilter extends AbstractFilter
         }
 
         $alias = 'o';
-        $valueParameter = QueryNameGenerator::generateParameterName($property);
+        $valueParameter = $queryNameGenerator->generateParameterName($property);
         $queryBuilder
           ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
           ->setParameter($valueParameter, $ids);

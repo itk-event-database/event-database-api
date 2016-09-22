@@ -50,9 +50,8 @@ curl --silent --verbose --header "Authorization: Bearer $token" http://event-dat
 Create an event:
 
 ```
-curl --silent --verbose --request POST --header "Authorization: Bearer $token" http://event-database-api.vm/api/events --data @- <<'JSON'
+curl --silent --verbose --request POST --header "Authorization: Bearer $token" --header "Content-type: application/ld+json" http://event-database-api.vm/api/events --data @- <<'JSON'
 {
-  "_format":"json",
   "name":"Big bang",
   "description":"The first event",
   "langcode": "en",
