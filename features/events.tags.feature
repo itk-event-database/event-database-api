@@ -21,11 +21,13 @@ Feature: Events
       "@id": "\/api\/events\/1",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "ticketPurchaseUrl": null,
       "tags": [ "a", "b" ],
       "description": null,
       "image": null,
       "name": "A tagged event",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """
@@ -45,11 +47,13 @@ Feature: Events
       "@id": "\/api\/events\/2",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "ticketPurchaseUrl": null,
       "tags": [ "b", "c" ],
       "description": null,
       "image": null,
       "name": "Another tagged event",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """

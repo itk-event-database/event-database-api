@@ -51,8 +51,11 @@ Feature: Events
              "image": null,
              "name": "Place 1",
              "url": null,
+             "videoUrl": null,
              "langcode": null
-           }
+           },
+           "ticketPriceRange": null,
+           "eventStatusText": null
          },
          {
            "@id": "\/api\/occurrences\/2",
@@ -68,15 +71,20 @@ Feature: Events
              "image": null,
              "name": "Place 1",
              "url": null,
+             "videoUrl": null,
              "langcode": null
-           }
+           },
+           "ticketPriceRange": null,
+           "eventStatusText": null
          }
        ],
+       "ticketPurchaseUrl": null,
        "tags": [],
        "description": null,
        "image": null,
        "name": "Repeating event with multiple places",
        "url": null,
+       "videoUrl": null,
        "langcode": null
      }
      """
@@ -121,15 +129,20 @@ Feature: Events
              "image": null,
              "name": "Place 1",
              "url": null,
+             "videoUrl": null,
              "langcode": null
-           }
+           },
+           "ticketPriceRange": null,
+           "eventStatusText": null
          }
        ],
+       "ticketPurchaseUrl": null,
        "tags": [],
        "description": null,
        "image": null,
        "name": "Repeating event with multiple places",
        "url": null,
+       "videoUrl": null,
        "langcode": null
      }
      """
