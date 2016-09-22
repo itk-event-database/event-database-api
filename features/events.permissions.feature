@@ -35,7 +35,7 @@ Feature: Events
     Then the response status code should be 200
 
     When I authenticate as "user-0-group-0-write"
-    When I send a "PUT" request to "/api/events/2" with body:
+    And I send a "PUT" request to "/api/events/2" with body:
     """
     {"name": "Updated by user-0-group-0-write"}
     """
@@ -61,9 +61,9 @@ Feature: Events
   @dropSchema
   Scenario:
     When I authenticate as "user-0-group-0-write"
-    When I send a "GET" request to "/api/events"
+    And I send a "GET" request to "/api/events"
     Then the response status code should be 200
     And the response should be in JSON
-    And the header "Content-Type" should be equal to "application/ld+json"
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:totalItems" should be equal to the number 0
     And the JSON node "hydra:member" should have 0 elements
