@@ -4,10 +4,11 @@ Feature: Occurrences
   I need to be able to retrieve, create, update and delete occurrences trough the API.
 
   @createSchema
-  Scenario: No unauthorized access
-    When I send a "GET" request to "/api/occurrences"
-    Then the response status code should be 401
-    And the header "Content-Type" should be equal to "application/json"
+  Scenario: Anonymous access
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/occurrences"
+    Then the response status code should be 200
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
 
   Scenario: Count Occurrences
     When I sign in with username "api-read" and password "apipass"
@@ -19,6 +20,8 @@ Feature: Occurrences
 
   Scenario: Create an event with multiple occurrences
     When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
     {

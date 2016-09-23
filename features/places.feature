@@ -5,10 +5,11 @@ Feature: Places
   I need to be able to retrieve, create, update and delete places trough the API.
 
   @createSchema
-  Scenario: No unauthorized access
-    When I send a "GET" request to "/api/places"
-    Then the response status code should be 401
-    And the header "Content-Type" should be equal to "application/json"
+  Scenario: Anonymous access
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/places"
+    Then the response status code should be 200
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
 
   Scenario: Count Places
     When I sign in with username "api-read" and password "apipass"

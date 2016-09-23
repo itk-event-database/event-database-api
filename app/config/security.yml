@@ -21,10 +21,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        doc:
-            pattern: ^/api/apidoc.json
-            security: false
-
         login:
             pattern:  ^/api/login
             stateless: true
@@ -38,6 +34,7 @@ security:
         api:
             pattern:   ^/api
             stateless: true
+            methods: [POST, PUT, DELETE]
             lexik_jwt: ~
 
         main:
@@ -64,7 +61,7 @@ security:
         # Read/write API access
         - { path: ^/api,       roles: [ ROLE_API_WRITE ], methods: [ POST, PUT, DELETE ] }
         # Read only API access
-        - { path: ^/api,       roles: [ ROLE_API_READ ] }
+        - { path: ^/api,       roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
 
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
