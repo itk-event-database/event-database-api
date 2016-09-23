@@ -23,7 +23,7 @@ abstract class Thing extends Entity
    *
    * @Groups({"event_read", "event_write"})
    * @ORM\Column(nullable=true)
-   * @Assert\Type(type="string")
+   * @Assert\Type(type="text")
    * @ApiProperty(iri="https://schema.org/description")
    */
   private $description;
