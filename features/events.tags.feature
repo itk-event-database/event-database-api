@@ -6,6 +6,8 @@ Feature: Events
   @createSchema
   Scenario: Events with tags
     When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
     {
@@ -60,8 +62,10 @@ Feature: Events
 
   Scenario: Filter by tags
     When I authenticate as "api-read"
-    When I send a "GET" request to "/api/events?tags=a"
-    And the JSON node "hydra:member" should have 1 element
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/events?tags=a"
+    Then the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
 
     When I send a "GET" request to "/api/events?tags=b"

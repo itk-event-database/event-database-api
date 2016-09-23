@@ -9,14 +9,13 @@ Feature: Places
     When I send a "GET" request to "/api/places"
     Then the response status code should be 401
     And the header "Content-Type" should be equal to "application/json"
-    Then print the corresponding curl command
 
   Scenario: Count Places
     When I sign in with username "api-read" and password "apipass"
     And I send a "GET" request to "/api/places"
     Then the response status code should be 200
     And the response should be in JSON
-    And the header "Content-Type" should be equal to "application/ld+json"
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:member" should have 0 elements
 
   Scenario: Cannot create an place as read-only user
@@ -35,7 +34,7 @@ Feature: Places
     """
     Then the response status code should be 201
     And the response should be in JSON
-    And the header "Content-Type" should be equal to "application/ld+json"
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON should be equal to:
     """
     {
@@ -55,29 +54,29 @@ Feature: Places
 
   Scenario: Unauthorized attempt to delete a place
     When I authenticate as "api-read"
-    When I send a "DELETE" request to "/api/places/2"
+    And I send a "DELETE" request to "/api/places/2"
     Then the response status code should be 403
 
   Scenario: Count Places
     When I authenticate as "api-write"
-    When I send a "GET" request to "/api/places"
+    And I send a "GET" request to "/api/places"
     Then the response status code should be 200
     And the response should be in JSON
-    And the header "Content-Type" should be equal to "application/ld+json"
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:member" should have 1 elements
 
   Scenario: Delete a place
     When I authenticate as "api-write"
-    When I send a "DELETE" request to "/api/places/1"
+    And I send a "DELETE" request to "/api/places/1"
     Then the response status code should be 204
     And the response should be empty
 
   @dropSchema
   Scenario: Drop schema
     When I authenticate as "api-read"
-    When I send a "GET" request to "/api/places"
+    And I send a "GET" request to "/api/places"
     Then the response status code should be 200
     And the response should be in JSON
-    And the header "Content-Type" should be equal to "application/ld+json"
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:totalItems" should be equal to the number 0
     And the JSON node "hydra:member" should have 0 elements

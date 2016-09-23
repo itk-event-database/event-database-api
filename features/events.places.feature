@@ -5,8 +5,10 @@ Feature: Events
 
   @createSchema
   Scenario: Create an event with multiple occurrences and a single place
-     When I authenticate as "api-write"
-     When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    When I send a "POST" request to "/api/events" with body:
      """
      {
        "name": "Repeating event with multiple places",
@@ -26,11 +28,11 @@ Feature: Events
        } ]
      }
      """
-     Then the response status code should be 201
-     And the response should be in JSON
-     And the header "Content-Type" should be equal to "application/ld+json"
-     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
-     And the JSON should not differ from:
+    Then the response status code should be 201
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
+    And the JSON should not differ from:
      """
      {
        "@context": "\/api\/contexts\/Event",
@@ -90,8 +92,10 @@ Feature: Events
      """
 
   Scenario: Create an event with a single occurrence and a single place by reference
-     When I authenticate as "api-write"
-     When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    When I send a "POST" request to "/api/events" with body:
      """
      {
        "name": "Repeating event with multiple places",
@@ -104,11 +108,11 @@ Feature: Events
        } ]
      }
      """
-     Then the response status code should be 201
-     And the response should be in JSON
-     And the header "Content-Type" should be equal to "application/ld+json"
-     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
-     And the JSON should not differ from:
+    Then the response status code should be 201
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
+    And the JSON should not differ from:
      """
      {
        "@context": "\/api\/contexts\/Event",
@@ -148,8 +152,10 @@ Feature: Events
      """
 
   Scenario: Cannot create an event with a single occurrence and a single place by invalid reference
-     When I authenticate as "api-write"
-     When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    When I send a "POST" request to "/api/events" with body:
      """
      {
        "name": "Repeating event with multiple places",
@@ -162,9 +168,9 @@ Feature: Events
        } ]
      }
      """
-     Then the response status code should be 400
-     And the response should be in JSON
-     And the JSON node "hydra:description" should be equal to 'Item not found for "/api/places/2".'
+    Then the response status code should be 400
+    And the response should be in JSON
+    And the JSON node "hydra:description" should be equal to 'Item not found for "/api/places/2".'
 
   @dropSchema
   Scenario: Drop schema
