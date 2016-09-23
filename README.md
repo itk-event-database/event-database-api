@@ -18,6 +18,11 @@ composer install
 bin/console doctrine:migrations:migrate
 ```
 
+API documentation
+-----------------
+
+Go to http://event-database-api.vm/api/doc to see automatically generated API documentation.
+
 Security
 --------
 
@@ -39,18 +44,23 @@ bin/console fos:user:create api-write api-write@example.com apipass
 bin/console fos:user:promote api-write ROLE_API_WRITE
 ```
 
+Get all events:
+
+```
+curl --silent --verbose --request GET --header "Accept: application/ld+json" http://event-database-api.vm/api/events
+```
+
 Test the API using username and password to get a token:
 
 ```
 token=$(curl --silent --request POST http://event-database-api.vm/api/login_check --data _username=api-write --data _password=apipass | sed 's/{"token":"\(.*\)"}/\1/')
 echo $token
-curl --silent --verbose --header "Authorization: Bearer $token" http://event-database-api.vm/api/events
 ```
 
 Create an event:
 
 ```
-curl --silent --verbose --request POST --header "Authorization: Bearer $token" --header "Content-type: application/ld+json" http://event-database-api.vm/api/events --data @- <<'JSON'
+curl --silent --verbose --request POST --header "Authorization: Bearer $token" --header "Content-type: application/ld+json" --header "Accept: application/ld+json" http://event-database-api.vm/api/events --data @- <<'JSON'
 {
   "name":"Big bang",
   "description":"The first event",
@@ -65,26 +75,6 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
 }
 JSON
 ```
-
-Get all events:
-
-```
-curl --silent --verbose --request GET --header "Authorization: Bearer $token" http://event-database-api.vm/api/events
-```
-
-### Disabling security for development
-
-Ypu may want to be able to access the api in your browser without having to provide credentials. To do this add
-
-```
-security:
-    firewalls:
-        dev:
-            pattern: ^/
-            security: false
-```
-
-at the bottom of app/config/config_dev.yml.
 
 
 Running tests
