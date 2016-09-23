@@ -58,7 +58,7 @@ abstract class Thing extends Entity
   private $name;
 
   /**
-   * @var string The name of the item.
+   * @var string The URI of the item.
    *
    * @Groups({"event_read", "event_write"})
    * @ORM\Column(nullable=true)
@@ -66,6 +66,16 @@ abstract class Thing extends Entity
    * @ApiProperty(iri="http://schema.org/url")
    */
   private $url;
+
+  /**
+   * @var string The video (Youtube/Vimeo/etc.) URI of the item.
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/url")
+   */
+  private $videoUrl;
 
   /**
    * @var string The language code of the item.
@@ -220,5 +230,27 @@ abstract class Thing extends Entity
   {
     return $this->langcode;
   }
+
+  /**
+   * Gets videoURL
+   *
+   * @return string
+   */
+  public function getVideoUrl()
+  {
+    return $this->videoUrl;
+  }
+
+  /**
+   * Sets videoURL
+   *
+   * @param string $videoUrl
+   */
+  public function setVideoUrl($videoUrl)
+  {
+    $this->videoUrl = $videoUrl;
+  }
+
+
 
 }

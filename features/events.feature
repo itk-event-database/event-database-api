@@ -37,7 +37,13 @@ Feature: Events
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
-    {"name": "Big bang"}
+    {
+      "name": "Big bang",
+      "image": "http://static.billetlugen.dk/images/events/b/41677.jpg",
+      "ticketPurchaseUrl": "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/",
+      "videoUrl": "https://vimeo.com/183524061",
+      "langcode": "da"
+    }
     """
     Then the response status code should be 201
     And the response should be in JSON
@@ -49,12 +55,14 @@ Feature: Events
       "@id": "\/api\/events\/1",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "ticketPurchaseUrl": "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/",
       "tags": [],
       "description": null,
-      "image": null,
+      "image": "http://static.billetlugen.dk/images/events/b/41677.jpg",
       "name": "Big bang",
       "url": null,
-      "langcode": null
+      "videoUrl": "https://vimeo.com/183524061",
+      "langcode": "da"
     }
     """
 
@@ -93,7 +101,9 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null
+          "place": null,
+          "ticketPriceRange": null,
+          "eventStatusText": null
         },
         {
           "@id": "\/api\/occurrences\/2",
@@ -101,14 +111,18 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null
+          "place": null,
+          "ticketPriceRange": null,
+          "eventStatusText": null
         }
       ],
+      "ticketPurchaseUrl": null,
       "tags": [],
       "description": null,
       "image": null,
       "name": "Repeating event",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """
@@ -168,7 +182,9 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null
+          "place": null,
+          "ticketPriceRange": null,
+          "eventStatusText": null
         },
         {
           "@id": "\/api\/occurrences\/4",
@@ -176,14 +192,18 @@ Feature: Events
           "event": "\/api\/events\/2",
           "startDate": "2000-01-01T00:00:00+00:00",
           "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null
+          "place": null,
+          "ticketPriceRange": null,
+          "eventStatusText": null
         }
       ],
+      "ticketPurchaseUrl": null,
       "tags": [],
       "description": null,
       "image": null,
       "name": "Repeating event (updated)",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """

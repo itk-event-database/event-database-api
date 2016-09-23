@@ -61,6 +61,16 @@ class Event extends Thing implements Taggable
   private $occurrences;
 
   /**
+   * @var string The URI for ticket purchase
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/url")
+   */
+  private $ticketPurchaseUrl;
+
+  /**
    * @var Feed
    *
    * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
@@ -137,6 +147,22 @@ class Event extends Thing implements Taggable
 
   public function getFeedEventId() {
     return $this->feedEventId;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getTicketPurchaseUrl()
+  {
+    return $this->ticketPurchaseUrl;
+  }
+
+  /**
+   * @param mixed $ticketPurchaseUrl
+   */
+  public function setTicketPurchaseUrl($ticketPurchaseUrl)
+  {
+    $this->ticketPurchaseUrl = $ticketPurchaseUrl;
   }
 
   public function __construct() {

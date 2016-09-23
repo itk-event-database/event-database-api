@@ -47,6 +47,7 @@ Feature: Places
       "image": null,
       "name": "Dokk1",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """

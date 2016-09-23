@@ -1,4 +1,4 @@
-Feature: Events
+Feature: Events Authentication
   In order to manage events
   As a client software developer
   I need to be able to retrieve, create, update and delete events trough the API.
@@ -22,11 +22,13 @@ Feature: Events
       "@id": "\/api\/events\/1",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "ticketPurchaseUrl": null,
       "tags": [],
       "description": null,
       "image": null,
       "name": "Created by api-write",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """
@@ -48,11 +50,13 @@ Feature: Events
       "@id": "\/api\/events\/2",
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
+      "ticketPurchaseUrl": null,
       "tags": [],
       "description": null,
       "image": null,
       "name": "Created by api-write",
       "url": null,
+      "videoUrl": null,
       "langcode": null
     }
     """
