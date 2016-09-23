@@ -1,0 +1,30 @@
+type: json
+mapping:
+  id: EventId
+  name: DescriptionTitle
+  description: Description
+  langcode: LanguageTwoLetterCode
+  image: ImageUrl
+  url: EventUrl
+  videoUrl: VideoUrl
+  ticketPurchaseUrl: TicketUrl
+  tags:
+    path: ArtFormList
+    split: ,
+  occurrences:
+    type: list
+    path: ScheduledEvents
+    mapping:
+      startDate: StartDateTime
+      endDate: EndDateTime
+      place:
+        type: object
+        path: Location
+        mapping:
+          name: Name
+          address:
+            type: object
+            mapping:
+              streetAddress: parent::Address
+              addressLocality: parent::ZipCity
+              postalCode: parent::ZipCity

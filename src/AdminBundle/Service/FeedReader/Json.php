@@ -38,28 +38,38 @@ class Json extends FeedReader {
     return $data;
   }
 
-  protected function getData(array $item, array $mapping) {
+  private $parentSelector = 'parent::';
+
+  protected function getData(array $item, array $mapping, array $rootPath = []) {
     $data = [];
 
     foreach ($mapping as $key => $spec) {
       if (!is_array($spec)) {
         $path = $spec;
+        if (preg_match('/^(?<parents>(?:' . preg_quote($this->parentSelector, '/') . ')+)(?<path>.+)/', $path, $matches)) {
+          $index = count($rootPath) - strlen($matches['parents']) / strlen($this->parentSelector);
+          $item = $rootPath[$index];
+          $path = $matches['path'];
+        }
         $value = $this->jsonPath($item, $path);
         if ($value !== null) {
           $data[$key] = $this->convertValue($value, $key);
         }
       } else if (isset($spec['mapping'])) {
         $mapping = $spec['mapping'];
+        $type = isset($spec['type']) ? $spec['type'] : 'list';
         $path = isset($spec['path']) ? $spec['path'] : '.';
         $items = ($path === '.') ? [ $item ] : $this->jsonPath($item, $path);
         if ($items) {
-          if ($this->isAssoc($items)) {
-            $data[$key] = $this->getData($items, $mapping);
+          array_push($rootPath, $item);
+          if ($type === 'object' || $this->isAssoc($items)) {
+            $data[$key] = $this->getData($items, $mapping, $rootPath);
           } else {
-            $data[$key] = array_map(function($item) use ($mapping) {
-              return $this->getData($item, $mapping);
+            $data[$key] = array_map(function($item) use ($mapping, $rootPath) {
+              return $this->getData($item, $mapping, $rootPath);
             }, $items);
           }
+          array_pop($rootPath);
         }
       } else if (isset($spec['path'])) {
         $path = $spec['path'];

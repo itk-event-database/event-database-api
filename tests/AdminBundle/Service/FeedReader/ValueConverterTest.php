@@ -1,7 +1,8 @@
 <?php
 
+namespace AdminBundle\Service\FeedReader;
+
 use Tests\AppBundle\Test\BaseTestCase;
-use AdminBundle\Service\ValueConverter;
 use AdminBundle\Entity\Feed;
 
 class ValueConverterTest extends BaseTestCase {
