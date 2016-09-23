@@ -53,9 +53,13 @@ class Json extends FeedReader {
         $path = isset($spec['path']) ? $spec['path'] : '.';
         $items = ($path === '.') ? [ $item ] : $this->jsonPath($item, $path);
         if ($items) {
-          $data[$key] = array_map(function($item) use ($mapping) {
-            return $this->getData($item, $mapping);
-          }, $items);
+          if ($this->isAssoc($items)) {
+            $data[$key] = $this->getData($items, $mapping);
+          } else {
+            $data[$key] = array_map(function($item) use ($mapping) {
+              return $this->getData($item, $mapping);
+            }, $items);
+          }
         }
       } else if (isset($spec['path'])) {
         $path = $spec['path'];
@@ -73,4 +77,9 @@ class Json extends FeedReader {
     return $data;
   }
 
+  // @see http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+  private function isAssoc(array $arr) {
+    if (array() === $arr) return false;
+    return array_keys($arr) !== range(0, count($arr) - 1);
+  }
 }
