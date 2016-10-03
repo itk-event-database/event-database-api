@@ -1,6 +1,6 @@
 <?php
 
-namespace AdminBundle\Service;
+namespace AdminBundle\Factory;
 
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\User;
@@ -29,9 +29,7 @@ class EventFactoryTest extends DatabaseTestCase {
           'endDate' => new \DateTime('2000-01-01'),
           'room' => 'Some room',
           'place' => [
-            [
-              'name' => 'Some place',
-            ],
+            'name' => 'Some place',
           ],
         ],
         [
@@ -39,9 +37,7 @@ class EventFactoryTest extends DatabaseTestCase {
           'endDate' => new \DateTime('2000-01-01'),
           'room' => 'Some room',
           'place' => [
-            [
-              'name' => 'Some place',
-            ],
+            'name' => 'Some place',
           ],
         ],
       ],

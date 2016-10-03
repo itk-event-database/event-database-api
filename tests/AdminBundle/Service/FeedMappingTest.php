@@ -81,8 +81,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     $occurrence = $event['occurrences'][0];
     $place = $occurrence['place'];
     $this->assertEquals('Musikhuset Aarhus', $place['name']);
-    $address = $occurrence['place']['address'];
-    $this->assertEquals('Thomas Jensens Allé', $address['streetAddress']);
+    $this->assertEquals('Thomas Jensens Allé', $place['streetAddress']);
   }
 
   private function readFeed(string $name) {

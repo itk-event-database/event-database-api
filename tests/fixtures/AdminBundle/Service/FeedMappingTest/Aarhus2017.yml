@@ -22,9 +22,6 @@ mapping:
         path: Location
         mapping:
           name: Name
-          address:
-            type: object
-            mapping:
-              streetAddress: parent::Address
-              addressLocality: parent::ZipCity
-              postalCode: parent::ZipCity
+          streetAddress: Address
+          # addressLocality: ZipCity
+          postalCode: ZipCity

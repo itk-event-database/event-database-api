@@ -54,12 +54,6 @@ class Place extends Thing
   private $feed;
 
   /**
-   * @var PostalAddress Physical address of the item.
-   * @ORM\ManyToOne(targetEntity="PostalAddress")
-   */
-  private $address;
-
-  /**
    * @var string The telephone number.
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
@@ -86,7 +80,54 @@ class Place extends Thing
   private $disabilityAccess;
 
   /**
+   * @var string The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="string")
+   * @ORM\Column(nullable=true)
+   */
+  private $addressCountry;
+
+  /**
+   * @var string The locality. For example, Mountain View.
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="string")
+   * @ORM\Column(nullable=true)
+   */
+  private $addressLocality;
+
+  /**
+   * @var string The region. For example, CA.
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="string")
+   * @ORM\Column(nullable=true)
+   */
+  private $addressRegion;
+
+  /**
+   * @var string The postal code. For example, 94043.
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="string")
+   * @ORM\Column(nullable=true)
+   */
+  private $postalCode;
+
+  /**
+   * @var string The street address. For example, 1600 Amphitheatre Pkwy.
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="string")
+   * @ORM\Column(nullable=true)
+   */
+  private $streetAddress;
+
+  /**
    * @var ArrayCollection
+   *
+   * @Groups({"place_read", "place_write"})
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="place")
    * @Groups({"place_read"})
    */
@@ -126,27 +167,120 @@ class Place extends Thing
     return $this->feed;
   }
 
+
   /**
-   * Sets address.
+   * Sets addressCountry.
    *
-   * @param  PostalAddress $address
+   * @param  string $addressCountry
    * @return $this
    */
-  public function setAddress(PostalAddress $address)
+  public function setAddressCountry($addressCountry)
   {
-    $this->address = $address;
+    $this->addressCountry = $addressCountry;
 
     return $this;
   }
 
   /**
-   * Gets address.
+   * Gets addressCountry.
    *
-   * @return PostalAddress
+   * @return string
    */
-  public function getAddress()
+  public function getAddressCountry()
   {
-    return $this->address;
+    return $this->addressCountry;
+  }
+
+  /**
+   * Sets addressLocality.
+   *
+   * @param  string $addressLocality
+   * @return $this
+   */
+  public function setAddressLocality($addressLocality)
+  {
+    $this->addressLocality = $addressLocality;
+
+    return $this;
+  }
+
+  /**
+   * Gets addressLocality.
+   *
+   * @return string
+   */
+  public function getAddressLocality()
+  {
+    return $this->addressLocality;
+  }
+
+  /**
+   * Sets addressRegion.
+   *
+   * @param  string $addressRegion
+   * @return $this
+   */
+  public function setAddressRegion($addressRegion)
+  {
+    $this->addressRegion = $addressRegion;
+
+    return $this;
+  }
+
+  /**
+   * Gets addressRegion.
+   *
+   * @return string
+   */
+  public function getAddressRegion()
+  {
+    return $this->addressRegion;
+  }
+
+  /**
+   * Sets postalCode.
+   *
+   * @param  string $postalCode
+   * @return $this
+   */
+  public function setPostalCode($postalCode)
+  {
+    $this->postalCode = $postalCode;
+
+    return $this;
+  }
+
+  /**
+   * Gets postalCode.
+   *
+   * @return string
+   */
+  public function getPostalCode()
+  {
+    return $this->postalCode;
+  }
+
+  /**
+   * Sets streetAddress.
+   *
+   * @param  string $streetAddress
+   * @return $this
+   */
+  public function setStreetAddress($streetAddress)
+  {
+    $this->streetAddress = $streetAddress;
+
+    return $this;
+  }
+
+  /**
+   * Gets streetAddress.
+   *
+   * @return string
+   */
+  public function getStreetAddress()
+  {
+    return $this->streetAddress;
   }
 
   /**

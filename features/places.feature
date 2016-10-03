@@ -29,33 +29,32 @@ Feature: Places
 
   Scenario: Create a place
     When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/places" with body:
     """
-    {"name": "Dokk1"}
+    {
+      "name": "Dokk1",
+      "streetAddress": "Hack Kampmanns Plads 2",
+      "addressLocality": "Aarhus C",
+      "postalCode": "8000",
+      "addressCountry": "Denmark"
+    }
     """
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON should be equal to:
-    """
-    {
-      "@context": "\/api\/contexts\/Place",
-      "@id": "\/api\/places\/1",
-      "@type": "http:\/\/schema.org\/Place",
-      "logo": null,
-      "occurrences": null,
-      "description": null,
-      "image": null,
-      "name": "Dokk1",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON should be valid according to the schema "features/schema/api.place.response.schema.json"
+    And the JSON node "@id" should be equal to "/api/places/1"
+    And the JSON node "name" should be equal to "Dokk1"
+    And the JSON node "streetAddress" should be equal to "Hack Kampmanns Plads 2"
+    And the JSON node "addressLocality" should be equal to "Aarhus C"
+    And the JSON node "postalCode" should be equal to "8000"
+    And the JSON node "addressCountry" should be equal to "Denmark"
 
   Scenario: Unauthorized attempt to delete a place
     When I authenticate as "api-read"
-    And I send a "DELETE" request to "/api/places/2"
+    And I send a "DELETE" request to "/api/places/1"
     Then the response status code should be 403
 
   Scenario: Count Places

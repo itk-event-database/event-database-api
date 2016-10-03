@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "string"
+    },
+    "@id": {
+      "type": "string"
+    },
+    "@type": {
+      "type": "string"
+    },
+		"name": {
+      "type": "string"
+    },
+		"addressCountry": {
+			"type": ["string", "null"]
+		},
+		"addressLocality": {
+			"type": ["string", "null"]
+    },
+		"addressRegion": {
+			"type": ["string", "null"]
+    },
+		"postalCode": {
+			"type": ["string", "null"]
+    },
+		"streetAddress": {
+			"type": ["string", "null"]
+    },
+    "occurrences": {
+      "type": ["null", "array"],
+      "items": {
+        "type": "object",
+        "properties": {
+          "@id": {
+            "type": "string"
+          },
+          "@type": {
+            "type": "string"
+          },
+          "event": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "place": {
+            "type": [ "object", "null" ]
+          }
+        },
+        "required": [
+          "@id",
+          "@type",
+          "event",
+          "startDate",
+          "endDate",
+          "place"
+        ]
+      }
+    }
+  },
+  "required": [
+    "@id",
+    "@type",
+    "occurrences",
+    "description",
+    "image",
+    "name",
+    "url"
+  ]
+}
