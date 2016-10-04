@@ -22,8 +22,8 @@ abstract class Thing extends Entity
    * @var string A short description of the item.
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\Column(nullable=true)
-   * @Assert\Type(type="text")
+   * @ORM\Column(type="text", nullable=true)
+   * @Assert\Type(type="string")
    * @ApiProperty(iri="https://schema.org/description")
    */
   private $description;
