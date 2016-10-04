@@ -1,5 +1,5 @@
 app:
-    resource: '@AppBundle/Action/'
+    resource: '@AdminBundle/Action/'
     type:     'annotation'
 
 api:

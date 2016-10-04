@@ -7,12 +7,20 @@
 			"description": "The url of the feed",
       "type": "string"
     },
+    "method": {
+			"description": "The http method to use to get the feed",
+			"enum": ["GET", "POST"]
+    },
+    "options": {
+			"description": "The url of the feed",
+      "type": "object"
+    },
     "type": {
 			"description": "The content type of the feed",
       "enum": ["json", "xml"]
     },
     "root": {
-			"description": "An json path or XPath (depending on feed type) for getting events in the feed",
+      "description": "An json path or XPath (depending on feed type) for getting events in the feed",
       "type": "string"
     },
     "occurrenceRoot": {
@@ -27,7 +35,7 @@
     "defaults": {
     },
   },
-  "required": ["url", "type"],
+	"required": ["url", "type", "mapping"],
   "additionalProperties": false,
 
   "definitions": {

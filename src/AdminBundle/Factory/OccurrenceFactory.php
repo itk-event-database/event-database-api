@@ -30,11 +30,7 @@ class OccurrenceFactory extends EntityFactory
   protected function setValue(Entity $entity, $key, $value, PropertyAccessor $accessor) {
     if ($accessor->isWritable($entity, $key)) {
       if ($key == 'place') {
-        if (is_array($value) && count($value) > 0) {
-          $value = $this->placeFactory->get($value[0]);
-        } else {
-          $value = null;
-        }
+        $value = $this->placeFactory->get($value);
       }
     }
     parent::setValue($entity, $key, $value, $accessor);

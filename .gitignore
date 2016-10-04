@@ -16,4 +16,5 @@
 /web/bundles/
 web/feeds
 web/images
+web/files
 app/config/feeds.yml
