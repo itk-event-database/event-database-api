@@ -131,6 +131,3 @@ fpn_tag:
     model:
         tag_class:     AppBundle\Entity\Tag
         tagging_class: AppBundle\Entity\Tagging
-
-admin:
-    base_url: "%admin.base_url%"

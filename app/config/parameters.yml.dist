@@ -28,5 +28,5 @@ parameters:
     jwt_token_ttl:        86400
 
     admin.base_url: http://event-database-api.vm
-    admin.images_path: web/images/
-    admin.images_url: images/
+    admin.files_path: web/files/
+    admin.files_url: files/
