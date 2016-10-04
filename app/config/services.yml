@@ -7,6 +7,16 @@ services:
     value_converter:
         class: AdminBundle\Service\FeedReader\ValueConverter
 
+    file_handler:
+        class: AdminBundle\Service\FileHandler
+        arguments:
+            - "@logger"
+            -
+                base_url: "%admin.base_url%"
+                files:
+                    path: "%admin.files_path%"
+                    url: "%admin.files_url%"
+
     # Factories
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
@@ -101,11 +111,7 @@ services:
         arguments:
             - "@event_factory"
             - "@place_factory"
-            -
-                base_url: "%admin.base_url%"
-                images:
-                    path: "%admin.images_path%"
-                    url: "%admin.images_url%"
+            - "@file_handler"
 
     feed_reader:
         class: AdminBundle\Service\FeedReader

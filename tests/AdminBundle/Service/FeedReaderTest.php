@@ -9,7 +9,16 @@ use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Service\FeedReader\ValueConverter;
 
 class FeedReaderTest extends ContainerTestCase implements Controller {
+  /**
+   * @var ValueConverter
+   */
   private $converter;
+
+  /**
+   * @var FileHandler
+   */
+  private $fileHandler;
+
   private $events = [];
 
   public function testReadJSONFeedWithDefaults() {
@@ -73,6 +82,8 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
     $feed = new Feed();
     $feed->setConfiguration($configuration);
     $this->converter = $this->container->get('value_converter');
+    $this->converter->setFeed($feed);
+    $this->fileHandler = $this->container->get('file_handler');
 
     return $feed;
   }
@@ -80,7 +91,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
   public function createEvent(array $data) {
     if (isset($data['image'])) {
       $data['original_image'] = $data['image'];
-      $data['image'] = $this->converter->downloadImage($data['image']);
+      $data['image'] = $this->fileHandler->download($data['image']);
     }
 
     $this->events[] = $data;
