@@ -22,7 +22,7 @@ abstract class Thing extends Entity
    * @var string A short description of the item.
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\Column(nullable=true)
+   * @ORM\Column(type="text", nullable=true)
    * @Assert\Type(type="text")
    * @ApiProperty(iri="https://schema.org/description")
    */
