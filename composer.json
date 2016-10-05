@@ -44,7 +44,9 @@
         "symfony/property-access": "^3.1",
         "fpn/tag-bundle": "^0.9.0",
         "league/uri": "^4.1",
-        "skyscanner/jsonpath": "^0.7.1"
+        "skyscanner/jsonpath": "^0.7.1",
+        "psr/log": "1.0.0",
+        "resquebundle/resque": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -90,5 +92,7 @@
         "branch-alias": {
             "dev-master": "2.0-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
