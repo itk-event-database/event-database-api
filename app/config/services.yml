@@ -17,6 +17,20 @@ services:
                     path: "%admin.files_path%"
                     url: "%admin.files_url%"
 
+    authenticator:
+        class: AdminBundle\Service\AuthenticatorService
+        arguments:
+            - "@security.token_storage"
+            -
+                firewall: main
+
+    download_files:
+        class: AdminBundle\Service\DownloadFilesService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@file_handler"
+            - "@authenticator"
+
     # Factories
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
