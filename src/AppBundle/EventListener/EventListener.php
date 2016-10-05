@@ -2,6 +2,8 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Thing;
+use AppBundle\Job\DownloadFilesJob;
 use AppBundle\Security\Authorization\Voter\EventVoter;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
@@ -41,6 +43,17 @@ class EventListener {
     if ($object instanceof Taggable) {
       $tagManager = $this->container->get('fpn_tag.tag_manager');
       $tagManager->saveTagging($object);
+    }
+
+    if ($object instanceof Thing) {
+      $job = new DownloadFilesJob();
+      $job->args = [
+        'className' => get_class($object),
+        'id' => $object->getId(),
+        'fields' => ['image'],
+      ];
+
+      $this->container->get('resque')->enqueue($job);
     }
   }
 
