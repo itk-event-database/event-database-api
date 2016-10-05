@@ -137,7 +137,7 @@ services:
                     json: "@feed_reader.json"
                     xml: "@feed_reader.xml"
             - "@logger"
-            - "@security.token_storage"
+            - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
 
     twig_extension:
