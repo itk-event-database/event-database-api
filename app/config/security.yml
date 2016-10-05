@@ -47,7 +47,7 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
             # form_login:
 
-            pattern:   ^/admin
+            pattern:   ^/
             form_login:
                 provider: fos_userbundle
                 check_path: fos_user_security_check
@@ -66,4 +66,5 @@ security:
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, role: ROLE_USER }
+        - { path: ^/admin, role: ROLE_USER }
+        - { path: ^/resque, role: ROLE_SUPER_ADMIN }
