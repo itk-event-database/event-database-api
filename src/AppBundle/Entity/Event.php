@@ -37,7 +37,7 @@ class Event extends Thing implements Taggable
 {
   use TimestampableEntity;
   use BlameableEntity;
-  use SoftdeleteableEntity;
+  use SoftDeleteableEntity;
 
   /**
    * @var int

@@ -6,10 +6,16 @@ use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Entity;
 use AppBundle\Entity\Event;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class EventFactory extends EntityFactory {
+  /**
+   * @var Feed
+   */
   protected $feed;
+
+  /**
+   * @var OccurrenceFactory
+   */
   protected $occurrenceFactory;
 
   public function setFeed(Feed $feed) {
@@ -50,31 +56,24 @@ class EventFactory extends EntityFactory {
     return $event;
   }
 
-  protected function setValue(Entity $entity, $key, $value, PropertyAccessor $accessor) {
-    if ($accessor->isWritable($entity, $key)) {
-      switch ($key) {
-        case 'id':
-          return;
-        case 'tags':
-          if ($this->tagManager) {
-            $tags = $this->tagManager->loadOrCreateTags(array_map('strtolower', $value));
-            $this->tagManager->addTags($tags, $entity);
-          }
-          return;
-
-        case 'occurrences':
-          $occurrences = new ArrayCollection();
-          foreach ($value as $item) {
-            $item['event'] = $entity;
-            $occurrence = $this->occurrenceFactory->get($item);
-            $occurrences->add($occurrence);
-          }
-          $entity->setOccurrences($occurrences);
-          return;
+  protected function setValue(Entity $entity, $key, $value) {
+    if ($entity instanceof Event) {
+      if ($this->accessor->isWritable($entity, $key)) {
+        switch ($key) {
+          case 'occurrences':
+            $occurrences = new ArrayCollection();
+            foreach ($value as $item) {
+              $item['event'] = $entity;
+              $occurrence = $this->occurrenceFactory->get($item);
+              $occurrences->add($occurrence);
+            }
+            $entity->setOccurrences($occurrences);
+            return;
+        }
       }
     }
 
-    parent::setValue($entity, $key, $value, $accessor);
+    parent::setValue($entity, $key, $value);
   }
 
 }

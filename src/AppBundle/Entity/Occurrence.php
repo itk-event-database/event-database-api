@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  */
 class Occurrence extends Entity {
-  use SoftdeleteableEntity;
+  use SoftDeleteableEntity;
 
   /**
    * @var int

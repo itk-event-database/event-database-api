@@ -37,7 +37,15 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
 
   private $resourceMetadataFactory;
   private $contextBuilder;
+
+  /**
+   * @var TagManager
+   */
   private $tagManager;
+
+  /**
+   * @var PlaceFactory
+   */
   private $placeFactory;
 
   public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, PlaceFactory $placeFactory)
@@ -101,6 +109,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
 
   protected function setAttributeValue($object, $attribute, $value, $format = null, array $context = [])
   {
+    // @TODO: We should delegate this to our factories or a service.
     if ($object instanceof Taggable && $attribute === 'tags') {
       $tags = $this->tagManager->loadOrCreateTags($value);
       $this->tagManager->addTags($tags, $object);
