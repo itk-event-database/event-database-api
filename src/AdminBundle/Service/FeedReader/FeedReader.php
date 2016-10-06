@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Service\FeedReader;
 
-use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Entity\Feed;
 
 abstract class FeedReader {

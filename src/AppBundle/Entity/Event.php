@@ -6,15 +6,12 @@ use AdminBundle\Entity\Feed;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use DoctrineExtensions\Taggable\Doctrine;
 use DoctrineExtensions\Taggable\Taggable;
-use FPN\TagBundle\Entity\TagManager;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -123,7 +120,7 @@ class Event extends Thing implements Taggable
   }
 
   /**
-   * @return Collection
+   * @return ArrayCollection
    */
   public function getOccurrences() {
     return $this->occurrences;
@@ -204,7 +201,7 @@ class Event extends Thing implements Taggable
   /**
    * Returns the collection of tags for this Taggable entity
    *
-   * @return Doctrine\Common\Collections\Collection
+   * @return ArrayCollection
    */
   function getTags()
   {

@@ -2,27 +2,16 @@
 
 namespace AdminBundle\Command;
 
-use AppBundle\Entity\Entity;
-use AppBundle\Entity\User;
-use AppBundle\Job\DownloadFilesJob;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class DownloadFilesCommand extends ContainerAwareCommand {
   /**
    * @var OutputInterface
    */
   private $output;
-
-  /**
-   * @var EntityManagerInterface
-   */
-  private $em;
 
   protected function configure() {
     $this
