@@ -35,7 +35,7 @@ services:
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
         abstract:  true
-        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@fpn_tag.tag_manager" ]
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@fpn_tag.tag_manager", "@content_normalizer" ]
 
     place_factory:
         parent: entity_factory
@@ -145,6 +145,11 @@ services:
         tags:
             - { name: "twig.extension" }
 
+    content_normalizer:
+        class: AdminBundle\Service\ContentNormalizer
+        arguments:
+            - "@exercise_html_purifier.default"
+
     # Override vendor/api-platform/core/src/Bridge/Symfony/Bundle/Resources/config/jsonld.xml
     api_platform.jsonld.normalizer.item:
         public: false
@@ -160,4 +165,20 @@ services:
             - "@?api_platform.name_converter"
             - "@fpn_tag.tag_manager"
             - "@place_factory"
+            - "@content_normalizer"
+
         tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    tag_normalizer:
+        class: AdminBundle\Service\TagNormalizer
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    fpn_tag.tag_manager:
+        class: AppBundle\Entity\TagManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%fpn_tag.entity.tag.class%"
+            - "%fpn_tag.entity.tagging.class%"
+            - "@fpn_tag.slugifier"
+            - "@tag_normalizer"
