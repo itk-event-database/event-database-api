@@ -55,6 +55,7 @@ twig:
 doctrine:
     dbal:
         driver:   pdo_mysql
+        # Tell Doctinre not to purge migrations table on fixtures load (http://stackoverflow.com/a/20239996/1087766)
         schema_filter: ~^(?!migration_versions)~
         host:     "%database_host%"
         port:     "%database_port%"
