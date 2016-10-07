@@ -22,7 +22,8 @@ class LoadCategories extends LoadData
     $tagManager = $this->container->get('fpn_tag.tag_manager');
 
     foreach ($config['data'] as $name => $configuration) {
-      $tags[] = $tagManager->loadOrCreateTag($configuration['name']);
+      $name = trim($configuration['name']);
+      $tags[] = $tagManager->loadOrCreateTag($name);
     }
 
     $manager->flush();
