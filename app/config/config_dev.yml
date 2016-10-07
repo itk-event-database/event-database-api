@@ -1,6 +1,10 @@
 imports:
     - { resource: config.yml }
 
+doctrine:
+    dbal:
+        driver_class: AdminBundle\DBAL\Driver
+
 framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
