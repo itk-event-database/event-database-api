@@ -9,36 +9,63 @@ use AdminBundle\Service\FeedReader\ValueConverter;
 use AppBundle\Entity\User;
 use Gedmo\Blameable\BlameableListener;
 use GuzzleHttp\Client;
-use Symfony\Bridge\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class FeedReader implements Controller {
-  protected $eventImporter;
+  /**
+   * @var ValueConverter
+   */
   protected $valueConverter;
+
+  /**
+   * @var EventImporter
+   */
+  protected $eventImporter;
+
+  /**
+   * @var array
+   */
   protected $configuration;
+
+  /**
+   * @var LoggerInterface
+   */
   protected $logger;
-  protected $tokenStorage;
+
+  /**
+   * @var AuthenticatorService
+   */
+  protected $authenticator;
+
+  /**
+   * @var BlameableListener
+   */
   protected $blameableListener;
 
   /**
-   * @var AdminBundle\Entity\Feed
+   * @var Feed
    */
   protected $feed;
+
+  /**
+   * @var OutputInterface
+   */
   protected $output;
 
-  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, Logger $logger, TokenStorage $tokenStorage, BlameableListener $blameableListener) {
-    $this->eventImporter = $eventImporter;
+  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
     $this->valueConverter = $valueConverter;
+    $this->eventImporter = $eventImporter;
     $this->configuration = $configuration;
     $this->logger = $logger;
-    $this->tokenStorage = $tokenStorage;
+    $this->authenticator = $authenticator;
     $this->blameableListener = $blameableListener;
   }
 
   public function setOutput(OutputInterface $output) {
     $this->output = $output;
+
+    return $this;
   }
 
   public function read(Feed $feed, User $user = null) {
@@ -46,7 +73,7 @@ class FeedReader implements Controller {
     if (!$user) {
       $user = $this->feed->getCreatedBy();
     }
-    $this->authenticate($user);
+    $this->authenticator->authenticate($user);
     $this->eventImporter
       ->setFeed($feed)
       ->setUser($user)
@@ -64,11 +91,6 @@ class FeedReader implements Controller {
     $content = $this->getContent();
     $reader->read($content);
     $feed->setLastRead(new \DateTime());
-  }
-
-  private function authenticate(User $user) {
-    $token = new UsernamePasswordToken($user, null, 'main');
-    $this->tokenStorage->setToken($token);
   }
 
   private function getReader() {

@@ -64,6 +64,7 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
 {
   "name":"Big bang",
   "description":"The first event",
+  "image": "https://dummyimage.com/600x400/000/00ffd5.png",
   "langcode": "en",
   "occurrences": [ {
     "startDate": "2000-01-01",

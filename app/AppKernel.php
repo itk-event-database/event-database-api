@@ -23,6 +23,7 @@ class AppKernel extends Kernel
       new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
       new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
       new FPN\TagBundle\FPNTagBundle(),
+      new ResqueBundle\Resque\ResqueBundle(),
 
       new AppBundle\AppBundle(),
       new AdminBundle\AdminBundle(),
