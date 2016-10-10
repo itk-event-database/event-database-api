@@ -61,6 +61,13 @@ class Place extends Thing
   private $telephone;
 
   /**
+   * @var string The email address.
+   * @Assert\Type(type="email")
+   * @ORM\Column(nullable=true)
+   */
+  private $email;
+
+  /**
    * @var string The logo of the item.
    *
    * @Groups({"event_read", "event_write"})
@@ -123,6 +130,24 @@ class Place extends Thing
    * @ORM\Column(nullable=true)
    */
   private $streetAddress;
+
+  /**
+   * @var number The latitude of the location
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="number")
+   * @ORM\Column(nullable=true, type="decimal", precision=9, scale=6)
+   */
+  private $latitude;
+
+  /**
+   * @var number The longitude of the location
+   *
+   * @Groups({"place_read", "place_write"})
+   * @Assert\Type(type="number")
+   * @ORM\Column(nullable=true, type="decimal", precision=9, scale=6)
+   */
+  private $longitude;
 
   /**
    * @var ArrayCollection
@@ -330,4 +355,85 @@ class Place extends Thing
   {
     return $this->occurrences;
   }
+
+  /**
+   * @return string
+   */
+  public function getTelephone()
+  {
+    return $this->telephone;
+  }
+
+  /**
+   * @param string $telephone
+   */
+  public function setTelephone($telephone)
+  {
+    $this->telephone = $telephone;
+  }
+
+  /**
+   * @return boolean
+   */
+  public function isDisabilityAccess()
+  {
+    return $this->disabilityAccess;
+  }
+
+  /**
+   * @param boolean $disabilityAccess
+   */
+  public function setDisabilityAccess($disabilityAccess)
+  {
+    $this->disabilityAccess = $disabilityAccess;
+  }
+
+  /**
+   * @return number
+   */
+  public function getLatitude()
+  {
+    return $this->latitude;
+  }
+
+  /**
+   * @param number $latitude
+   */
+  public function setLatitude($latitude)
+  {
+    $this->latitude = $latitude;
+  }
+
+  /**
+   * @return number
+   */
+  public function getLongitude()
+  {
+    return $this->longitude;
+  }
+
+  /**
+   * @param number $longitude
+   */
+  public function setLongitude($longitude)
+  {
+    $this->longitude = $longitude;
+  }
+
+  /**
+   * @return string
+   */
+  public function getEmail()
+  {
+    return $this->email;
+  }
+
+  /**
+   * @param string $email
+   */
+  public function setEmail($email)
+  {
+    $this->email = $email;
+  }
+
 }

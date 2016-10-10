@@ -20,6 +20,7 @@ class LoadPlaces extends LoadData
     $config = Yaml::parse($yaml);
 
     $tagManager = $this->container->get('fpn_tag.tag_manager');
+    $fileLoader = $this->container->get('download_files');
 
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:Place');
 
@@ -39,6 +40,14 @@ class LoadPlaces extends LoadData
       $place->setPostalCode($configuration['postcode']);
       $place->setAddressLocality($city);
       $place->setDescription($configuration['description']);
+      $place->setImage($configuration['promopic']);
+      $place->setLangcode("DA");
+      $place->setLongitude($configuration['longitude']);
+      $place->setLatitude($configuration['latitude']);
+      $place->setUrl($configuration['website']);
+      $place->setTelephone($configuration['phone']);
+      $place->setLogo($configuration['logo']);
+      $place->setEmail($configuration['email']);
 
       $manager->persist($place);
     }
