@@ -2,6 +2,8 @@
 
 namespace AdminBundle\Service\FeedReader;
 
+use JsonPath\JsonObject;
+
 class Json extends FeedReader {
   public function read($data) {
     if (!is_array($data)) {
@@ -11,37 +13,29 @@ class Json extends FeedReader {
     $events = $data;
 
     if (!empty($this->feed->getRoot())) {
-      $events = $this->jsonPath($events, $this->feed->getRoot());
+      $events = $this->getValue($events, $this->feed->getRoot());
     }
 
     if ($events) {
       foreach ($events as $event) {
-        $eventData = $this->getData($event, $this->feed->getMapping());
+        $eventData = $this->getData($event, $this->feed->getConfiguration());
         $this->createEvent($eventData);
       }
     }
   }
 
   // http://goessner.net/articles/JsonPath/
-  protected function jsonPath($data, $path, $failOnError = false) {
-    $steps = preg_split('@\s*\.\s*@', $path);
-    foreach ($steps as $step) {
-      if (!isset($data[$step])) {
-        if ($failOnError) {
-          throw new \Exception('Invalid path: ' . $path);
-        } else {
-          return null;
-        }
-      }
-      $data = $data[$step];
-    }
-    return $data;
+  protected function getValue($data, $path, $failOnError = false) {
+    $json = new JsonObject($data, true);
+    return $json->get('$.' . $path);
   }
 
   private $parentSelector = 'parent::';
 
-  protected function getData(array $item, array $mapping, array $rootPath = []) {
+  protected function getData(array $item, array $configuration, array $rootPath = []) {
     $data = [];
+
+    $mapping = $configuration['mapping'];
 
     foreach ($mapping as $key => $spec) {
       if (!is_array($spec)) {
@@ -51,29 +45,33 @@ class Json extends FeedReader {
           $item = $rootPath[$index];
           $path = $matches['path'];
         }
-        $value = $this->jsonPath($item, $path);
+        $value = $this->getValue($item, $path);
         if ($value !== null) {
           $data[$key] = $this->convertValue($value, $key);
         }
       } else if (isset($spec['mapping'])) {
-        $mapping = $spec['mapping'];
         $type = isset($spec['type']) ? $spec['type'] : 'list';
-        $path = isset($spec['path']) ? $spec['path'] : '.';
-        $items = ($path === '.') ? [ $item ] : $this->jsonPath($item, $path);
-        if ($items) {
-          array_push($rootPath, $item);
-          if ($type === 'object' || $this->isAssoc($items)) {
-            $data[$key] = $this->getData($items, $mapping, $rootPath);
-          } else {
-            $data[$key] = array_map(function($item) use ($mapping, $rootPath) {
-              return $this->getData($item, $mapping, $rootPath);
-            }, $items);
+        $path = isset($spec['path']) ? $spec['path'] : null;
+        array_push($rootPath, $item);
+        if ($type === 'object') {
+          $item = $path ? $this->getValue($item, $path) : $item;
+          $data[$key] = $this->getData($item, $spec, $rootPath);
+        } else {
+          $items = $path ? $this->getValue($item, $path) : [$item];
+          if ($items) {
+            if ($type === 'object' || $this->isAssoc($items)) {
+              $data[$key] = $this->getData($items, $spec, $rootPath);
+            } else {
+              $data[$key] = array_map(function($item) use ($spec, $rootPath) {
+                return $this->getData($item, $spec, $rootPath);
+              }, $items);
+            }
           }
-          array_pop($rootPath);
         }
+        array_pop($rootPath);
       } else if (isset($spec['path'])) {
         $path = $spec['path'];
-        $value = $this->jsonPath($item, $path);
+        $value = $this->getValue($item, $path);
         if ($value !== null) {
           if (isset($spec['split'])) {
             $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
@@ -82,6 +80,10 @@ class Json extends FeedReader {
           }
         }
       }
+    }
+
+    if (isset($configuration['defaults'])) {
+      $this->setDefaults($data, $configuration['defaults']);
     }
 
     return $data;

@@ -23,6 +23,10 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
 
   public function testMappingSPOTFestival() {
     $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
+
+    $this->assertEquals(296, count($this->events));
+    $event = $this->events[0];
+    $this->assertEquals(['app_festival', 'Music', 'NO', 'UrbanMusicNetwork', 'LineUp'], $event['tags']);
   }
 
   public function testMappingMusikhusetAarhus() {
@@ -79,9 +83,23 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     $this->assertEquals(['Scenekunst', 'Musik og lyd'], $event['tags']);
     $this->assertEquals(3, count($event['occurrences']));
     $occurrence = $event['occurrences'][0];
+
     $place = $occurrence['place'];
     $this->assertEquals('Musikhuset Aarhus', $place['name']);
     $this->assertEquals('Thomas Jensens Allé', $place['streetAddress']);
+  }
+
+  public function testMappingDokk1() {
+    $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
+
+    $this->assertEquals(10, count($this->events));
+
+    $event = $this->events[0];
+    $this->assertEquals(1, count($event['occurrences']));
+    $occurrence = $event['occurrences'][0];
+    $this->assertEquals(new \DateTime('2016-10-10T13:00:00+02:00'), $occurrence['startDate']);
+    $place = $occurrence['place'];
+    $this->assertEquals('Dokk1', $place['name']);
   }
 
   private function readFeed(string $name) {

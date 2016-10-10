@@ -6,7 +6,14 @@ use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Entity\Feed;
 
 abstract class FeedReader {
+  /**
+   * @var Feed
+   */
   protected $feed;
+
+  /**
+   * @var Controller
+   */
   private $controller;
 
   public function setController(Controller $controller) {
@@ -28,27 +35,12 @@ abstract class FeedReader {
   }
 
   protected function createEvent(array $data) {
-    $defaults = $this->feed->getDefaults();
-    if ($defaults) {
-      $this->setDefaults($data, $defaults);
-    }
     return $this->controller->createEvent($data);
   }
 
-  private function setDefaults(array &$data, array $defaults) {
+  protected function setDefaults(array &$data, array $defaults) {
     foreach ($defaults as $key => $spec) {
-      switch ($key) {
-        case 'occurrences':
-          if (isset($data['occurrences'])) {
-            foreach ($data['occurrences'] as &$occurrence) {
-              $this->setDefaults($occurrence, $spec);
-            }
-          }
-          break;
-        default:
-          $this->setDefaultValue($data, $key, $spec);
-          break;
-      }
+      $this->setDefaultValue($data, $key, $spec);
     }
   }
 

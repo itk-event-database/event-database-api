@@ -16,7 +16,7 @@ class Xml extends FeedReader {
 
     if ($events) {
       foreach ($events as $event) {
-        $eventData = $this->getData($event, $this->feed->getMapping());
+        $eventData = $this->getData($event, $this->feed->getConfiguration());
         $this->createEvent($eventData);
       }
     }
@@ -43,8 +43,10 @@ class Xml extends FeedReader {
     return (count($values) > 0) ? (string)$values[0] : null;
   }
 
-  private function getData(\SimpleXmlElement $item, array $mapping) {
+  private function getData(\SimpleXMLElement $item, array $configuration) {
     $data = [];
+
+    $mapping = $configuration['mapping'];
 
     foreach ($mapping as $key => $spec) {
       if (!is_array($spec)) {
@@ -54,13 +56,22 @@ class Xml extends FeedReader {
           $data[$key] = $this->convertValue($value, $key);
         }
       } else if (isset($spec['mapping'])) {
-        $mapping = $spec['mapping'];
+        $type = isset($spec['type']) ? $spec['type'] : 'list';
         $path = isset($spec['path']) ? $spec['path'] : '.';
-        $items = ($path === '.') ? [ $item ] : $this->getItems($item, $path);
-        if ($items) {
-          $data[$key] = array_map(function($item) use ($mapping) {
-            return $this->getData($item, $mapping);
-          }, $items);
+        if ($type === 'object') {
+          $item = $path ? $this->getValue($item, $path) : $item;
+          $data[$key] = $this->getData($item, $spec);
+        } else {
+          $items = $path ? $this->getItems($item, $path) : [$item];
+          if ($items) {
+            if ($type === 'object') {
+              $data[$key] = $this->getData($items, $spec);
+            } else {
+              $data[$key] = array_map(function($item) use ($spec) {
+                return $this->getData($item, $spec);
+              }, $items);
+            }
+          }
         }
       } else if (isset($spec['path'])) {
         $path = $spec['path'];
@@ -73,6 +84,10 @@ class Xml extends FeedReader {
           }
         }
       }
+    }
+
+    if (isset($configuration['defaults'])) {
+      $this->setDefaults($data, $configuration['defaults']);
     }
 
     return $data;
