@@ -7,7 +7,6 @@ mapping:
         path: Tags
         split: ','
     occurrences:
-        path: .
         mapping:
             startDate: Start
             endDate: End
