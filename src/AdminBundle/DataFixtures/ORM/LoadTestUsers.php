@@ -8,9 +8,9 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 
-class LoadUsers extends LoadData {
+class LoadTestUsers extends LoadData {
   public function load(ObjectManager $manager) {
-    $yaml = $this->loadFixture('users.yml');
+    $yaml = $this->loadFixture('test_users.yml');
     $config = Yaml::parse($yaml);
 
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:User');
@@ -22,13 +22,9 @@ class LoadUsers extends LoadData {
       }
       $user->setUsername($username)
         ->setEnabled(true)
-        ->setPlainPassword('password')
-        ->setRoles(['ROLE_API_WRITE']);
-      if ($data) {
-        foreach ($data as $key => $value) {
-          $user->{'set' . $key}($value);
-        }
-      }
+        ->setPlainPassword($data['password'])
+        ->setEmail($data['email'])
+        ->setRoles(array($data['role']));
 
       $manager->persist($user);
       $manager->flush();
