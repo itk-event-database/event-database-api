@@ -4,15 +4,15 @@ Feature: Events
   I need to be able to retrieve, create, update and delete events trough the API.
 
   @createSchema
-  Scenario: Events with tags
+  Scenario: Events with html in description
     When I authenticate as "api-write"
     And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
     {
-      "name": "A tagged event",
-      "tags": [ "apple", "Banana" ]
+      "name": "An event",
+      "description": "This is a strong <strong>word</strong>."
     }
     """
     Then the response status code should be 201
@@ -24,10 +24,10 @@ Feature: Events
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
       "ticketPurchaseUrl": null,
-      "tags": [ "apple", "banana" ],
-      "description": null,
+      "tags": [],
+      "description": "This is a strong <strong>word</strong>.",
       "image": null,
-      "name": "A tagged event",
+      "name": "An event",
       "url": null,
       "videoUrl": null,
       "langcode": null
@@ -37,8 +37,8 @@ Feature: Events
     When I send a "POST" request to "/api/events" with body:
     """
     {
-      "name": "Another tagged event",
-      "tags": [ "banana", "CITRUS" ]
+      "name": "Another event",
+      "description": "This is a half strong <strong>word"
     }
     """
     Then the response status code should be 201
@@ -50,32 +50,41 @@ Feature: Events
       "@type": "http:\/\/schema.org\/Event",
       "occurrences": [],
       "ticketPurchaseUrl": null,
-      "tags": [ "banana", "citrus" ],
-      "description": null,
+      "tags": [],
+      "description": "This is a half strong <strong>word</strong>",
       "image": null,
-      "name": "Another tagged event",
+      "name": "Another event",
       "url": null,
       "videoUrl": null,
       "langcode": null
     }
     """
 
-  Scenario: Filter by tags
-    When I authenticate as "api-read"
-    And I add "Content-Type" header equal to "application/ld+json"
-    And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/events?tags=apple"
-    Then the JSON node "hydra:member" should have 1 element
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
-
-    When I send a "GET" request to "/api/events?tags=banana"
-    And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/events/2"
-
-    When I send a "GET" request to "/api/events?tags=citrus"
-    And the JSON node "hydra:member" should have 1 element
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
+    When I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A script event",
+      "description": "This is a <script src='http://hack.com/'></script>"
+    }
+    """
+    Then the response status code should be 201
+    And the JSON should be equal to:
+    """
+    {
+      "@context": "\/api\/contexts\/Event",
+      "@id": "\/api\/events\/3",
+      "@type": "http:\/\/schema.org\/Event",
+      "occurrences": [],
+      "ticketPurchaseUrl": null,
+      "tags": [],
+      "description": "This is a ",
+      "image": null,
+      "name": "A script event",
+      "url": null,
+      "videoUrl": null,
+      "langcode": null
+    }
+    """
 
   @dropSchema
   Scenario: Drop schema

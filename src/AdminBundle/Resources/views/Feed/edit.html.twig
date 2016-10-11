@@ -7,10 +7,10 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.js') }}"/></script>
+  <script src="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.js') }}"></script>
   <script>
 		var schema = {{ include_file(kernelRootDir ~ '/../web/assets/schema/feed.schema.json') }},
-		el = document.getElementById('{{ edit_form.configuration.vars.id }}')
+		el = document.getElementById('{{ edit_form.configuration.vars.id }}');
 		el.type = 'hidden';
 
    var container = document.createElement('div');

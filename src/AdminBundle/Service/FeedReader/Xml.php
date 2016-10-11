@@ -4,7 +4,7 @@ namespace AdminBundle\Service\FeedReader;
 
 class Xml extends FeedReader {
   public function read($data) {
-    if (!$data instanceof \SimpleXmlElement) {
+    if (!$data instanceof \SimpleXMLElement) {
       throw new \Exception('Invalid data');
     }
 
@@ -22,7 +22,7 @@ class Xml extends FeedReader {
     }
   }
 
-  private function getItems(\SimpleXmlElement $el, $path, $failOnError = false) {
+  private function getItems(\SimpleXMLElement $el, $path, $failOnError = false) {
     $nodes = $el->xpath($path);
     if ($nodes === false) {
       if ($failOnError) {
@@ -38,7 +38,7 @@ class Xml extends FeedReader {
   /**
    * Get a single value from xpath
    */
-  private function getValue(\SimpleXmlElement $el, $path, $failOnError = false) {
+  private function getValue(\SimpleXMLElement $el, $path, $failOnError = false) {
     $values = $this->getItems($el, $path, $failOnError);
     return (count($values) > 0) ? (string)$values[0] : null;
   }

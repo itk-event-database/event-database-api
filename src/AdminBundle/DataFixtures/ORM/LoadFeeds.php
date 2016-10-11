@@ -2,10 +2,7 @@
 
 namespace AdminBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use AdminBundle\Entity\Feed;
 use Symfony\Component\Yaml\Yaml;
 

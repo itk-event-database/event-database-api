@@ -35,7 +35,7 @@ class Place extends Thing
 {
   use TimestampableEntity;
   use BlameableEntity;
-  use SoftdeleteableEntity;
+  use SoftDeleteableEntity;
 
   /**
    * @var int

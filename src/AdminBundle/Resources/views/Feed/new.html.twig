@@ -7,11 +7,11 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.js') }}"/></script>
+  <script src="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.js') }}"></script>
   <script>
 	 var schema = {{ include_file(kernelRootDir ~ '/../web/assets/schema/feed.schema.json') }},
-	 el = document.getElementById('{{ form.configuration.vars.id }}')
-   el.type = 'hidden';
+	 el = document.getElementById('{{ form.configuration.vars.id }}');
+     el.type = 'hidden';
 
    var container = document.createElement('div');
    el.parentNode.insertBefore(container, el);
@@ -29,7 +29,7 @@
          "mapping": {
            "startDate": "",
            "endDate": "",
-           "venue": "",
+           "venue": ""
          }
        }
      },

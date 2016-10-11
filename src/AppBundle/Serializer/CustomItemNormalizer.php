@@ -3,6 +3,7 @@
 namespace AppBundle\Serializer;
 
 use AdminBundle\Factory\PlaceFactory;
+use AdminBundle\Service\ContentNormalizerInterface;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\ResourceClassResolverInterface;
 use ApiPlatform\Core\JsonLd\ContextBuilderInterface;
@@ -37,10 +38,23 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
 
   private $resourceMetadataFactory;
   private $contextBuilder;
+
+  /**
+   * @var TagManager
+   */
   private $tagManager;
+
+  /**
+   * @var PlaceFactory
+   */
   private $placeFactory;
 
-  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, PlaceFactory $placeFactory)
+  /**
+   * @var ContentNormalizerInterface
+   */
+  private $contentNormalizer;
+
+  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, PlaceFactory $placeFactory, ContentNormalizerInterface $contentNormalizer)
   {
     parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
 
@@ -48,6 +62,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
     $this->contextBuilder = $contextBuilder;
     $this->tagManager = $tagManager;
     $this->placeFactory = $placeFactory;
+    $this->contentNormalizer = $contentNormalizer;
   }
 
   /**
@@ -101,6 +116,10 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
 
   protected function setAttributeValue($object, $attribute, $value, $format = null, array $context = [])
   {
+    // @TODO: We should delegate this to our factories or a service.
+    if ($attribute === 'description') {
+      $value = $this->contentNormalizer->normalize($value);
+    }
     if ($object instanceof Taggable && $attribute === 'tags') {
       $tags = $this->tagManager->loadOrCreateTags($value);
       $this->tagManager->addTags($tags, $object);

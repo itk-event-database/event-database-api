@@ -24,6 +24,7 @@ class AppKernel extends Kernel
       new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
       new FPN\TagBundle\FPNTagBundle(),
       new ResqueBundle\Resque\ResqueBundle(),
+      new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
 
       new AppBundle\AppBundle(),
       new AdminBundle\AdminBundle(),

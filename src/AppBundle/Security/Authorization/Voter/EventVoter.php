@@ -4,10 +4,8 @@ namespace AppBundle\Security\Authorization\Voter;
 
 use AppBundle\Entity\Event;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use AppBundle\Entity\User;
 
 class EventVoter extends Voter {
