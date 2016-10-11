@@ -102,6 +102,18 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     $this->assertEquals('Dokk1', $place['name']);
   }
 
+  public function testMappingEventDB() {
+    $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
+
+    $this->assertEquals(10, count($this->events));
+    $event = $this->events[0];
+    $this->assertEquals(1, count($event['occurrences']));
+    $occurrence = $event['occurrences'][0];
+    $this->assertEquals(new \DateTime('2016-10-10T13:00:00+02:00'), $occurrence['startDate']);
+    $place = $occurrence['place'];
+    $this->assertEquals('Dokk1', $place['name']);
+  }
+
   private function readFeed(string $name) {
     $feedConfiguration = $this->readFixture($name .'.yml');
     $type = $feedConfiguration['type'];

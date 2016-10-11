@@ -1,0 +1,23 @@
+url: http://event-database-api.vm/api/events
+user: EventDB
+type: json
+root: "['hydra:member']"
+mapping:
+  id: "['@id']"
+  name: name
+  description: description
+  excerpt: excerpt
+  url: url
+  image: image
+  langcode: langcode
+  tags: tags
+  occurrences:
+    path: occurrences
+    mapping:
+      startDate: startDate
+      endDate: endDate
+      place:
+        type: object
+        path: place
+        mapping:
+          name: name

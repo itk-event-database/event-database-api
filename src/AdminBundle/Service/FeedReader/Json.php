@@ -18,6 +18,9 @@ class Json extends FeedReader {
 
     if ($events) {
       foreach ($events as $event) {
+        if (!is_array($event)) {
+          continue;
+        }
         $eventData = $this->getData($event, $this->feed->getConfiguration());
         $this->createEvent($eventData);
       }
@@ -27,7 +30,8 @@ class Json extends FeedReader {
   // http://goessner.net/articles/JsonPath/
   protected function getValue($data, $path, $failOnError = false) {
     $json = new JsonObject($data, true);
-    return $json->get('$.' . $path);
+    $prefix = strpos($path, '[') === 0 ? '$' : '$.';
+    return $json->get($prefix . $path);
   }
 
   private $parentSelector = 'parent::';
