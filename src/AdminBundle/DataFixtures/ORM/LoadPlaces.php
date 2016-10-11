@@ -19,9 +19,6 @@ class LoadPlaces extends LoadData
     $yaml = $this->loadFixture('places.yml');
     $config = Yaml::parse($yaml);
 
-    $tagManager = $this->container->get('fpn_tag.tag_manager');
-    $fileLoader = $this->container->get('download_files');
-
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:Place');
 
     foreach ($config['data'] as $name => $configuration) {
@@ -48,6 +45,15 @@ class LoadPlaces extends LoadData
       $place->setTelephone($configuration['phone']);
       $place->setLogo($configuration['logo']);
       $place->setEmail($configuration['email']);
+
+      //Override Doctrine id genteration to maintain id's form import
+
+      $place->setId($configuration['place_id']);
+
+      $em = $this->container->get('doctrine')->getManager();
+      $metadata = $em->getClassMetaData(get_class($place));
+      $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+      $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
 
       $manager->persist($place);
     }
