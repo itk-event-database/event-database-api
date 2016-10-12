@@ -194,14 +194,39 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
    * @Given the following tags exist:
    */
   public function theFollowingTagsExist(TableNode $table) {
-    $accessor = new PropertyAccessor();
+    $tagManager = $this->container->get('tag_manager');
+    $tagManager->setTagNormalizer(null);
+    $names = array_map(function ($row) {
+      return $row['name'];
+    }, $table->getHash());
+    $tagManager->loadOrCreateTags($names);
+  }
+
+  /**
+   * @Given the following tags are unknown:
+   */
+  public function theFollowingTagsAreUnknown(TableNode $table) {
+    $unknownTagManager = $this->container->get('unknown_tag_manager');
+    $unknownTagManager->setTagNormalizer(null);
+    $names = array_map(function ($row) {
+      return $row['name'];
+    }, $table->getHash());
+    $tags = $unknownTagManager->loadOrCreateTags($names);
+    $unknownTags = [];
+    foreach ($tags as $tag) {
+      $unknownTags[$tag->getName()] = $tag;
+    }
+    $tagManager = $this->container->get('tag_manager');
+
+    $em = $this->container->get('doctrine.orm.default_entity_manager');
     foreach ($table->getHash() as $row) {
-      $tag = new Tag();
-      foreach ($row as $name => $value) {
-        $accessor->setValue($tag, $name, $value);
-      }
-      $this->manager->persist($tag);
-      $this->manager->flush();
+      $unknownName = $row['name'];
+      $name = $row['tag'];
+      $unknownTag = $unknownTagManager->loadTags([$unknownName])[0];
+      $knownTag = $tagManager->loadTags([$name])[0];
+      $unknownTag->setTag($knownTag);
+      $em->persist($unknownTag);
+      $em->flush();
     }
   }
 

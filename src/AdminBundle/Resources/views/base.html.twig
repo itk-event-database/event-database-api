@@ -10,6 +10,14 @@
 	</head>
 	<body>
 		<div class="container">
+			{% for type in ['success'] %}
+				{% for flash_message in app.session.flashBag.get(type) %}
+					<div class="alert alert-{{ type }}">
+						{{ flash_message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+
 			{% block body %}{% endblock %}
 		</div>
 

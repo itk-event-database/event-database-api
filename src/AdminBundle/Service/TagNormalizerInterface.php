@@ -8,6 +8,8 @@
 
 namespace AdminBundle\Service;
 
+use AppBundle\Entity\TagManager;
+
 interface TagNormalizerInterface {
-  public function normalize(string $tag);
+  public function normalize(array $names);
 }
