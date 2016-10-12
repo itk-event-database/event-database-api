@@ -19,6 +19,15 @@ class LoadPlaces extends LoadData
     $yaml = $this->loadFixture('places.yml');
     $config = Yaml::parse($yaml);
 
+    $tagManager = $this->container->get('fpn_tag.tag_manager');
+    $yaml = $this->loadFixture('categories.yml');
+    $config_categories = Yaml::parse($yaml);
+    $categories = array();
+
+    foreach ($config_categories['data'] as $name => $configuration) {
+      $categories[$configuration['id']] = $tagManager->loadOrCreateTag($configuration['name']);
+    }
+
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:Place');
 
     foreach ($config['data'] as $name => $configuration) {
@@ -46,7 +55,7 @@ class LoadPlaces extends LoadData
       $place->setLogo($configuration['logo']);
       $place->setEmail($configuration['email']);
 
-      //Override Doctrine id genteration to maintain id's form import
+      //Override Doctrine id generation to maintain id's form import
 
       $place->setId($configuration['place_id']);
 
@@ -56,6 +65,11 @@ class LoadPlaces extends LoadData
       $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
 
       $manager->persist($place);
+
+      foreach ($configuration['category_ids'] as $category_id) {
+        $tagManager->addTag($categories[$category_id], $place);
+      }
+
     }
 
     $manager->flush();

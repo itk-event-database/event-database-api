@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineExtensions\Taggable\Taggable;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
@@ -31,7 +32,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   }
  * )
  */
-class Place extends Thing
+class Place extends Thing implements Taggable
 {
   use TimestampableEntity;
   use BlameableEntity;
@@ -434,6 +435,49 @@ class Place extends Thing
   public function setEmail($email)
   {
     $this->email = $email;
+  }
+
+  /**
+   * @var ArrayCollection
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ ORM\Column(type="array", nullable=true)
+   */
+  private $tags;
+
+  /**
+   * Returns the unique taggable resource type
+   *
+   * @return string
+   */
+  function getTaggableType()
+  {
+    return 'place';
+  }
+
+  /**
+   * Returns the unique taggable resource identifier
+   *
+   * @return string
+   */
+  function getTaggableId()
+  {
+    return $this->getId();
+  }
+
+  // Method stub needed to make CustomItemNormalizer work. If no setter is
+  // defined, tags will not be processed during normalization.
+  function setTags($tags) {}
+
+  /**
+   * Returns the collection of tags for this Taggable entity
+   *
+   * @return Doctrine\Common\Collections\Collection
+   */
+  function getTags()
+  {
+    $this->tags = $this->tags ?: new ArrayCollection();
+    return $this->tags;
   }
 
 }
