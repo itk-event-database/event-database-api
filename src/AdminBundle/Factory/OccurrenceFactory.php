@@ -4,10 +4,12 @@ namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Entity;
 use AppBundle\Entity\Occurrence;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class OccurrenceFactory extends EntityFactory
 {
+  /**
+   * @var PlaceFactory
+   */
   protected $placeFactory;
 
   public function setPlaceFactory(PlaceFactory $placeFactory) {
@@ -27,13 +29,16 @@ class OccurrenceFactory extends EntityFactory
     return $occurrence;
   }
 
-  protected function setValue(Entity $entity, $key, $value, PropertyAccessor $accessor) {
-    if ($accessor->isWritable($entity, $key)) {
-      if ($key == 'place') {
-        $value = $this->placeFactory->get($value);
+  protected function setValue(Entity $entity, $key, $value) {
+    if ($entity instanceof Occurrence) {
+      if ($this->accessor->isWritable($entity, $key)) {
+        if ($key == 'place') {
+          $value = $this->placeFactory->get($value);
+        }
       }
     }
-    parent::setValue($entity, $key, $value, $accessor);
+
+    parent::setValue($entity, $key, $value);
   }
 
 }

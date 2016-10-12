@@ -36,7 +36,7 @@ class Place extends Thing implements Taggable
 {
   use TimestampableEntity;
   use BlameableEntity;
-  use SoftdeleteableEntity;
+  use SoftDeleteableEntity;
 
   /**
    * @var int

@@ -2,9 +2,7 @@
 
 namespace AdminBundle\DataFixtures\ORM;
 
-use AdminBundle\DataFixtures\ORM\LoadData;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 

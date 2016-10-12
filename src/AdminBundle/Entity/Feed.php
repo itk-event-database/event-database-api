@@ -19,7 +19,7 @@ class Feed
 {
   use TimestampableEntity;
   use BlameableEntity;
-  use SoftdeleteableEntity;
+  use SoftDeleteableEntity;
 
   /**
      * @var integer
