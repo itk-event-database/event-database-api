@@ -1,7 +1,7 @@
 <?php
 
+use AppBundle\Entity\Tag;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
@@ -19,11 +19,12 @@ use Sanpi\Behatch\Json\Json;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Sanpi\Behatch\HttpCall\Request;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends BaseContext implements Context, SnippetAcceptingContext, KernelAwareContext
+class FeatureContext extends BaseContext implements Context, KernelAwareContext
 {
   private $kernel;
   private $container;
@@ -186,6 +187,21 @@ class FeatureContext extends BaseContext implements Context, SnippetAcceptingCon
       $differ = new Differ("--- Expected\n+++ Actual\n", true);
       $message = $differ->diff($expected->encode(), $actual->encode());
       throw new ExpectationException($message, $this->getSession(), $ex);
+    }
+  }
+
+  /**
+   * @Given the following tags exist:
+   */
+  public function theFollowingTagsExist(TableNode $table) {
+    $accessor = new PropertyAccessor();
+    foreach ($table->getHash() as $row) {
+      $tag = new Tag();
+      foreach ($row as $name => $value) {
+        $accessor->setValue($tag, $name, $value);
+      }
+      $this->manager->persist($tag);
+      $this->manager->flush();
     }
   }
 

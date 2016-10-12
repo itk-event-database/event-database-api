@@ -4,6 +4,34 @@ Feature: Events
   I need to be able to retrieve, create, update and delete events trough the API.
 
   @createSchema
+  Scenario: Create tags
+    Given the following tags exist:
+      | name   | slug   |
+      | apple  | apple  |
+      | banana | banana |
+      | citrus | citrus |
+
+    When I add "Accept" header equal to "application/json"
+    And I send a "GET" request to "/api/tags"
+    Then the response status code should be 200
+    And the JSON should not differ from:
+    """
+    [
+      {
+        "id": "\/api\/tags\/1",
+        "name": "apple"
+      },
+      {
+        "id": "\/api\/tags\/2",
+        "name": "banana"
+      },
+      {
+        "id": "\/api\/tags\/3",
+        "name": "citrus"
+      }
+    ]
+    """
+
   Scenario: Events with tags
     When I authenticate as "api-write"
     And I add "Content-Type" header equal to "application/ld+json"
@@ -59,6 +87,16 @@ Feature: Events
       "langcode": null
     }
     """
+
+  Scenario: Read tags
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/events/1"
+    Then the response status code should be 200
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "@id" should be equal to "/api/events/1"
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "apple"
+    And the JSON node "tags[1]" should be equal to "banana"
 
   Scenario: Filter by tags
     When I authenticate as "api-read"

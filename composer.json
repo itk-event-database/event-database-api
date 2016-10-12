@@ -47,7 +47,8 @@
         "skyscanner/jsonpath": "^0.7.1",
         "psr/log": "1.0.0",
         "resquebundle/resque": "^1.0",
-        "exercise/htmlpurifier-bundle": "^0.2.3"
+        "exercise/htmlpurifier-bundle": "^0.2.3",
+        "sebastian/diff": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
