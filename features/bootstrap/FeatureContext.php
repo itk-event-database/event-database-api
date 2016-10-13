@@ -1,7 +1,7 @@
 <?php
 
+use AppBundle\Entity\Tag;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
@@ -19,11 +19,12 @@ use Sanpi\Behatch\Json\Json;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Sanpi\Behatch\HttpCall\Request;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends BaseContext implements Context, SnippetAcceptingContext, KernelAwareContext
+class FeatureContext extends BaseContext implements Context, KernelAwareContext
 {
   private $kernel;
   private $container;
@@ -186,6 +187,46 @@ class FeatureContext extends BaseContext implements Context, SnippetAcceptingCon
       $differ = new Differ("--- Expected\n+++ Actual\n", true);
       $message = $differ->diff($expected->encode(), $actual->encode());
       throw new ExpectationException($message, $this->getSession(), $ex);
+    }
+  }
+
+  /**
+   * @Given the following tags exist:
+   */
+  public function theFollowingTagsExist(TableNode $table) {
+    $tagManager = $this->container->get('tag_manager');
+    $tagManager->setTagNormalizer(null);
+    $names = array_map(function ($row) {
+      return $row['name'];
+    }, $table->getHash());
+    $tagManager->loadOrCreateTags($names);
+  }
+
+  /**
+   * @Given the following tags are unknown:
+   */
+  public function theFollowingTagsAreUnknown(TableNode $table) {
+    $unknownTagManager = $this->container->get('unknown_tag_manager');
+    $unknownTagManager->setTagNormalizer(null);
+    $names = array_map(function ($row) {
+      return $row['name'];
+    }, $table->getHash());
+    $tags = $unknownTagManager->loadOrCreateTags($names);
+    $unknownTags = [];
+    foreach ($tags as $tag) {
+      $unknownTags[$tag->getName()] = $tag;
+    }
+    $tagManager = $this->container->get('tag_manager');
+
+    $em = $this->container->get('doctrine.orm.default_entity_manager');
+    foreach ($table->getHash() as $row) {
+      $unknownName = $row['name'];
+      $name = $row['tag'];
+      $unknownTag = $unknownTagManager->loadTags([$unknownName])[0];
+      $knownTag = $tagManager->loadTags([$name])[0];
+      $unknownTag->setTag($knownTag);
+      $em->persist($unknownTag);
+      $em->flush();
     }
   }
 

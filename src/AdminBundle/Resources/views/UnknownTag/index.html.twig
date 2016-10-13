@@ -1,0 +1,40 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+    <h1>Tag list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+              <th>Name</th>
+              <th>Tag</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+              <td><a href="{{ path('admin_unknown_tag_show', { 'id': tag.id }) }}">{{ tag.name }}</a></td>
+              <td>{{ tag.tag }}</td>
+                <td>
+									<ul>
+                    <li>
+                      <a href="{{ path('admin_unknown_tag_show', { 'id': tag.id }) }}">show</a>
+                    </li>
+                    <li>
+                      <a href="{{ path('admin_unknown_tag_edit', { 'id': tag.id }) }}">edit</a>
+                    </li>
+									</ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_unknown_tag_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
