@@ -1,0 +1,28 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+  <h1>Tag</h1>
+
+  <table class="record_properties">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <td>{{ tag.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ul class="record_actions">
+		<li>
+      <a href="{{ path('admin_tag') }}">
+        Back to the list
+      </a>
+		</li>
+		<li>
+      <a href="{{ path('admin_tag_edit', { 'id': tag.id }) }}">
+        Edit
+      </a>
+		</li>
+		<li>{{ form(delete_form) }}</li>
+	</ul>
+{% endblock %}

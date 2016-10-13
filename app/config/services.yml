@@ -35,7 +35,7 @@ services:
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
         abstract:  true
-        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@fpn_tag.tag_manager", "@content_normalizer" ]
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@tag_manager", "@content_normalizer" ]
 
     place_factory:
         parent: entity_factory
@@ -71,7 +71,7 @@ services:
 
     app_bundle.doctrine.orm.tag_filter:
         class:      AppBundle\Filter\TagFilter
-        arguments:  [ "@doctrine", "@request_stack", "@fpn_tag.tag_manager" ]
+        arguments:  [ "@doctrine", "@request_stack", "@tag_manager" ]
         public:     false
 
     resource.event.search_tag_filter:
@@ -163,7 +163,7 @@ services:
             - "@api_platform.jsonld.context_builder"
             - "@api_platform.property_accessor"
             - "@?api_platform.name_converter"
-            - "@fpn_tag.tag_manager"
+            - "@tag_manager"
             - "@place_factory"
             - "@content_normalizer"
 
@@ -172,13 +172,26 @@ services:
     tag_normalizer:
         class: AdminBundle\Service\TagNormalizer
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - "@service_container"
+            -
+                services:
+                    tag_manager: tag_manager
+                    unknown_tag_manager: unknown_tag_manager
 
-    fpn_tag.tag_manager:
+    tag_manager:
         class: AppBundle\Entity\TagManager
+        calls:
+            - [setTagNormalizer, ["@tag_normalizer"]]
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%fpn_tag.entity.tag.class%"
             - "%fpn_tag.entity.tagging.class%"
             - "@fpn_tag.slugifier"
-            - "@tag_normalizer"
+
+    unknown_tag_manager:
+        class: AppBundle\Entity\TagManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - AppBundle\Entity\UnknownTag
+            - "%fpn_tag.entity.tagging.class%"
+            - "@fpn_tag.slugifier"

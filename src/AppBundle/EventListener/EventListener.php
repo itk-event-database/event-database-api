@@ -2,6 +2,7 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\TagManager;
 use AppBundle\Entity\Thing;
 use AppBundle\Job\DownloadFilesJob;
 use AppBundle\Security\Authorization\Voter\EventVoter;
@@ -12,10 +13,19 @@ use AppBundle\Entity\Event;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class EventListener {
-  protected $container;
+  /**
+   * @var ContainerInterface
+   */
+  private $container;
+
+  /**
+   * @var TagManager
+   */
+  private $tagManager;
 
   public function __construct(ContainerInterface $container) {
     $this->container = $container;
+    $this->tagManager = $container->get('tag_manager');
   }
 
   public function preUpdate(LifecycleEventArgs $args) {
@@ -41,8 +51,7 @@ class EventListener {
   public function postPersist(LifecycleEventArgs $args) {
     $object = $args->getObject();
     if ($object instanceof Taggable) {
-      $tagManager = $this->container->get('fpn_tag.tag_manager');
-      $tagManager->saveTagging($object);
+      $this->tagManager->saveTagging($object);
     }
 
     if ($object instanceof Thing) {

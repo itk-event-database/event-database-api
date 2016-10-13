@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use FPN\TagBundle\Entity\Tagging as BaseTagging;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -11,6 +12,10 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *
  * @ORM\Table(uniqueConstraints={@UniqueConstraint(name="tagging_idx", columns={"tag_id", "resource_type", "resource_id"})})
  * @ORM\Entity
+ * @ApiResource(
+ *   collectionOperations={},
+ *   itemOperations={},
+ * )
  */
 class Tagging extends BaseTagging
 {
