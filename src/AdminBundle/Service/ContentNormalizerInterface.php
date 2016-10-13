@@ -12,5 +12,5 @@ interface ContentNormalizerInterface {
    * @return string
    *   Normalized and cleaned html.
    */
-  public function normalize(string $content): string;
+  public function normalize($content);
 }

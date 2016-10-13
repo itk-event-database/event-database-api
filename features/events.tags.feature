@@ -51,23 +51,10 @@ Feature: Events
     }
     """
     Then the response status code should be 201
-    And the JSON should be equal to:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/1",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [],
-      "ticketPurchaseUrl": null,
-      "tags": [ "apple", "banana" ],
-      "description": null,
-      "image": null,
-      "name": "A tagged event",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON node "name" should be equal to "A tagged event"
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "apple"
+    And the JSON node "tags[1]" should be equal to "banana"
 
     When I send a "POST" request to "/api/events" with body:
     """
@@ -77,23 +64,10 @@ Feature: Events
     }
     """
     Then the response status code should be 201
-    And the JSON should be equal to:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/2",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [],
-      "ticketPurchaseUrl": null,
-      "tags": [ "banana", "citrus" ],
-      "description": null,
-      "image": null,
-      "name": "Another tagged event",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON node "name" should be equal to "Another tagged event"
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "banana"
+    And the JSON node "tags[1]" should be equal to "citrus"
 
   Scenario: Events with unknown tags
     When I authenticate as "api-write"
