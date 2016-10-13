@@ -68,6 +68,15 @@ class Event extends Thing implements Taggable
   private $ticketPurchaseUrl;
 
   /**
+   * @var string Excerpt, i.e. short description, without any markup
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="text")
+   */
+  private $excerpt;
+
+  /**
    * @var Feed
    *
    * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
@@ -160,6 +169,22 @@ class Event extends Thing implements Taggable
   public function setTicketPurchaseUrl($ticketPurchaseUrl)
   {
     $this->ticketPurchaseUrl = $ticketPurchaseUrl;
+  }
+
+  /**
+   * @return string
+   */
+  public function getExcerpt()
+  {
+    return $this->excerpt;
+  }
+
+  /**
+   * @param string $excerpt
+   */
+  public function setExcerpt($excerpt)
+  {
+    $this->excerpt = $excerpt;
   }
 
   public function __construct() {
