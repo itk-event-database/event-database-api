@@ -47,23 +47,11 @@ Feature: Events
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON should not differ from:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/1",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [],
-      "ticketPurchaseUrl": "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/",
-      "tags": [],
-      "description": null,
-      "image": "http://static.billetlugen.dk/images/events/b/41677.jpg",
-      "name": "Big bang",
-      "url": null,
-      "videoUrl": "https://vimeo.com/183524061",
-      "langcode": "da"
-    }
-    """
+    And the JSON node "name" should be equal to "Big bang"
+    And the JSON node "image" should be equal to "http://static.billetlugen.dk/images/events/b/41677.jpg"
+    And the JSON node "ticketPurchaseUrl" should be equal to "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/"
+    And the JSON node "videoUrl" should be equal to "https://vimeo.com/183524061"
+    And the JSON node "langcode" should be equal to "da"
 
   Scenario: Create an event with multiple occurrences
     When I authenticate as "api-write"
@@ -87,44 +75,12 @@ Feature: Events
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
-    And the JSON should not differ from:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/2",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [
-        {
-          "@id": "\/api\/occurrences\/1",
-          "@type": "Occurrence",
-          "event": "\/api\/events\/2",
-          "startDate": "2000-01-01T00:00:00+00:00",
-          "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null,
-          "ticketPriceRange": null,
-          "eventStatusText": null
-        },
-        {
-          "@id": "\/api\/occurrences\/2",
-          "@type": "Occurrence",
-          "event": "\/api\/events\/2",
-          "startDate": "2000-01-01T00:00:00+00:00",
-          "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null,
-          "ticketPriceRange": null,
-          "eventStatusText": null
-        }
-      ],
-      "ticketPurchaseUrl": null,
-      "tags": [],
-      "description": null,
-      "image": null,
-      "name": "Repeating event",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON node "name" should be equal to "Repeating event"
+    And the JSON node "occurrences" should have 2 elements
+    And the JSON node "occurrences[0].startDate" should be equal to "2000-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].startDate" should be equal to "2000-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].endDate" should be equal to "2100-01-01T00:00:00+00:00"
 
   Scenario: Count Events
     When I authenticate as "api-write"
@@ -168,44 +124,12 @@ Feature: Events
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON should be equal to:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/2",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [
-        {
-          "@id": "\/api\/occurrences\/3",
-          "@type": "Occurrence",
-          "event": "\/api\/events\/2",
-          "startDate": "2000-01-01T00:00:00+00:00",
-          "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null,
-          "ticketPriceRange": null,
-          "eventStatusText": null
-        },
-        {
-          "@id": "\/api\/occurrences\/4",
-          "@type": "Occurrence",
-          "event": "\/api\/events\/2",
-          "startDate": "2000-01-01T00:00:00+00:00",
-          "endDate": "2100-01-01T00:00:00+00:00",
-          "place": null,
-          "ticketPriceRange": null,
-          "eventStatusText": null
-        }
-      ],
-      "ticketPurchaseUrl": null,
-      "tags": [],
-      "description": null,
-      "image": null,
-      "name": "Repeating event (updated)",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON node "name" should be equal to "Repeating event (updated)"
+    And the JSON node "occurrences" should have 2 elements
+    And the JSON node "occurrences[0].startDate" should be equal to "2000-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].startDate" should be equal to "2000-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].endDate" should be equal to "2100-01-01T00:00:00+00:00"
 
   Scenario: Unauthorized attempt to delete an event
     When I authenticate as "api-read"

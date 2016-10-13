@@ -43,51 +43,21 @@ Feature: Events Authentication
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON should be equal to:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/1",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [],
-      "ticketPurchaseUrl": null,
-      "tags": [],
-      "description": null,
-      "image": null,
-      "name": "Created by api-write",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON node "@id" should be equal to "/api/events/1"
+    And the JSON node "name" should be equal to "Created by api-write"
 
     When I authenticate as "api-write2"
     And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
-    {"name": "Created by api-write"}
+    {"name": "Created by api-write2"}
     """
     Then the response status code should be 201
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON should be equal to:
-    """
-    {
-      "@context": "\/api\/contexts\/Event",
-      "@id": "\/api\/events\/2",
-      "@type": "http:\/\/schema.org\/Event",
-      "occurrences": [],
-      "ticketPurchaseUrl": null,
-      "tags": [],
-      "description": null,
-      "image": null,
-      "name": "Created by api-write",
-      "url": null,
-      "videoUrl": null,
-      "langcode": null
-    }
-    """
+    And the JSON node "@id" should be equal to "/api/events/2"
+    And the JSON node "name" should be equal to "Created by api-write2"
 
   Scenario: Update an event
     When I authenticate as "api-write"
