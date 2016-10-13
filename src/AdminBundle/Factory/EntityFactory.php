@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Factory;
 
-use AdminBundle\Service\ContentNormalizerInterface;
 use AdminBundle\Service\FeedReader\ValueConverter;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineExtensions\Taggable\Taggable;
@@ -33,21 +32,15 @@ abstract class EntityFactory {
   protected $tagManager;
 
   /**
-   * @var ContentNormalizerInterface
-   */
-  protected $contentNormalizer;
-
-  /**
    * @var \Symfony\Component\PropertyAccess\PropertyAccessor
    */
   protected $accessor;
 
-  public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = null, ContentNormalizerInterface $contentNormalizer)  {
+  public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = null)  {
     $this->container = $container;
     $this->em = $em;
     $this->valueConverter = $valueConverter;
     $this->tagManager = $tagManager;
-    $this->contentNormalizer = $contentNormalizer;
     $this->accessor = PropertyAccess::createPropertyAccessor();
   }
 
@@ -74,9 +67,6 @@ abstract class EntityFactory {
     switch ($key) {
       case 'id':
         return;
-      case 'description':
-        $value = $this->contentNormalizer->normalize($value);
-        break;
       case 'tags':
         if ($entity instanceof Taggable && $this->tagManager) {
           $tags = $this->tagManager->loadOrCreateTags($value);
