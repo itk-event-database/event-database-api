@@ -19,27 +19,29 @@ class LoadPlaces extends LoadData
     $yaml = $this->loadFixture('places.yml');
     $config = Yaml::parse($yaml);
 
-    $tagManager = $this->container->get('fpn_tag.tag_manager');
-    $yaml = $this->loadFixture('categories.yml');
-    $config_categories = Yaml::parse($yaml);
-    $categories = array();
-
-    foreach ($config_categories['data'] as $name => $configuration) {
-      $categories[$configuration['id']] = $tagManager->loadOrCreateTag($configuration['name']);
-    }
+    $userRepository = $this->container->get('doctrine')->getRepository('AppBundle:User');
+    $user = $userRepository->findOneByUsername('api-admin');
 
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:Place');
+
+    $places_count = count($config['data']);
+    $loop = 0;
+
+    echo 'Places loaded (' . $places_count .'):', PHP_EOL;
 
     foreach ($config['data'] as $name => $configuration) {
       $name = trim($configuration['name']);
       $city = $configuration['city'];
       $city = str_replace('Århus', 'Aarhus', $city);
 
-      $place = $repository->findOneByName($name);
+      $place = $repository->findOneById($configuration['place_id']);
 
       if(!$place) {
         $place = new Place();
       }
+
+      $place->setCreatedBy($user);
+      $place->setUpdatedBy($user);
 
       $place->setName($name);
       $place->setStreetAddress($configuration['adress']);
@@ -66,9 +68,11 @@ class LoadPlaces extends LoadData
 
       $manager->persist($place);
 
-      foreach ($configuration['category_ids'] as $category_id) {
-        $tagManager->addTag($categories[$category_id], $place);
+      if($loop % 100 == 0) {
+        echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
       }
+
+      $loop++;
 
     }
 
