@@ -35,7 +35,7 @@ services:
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
         abstract:  true
-        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@tag_manager", "@content_normalizer" ]
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@tag_manager" ]
 
     place_factory:
         parent: entity_factory
@@ -112,6 +112,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preRemove }
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
 
     feed_reader.json:
@@ -145,10 +146,18 @@ services:
         tags:
             - { name: "twig.extension" }
 
-    content_normalizer:
+    description_normalizer:
         class: AdminBundle\Service\ContentNormalizer
         arguments:
             - "@exercise_html_purifier.default"
+
+    excerpt_normalizer:
+        class: AdminBundle\Service\ContentNormalizer
+        arguments:
+            - "@exercise_html_purifier.default"
+            -
+                strip_tags: true
+                max_length: 160
 
     # Override vendor/api-platform/core/src/Bridge/Symfony/Bundle/Resources/config/jsonld.xml
     api_platform.jsonld.normalizer.item:
@@ -165,7 +174,6 @@ services:
             - "@?api_platform.name_converter"
             - "@tag_manager"
             - "@place_factory"
-            - "@content_normalizer"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
 

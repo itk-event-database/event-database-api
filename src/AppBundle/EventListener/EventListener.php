@@ -48,6 +48,26 @@ class EventListener {
     }
   }
 
+  public function prePersist(LifecycleEventArgs $args)
+  {
+    $object = $args->getObject();
+    if ($object instanceof Thing) {
+      if ($this->container->has('description_normalizer')) {
+        $description = $object->getDescription();
+        $description = $this->container->get('description_normalizer')
+          ->normalize($description);
+        $object->setDescription($description);
+      }
+    }
+    if ($object instanceof Event) {
+      if ($this->container->has('excerpt_normalizer')) {
+        $excerpt = $object->getExcerpt() ?: $object->getDescription();
+        $excerpt = $this->container->get('excerpt_normalizer')->normalize($excerpt);
+        $object->setExcerpt($excerpt);
+      }
+    }
+  }
+
   public function postPersist(LifecycleEventArgs $args) {
     $object = $args->getObject();
     if ($object instanceof Taggable) {
