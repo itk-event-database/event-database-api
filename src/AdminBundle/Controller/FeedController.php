@@ -139,7 +139,7 @@ class FeedController extends Controller {
 
     return [
       'feed'      => $feed,
-      'edit_form'   => $editForm->createView(),
+      'form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ];
   }
@@ -189,7 +189,7 @@ class FeedController extends Controller {
 
     return [
       'feed'      => $feed,
-      'edit_form'   => $editForm->createView(),
+      'form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     ];
   }

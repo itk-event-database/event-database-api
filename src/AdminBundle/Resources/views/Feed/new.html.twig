@@ -1,66 +1,14 @@
-{% extends 'AdminBundle::base.html.twig' %}
-
-{% block stylesheets %}
-  {{ parent() }}
-  <link rel="stylesheet" href="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.css') }}">
-{% endblock %}
-
-{% block javascripts %}
-  {{ parent() }}
-  <script src="{{ asset('assets/node_modules/jsoneditor/dist/jsoneditor.min.js') }}"></script>
-  <script>
-	 var schema = {{ include_file(kernelRootDir ~ '/../web/assets/schema/feed.schema.json') }},
-	 el = document.getElementById('{{ form.configuration.vars.id }}');
-     el.type = 'hidden';
-
-   var container = document.createElement('div');
-   el.parentNode.insertBefore(container, el);
-
-   var json = {
-     "url": "",
-     "type": "",
-     "root": "",
-     "baseUrl": "",
-     "mapping": {
-       "id": "",
-       "name": "",
-       "occurrences": {
-         "path": "",
-         "mapping": {
-           "startDate": "",
-           "endDate": "",
-           "venue": ""
-         }
-       }
-     },
-     "defaults": {}
-   };
-
-   var options = {
-     schema: schema,
-     modes: [ 'tree', 'view', 'form', 'code', 'text' ],
-     onChange: function() {
-       try {
-         el.value = JSON.stringify(editor.get());
-       } catch (ex) {}
-     }
-   };
-
-   // create the editor
-   var editor = new JSONEditor(container, options, json);
-   editor.expandAll();
-  </script>
-{% endblock %}
+{% extends 'AdminBundle:Feed:_edit.html.twig' %}
 
 {% block body -%}
   <h1>{{ 'Create feed' | trans }}</h1>
 
   {{ form_start(form) }}
   {{ form_rest(form) }}
-	<div class="actions">
-		<a class="btn btn-default" href="{{ path('admin_feed') }}">{{ 'Cancel' | trans  }}</a>
-		<button class="btn btn-primary" type="submit">{{ 'Create' | trans }}</button>
-	</div>
+  <div class="actions">
+    <a class="btn btn-default" href="{{ path('admin_feed') }}">{{ 'Cancel' | trans  }}</a>
+    <button class="btn btn-primary" type="submit">{{ 'Create' | trans }}</button>
+  </div>
   {{ form_end(form) }}
 
   <div id="jsoneditor"></div>

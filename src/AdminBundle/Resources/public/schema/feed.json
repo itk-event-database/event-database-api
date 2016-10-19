@@ -1,0 +1,21 @@
+{
+    "url": "",
+    "type": "json",
+    "root": "",
+    "baseUrl": "",
+    "mapping": {
+				"id": "",
+				"name": "",
+				"occurrences": {
+						"path": "",
+						"mapping": {
+								"startDate": "",
+								"endDate": "",
+								"venue": ""
+						}
+				}
+		},
+		"defaults": {
+				"tags": "example"
+		}
+}

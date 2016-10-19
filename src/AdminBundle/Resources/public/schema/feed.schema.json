@@ -31,9 +31,8 @@
 			"description": "A base url to use when converting relative urls in the feed to absolute urls",
       "type": "string"
     },
-    "mapping": { "$ref": "#/definitions/mapping" },
-    "defaults": {
-    },
+		"mapping": { "$ref": "#/definitions/mapping" },
+    "defaults": { "$ref": "#/definitions/defaults" }
   },
 	"required": ["url", "type", "mapping"],
   "additionalProperties": false,
@@ -76,7 +75,7 @@
                 "venue": {
 									"description": "The venue of the occurrence",
 									"$ref": "#/definitions/mappedField"
-								},
+								}
               },
               "required": [ "startDate", "endDate" ]
             }
@@ -84,6 +83,11 @@
         }
       },
       "required": [ "id", "name", "occurrences" ]
+    },
+
+		"defaults": {
+			"description": "Default values",
+			"type": "object"
     },
 
     "mappedField": {
