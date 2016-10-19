@@ -10,6 +10,9 @@ use AppBundle\Entity\Entity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ *
+ */
 abstract class EntityFactory {
   /**
    * @var ContainerInterface
@@ -36,7 +39,13 @@ abstract class EntityFactory {
    */
   protected $accessor;
 
-  public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = null)  {
+  /**
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   * @param \Doctrine\ORM\EntityManagerInterface $em
+   * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
+   * @param \FPN\TagBundle\Entity\TagManager $tagManager
+   */
+  public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = NULL) {
     $this->container = $container;
     $this->em = $em;
     $this->valueConverter = $valueConverter;
@@ -44,14 +53,25 @@ abstract class EntityFactory {
     $this->accessor = PropertyAccess::createPropertyAccessor();
   }
 
+  /**
+   * @param $entity
+   */
   protected function persist($entity) {
     $this->em->persist($entity);
   }
 
+  /**
+   *
+   */
   protected function flush() {
     $this->em->flush();
   }
 
+  /**
+   * @param \AppBundle\Entity\Entity $entity
+   * @param array $values
+   * @return $this
+   */
   protected function setValues(Entity $entity, array $values) {
     foreach ($values as $key => $value) {
       if ($this->valueConverter) {
@@ -63,10 +83,16 @@ abstract class EntityFactory {
     return $this;
   }
 
+  /**
+   * @param \AppBundle\Entity\Entity $entity
+   * @param $key
+   * @param $value
+   */
   protected function setValue(Entity $entity, $key, $value) {
     switch ($key) {
       case 'id':
         return;
+
       case 'tags':
         if ($entity instanceof Taggable && $this->tagManager) {
           $tags = $this->tagManager->loadOrCreateTags($value);

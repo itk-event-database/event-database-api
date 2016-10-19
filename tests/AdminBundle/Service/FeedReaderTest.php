@@ -21,7 +21,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
 
   private $events = [];
 
-  public function testReadJSONFeedWithDefaults() {
+  public function testReadJsonFeedWithDefaults() {
     $feedConfiguration = $this->readFixture('feed-with-defaults.yml');
     $json = $this->readFixture('feed-with-defaults.json');
 
@@ -100,4 +100,5 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
   public function convertValue($value, $name) {
     return $this->converter->convert($value, $name);
   }
+
 }

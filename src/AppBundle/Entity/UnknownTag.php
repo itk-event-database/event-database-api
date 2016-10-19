@@ -8,13 +8,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AppBundle\Entity\UnknownTag
+ * AppBundle\Entity\UnknownTag.
  *
  * @ORM\Table()
+ *
  * @ORM\Entity()
  */
-class UnknownTag extends BaseTag
-{
+class UnknownTag extends BaseTag {
   /**
    * @var integer $id
    *
@@ -30,13 +30,20 @@ class UnknownTag extends BaseTag
    */
   protected $tag;
 
-  public function setTag(Tag $tag = null) {
+  /**
+   *
+   */
+  public function setTag(Tag $tag = NULL) {
     $this->tag = $tag;
 
     return $this;
   }
 
+  /**
+   *
+   */
   public function getTag() {
     return $this->tag;
   }
+
 }

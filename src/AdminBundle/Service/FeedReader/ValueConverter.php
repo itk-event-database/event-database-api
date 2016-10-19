@@ -6,15 +6,26 @@ use AdminBundle\Entity\Feed;
 use League\Uri\Modifiers\Resolve;
 use League\Uri\Schemes\Http as HttpUri;
 
+/**
+ *
+ */
 class ValueConverter {
   protected $feed;
   protected $urlResolver;
 
+  /**
+   * @param \AdminBundle\Entity\Feed $feed
+   */
   public function setFeed(Feed $feed) {
     $this->feed = $feed;
-    $this->urlResolver = $this->feed->getBaseUrl() ? new Resolve(HttpUri::createFromString($this->feed->getBaseUrl())) : null;
+    $this->urlResolver = $this->feed->getBaseUrl() ? new Resolve(HttpUri::createFromString($this->feed->getBaseUrl())) : NULL;
   }
 
+  /**
+   * @param $value
+   * @param $name
+   * @return \DateTime|null|string
+   */
   public function convert($value, $name) {
     switch ($name) {
       case 'startDate':
@@ -26,7 +37,7 @@ class ValueConverter {
         if ($this->urlResolver) {
           $relativeUrl = HttpUri::createFromString($value);
           $url = $this->urlResolver->__invoke($relativeUrl);
-          $value = (string)$url;
+          $value = (string) $url;
         }
         break;
 
@@ -35,34 +46,42 @@ class ValueConverter {
     return $value;
   }
 
+  /**
+   * @param $value
+   * @return \DateTime|null
+   */
   private function parseDate($value) {
     if (!$value) {
-      return null;
+      return NULL;
     }
     if ($value instanceof \DateTime) {
       return $value;
     }
 
-    $date = null;
+    $date = NULL;
     // JSON date (/Date(...)/)
     if (preg_match('@/Date\(([0-9]+)\)/@', $value, $matches)) {
       $date = new \DateTime();
-      $date->setTimestamp(((int)$matches[1]) / 1000);
-    } else if (is_numeric($value)) {
+      $date->setTimestamp(((int) $matches[1]) / 1000);
+    }
+    elseif (is_numeric($value)) {
       $date = new \DateTime();
       $date->setTimestamp($value);
     }
 
-    if ($date === null) {
+    if ($date === NULL) {
       try {
         $date = new \DateTime($value);
-      } catch (\Exception $e) {}
+      }
+      catch (\Exception $e) {
+      }
     }
 
-    if ($date !== null && $this->feed && $this->feed->getTimeZone()) {
+    if ($date !== NULL && $this->feed && $this->feed->getTimeZone()) {
       $date->setTimezone($this->feed->getTimeZone());
     }
 
     return $date;
   }
+
 }

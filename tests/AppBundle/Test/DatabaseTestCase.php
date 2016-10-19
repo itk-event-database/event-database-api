@@ -19,40 +19,38 @@ class DatabaseTestCase extends ContainerTestCase {
 
     $this->em = $this->container->get('doctrine')->getManager();
 
-    self::runCommand('doctrine:database:create', ['--quiet' => true]);
-    self::runCommand('doctrine:schema:create', ['--quiet' => true]);
-    self::runCommand('doctrine:schema:update', ['--quiet' => true, '--force' => true]);
+    self::runCommand('doctrine:database:create', ['--quiet' => TRUE]);
+    self::runCommand('doctrine:schema:create', ['--quiet' => TRUE]);
+    self::runCommand('doctrine:schema:update', ['--quiet' => TRUE, '--force' => TRUE]);
   }
 
   /**
    * {@inheritDoc}
    */
-  protected function tearDown()
-  {
+  protected function tearDown() {
     parent::tearDown();
 
     $this->em->close();
-    $this->em = null; // avoid memory leaks
+    $this->em = NULL; // avoid memory leaks
 
-    self::runCommand('doctrine:database:drop', ['--quiet' => true, '--force' => true]);
+    self::runCommand('doctrine:database:drop', ['--quiet' => TRUE, '--force' => TRUE]);
   }
 
-  protected static function runCommand($command, array $args = [])
-  {
+  protected static function runCommand($command, array $args = []) {
     $args['command'] = $command;
     $result = self::getApplication()->run(new ArrayInput($args));
 
     if ($result !== 0) {
-      throw new \Exception('Command '.$command.' failed');
+      throw new \Exception('Command ' . $command . ' failed');
     }
   }
 
   private static $application;
 
   private static function getApplication() {
-    if (self::$application === null) {
+    if (self::$application === NULL) {
       self::$application = new Application(self::$kernel);
-      self::$application->setAutoExit(false);
+      self::$application->setAutoExit(FALSE);
     }
 
     return self::$application;
@@ -69,4 +67,5 @@ class DatabaseTestCase extends ContainerTestCase {
 
     return $this;
   }
+
 }

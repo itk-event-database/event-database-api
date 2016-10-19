@@ -23,12 +23,12 @@ class ContainerTestCase extends BaseTestCase {
   /**
    * Read a fixture file and convert the content into soemthing useful.
    */
-  protected function readFixture($filename, $type = null) {
+  protected function readFixture($filename, $type = NULL) {
     $path = $this->getFixturePath($filename);
     $content = file_get_contents($path);
     $info = pathinfo($path);
 
-    if ($type === null) {
+    if ($type === NULL) {
       $type = $info['extension'];
     }
 
@@ -37,9 +37,11 @@ class ContainerTestCase extends BaseTestCase {
       case 'yaml':
         $content = YAML::parse($content);
         break;
+
       case 'json':
-        $content = json_decode($content, true);
+        $content = json_decode($content, TRUE);
         break;
+
       case 'xml':
         $content = new \SimpleXmlElement($content);
         break;

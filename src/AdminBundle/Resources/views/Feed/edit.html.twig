@@ -35,18 +35,25 @@
 {% endblock %}
 
 {% block body -%}
-  <h1>Feed edit</h1>
+  <h1>{{ 'Edit feed' | trans }}</h1>
 
-  {{ form(edit_form) }}
+  {{ form_start(edit_form) }}
+  {{ form_rest(edit_form) }}
+	<div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_feed') }}">{{ 'Cancel' | trans  }}</a>
+		<button class="btn btn-primary" type="submit">{{ 'Save' | trans }}</button>
+	</div>
+  {{ form_end(edit_form) }}
 
   <div id="jsoneditor"></div>
 
-  <ul class="record_actions">
-    <li>
-      <a href="{{ path('admin_feed') }}">
-        Back to the list
-      </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-  </ul>
+
+  <div class="actions">
+		{{ form_start(delete_form) }}
+		{{ form_rest(delete_form) }}
+		<div class="actions">
+			<button class="btn btn-danger" type="submit">{{ 'Delete' | trans }}</button>
+		</div>
+		{{ form_end(delete_form) }}
+	</div>
 {% endblock %}

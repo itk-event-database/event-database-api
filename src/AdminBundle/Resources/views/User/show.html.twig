@@ -1,0 +1,29 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+  <h1>{{ 'User' | trans }}</h1>
+
+  <dl class="dl-horizontal">
+    <dt>{{ 'Id' | trans }}</dt>
+    <dd>{{ user.id }}</dd>
+
+    <dt>{{ 'Username' | trans }}</dt>
+    <dd>{{ user.username }}</dd>
+
+    <dt>{{ 'Email' | trans }}</dt>
+    <dd>{{ user.email }}</dd>
+
+		<dt>{{ 'Roles' | trans }}</dt>
+    <dd>
+			{%- for index, role in user.roles -%}
+				{% if index > 0 %}, {% endif %}
+				{{ role | trans }}
+			{%- endfor -%}
+		</dd>
+	</dl>
+
+  <div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_user') }}">{{ 'Back to the list' | trans  }}</a>
+		<a class="btn btn-primary" href="{{ path('admin_user_edit', { 'id': user.id }) }}">{{ 'Edit' | trans  }}</a>
+	</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body %}
+	<div class="login--form">
+    {% if app.request.hasPreviousSession %}
+      {% for type, messages in app.session.flashbag.all() %}
+        {% for message in messages %}
+          <div class="alert alert-{{ type }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+
+		{% block fos_user_content %}{% endblock %}
+	</div>
+{% endblock %}

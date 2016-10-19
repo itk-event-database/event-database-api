@@ -8,12 +8,18 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use AppBundle\Entity\User;
 
+/**
+ *
+ */
 class EventVoter extends Voter {
   const UPDATE = 'update';
   const REMOVE = 'remove';
 
   private $roleHierarchy;
 
+  /**
+   *
+   */
   public function __construct(RoleHierarchyInterface $roleHierarchy) {
     $this->roleHierarchy = $roleHierarchy;
   }
@@ -21,23 +27,24 @@ class EventVoter extends Voter {
   /**
    * Determines if the attribute and subject are supported by this voter.
    *
-   * @param string $attribute An attribute
-   * @param mixed $subject The subject to secure, e.g. an object the user wants to access or any other PHP type
+   * @param string $attribute
+   *   An attribute
+   * @param mixed $subject
+   *   The subject to secure, e.g. an object the user wants to access or any other PHP type
    *
    * @return bool True if the attribute and subject are supported, false otherwise
    */
-  protected function supports($attribute, $subject)
-  {
-    // if the attribute isn't one we support, return false
-    if (!in_array($attribute, array(self::UPDATE, self::REMOVE))) {
-      return false;
+  protected function supports($attribute, $subject) {
+    // If the attribute isn't one we support, return false.
+    if (!in_array($attribute, [self::UPDATE, self::REMOVE])) {
+      return FALSE;
     }
 
     if (!$subject instanceof Event) {
-      return false;
+      return FALSE;
     }
 
-    return true;
+    return TRUE;
   }
 
   /**
@@ -49,16 +56,15 @@ class EventVoter extends Voter {
    *
    * @return bool
    */
-  protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
-  {
+  protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
     if ($this->hasRole($token, 'ROLE_ADMIN')) {
-      return true;
+      return TRUE;
     }
 
     $user = $token->getUser();
     if (!$user instanceof User) {
-      // the user must be logged in; if not, deny access
-      return false;
+      // The user must be logged in; if not, deny access.
+      return FALSE;
     }
 
     $event = $subject;
@@ -66,6 +72,7 @@ class EventVoter extends Voter {
     switch ($attribute) {
       case self::UPDATE:
         return $this->canUpdate($event, $user);
+
       case self::REMOVE:
         return $this->canRemove($event, $user);
     }
@@ -75,55 +82,62 @@ class EventVoter extends Voter {
 
   /**
    * Check if a user can edit an event.
-   *
-   *
    */
   private function canEdit(Event $event, User $user) {
     $createdByUser = $event->getCreatedBy();
     if (!$createdByUser) {
-      return false;
+      return FALSE;
     }
 
     if ($user->getId() === $createdByUser->getId()) {
-      return true;
+      return TRUE;
     }
 
     // Check user's groups.
     $groups = $user->getGroups();
     $createdByGroups = $createdByUser->getGroups();
     if (!$groups || !$createdByGroups) {
-      return false;
+      return FALSE;
     }
 
     foreach ($groups as $group) {
       if ($createdByGroups->contains($group)) {
-        return true;
+        return TRUE;
       }
     }
 
-    return false;
+    return FALSE;
   }
 
+  /**
+   *
+   */
   private function canUpdate(Event $event, User $user) {
     return $this->canEdit($event, $user);
   }
 
+  /**
+   *
+   */
   private function canRemove(Event $event, User $user) {
     return $this->canEdit($event, $user);
   }
 
+  /**
+   *
+   */
   private function hasRole(TokenInterface $token, $roleName) {
-    if (null === $this->roleHierarchy) {
-      return in_array($roleName, $token->getRoles(), true);
+    if (NULL === $this->roleHierarchy) {
+      return in_array($roleName, $token->getRoles(), TRUE);
     }
 
     foreach ($this->roleHierarchy->getReachableRoles($token->getRoles()) as $role) {
       if ($roleName === $role->getRole()) {
-        return true;
+        return TRUE;
       }
     }
 
-    return false;
+    return FALSE;
   }
 
 }

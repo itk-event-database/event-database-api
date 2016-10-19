@@ -5,6 +5,9 @@ namespace AdminBundle\Service;
 use AppBundle\Entity\TagManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ *
+ */
 class TagNormalizer implements TagNormalizerInterface {
   /**
    * @var ContainerInterface
@@ -16,11 +19,19 @@ class TagNormalizer implements TagNormalizerInterface {
    */
   private $configuration;
 
+  /**
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   * @param array $configuration
+   */
   public function __construct(ContainerInterface $container, array $configuration) {
     $this->container = $container;
     $this->configuration = $configuration;
   }
 
+  /**
+   * @param array $names
+   * @return array
+   */
   public function normalize(array $names) {
     $tagManager = $this->getTagManager();
     $tags = $tagManager->loadTags($names);
@@ -46,16 +57,15 @@ class TagNormalizer implements TagNormalizerInterface {
   /**
    * @return TagManager
    */
-  private function getTagManager()
-  {
+  private function getTagManager() {
     return $this->container->get($this->configuration['services']['tag_manager']);
   }
 
   /**
    * @return TagManager
    */
-  private function getUnknownTagManager()
-  {
+  private function getUnknownTagManager() {
     return $this->container->get($this->configuration['services']['unknown_tag_manager']);
   }
+
 }

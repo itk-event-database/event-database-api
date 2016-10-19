@@ -27,6 +27,7 @@ parameters:
     jwt_key_pass_phrase:  'test'                                     # ssh key pass phrase
     jwt_token_ttl:        86400
 
+    site_title: Event database
     admin.base_url: http://event-database-api.vm
     admin.files_path: %kernel.root_dir%/../web/files/
     admin.files_url: files/

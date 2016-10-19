@@ -9,152 +9,171 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Feed
+ * Feed.
  *
  * @ORM\Table()
+ *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ *
  * @ORM\Entity
  */
-class Feed
-{
+class Feed {
   use TimestampableEntity;
   use BlameableEntity;
   use SoftDeleteableEntity;
 
   /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+   * @var integer
+   *
+   * @ORM\Column(name="id", type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+  /**
+   * @var string
+   *
+   * @ORM\Column(type="string", length=255)
+   */
+  private $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="json_array")
-     */
-    private $configuration;
+  /**
+   * @var string
+   *
+   * @ORM\Column(type="json_array")
+   */
+  private $configuration;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="lastRead", type="datetime", nullable=true)
-     */
-    private $lastRead;
+  /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="lastRead", type="datetime", nullable=true)
+   */
+  private $lastRead;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+  /**
+   * Get id.
+   *
+   * @return integer
+   */
+  public function getId() {
+    return $this->id;
+  }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Feed
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+  /**
+   * Set name.
+   *
+   * @param string $name
+   *
+   * @return Feed
+   */
+  public function setName($name) {
+    $this->name = $name;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+  /**
+   * Get name.
+   *
+   * @return string
+   */
+  public function getName() {
+    return $this->name;
+  }
 
-    /**
-     * Set configuration
-     *
-     * @param array $configuration
-     * @return Feed
-     */
-    public function setConfiguration(array $configuration)
-    {
-        $this->configuration = $configuration;
+  /**
+   * Set configuration.
+   *
+   * @param array $configuration
+   *
+   * @return Feed
+   */
+  public function setConfiguration(array $configuration) {
+    $this->configuration = $configuration;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get configuration
-     *
-     * @return array
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
+  /**
+   * Get configuration.
+   *
+   * @return array
+   */
+  public function getConfiguration() {
+    return $this->configuration;
+  }
 
-    /**
-     * Set lastRead
-     *
-     * @param \DateTime $lastRead
-     * @return Feed
-     */
-    public function setLastRead($lastRead)
-    {
-        $this->lastRead = $lastRead;
+  /**
+   * Set lastRead.
+   *
+   * @param \DateTime $lastRead
+   *
+   * @return Feed
+   */
+  public function setLastRead($lastRead) {
+    $this->lastRead = $lastRead;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get lastRead
-     *
-     * @return \DateTime
-     */
-    public function getLastRead()
-    {
-        return $this->lastRead;
-    }
+  /**
+   * Get lastRead.
+   *
+   * @return \DateTime
+   */
+  public function getLastRead() {
+    return $this->lastRead;
+  }
 
+  /**
+   *
+   */
   public function getUrl() {
-    return isset($this->configuration['url']) ? $this->configuration['url'] : null;
+    return isset($this->configuration['url']) ? $this->configuration['url'] : NULL;
   }
 
+  /**
+   *
+   */
   public function getType() {
-    return isset($this->configuration['type']) ? $this->configuration['type'] : null;
+    return isset($this->configuration['type']) ? $this->configuration['type'] : NULL;
   }
 
+  /**
+   *
+   */
   public function getRoot() {
-    return isset($this->configuration['root']) ? $this->configuration['root'] : null;
+    return isset($this->configuration['root']) ? $this->configuration['root'] : NULL;
   }
 
+  /**
+   *
+   */
   public function getMapping() {
-    return isset($this->configuration['mapping']) ? $this->configuration['mapping'] : null;
+    return isset($this->configuration['mapping']) ? $this->configuration['mapping'] : NULL;
   }
 
+  /**
+   *
+   */
   public function getBaseUrl() {
-    return isset($this->configuration['baseUrl']) ? $this->configuration['baseUrl'] : null;
+    return isset($this->configuration['baseUrl']) ? $this->configuration['baseUrl'] : NULL;
   }
 
+  /**
+   *
+   */
   public function getDefaults() {
-    return isset($this->configuration['defaults']) ? $this->configuration['defaults'] : null;
+    return isset($this->configuration['defaults']) ? $this->configuration['defaults'] : NULL;
   }
 
+  /**
+   *
+   */
   public function getTimeZone() {
-    return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : null;
+    return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : NULL;
   }
+
 }

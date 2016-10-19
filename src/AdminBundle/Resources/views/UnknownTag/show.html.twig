@@ -1,32 +1,18 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
 {% block body -%}
-  <h1>Tag</h1>
+  <h1>{{ 'Unknown tag' | trans }}</h1>
 
-  <table class="record_properties">
-    <tbody>
-      <tr>
-        <th>Name</th>
-        <td>{{ tag.name }}</td>
-      </tr>
-      <tr>
-        <th>Tag</th>
-        <td>{{ tag.tag }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <dl class="dl-horizontal">
+    <dt>{{ 'Name' | trans }}</dt>
+    <dd>{{ tag.name }}</dd>
 
-  <ul class="record_actions">
-		<li>
-      <a href="{{ path('admin_unknown_tag') }}">
-        Back to the list
-      </a>
-		</li>
-		<li>
-      <a href="{{ path('admin_unknown_tag_edit', { 'id': tag.id }) }}">
-        Edit
-      </a>
-		</li>
-		<li>{{ form(delete_form) }}</li>
-	</ul>
+	  <dt>{{ 'Tag' | trans }}</dt>
+    <dd>{{ tag.tag }}</dd>
+	</dl>
+
+  <div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_unknown_tag') }}">{{ 'Back to the list' | trans  }}</a>
+		<a class="btn btn-primary" href="{{ path('admin_unknown_tag_edit', { 'id': tag.id }) }}">{{ 'Edit' | trans  }}</a>
+	</div>
 {% endblock %}

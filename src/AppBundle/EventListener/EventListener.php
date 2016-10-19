@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Event;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
+/**
+ *
+ */
 class EventListener {
   /**
    * @var ContainerInterface
@@ -23,21 +26,30 @@ class EventListener {
    */
   private $tagManager;
 
+  /**
+   *
+   */
   public function __construct(ContainerInterface $container) {
     $this->container = $container;
     $this->tagManager = $container->get('tag_manager');
   }
 
+  /**
+   *
+   */
   public function preUpdate(LifecycleEventArgs $args) {
     $object = $args->getObject();
 
     if ($object instanceof Event) {
       if (!$this->isGranted(EventVoter::UPDATE, $object)) {
-          throw new AccessDeniedHttpException('Access denied');
+        throw new AccessDeniedHttpException('Access denied');
       }
     }
   }
 
+  /**
+   *
+   */
   public function preRemove(LifecycleEventArgs $args) {
     $object = $args->getObject();
 
@@ -48,14 +60,16 @@ class EventListener {
     }
   }
 
-  public function prePersist(LifecycleEventArgs $args)
-  {
+  /**
+   *
+   */
+  public function prePersist(LifecycleEventArgs $args) {
     $object = $args->getObject();
     if ($object instanceof Thing) {
       if ($this->container->has('description_normalizer')) {
         $description = $object->getDescription();
         $description = $this->container->get('description_normalizer')
-          ->normalize($description);
+                ->normalize($description);
         $object->setDescription($description);
       }
     }
@@ -68,6 +82,9 @@ class EventListener {
     }
   }
 
+  /**
+   *
+   */
   public function postPersist(LifecycleEventArgs $args) {
     $object = $args->getObject();
     if ($object instanceof Taggable) {
@@ -93,10 +110,9 @@ class EventListener {
    */
   private function checkOwner(Event $event) {
     $token = $this->container->get('security.token_storage')->getToken();
-    $user = $token ? $token->getUser() : null;
+    $user = $token ? $token->getUser() : NULL;
 
     if ($token->getRoles()) {
-
     }
 
     if (!$user || !$event->getCreatedBy() || $user->getId() != $event->getCreatedBy()->getId()) {
@@ -107,18 +123,21 @@ class EventListener {
   /**
    * Checks if the attributes are granted against the current authentication token and optionally supplied object.
    *
-   * @param mixed $attributes The attributes
-   * @param mixed $object     The object
+   * @param mixed $attributes
+   *   The attributes
+   * @param mixed $object
+   *   The object
    *
    * @return bool
    *
    * @throws \LogicException
    */
-  protected function isGranted($attributes, $object = null) {
+  protected function isGranted($attributes, $object = NULL) {
     if (!$this->container->has('security.authorization_checker')) {
       throw new \LogicException('The SecurityBundle is not registered in your application.');
     }
 
     return $this->container->get('security.authorization_checker')->isGranted($attributes, $object);
   }
+
 }

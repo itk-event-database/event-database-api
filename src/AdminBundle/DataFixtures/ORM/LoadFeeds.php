@@ -6,9 +6,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 use AdminBundle\Entity\Feed;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ *
+ */
 class LoadFeeds extends LoadData {
   protected $order = 2;
 
+  /**
+   * @param \Doctrine\Common\Persistence\ObjectManager $manager
+   */
   public function load(ObjectManager $manager) {
     $yaml = $this->loadFixture('feeds.yml');
     $config = Yaml::parse($yaml);

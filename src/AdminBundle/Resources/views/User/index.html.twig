@@ -1,0 +1,38 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+  <h1>{{ 'User list' | trans }}</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'Username' | trans }}</th>
+        <th>{{ 'Email' | trans }}</th>
+        <th>{{ 'Roles' | trans }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td><a href="{{ path('admin_user_show', { 'id': user.id }) }}">{{ user.username }}</a></td>
+          <td>{{ user.email }}</td>
+          <td>
+						{%- for index, role in user.roles -%}
+							{% if index > 0 %}, {% endif %}
+							{{ role | trans }}
+						{%- endfor -%}
+					</td>
+          <td class="actions">
+            <a class="btn btn-primary btn-xs" href="{{ path('admin_user_show', { 'id': user.id }) }}">{{ 'Show' | trans }}</a>
+            <a class="btn btn-default btn-xs" href="{{ path('admin_user_edit', { 'id': user.id }) }}">{{ 'Edit' | trans }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+	<div class="actions">
+    <a class="btn btn-default" href="{{ path('admin_user_new') }}">{{ 'Create new user' | trans }}</a>
+	</div>
+{% endblock %}

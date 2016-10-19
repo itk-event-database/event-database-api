@@ -2,7 +2,7 @@
 
 namespace AdminBundle\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,233 +15,221 @@ use AdminBundle\Entity\Feed;
  *
  * @Route("/admin/feed")
  */
-class FeedController extends Controller
-{
+class FeedController extends Controller {
 
-    /**
-     * Lists all Feed entities.
-     *
-     * @Route("/", name="admin_feed")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+  /**
+   * Lists all Feed entities.
+   *
+   * @Route("/", name="admin_feed")
+   *
+   * @Method("GET")
+   *
+   * @Template()
+   */
+  public function indexAction() {
+    $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AdminBundle:Feed')->findAll();
+    $feeds = $em->getRepository('AdminBundle:Feed')->findAll();
 
-        return array(
-            'entities' => $entities,
-        );
-    }
-    /**
-     * Creates a new Feed entity.
-     *
-     * @Route("/", name="admin_feed_create")
-     * @Method("POST")
-     * @Template("AdminBundle:Feed:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Feed();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+    return [
+      'feeds' => $feeds,
+    ];
+  }
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+  /**
+   * Creates a new Feed entity.
+   *
+   * @Route("/", name="admin_feed_create")
+   *
+   * @Method("POST")
+   *
+   * @Template("AdminBundle:Feed:new.html.twig")
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+   */
+  public function createAction(Request $request) {
+    $feed = new Feed();
+    $form = $this->createCreateForm($feed);
+    $form->handleRequest($request);
 
-            return $this->redirect($this->generateUrl('admin_feed_show', array('id' => $entity->getId())));
-        }
+    if ($form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($feed);
+      $em->flush();
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+      return $this->redirectToRoute('admin_feed_show', ['id' => $feed->getId()]);
     }
 
-    /**
-     * Creates a form to create a Feed entity.
-     *
-     * @param Feed $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Feed $entity)
-    {
-        $form = $this->createForm('AdminBundle\Form\FeedType', $entity, array(
-            'action' => $this->generateUrl('admin_feed_create'),
-            'method' => 'POST',
-        ));
+    return [
+      'feed' => $feed,
+      'form'   => $form->createView(),
+    ];
+  }
 
-        $form->add('submit', SubmitType::class, array('label' => 'Create'));
+  /**
+   * Creates a form to create a Feed entity.
+   *
+   * @param Feed $feed
+   *   The feed
+   *
+   * @return \Symfony\Component\Form\Form The form
+   */
+  private function createCreateForm(Feed $feed) {
+    $form = $this->createForm('AdminBundle\Form\FeedType', $feed, [
+      'action' => $this->generateUrl('admin_feed_create'),
+      'method' => 'POST',
+    ]);
 
-        return $form;
+    return $form;
+  }
+
+  /**
+   * Displays a form to create a new Feed entity.
+   *
+   * @Route("/new", name="admin_feed_new")
+   *
+   * @Method("GET")
+   *
+   * @Template()
+   */
+  public function newAction() {
+    $feed = new Feed();
+    $form   = $this->createCreateForm($feed);
+
+    return [
+      'feed' => $feed,
+      'form'   => $form->createView(),
+    ];
+  }
+
+  /**
+   * Finds and displays a Feed entity.
+   *
+   * @Route("/{id}", name="admin_feed_show")
+   *
+   * @Method("GET")
+   *
+   * @Template()
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return array
+   */
+  public function showAction(Feed $feed) {
+    $deleteForm = $this->createDeleteForm($feed);
+
+    return [
+      'feed'      => $feed,
+      'delete_form' => $deleteForm->createView(),
+    ];
+  }
+
+  /**
+   * Displays a form to edit an existing Feed entity.
+   *
+   * @Route("/{id}/edit", name="admin_feed_edit")
+   *
+   * @Method("GET")
+   *
+   * @Template()
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return array
+   */
+  public function editAction(Feed $feed) {
+    $editForm = $this->createEditForm($feed);
+    $deleteForm = $this->createDeleteForm($feed);
+
+    return [
+      'feed'      => $feed,
+      'edit_form'   => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    ];
+  }
+
+  /**
+   * Creates a form to edit a Feed entity.
+   *
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return \Symfony\Component\Form\Form The form
+   * @internal param \AdminBundle\Entity\Feed $entity The entity*   The entity
+   *
+   */
+  private function createEditForm(Feed $feed) {
+    $form = $this->createForm('AdminBundle\Form\FeedType', $feed, [
+      'action' => $this->generateUrl('admin_feed_update', ['id' => $feed->getId()]),
+      'method' => 'PUT',
+    ]);
+
+    return $form;
+  }
+
+  /**
+   * Edits an existing Feed entity.
+   *
+   * @Route("/{id}", name="admin_feed_update")
+   *
+   * @Method("PUT")
+   *
+   * @Template("AdminBundle:Feed:edit.html.twig")
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+   */
+  public function updateAction(Request $request, Feed $feed) {
+    $deleteForm = $this->createDeleteForm($feed);
+    $editForm = $this->createEditForm($feed);
+    $editForm->handleRequest($request);
+
+    if ($editForm->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->flush();
+
+      $this->addFlash('success', 'Feed ' . $feed->getName() . ' updated');
+
+      return $this->redirectToRoute('admin_feed_edit', ['id' => $feed->getId()]);
     }
 
-    /**
-     * Displays a form to create a new Feed entity.
-     *
-     * @Route("/new", name="admin_feed_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Feed();
-        $form   = $this->createCreateForm($entity);
+    return [
+      'feed'      => $feed,
+      'edit_form'   => $editForm->createView(),
+      'delete_form' => $deleteForm->createView(),
+    ];
+  }
 
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+  /**
+   * Deletes a Feed entity.
+   *
+   * @Route("/{id}", name="admin_feed_delete")
+   *
+   * @Method("DELETE")
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   */
+  public function deleteAction(Request $request, Feed $feed) {
+    $form = $this->createDeleteForm($feed);
+    $form->handleRequest($request);
+
+    if ($form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->remove($feed);
+      $em->flush();
     }
 
-    /**
-     * Finds and displays a Feed entity.
-     *
-     * @Route("/{id}", name="admin_feed_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+    return $this->redirectToRoute('admin_feed');
+  }
 
-        $entity = $em->getRepository('AdminBundle:Feed')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Feed entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to edit an existing Feed entity.
-     *
-     * @Route("/{id}/edit", name="admin_feed_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AdminBundle:Feed')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Feed entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to edit a Feed entity.
-    *
-    * @param Feed $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Feed $entity)
-    {
-        $form = $this->createForm('AdminBundle\Form\FeedType', $entity, array(
-            'action' => $this->generateUrl('admin_feed_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', SubmitType::class, array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Feed entity.
-     *
-     * @Route("/{id}", name="admin_feed_update")
-     * @Method("PUT")
-     * @Template("AdminBundle:Feed:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AdminBundle:Feed')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Feed entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_feed_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-    /**
-     * Deletes a Feed entity.
-     *
-     * @Route("/{id}", name="admin_feed_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AdminBundle:Feed')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Feed entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('admin_feed'));
-    }
-
-    /**
-     * Creates a form to delete a Feed entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_feed_delete', array('id' => $id)))
+  /**
+   * Creates a form to delete a Feed entity by id.
+   *
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return \Symfony\Component\Form\Form The form
+   * @internal param mixed $id The entity id*   The entity id
+   *
+   */
+  private function createDeleteForm(Feed $feed) {
+    return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_feed_delete', ['id' => $feed->getId()]))
             ->setMethod('DELETE')
-            ->add('submit', SubmitType::class, array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+            ->getForm();
+  }
+
 }

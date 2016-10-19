@@ -22,7 +22,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @see http://schema.org/Event Documentation on Schema.org
  *
  * @ORM\Entity
+ *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ *
  * @ApiResource(
  *   iri = "http://schema.org/Event",
  *   attributes = {
@@ -33,8 +35,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   }
  * )
  */
-class Event extends Thing implements Taggable
-{
+class Event extends Thing implements Taggable {
   use TimestampableEntity;
   use BlameableEntity;
   use SoftDeleteableEntity;
@@ -97,8 +98,7 @@ class Event extends Thing implements Taggable
    *
    * @return $this
    */
-  public function setId($id)
-  {
+  public function setId($id) {
     $this->id = $id;
 
     return $this;
@@ -109,11 +109,13 @@ class Event extends Thing implements Taggable
    *
    * @return int
    */
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
+  /**
+   *
+   */
   public function setOccurrences($occurrences) {
     if ($this->occurrences) {
       $this->occurrences->clear();
@@ -135,22 +137,34 @@ class Event extends Thing implements Taggable
     return $this->occurrences;
   }
 
+  /**
+   *
+   */
   public function setFeed($feed) {
     $this->feed = $feed;
 
     return $this;
   }
 
+  /**
+   *
+   */
   public function getFeed() {
     return $this->feed;
   }
 
+  /**
+   *
+   */
   public function setFeedEventId($feedEventId) {
     $this->feedEventId = $feedEventId;
 
     return $this;
   }
 
+  /**
+   *
+   */
   public function getFeedEventId() {
     return $this->feedEventId;
   }
@@ -158,35 +172,34 @@ class Event extends Thing implements Taggable
   /**
    * @return mixed
    */
-  public function getTicketPurchaseUrl()
-  {
+  public function getTicketPurchaseUrl() {
     return $this->ticketPurchaseUrl;
   }
 
   /**
    * @param mixed $ticketPurchaseUrl
    */
-  public function setTicketPurchaseUrl($ticketPurchaseUrl)
-  {
+  public function setTicketPurchaseUrl($ticketPurchaseUrl) {
     $this->ticketPurchaseUrl = $ticketPurchaseUrl;
   }
 
   /**
    * @return string
    */
-  public function getExcerpt()
-  {
+  public function getExcerpt() {
     return $this->excerpt;
   }
 
   /**
    * @param string $excerpt
    */
-  public function setExcerpt($excerpt)
-  {
+  public function setExcerpt($excerpt) {
     $this->excerpt = $excerpt;
   }
 
+  /**
+   *
+   */
   public function __construct() {
     $this->occurrences = new ArrayCollection();
   }
@@ -200,37 +213,39 @@ class Event extends Thing implements Taggable
   private $tags;
 
   /**
-   * Returns the unique taggable resource type
+   * Returns the unique taggable resource type.
    *
    * @return string
    */
-  function getTaggableType()
-  {
+  public function getTaggableType() {
     return 'event';
   }
 
   /**
-   * Returns the unique taggable resource identifier
+   * Returns the unique taggable resource identifier.
    *
    * @return string
    */
-  function getTaggableId()
-  {
+  public function getTaggableId() {
     return $this->getId();
   }
 
-  // Method stub needed to make CustomItemNormalizer work. If no setter is
-  // defined, tags will not be processed during normalization.
-  function setTags($tags) {}
+  // Method stub needed to make CustomItemNormalizer work. If no setter is.
 
   /**
-   * Returns the collection of tags for this Taggable entity
+   * Defined, tags will not be processed during normalization.
+   */
+  public function setTags($tags) {
+  }
+
+  /**
+   * Returns the collection of tags for this Taggable entity.
    *
    * @return ArrayCollection
    */
-  function getTags()
-  {
+  public function getTags() {
     $this->tags = $this->tags ?: new ArrayCollection();
     return $this->tags;
   }
+
 }

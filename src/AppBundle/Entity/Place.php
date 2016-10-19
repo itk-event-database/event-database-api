@@ -21,7 +21,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @see http://schema.org/Place Documentation on Schema.org
  *
  * @ORM\Entity
+ *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ *
  * @ApiResource(
  *   iri = "http://schema.org/Place",
  *   attributes = {
@@ -31,8 +33,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   }
  * )
  */
-class Place extends Thing
-{
+class Place extends Thing {
   use TimestampableEntity;
   use BlameableEntity;
   use SoftDeleteableEntity;
@@ -140,8 +141,7 @@ class Place extends Thing
    *
    * @return $this
    */
-  public function setId($id)
-  {
+  public function setId($id) {
     $this->id = $id;
 
     return $this;
@@ -152,30 +152,34 @@ class Place extends Thing
    *
    * @return int
    */
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
+  /**
+   *
+   */
   public function setFeed($feed) {
     $this->feed = $feed;
 
     return $this;
   }
 
+  /**
+   *
+   */
   public function getFeed() {
     return $this->feed;
   }
 
-
   /**
    * Sets addressCountry.
    *
-   * @param  string $addressCountry
+   * @param string $addressCountry
+   *
    * @return $this
    */
-  public function setAddressCountry($addressCountry)
-  {
+  public function setAddressCountry($addressCountry) {
     $this->addressCountry = $addressCountry;
 
     return $this;
@@ -186,19 +190,18 @@ class Place extends Thing
    *
    * @return string
    */
-  public function getAddressCountry()
-  {
+  public function getAddressCountry() {
     return $this->addressCountry;
   }
 
   /**
    * Sets addressLocality.
    *
-   * @param  string $addressLocality
+   * @param string $addressLocality
+   *
    * @return $this
    */
-  public function setAddressLocality($addressLocality)
-  {
+  public function setAddressLocality($addressLocality) {
     $this->addressLocality = $addressLocality;
 
     return $this;
@@ -209,19 +212,18 @@ class Place extends Thing
    *
    * @return string
    */
-  public function getAddressLocality()
-  {
+  public function getAddressLocality() {
     return $this->addressLocality;
   }
 
   /**
    * Sets addressRegion.
    *
-   * @param  string $addressRegion
+   * @param string $addressRegion
+   *
    * @return $this
    */
-  public function setAddressRegion($addressRegion)
-  {
+  public function setAddressRegion($addressRegion) {
     $this->addressRegion = $addressRegion;
 
     return $this;
@@ -232,19 +234,18 @@ class Place extends Thing
    *
    * @return string
    */
-  public function getAddressRegion()
-  {
+  public function getAddressRegion() {
     return $this->addressRegion;
   }
 
   /**
    * Sets postalCode.
    *
-   * @param  string $postalCode
+   * @param string $postalCode
+   *
    * @return $this
    */
-  public function setPostalCode($postalCode)
-  {
+  public function setPostalCode($postalCode) {
     $this->postalCode = $postalCode;
 
     return $this;
@@ -255,19 +256,18 @@ class Place extends Thing
    *
    * @return string
    */
-  public function getPostalCode()
-  {
+  public function getPostalCode() {
     return $this->postalCode;
   }
 
   /**
    * Sets streetAddress.
    *
-   * @param  string $streetAddress
+   * @param string $streetAddress
+   *
    * @return $this
    */
-  public function setStreetAddress($streetAddress)
-  {
+  public function setStreetAddress($streetAddress) {
     $this->streetAddress = $streetAddress;
 
     return $this;
@@ -278,8 +278,7 @@ class Place extends Thing
    *
    * @return string
    */
-  public function getStreetAddress()
-  {
+  public function getStreetAddress() {
     return $this->streetAddress;
   }
 
@@ -290,8 +289,7 @@ class Place extends Thing
    *
    * @return $this
    */
-  public function setLogo($logo)
-  {
+  public function setLogo($logo) {
     $this->logo = $logo;
 
     return $this;
@@ -302,8 +300,7 @@ class Place extends Thing
    *
    * @return string
    */
-  public function getLogo()
-  {
+  public function getLogo() {
     return $this->logo;
   }
 
@@ -314,8 +311,7 @@ class Place extends Thing
    *
    * @return $this
    */
-  public function setOccurrences(ArrayCollection $occurrences)
-  {
+  public function setOccurrences(ArrayCollection $occurrences) {
     $this->occurrences = $occurrences;
 
     return $this;
@@ -326,8 +322,8 @@ class Place extends Thing
    *
    * @return ArrayCollection
    */
-  public function getOccurrences()
-  {
+  public function getOccurrences() {
     return $this->occurrences;
   }
+
 }

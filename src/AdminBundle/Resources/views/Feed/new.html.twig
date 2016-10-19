@@ -53,17 +53,15 @@
 {% endblock %}
 
 {% block body -%}
-  <h1>Feed creation</h1>
+  <h1>{{ 'Create feed' | trans }}</h1>
 
-  {{ form(form) }}
+  {{ form_start(form) }}
+  {{ form_rest(form) }}
+	<div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_feed') }}">{{ 'Cancel' | trans  }}</a>
+		<button class="btn btn-primary" type="submit">{{ 'Create' | trans }}</button>
+	</div>
+  {{ form_end(form) }}
 
   <div id="jsoneditor"></div>
-
-  <ul class="record_actions">
-    <li>
-      <a href="{{ path('admin_feed') }}">
-        Back to the list
-      </a>
-    </li>
-  </ul>
 {% endblock %}

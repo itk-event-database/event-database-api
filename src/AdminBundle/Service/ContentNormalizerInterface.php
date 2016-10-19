@@ -1,8 +1,11 @@
 <?php
 
 namespace AdminBundle\Service;
-
+/**
+ *
+ */
 interface ContentNormalizerInterface {
+
   /**
    * Normalize html content.
    *
@@ -13,4 +16,5 @@ interface ContentNormalizerInterface {
    *   Normalized and cleaned html.
    */
   public function normalize($content);
+
 }

@@ -26,20 +26,21 @@ class FileHandlerTest extends ContainerTestCase {
    */
   public function testDownloadFile($url, $expected) {
     $actual = $this->handler->download($url);
-    if ($expected === null) {
+    if ($expected === NULL) {
       $this->assertNull($actual);
-    } else {
+    }
+    else {
       $this->assertStringEndsWith($expected, $actual);
     }
   }
 
   public function testIsLocalUrlProvider() {
     return [
-      ['https://dummyimage.com/600x400/000/00ffd5.png', false],
-      ['http://lorempixel.com/this-file-does-not-exist.jpg', false],
-      ['//lorempixel.com/this-file-does-not-exist.jpg', false],
-      ['/lorempixel.com/this-file-does-not-exist.jpg', true],
-      ['this-file-does-not-exist.jpg', true],
+      ['https://dummyimage.com/600x400/000/00ffd5.png', FALSE],
+      ['http://lorempixel.com/this-file-does-not-exist.jpg', FALSE],
+      ['//lorempixel.com/this-file-does-not-exist.jpg', FALSE],
+      ['/lorempixel.com/this-file-does-not-exist.jpg', TRUE],
+      ['this-file-does-not-exist.jpg', TRUE],
     ];
   }
 
@@ -48,7 +49,8 @@ class FileHandlerTest extends ContainerTestCase {
       ['http://event-database-api.vm/files/2b3fd2c4d0cb07be2ac6924244140d59.jpg', 'http://event-database-api.vm/files/2b3fd2c4d0cb07be2ac6924244140d59.jpg'],
       ['http://event-database-api.vm/hest/hyp.jpg', 'http://event-database-api.vm/hest/hyp.jpg'],
       ['https://dummyimage.com/600x400/000/00ffd5.png', '/ccc599deff838b96e1d5e5d6e7a70a1b.png'],
-      ['http://lorempixel.com/this-file-does-not-exist.jpg', null],
+      ['http://lorempixel.com/this-file-does-not-exist.jpg', NULL],
     ];
   }
+
 }
