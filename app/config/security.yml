@@ -60,6 +60,7 @@ security:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # Read/write API access
         - { path: ^/api,       roles: [ ROLE_API_WRITE ], methods: [ POST, PUT, DELETE ] }
+        - { path: ^/api/upload,       roles: [ ROLE_API_WRITE ], methods: [ POST ] }
         # Read only API access
         - { path: ^/api,       roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
 
