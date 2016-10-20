@@ -57,6 +57,8 @@ class FeedController extends Controller {
       $em->persist($feed);
       $em->flush();
 
+      $this->addFlash('success', 'Feed ' . $feed->getName() . ' created');
+
       return $this->redirectToRoute('admin_feed_show', ['id' => $feed->getId()]);
     }
 
