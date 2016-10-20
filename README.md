@@ -77,6 +77,14 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
 JSON
 ```
 
+Uploading files:
+
+```
+echo Get image
+curl http://lorempixel.com/400/200/ > image.jpg
+echo Upload image
+curl --silent --verbose --request POST --header "Authorization: Bearer $token" --form file=@image.jpg http://event-database-api.vm/api/upload
+```
 
 Running tests
 -------------
