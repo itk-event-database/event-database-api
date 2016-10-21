@@ -3,39 +3,40 @@
 namespace AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class UnknownTagType extends AbstractType
-{
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
+/**
+ *
+ */
+class UnknownTagType extends AbstractType {
+
+  /**
+   * @param FormBuilderInterface $builder
+   * @param array $options
+   */
+  public function buildForm(FormBuilderInterface $builder, array $options) {
+    $builder
           ->add('name')
           ->add('tag');
-    }
+  }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Tag'
-        ));
-    }
+  /**
+   * @param OptionsResolverInterface $resolver
+   */
+  public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    $resolver->setDefaults([
+          'data_class' => 'AppBundle\Entity\UnknownTag'
+      ]);
+  }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'appbundle_tag';
-    }
+  /**
+   * @return string
+   */
+  public function getName() {
+    return 'adminbundle_unknown_tag';
+  }
+
 }

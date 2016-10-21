@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class EventTest extends DatabaseTestCase {
+
   public function testTags() {
     $tagManager = $this->container->get('fpn_tag.tag_manager');
 
@@ -94,4 +95,5 @@ class EventTest extends DatabaseTestCase {
     $this->assertNotNull($result[0]['deleted_at']);
     $this->assertLessThanOrEqual(new \DateTime(), $result[0]['deleted_at']);
   }
+
 }

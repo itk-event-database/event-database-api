@@ -13,7 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * An occurrence of an Event.
  *
  * @ORM\Entity
+ *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ *
  * @ApiResource(
  *   attributes = {
  *     "jsonld_embed_context" = true,
@@ -120,12 +122,18 @@ class Occurrence extends Entity {
     return $this->id;
   }
 
-  public function setEvent(Event $event = null) {
+  /**
+   *
+   */
+  public function setEvent(Event $event = NULL) {
     $this->event = $event;
 
     return $this;
   }
 
+  /**
+   *
+   */
   public function getEvent() {
     return $this->event;
   }
@@ -137,7 +145,7 @@ class Occurrence extends Entity {
    *
    * @return $this
    */
-  public function setStartDate(\DateTime $startDate = null) {
+  public function setStartDate(\DateTime $startDate = NULL) {
     $this->startDate = $startDate;
 
     return $this;
@@ -159,7 +167,7 @@ class Occurrence extends Entity {
    *
    * @return $this
    */
-  public function setEndDate(\DateTime $endDate = null) {
+  public function setEndDate(\DateTime $endDate = NULL) {
     $this->endDate = $endDate;
 
     return $this;
@@ -174,12 +182,18 @@ class Occurrence extends Entity {
     return $this->endDate;
   }
 
+  /**
+   *
+   */
   public function setPlace(Place $place) {
     $this->place = $place;
 
     return $this;
   }
 
+  /**
+   *
+   */
   public function getPlace() {
     return $this->place;
   }
@@ -204,38 +218,33 @@ class Occurrence extends Entity {
    */
   public function getVenue() {
     return $this->venue;
-
   }
 
   /**
    * @return string
    */
-  public function getTicketPriceRange()
-  {
+  public function getTicketPriceRange() {
     return $this->ticketPriceRange;
   }
 
   /**
    * @param string $ticketPriceRange
    */
-  public function setTicketPriceRange($ticketPriceRange)
-  {
+  public function setTicketPriceRange($ticketPriceRange) {
     $this->ticketPriceRange = $ticketPriceRange;
   }
 
   /**
    * @return string
    */
-  public function getEventStatusText()
-  {
+  public function getEventStatusText() {
     return $this->eventStatusText;
   }
 
   /**
    * @param string $eventStatusText
    */
-  public function setEventStatusText($eventStatusText)
-  {
+  public function setEventStatusText($eventStatusText) {
     $this->eventStatusText = $eventStatusText;
   }
 

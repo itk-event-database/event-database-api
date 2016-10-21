@@ -18,6 +18,11 @@ composer install
 bin/console doctrine:migrations:migrate
 ```
 
+Install assets
+```
+bin/console assets:install
+```
+
 API documentation
 -----------------
 

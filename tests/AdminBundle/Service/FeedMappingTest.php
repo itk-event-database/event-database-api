@@ -21,7 +21,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     }
   }
 
-  public function testMappingSPOTFestival() {
+  public function testMappingSpotFestival() {
     $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
 
     $this->assertEquals(296, count($this->events));
@@ -102,7 +102,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
     $this->assertEquals('Dokk1', $place['name']);
   }
 
-  public function testMappingEventDB() {
+  public function testMappingEventDatabase() {
     $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
 
     $this->assertEquals(10, count($this->events));
@@ -115,7 +115,7 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
   }
 
   private function readFeed(string $name) {
-    $feedConfiguration = $this->readFixture($name .'.yml');
+    $feedConfiguration = $this->readFixture($name . '.yml');
     $type = $feedConfiguration['type'];
     $data = $this->readFixture($name . '.' . $type);
 
@@ -143,4 +143,5 @@ class FeedMappingTest extends ContainerTestCase implements Controller {
   public function convertValue($value, $name) {
     return $this->converter->convert($value, $name);
   }
+
 }

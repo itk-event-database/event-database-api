@@ -12,6 +12,9 @@ use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ *
+ */
 class FeedReader implements Controller {
   /**
    * @var ValueConverter
@@ -53,6 +56,14 @@ class FeedReader implements Controller {
    */
   protected $output;
 
+  /**
+   * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
+   * @param \AdminBundle\Service\FeedReader\EventImporter $eventImporter
+   * @param array $configuration
+   * @param \Psr\Log\LoggerInterface $logger
+   * @param \AdminBundle\Service\AuthenticatorService $authenticator
+   * @param \Gedmo\Blameable\BlameableListener $blameableListener
+   */
   public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
     $this->valueConverter = $valueConverter;
     $this->eventImporter = $eventImporter;
@@ -62,13 +73,21 @@ class FeedReader implements Controller {
     $this->blameableListener = $blameableListener;
   }
 
+  /**
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
+   * @return $this
+   */
   public function setOutput(OutputInterface $output) {
     $this->output = $output;
 
     return $this;
   }
 
-  public function read(Feed $feed, User $user = null) {
+  /**
+   * @param \AdminBundle\Entity\Feed $feed
+   * @param \AppBundle\Entity\User $user
+   */
+  public function read(Feed $feed, User $user = NULL) {
     $this->feed = $feed;
     if (!$user) {
       $user = $this->feed->getCreatedBy();
@@ -89,10 +108,16 @@ class FeedReader implements Controller {
 
     $reader = $this->getReader();
     $content = $this->getContent();
+    if (!$content) {
+      return;
+    }
     $reader->read($content);
     $feed->setLastRead(new \DateTime());
   }
 
+  /**
+   *
+   */
   private function getReader() {
     $readers = isset($this->configuration['readers']) ? $this->configuration['readers'] : [];
     $type = $this->feed->getType();
@@ -109,6 +134,9 @@ class FeedReader implements Controller {
     return $reader;
   }
 
+  /**
+   *
+   */
   private function getContent() {
     $client = new Client();
     $feedUrl = $this->processUrl($this->feed->getUrl());
@@ -118,17 +146,19 @@ class FeedReader implements Controller {
     $options = isset($configuration['options']) ? $configuration['options'] : [];
 
     $res = $client->request($method, $feedUrl, $options);
-    if ($res->getStatusCode() === 200) {
-      $content = $res->getBody();
-      // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
-      $bom = pack('H*','EFBBBF');
-      $content = preg_replace("/^$bom/", '', $content);
+    if ($res->getStatusCode() !== 200) {
+      return NULL;
     }
+
+    $content = $res->getBody();
+    // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
+    $bom = pack('H*', 'EFBBBF');
+    $content = preg_replace("/^$bom/", '', $content);
 
     $type = $this->feed->getType();
     switch ($type) {
       case 'json':
-        $content = json_decode($content, true);
+        $content = json_decode($content, TRUE);
         break;
 
       case 'xml':
@@ -139,10 +169,17 @@ class FeedReader implements Controller {
     return $content;
   }
 
+  /**
+   * @param $url
+   * @return
+   */
   private function processUrl($url) {
     return $url;
   }
 
+  /**
+   * @param array $data
+   */
   public function createEvent(array $data) {
     $data['feed'] = $this->feed;
     $data['feed_event_id'] = $data['id'];
@@ -152,13 +189,23 @@ class FeedReader implements Controller {
     $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
   }
 
+  /**
+   * @param $value
+   * @param $name
+   * @return \DateTime|null|string
+   */
   public function convertValue($value, $name) {
     return $this->valueConverter->convert($value, $name);
   }
 
+  /**
+   * @param $messages
+   * @param int $options
+   */
   public function writeln($messages, $options = 0) {
     if ($this->output) {
       $this->output->writeln($messages, $options);
     }
   }
+
 }

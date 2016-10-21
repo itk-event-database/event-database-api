@@ -4,7 +4,15 @@ namespace AdminBundle\Service\FeedReader;
 
 use JsonPath\JsonObject;
 
+/**
+ *
+ */
 class Json extends FeedReader {
+
+  /**
+   * @param $data
+   * @throws \Exception
+   */
   public function read($data) {
     if (!is_array($data)) {
       throw new \Exception('Invalid data');
@@ -27,15 +35,29 @@ class Json extends FeedReader {
     }
   }
 
-  // http://goessner.net/articles/JsonPath/
-  protected function getValue($data, $path, $failOnError = false) {
-    $json = new JsonObject($data, true);
+  /**
+   * Http://goessner.net/articles/JsonPath.
+   *
+   * @param $data
+   * @param $path
+   * @param bool $failOnError
+   *
+   * @return mixed
+   */
+  protected function getValue($data, $path, $failOnError = FALSE) {
+    $json = new JsonObject($data, TRUE);
     $prefix = strpos($path, '[') === 0 ? '$' : '$.';
     return $json->get($prefix . $path);
   }
 
   private $parentSelector = 'parent::';
 
+  /**
+   * @param array $item
+   * @param array $configuration
+   * @param array $rootPath
+   * @return array
+   */
   protected function getData(array $item, array $configuration, array $rootPath = []) {
     $data = [];
 
@@ -50,22 +72,25 @@ class Json extends FeedReader {
           $path = $matches['path'];
         }
         $value = $this->getValue($item, $path);
-        if ($value !== null) {
+        if ($value !== NULL) {
           $data[$key] = $this->convertValue($value, $key);
         }
-      } else if (isset($spec['mapping'])) {
+      }
+      elseif (isset($spec['mapping'])) {
         $type = isset($spec['type']) ? $spec['type'] : 'list';
-        $path = isset($spec['path']) ? $spec['path'] : null;
+        $path = isset($spec['path']) ? $spec['path'] : NULL;
         array_push($rootPath, $item);
         if ($type === 'object') {
           $item = $path ? $this->getValue($item, $path) : $item;
           $data[$key] = $this->getData($item, $spec, $rootPath);
-        } else {
+        }
+        else {
           $items = $path ? $this->getValue($item, $path) : [$item];
           if ($items) {
             if ($type === 'object' || $this->isAssoc($items)) {
               $data[$key] = $this->getData($items, $spec, $rootPath);
-            } else {
+            }
+            else {
               $data[$key] = array_map(function($item) use ($spec, $rootPath) {
                 return $this->getData($item, $spec, $rootPath);
               }, $items);
@@ -73,13 +98,15 @@ class Json extends FeedReader {
           }
         }
         array_pop($rootPath);
-      } else if (isset($spec['path'])) {
+      }
+      elseif (isset($spec['path'])) {
         $path = $spec['path'];
         $value = $this->getValue($item, $path);
-        if ($value !== null) {
+        if ($value !== NULL) {
           if (isset($spec['split'])) {
-            $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
-          } else {
+            $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, NULL, PREG_SPLIT_NO_EMPTY);
+          }
+          else {
             $data[$key] = $this->convertValue($value, $key);
           }
         }
@@ -93,9 +120,16 @@ class Json extends FeedReader {
     return $data;
   }
 
-  // @see http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+  /**
+   * @see http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+   * @param array $arr
+   * @return bool
+   */
   private function isAssoc(array $arr) {
-    if (array() === $arr) return false;
+    if ([] === $arr) {
+      return FALSE;
+    }
     return array_keys($arr) !== range(0, count($arr) - 1);
   }
+
 }

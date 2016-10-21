@@ -1,45 +1,35 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
 {% block body -%}
-    <h1>Feed list</h1>
+  <h1>{{ 'Feed list' | trans }}</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Url</th>
-                <th>Type</th>
-                <th>Lastread</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('admin_feed_show', { 'id': entity.id }) }}">{{ entity.name }}</a></td>
-                <td>{{ entity.url }}</td>
-                <td>{{ entity.type }}</td>
-                <td>{% if entity.lastRead %}{{ entity.lastRead|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_feed_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_feed_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'Name' | trans }}</th>
+        <th>{{ 'Url' | trans }}</th>
+        <th>{{ 'Type' | trans }}</th>
+        <th>{{ 'Lastread' | trans }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for feed in feeds %}
+        <tr>
+          <td><a href="{{ path('admin_feed_show', { 'id': feed.id }) }}">{{ feed.name }}</a></td>
+          <td>{{ feed.url }}</td>
+          <td>{{ feed.type }}</td>
+          <td>{% if feed.lastRead %}{{ feed.lastRead|date('Y-m-d H:i:s') }}{% endif %}</td>
+          <td class="actions">
+            <a class="btn btn-primary btn-xs" href="{{ path('admin_feed_show', { 'id': feed.id }) }}">{{ 'Show' | trans }}</a>
+            <a class="btn btn-default btn-xs" href="{{ path('admin_feed_edit', { 'id': feed.id }) }}">{{ 'Edit' | trans }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-        <ul>
-        <li>
-            <a class="btn btn-default" href="{{ path('admin_feed_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+	<div class="actions">
+    <a class="btn btn-default" href="{{ path('admin_feed_new') }}">{{ 'Create new feed' | trans }}</a>
+	</div>
+{% endblock %}

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class OccurrenceTest extends DatabaseTestCase {
+
   public function testPlace() {
     $occurrence = new Occurrence();
     $place = new Place();
@@ -26,5 +27,6 @@ class OccurrenceTest extends DatabaseTestCase {
     $stmt->execute();
     $result = $stmt->fetchAll();
     $this->assertEquals(1, count($result));
-}
+  }
+
 }

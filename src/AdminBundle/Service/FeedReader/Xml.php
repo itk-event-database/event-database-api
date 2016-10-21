@@ -1,8 +1,15 @@
 <?php
 
 namespace AdminBundle\Service\FeedReader;
-
+/**
+ *
+ */
 class Xml extends FeedReader {
+
+  /**
+   * @param $data
+   * @throws \Exception
+   */
   public function read($data) {
     if (!$data instanceof \SimpleXMLElement) {
       throw new \Exception('Invalid data');
@@ -22,13 +29,21 @@ class Xml extends FeedReader {
     }
   }
 
-  private function getItems(\SimpleXMLElement $el, $path, $failOnError = false) {
+  /**
+   * @param \SimpleXMLElement $el
+   * @param $path
+   * @param bool $failOnError
+   * @return null|\SimpleXMLElement[]
+   * @throws \Exception
+   */
+  private function getItems(\SimpleXMLElement $el, $path, $failOnError = FALSE) {
     $nodes = $el->xpath($path);
-    if ($nodes === false) {
+    if ($nodes === FALSE) {
       if ($failOnError) {
         throw new \Exception('Invalid path: ' . $path);
-      } else {
-        return null;
+      }
+      else {
+        return NULL;
       }
     }
 
@@ -36,13 +51,25 @@ class Xml extends FeedReader {
   }
 
   /**
-   * Get a single value from xpath
+   * Get a single value from xpath.
+   *
+   * @param \SimpleXMLElement $el
+   * @param $path
+   * @param bool $failOnError
+   *
+   * @return null|string
    */
-  private function getValue(\SimpleXMLElement $el, $path, $failOnError = false) {
+  private function getValue(\SimpleXMLElement $el, $path, $failOnError = FALSE) {
     $values = $this->getItems($el, $path, $failOnError);
-    return (count($values) > 0) ? (string)$values[0] : null;
+    return (count($values) > 0) ? (string) $values[0] : NULL;
   }
 
+  /**
+   * @param \SimpleXMLElement $item
+   * @param array $configuration
+   *
+   * @return array
+   */
   private function getData(\SimpleXMLElement $item, array $configuration) {
     $data = [];
 
@@ -52,34 +79,39 @@ class Xml extends FeedReader {
       if (!is_array($spec)) {
         $path = $spec;
         $value = $this->getValue($item, $path);
-        if ($value !== null) {
+        if ($value !== NULL) {
           $data[$key] = $this->convertValue($value, $key);
         }
-      } else if (isset($spec['mapping'])) {
+      }
+      elseif (isset($spec['mapping'])) {
         $type = isset($spec['type']) ? $spec['type'] : 'list';
-        $path = isset($spec['path']) ? $spec['path'] : '.';
+        $path = isset($spec['path']) ? $spec['path'] : NULL;
         if ($type === 'object') {
           $item = $path ? $this->getValue($item, $path) : $item;
           $data[$key] = $this->getData($item, $spec);
-        } else {
+        }
+        else {
           $items = $path ? $this->getItems($item, $path) : [$item];
           if ($items) {
             if ($type === 'object') {
               $data[$key] = $this->getData($items, $spec);
-            } else {
+            }
+            else {
               $data[$key] = array_map(function($item) use ($spec) {
                 return $this->getData($item, $spec);
               }, $items);
             }
           }
         }
-      } else if (isset($spec['path'])) {
+      }
+      elseif (isset($spec['path'])) {
         $path = $spec['path'];
         $value = $this->getValue($item, $path);
-        if ($value !== null) {
+        if ($value !== NULL) {
           if (isset($spec['split'])) {
-            $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
-          } else {
+            $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, NULL, PREG_SPLIT_NO_EMPTY);
+          }
+          else {
             $data[$key] = $this->convertValue($value, $key);
           }
         }

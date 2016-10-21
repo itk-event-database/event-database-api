@@ -16,11 +16,11 @@ class ReadFeedsCommand extends ContainerAwareCommand {
 
   protected function configure() {
     $this
-      ->setName('events:feeds:read')
-      ->setDescription('Read event feeds')
-      ->addOption('name', null, InputOption::VALUE_REQUIRED, 'The name of the feed')
-      ->addOption('id', null, InputOption::VALUE_REQUIRED, 'The ID of the feed')
-      ->addOption('list', null, InputOption::VALUE_NONE, 'List all feeds');
+        ->setName('events:feeds:read')
+        ->setDescription('Read event feeds')
+        ->addOption('name', NULL, InputOption::VALUE_REQUIRED, 'The name of the feed')
+        ->addOption('id', NULL, InputOption::VALUE_REQUIRED, 'The ID of the feed')
+        ->addOption('list', NULL, InputOption::VALUE_NONE, 'List all feeds');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
@@ -39,7 +39,8 @@ class ReadFeedsCommand extends ContainerAwareCommand {
 
     if ($noOfFeeds == 0) {
       $this->writeln('No feeds found!');
-    } else {
+    }
+    else {
       $this->writeln(sprintf('Reading %s feed%s:', $noOfFeeds, ($noOfFeeds == 1) ? '' : 's'));
     }
 
@@ -56,7 +57,7 @@ class ReadFeedsCommand extends ContainerAwareCommand {
   }
 
   private function listFeeds() {
-    $feeds = $this->getFeeds(null, null);
+    $feeds = $this->getFeeds(NULL, NULL);
     foreach ($feeds as $feed) {
       $this->writeln(str_repeat('-', 80));
       $this->writeFeedInfo($feed);
@@ -74,10 +75,10 @@ class ReadFeedsCommand extends ContainerAwareCommand {
   }
 
   private function writeln($messages) {
-    $this->write($messages, true);
+    $this->write($messages, TRUE);
   }
 
-  private function write($messages, $newline = false) {
+  private function write($messages, $newline = FALSE) {
     if ($this->output) {
       $this->output->write($messages, $newline);
     }
@@ -95,4 +96,5 @@ class ReadFeedsCommand extends ContainerAwareCommand {
 
     return $repository->findBy($query);
   }
+
 }

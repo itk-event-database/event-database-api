@@ -8,10 +8,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AppBundle\Entity\Tag
+ * AppBundle\Entity\Tag.
  *
  * @ORM\Table()
+ *
  * @ORM\Entity(repositoryClass="DoctrineExtensions\Taggable\Entity\TagRepository")
+ *
  * @ApiResource(
  *   collectionOperations={
  *     "get"={"method"="GET"}
@@ -26,8 +28,7 @@ use Doctrine\ORM\Mapping as ORM;
  *   }
  * )
  */
-class Tag extends BaseTag
-{
+class Tag extends BaseTag {
   /**
    * @var integer $id
    *
@@ -48,4 +49,5 @@ class Tag extends BaseTag
    * @ORM\OneToMany(targetEntity="Tagging", mappedBy="tag", fetch="EAGER")
    **/
   protected $tagging;
+
 }

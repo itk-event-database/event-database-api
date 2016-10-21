@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Tests\AppBundle\Test\DatabaseTestCase;
 
 class EventFactoryTest extends DatabaseTestCase {
+
   public function test() {
     $this->authenticate($this->container);
 
@@ -76,7 +77,7 @@ class EventFactoryTest extends DatabaseTestCase {
       ->setPlainPassword($password)
       ->setEmail($email)
       ->setRoles($roles)
-      ->setEnabled(true);
+      ->setEnabled(TRUE);
     $this->persist($user);
     $this->flush();
 

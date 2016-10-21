@@ -4,7 +4,14 @@ namespace AppBundle\Job;
 
 use ResqueBundle\Resque\ContainerAwareJob;
 
+/**
+ *
+ */
 class DownloadFilesJob extends ContainerAwareJob {
+
+  /**
+   *
+   */
   public function run($args) {
     $className = $args['className'];
     $id = $args['id'];
@@ -14,4 +21,5 @@ class DownloadFilesJob extends ContainerAwareJob {
     $service->process($className, $id, $fields);
     return;
   }
+
 }

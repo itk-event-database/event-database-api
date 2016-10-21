@@ -10,26 +10,40 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+/**
+ *
+ */
 abstract class LoadData extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface {
   use ContainerAwareTrait;
 
+  /**
+   * @param $filename
+   * @return string
+   */
   protected function loadFixture($filename) {
     $basepath = $this->container->get('kernel')->locateResource('@AdminBundle/DataFixtures/Data');
 
     return file_get_contents($basepath . '/' . $filename);
   }
 
-  /** @var ConsoleOutput $output */
-  private $output = null;
+  /**
+   * @var ConsoleOutput $output */
+  private $output = NULL;
 
+  /**
+   * @param $message
+   */
   final protected function writeInfo($message) {
     if (func_num_args() > 1) {
       $message = call_user_func_array('sprintf', func_get_args());
     }
-    // $this->output->writeln('');
+    // $this->output->writeln('');.
     $this->output->writeln('  <comment>></comment> <info>' . $message . '</info>');
   }
 
+  /**
+   * @param $message
+   */
   final protected function writeError($message) {
     if (func_num_args() > 1) {
       $message = call_user_func_array('sprintf', func_get_args());
@@ -39,8 +53,11 @@ abstract class LoadData extends AbstractFixture implements FixtureInterface, Con
   }
 
   protected $order = 1;
-  protected $flush = true;
+  protected $flush = TRUE;
 
+  /**
+   * @param \Doctrine\Common\Persistence\ObjectManager $manager
+   */
   protected function done(ObjectManager $manager) {
     if ($this->flush) {
       $manager->flush();
@@ -48,9 +65,10 @@ abstract class LoadData extends AbstractFixture implements FixtureInterface, Con
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritDoc}.
    */
   public function getOrder() {
     return $this->order;
   }
+
 }

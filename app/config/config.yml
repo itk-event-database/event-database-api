@@ -20,7 +20,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -46,9 +46,12 @@ framework:
 
 # Twig Configuration
 twig:
+    form_themes:
+        - bootstrap_3_layout.html.twig
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
+        site_title: "%site_title%"
         kernelRootDir: "%kernel.root_dir%"
 
 # Doctrine Configuration
