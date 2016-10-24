@@ -191,20 +191,6 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
   }
 
   /**
-   * @Then print the JSON
-   */
-  public function printTheJson() {
-    try {
-      $o = $this->getJson();
-    }
-    catch (\Exception $e) {
-      throw new \Exception('The JSON is not a valid');
-    }
-
-    print json_encode($o, JSON_PRETTY_PRINT);
-  }
-
-  /**
    * @Given the following tags exist:
    */
   public function theFollowingTagsExist(TableNode $table) {

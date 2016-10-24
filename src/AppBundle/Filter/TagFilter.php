@@ -10,8 +10,10 @@ use DoctrineExtensions\Taggable\TagManager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use DoctrineExtensions\Taggable\Taggable;
 
-class TagFilter extends AbstractFilter
-{
+/**
+ *
+ */
+class TagFilter extends AbstractFilter {
   private $tagManager;
   private $name;
 
@@ -22,9 +24,8 @@ class TagFilter extends AbstractFilter
    * @param string $name
    * @internal param array|null $properties
    */
-  public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack, TagManager $tagManager, string $name)
-  {
-    parent::__construct($managerRegistry, $requestStack, null);
+  public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack, TagManager $tagManager, string $name) {
+    parent::__construct($managerRegistry, $requestStack, NULL);
 
     $this->tagManager = $tagManager;
     $this->name = $name;
@@ -33,9 +34,8 @@ class TagFilter extends AbstractFilter
   /**
    * {@inheritdoc}
    */
-  protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
-  {
-    if (null === ($request = $this->requestStack->getCurrentRequest())) {
+  protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = NULL) {
+    if (NULL === ($request = $this->requestStack->getCurrentRequest())) {
       return;
     }
 
@@ -46,7 +46,7 @@ class TagFilter extends AbstractFilter
 
     $taggableType = $resource->getTaggableType();
 
-    $ids = null;
+    $ids = NULL;
     foreach ($this->extractProperties($request) as $property => $values) {
       if ($property == $this->name) {
         $tagNames = $this->tagManager->splitTagNames($values);
@@ -54,9 +54,10 @@ class TagFilter extends AbstractFilter
           // $tagRepo = $this->managerRegistry->getManager()->getRepository('DoctrineExtensions\Taggable\Entity\Tag');
           $tagRepo = $this->managerRegistry->getManager()->getRepository('AppBundle\Entity\Tag');
           $tagIds = $tagRepo->getResourceIdsForTag($taggableType, $tagName);
-          if ($ids === null) {
+          if ($ids === NULL) {
             $ids = $tagIds;
-          } else {
+          }
+          else {
             $ids = array_intersect($ids, $tagIds);
           }
         }
@@ -64,8 +65,8 @@ class TagFilter extends AbstractFilter
         $alias = 'o';
         $valueParameter = $queryNameGenerator->generateParameterName($property);
         $queryBuilder
-          ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
-          ->setParameter($valueParameter, $ids);
+                ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
+                ->setParameter($valueParameter, $ids);
       }
     }
   }
@@ -73,16 +74,14 @@ class TagFilter extends AbstractFilter
   /**
    * {@inheritdoc}
    */
-  public function getDescription(string $resourceClass) : array
-  {
+  public function getDescription(string $resourceClass) : array {
     return [
-      'tags' => [
-        'property' => $this->name,
-        'type' => 'string',
-        'required' => false,
-      ]
-    ];
+        'tags' => [
+          'property' => $this->name,
+          'type' => 'string',
+          'required' => FALSE,
+        ]
+      ];
   }
-
 
 }

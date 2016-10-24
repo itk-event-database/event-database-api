@@ -185,13 +185,15 @@ class Place extends Thing implements Taggable
     return $this->id;
   }
 
-  public function setFeed($feed) {
+  public function setFeed($feed)
+  {
     $this->feed = $feed;
 
     return $this;
   }
 
-  public function getFeed() {
+  public function getFeed()
+  {
     return $this->feed;
   }
 
@@ -469,7 +471,9 @@ class Place extends Thing implements Taggable
 
   // Method stub needed to make CustomItemNormalizer work. If no setter is
   // defined, tags will not be processed during normalization.
-  function setTags($tags) {}
+  function setTags($tags)
+  {
+  }
 
   /**
    * Returns the collection of tags for this Taggable entity

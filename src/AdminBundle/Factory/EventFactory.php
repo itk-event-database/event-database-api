@@ -7,6 +7,9 @@ use AppBundle\Entity\Entity;
 use AppBundle\Entity\Event;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ *
+ */
 class EventFactory extends EntityFactory {
   /**
    * @var Feed
@@ -18,6 +21,9 @@ class EventFactory extends EntityFactory {
    */
   protected $occurrenceFactory;
 
+  /**
+   * @param \AdminBundle\Entity\Feed $feed
+   */
   public function setFeed(Feed $feed) {
     $this->feed = $feed;
     if ($this->valueConverter) {
@@ -25,10 +31,17 @@ class EventFactory extends EntityFactory {
     }
   }
 
+  /**
+   * @param \AdminBundle\Factory\OccurrenceFactory $occurrenceFactory
+   */
   public function setOccurrenceFactory(OccurrenceFactory $occurrenceFactory) {
     $this->occurrenceFactory = $occurrenceFactory;
   }
 
+  /**
+   * @param array $data
+   * @return \AppBundle\Entity\Event|object
+   */
   public function get(array $data) {
     $entity = $this->getEntity($data);
     $this->setValues($entity, $data);
@@ -38,9 +51,13 @@ class EventFactory extends EntityFactory {
     return $entity;
   }
 
+  /**
+   * @param array $data
+   * @return \AppBundle\Entity\Event|object
+   */
   private function getEntity(array $data) {
-    $feed = isset($data['feed']) ? $data['feed'] : null;
-    $feedEventId = isset($data['feed_event_id']) ? $data['feed_event_id'] : null;
+    $feed = isset($data['feed']) ? $data['feed'] : NULL;
+    $feedEventId = isset($data['feed_event_id']) ? $data['feed_event_id'] : NULL;
     $id = isset($data['id']) ? $data['id'] : uniqid();
 
     $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
@@ -48,7 +65,7 @@ class EventFactory extends EntityFactory {
       'feedEventId' => $feedEventId,
     ]);
 
-    if ($event === null) {
+    if ($event === NULL) {
       $event = new Event();
       $event->setFeedEventId($id);
     }
@@ -56,6 +73,11 @@ class EventFactory extends EntityFactory {
     return $event;
   }
 
+  /**
+   * @param \AppBundle\Entity\Entity $entity
+   * @param $key
+   * @param $value
+   */
   protected function setValue(Entity $entity, $key, $value) {
     if ($entity instanceof Event) {
       if ($this->accessor->isWritable($entity, $key)) {

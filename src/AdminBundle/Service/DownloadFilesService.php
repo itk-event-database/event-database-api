@@ -8,6 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
+/**
+ *
+ */
 class DownloadFilesService {
   /**
    * @var EntityManagerInterface
@@ -29,18 +32,32 @@ class DownloadFilesService {
    */
   private $output;
 
+  /**
+   * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+   * @param \AdminBundle\Service\FileHandler $fileHandler
+   * @param \AdminBundle\Service\AuthenticatorService $authenticator
+   */
   public function __construct(EntityManagerInterface $entityManager, FileHandler $fileHandler, AuthenticatorService $authenticator) {
     $this->entityManager = $entityManager;
     $this->fileHandler = $fileHandler;
     $this->authenticator = $authenticator;
   }
 
+  /**
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
+   * @return $this
+   */
   public function setOutput(OutputInterface $output) {
     $this->output = $output;
 
     return $this;
   }
 
+  /**
+   * @param string $className
+   * @param $id
+   * @param array $fields
+   */
   public function process(string $className, $id, array $fields) {
     $accessor = new PropertyAccessor();
 
@@ -71,20 +88,33 @@ class DownloadFilesService {
     }
   }
 
+  /**
+   * @param \AppBundle\Entity\Entity $entity
+   * @param \Symfony\Component\PropertyAccess\PropertyAccessor $accessor
+   */
   private function authenticate(Entity $entity, PropertyAccessor $accessor) {
     try {
       $user = $accessor->getValue($entity, 'created_by');
       if ($user instanceof User) {
         $this->authenticator->authenticate($user);
       }
-    } catch (\Exception $e) {}
+    }
+    catch (\Exception $e) {
+    }
   }
 
+  /**
+   * @param $messages
+   */
   private function writeln($messages) {
-    $this->write($messages, true);
+    $this->write($messages, TRUE);
   }
 
-  private function write($messages, $newline = false) {
+  /**
+   * @param $messages
+   * @param bool $newline
+   */
+  private function write($messages, $newline = FALSE) {
     if ($this->output) {
       $this->output->write($messages, $newline);
     }

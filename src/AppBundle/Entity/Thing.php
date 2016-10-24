@@ -15,8 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\MappedSuperclass
  * @ ApiResource(iri="http://schema.org/Thing")
  */
-abstract class Thing extends Entity
-{
+abstract class Thing extends Entity {
   /**
    * @var string A short description of the item.
    *
@@ -93,8 +92,7 @@ abstract class Thing extends Entity
    *
    * @return $this
    */
-  public function setDescription($description)
-  {
+  public function setDescription($description) {
     $this->description = $description;
 
     return $this;
@@ -105,8 +103,7 @@ abstract class Thing extends Entity
    *
    * @return string
    */
-  public function getDescription()
-  {
+  public function getDescription() {
     return $this->description;
   }
 
@@ -117,8 +114,7 @@ abstract class Thing extends Entity
    *
    * @return $this
    */
-  public function setImage($image)
-  {
+  public function setImage($image) {
     $this->image = $image;
 
     return $this;
@@ -129,8 +125,7 @@ abstract class Thing extends Entity
    *
    * @return string
    */
-  public function getImage()
-  {
+  public function getImage() {
     return $this->image;
   }
 
@@ -141,8 +136,7 @@ abstract class Thing extends Entity
    *
    * @return $this
    */
-  public function setOriginalImage($originalImage)
-  {
+  public function setOriginalImage($originalImage) {
     $this->originalImage = $originalImage;
 
     return $this;
@@ -153,8 +147,7 @@ abstract class Thing extends Entity
    *
    * @return string
    */
-  public function getOriginalImage()
-  {
+  public function getOriginalImage() {
     return $this->originalImage;
   }
 
@@ -165,8 +158,7 @@ abstract class Thing extends Entity
    *
    * @return $this
    */
-  public function setName($name)
-  {
+  public function setName($name) {
     $this->name = $name;
 
     return $this;
@@ -177,8 +169,7 @@ abstract class Thing extends Entity
    *
    * @return string
    */
-  public function getName()
-  {
+  public function getName() {
     return $this->name;
   }
 
@@ -189,8 +180,7 @@ abstract class Thing extends Entity
    *
    * @return $this
    */
-  public function setUrl($url)
-  {
+  public function setUrl($url) {
     $this->url = $url;
 
     return $this;
@@ -201,8 +191,7 @@ abstract class Thing extends Entity
    *
    * @return string
    */
-  public function getUrl()
-  {
+  public function getUrl() {
     return $this->url;
   }
 
@@ -213,8 +202,7 @@ abstract class Thing extends Entity
    *
    * @return $this
    */
-  public function setLangcode($langcode)
-  {
+  public function setLangcode($langcode) {
     $this->langcode = $langcode;
 
     return $this;
@@ -225,31 +213,26 @@ abstract class Thing extends Entity
    *
    * @return string
    */
-  public function getLangcode()
-  {
+  public function getLangcode() {
     return $this->langcode;
   }
 
   /**
-   * Gets videoURL
+   * Gets videoURL.
    *
    * @return string
    */
-  public function getVideoUrl()
-  {
+  public function getVideoUrl() {
     return $this->videoUrl;
   }
 
   /**
-   * Sets videoURL
+   * Sets videoURL.
    *
    * @param string $videoUrl
    */
-  public function setVideoUrl($videoUrl)
-  {
+  public function setVideoUrl($videoUrl) {
     $this->videoUrl = $videoUrl;
   }
-
-
 
 }

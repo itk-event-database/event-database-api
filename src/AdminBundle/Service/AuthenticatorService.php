@@ -20,14 +20,22 @@ class AuthenticatorService {
    */
   private $configuration;
 
+  /**
+   * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
+   * @param array $configuration
+   */
   public function __construct(TokenStorageInterface $tokenStorage, array $configuration) {
     $this->tokenStorage = $tokenStorage;
     $this->configuration = $configuration;
   }
 
+  /**
+   * @param \AppBundle\Entity\User $user
+   */
   public function authenticate(User $user) {
     $firewall = isset($this->configuration['firewall']) ? $this->configuration['firewall'] : 'main';
     $token = new UsernamePasswordToken($user, NULL, $firewall);
     $this->tokenStorage->setToken($token);
   }
+
 }

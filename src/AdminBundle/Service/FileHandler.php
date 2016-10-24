@@ -10,6 +10,9 @@ use League\Uri\Schemes\Http as HttpUri;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ *
+ */
 class FileHandler {
   private $logger;
   private $configuration;
@@ -17,12 +20,16 @@ class FileHandler {
   private $filesPath;
   private $filesUrl;
 
+  /**
+   * @param \Psr\Log\LoggerInterface $logger
+   * @param array $configuration
+   */
   public function __construct(LoggerInterface $logger, array $configuration) {
     $this->logger = $logger;
     $this->configuration = $configuration;
-    $this->baseUrlResolver = isset($this->configuration['base_url']) ? new Resolve(HttpUri::createFromString($this->configuration['base_url'])) : null;
-    $this->filesPath = isset($this->configuration['files']['path']) ? rtrim($this->configuration['files']['path'], '/') : null;
-    $this->filesUrl = isset($this->configuration['files']['url']) ? rtrim($this->configuration['files']['url'], '/') : null;
+    $this->baseUrlResolver = isset($this->configuration['base_url']) ? new Resolve(HttpUri::createFromString($this->configuration['base_url'])) : NULL;
+    $this->filesPath = isset($this->configuration['files']['path']) ? rtrim($this->configuration['files']['path'], '/') : NULL;
+    $this->filesUrl = isset($this->configuration['files']['url']) ? rtrim($this->configuration['files']['url'], '/') : NULL;
   }
 
   /**
@@ -42,7 +49,7 @@ class FileHandler {
 
     $this->log('info', 'Downloading from url: ' . $url);
     $actualUrl = $url;
-    $content = null;
+    $content = NULL;
     try {
       $client = new Client();
       $content = $client->get($url, [
@@ -50,13 +57,14 @@ class FileHandler {
           $actualUrl = $stats->getEffectiveUri();
         }
       ])->getBody()->getContents();
-    } catch (ClientException $ex) {
+    }
+    catch (ClientException $ex) {
       $this->log('error', 'Downloading from ' . $url . ' failed: ' . $ex->getMessage());
-      return null;
+      return NULL;
     }
     if (empty($content)) {
       $this->log('error', 'Downloading from ' . $url . ' failed. No content');
-      return null;
+      return NULL;
     }
 
     $filename = md5($actualUrl);
@@ -92,9 +100,14 @@ class FileHandler {
     return $localUrl == $externalUrl;
   }
 
+  /**
+   * @param string $type
+   * @param string $message
+   */
   private function log(string $type, string $message) {
     if ($this->logger) {
       $this->logger->{$type}($message);
     }
   }
+
 }

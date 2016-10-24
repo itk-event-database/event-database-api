@@ -12,8 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
-class User extends BaseUser
-{
+class User extends BaseUser {
   /**
    * @ORM\Id
    * @ORM\Column(type="integer")
@@ -64,4 +63,5 @@ class User extends BaseUser
    * @Groups({"user_read", "user_write"})
    */
   protected $roles;
+
 }

@@ -6,9 +6,16 @@ use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ *
+ */
 class LoadFeedUsers extends LoadData {
+
+  /**
+   * @param \Doctrine\Common\Persistence\ObjectManager $manager
+   */
   public function load(ObjectManager $manager) {
-    $yaml = $this->loadFixture('feed_users.yml');
+    $yaml = $this->loadFixture('users.yml');
     $config = Yaml::parse($yaml);
 
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:User');
@@ -19,7 +26,7 @@ class LoadFeedUsers extends LoadData {
         $user = new User();
       }
       $user->setUsername($username)
-        ->setEnabled(true)
+        ->setEnabled(TRUE)
         ->setPlainPassword('password')
         ->setRoles(['ROLE_API_WRITE']);
       if ($data) {
@@ -32,4 +39,5 @@ class LoadFeedUsers extends LoadData {
       $manager->flush();
     }
   }
+
 }

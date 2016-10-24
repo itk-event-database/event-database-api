@@ -1,52 +1,33 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
 {% block body -%}
-    <h1>Feed</h1>
+  <h1>{{ 'Feed' | trans }}</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ entity.name }}</td>
-            </tr>
-            <tr>
-                <th>Url</th>
-                <td>{{ entity.url }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ entity.type }}</td>
-            </tr>
-            <tr>
-                <th>Root</th>
-                <td>{{ entity.root }}</td>
-            </tr>
-            <tr>
-                <th>Mapping</th>
-                <td style="white-space: pre">{{ entity.mapping | json_encode }}</td>
-            </tr>
-            <tr>
-                <th>Lastread</th>
-                <td>{{ entity.lastRead ? (entity.lastRead | date('Y-m-d H:i:s')) : '–' }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <dl class="dl-horizontal">
+    <dt>{{ 'Id' | trans }}</dt>
+    <dd>{{ feed.id }}</dd>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_feed') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_feed_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <dt>{{ 'Name' | trans }}</dt>
+    <dd>{{ feed.name }}</dd>
+
+    <dt>{{ 'Url' | trans }}</dt>
+    <dd>{{ feed.url }}</dd>
+
+		<dt>{{ 'Type' | trans }}</dt>
+    <dd>{{ feed.type }}</dd>
+
+		<dt>{{ 'Root' | trans }}</dt>
+    <dd>{{ feed.root }}</dd>
+
+		<dt>{{ 'Mapping' | trans }}</dt>
+    <dd style="white-space: pre">{{ feed.mapping | json_encode(constant('JSON_PRETTY_PRINT')) }}</dd>
+
+		<dt>{{ 'Lastread' | trans }}</dt>
+    <dd>{{ feed.lastRead ? (feed.lastRead | date('Y-m-d H:i:s')) : '–' }}</dd>
+	</dl>
+
+  <div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_feed') }}">{{ 'Back to the list' | trans  }}</a>
+		<a class="btn btn-primary" href="{{ path('admin_feed_edit', { 'id': feed.id }) }}">{{ 'Edit' | trans  }}</a>
+	</div>
 {% endblock %}

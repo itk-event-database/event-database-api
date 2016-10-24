@@ -19,9 +19,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
- * Class CustomItemNormalizer
+ * Class CustomItemNormalizer.
  *
- * This is an almost verbatim copy of
+ * This is an almost verbatim copy of.
  *
  * final class ApiPlatform\Core\JsonLd\Serializer\ItemNormalizer
  *
@@ -48,8 +48,10 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
    */
   private $placeFactory;
 
-  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, PlaceFactory $placeFactory)
-  {
+  /**
+   *
+   */
+  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = NULL, NameConverterInterface $nameConverter = NULL, TagManager $tagManager, PlaceFactory $placeFactory) {
     parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
 
     $this->resourceMetadataFactory = $resourceMetadataFactory;
@@ -61,17 +63,15 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsNormalization($data, $format = null)
-  {
+  public function supportsNormalization($data, $format = NULL) {
     return self::FORMAT === $format && parent::supportsNormalization($data, $format);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function normalize($object, $format = null, array $context = [])
-  {
-    $resourceClass = $this->resourceClassResolver->getResourceClass($object, $context['resource_class'] ?? null, true);
+  public function normalize($object, $format = NULL, array $context = []) {
+    $resourceClass = $this->resourceClassResolver->getResourceClass($object, $context['resource_class'] ?? NULL, TRUE);
     $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
     $data = $this->addJsonLdContext($this->contextBuilder, $resourceClass, $context);
 
@@ -89,26 +89,26 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function supportsDenormalization($data, $type, $format = null)
-  {
+  public function supportsDenormalization($data, $type, $format = NULL) {
     return self::FORMAT === $format && parent::supportsDenormalization($data, $type, $format);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function denormalize($data, $class, $format = null, array $context = [])
-  {
-    // Avoid issues with proxies if we populated the object
+  public function denormalize($data, $class, $format = NULL, array $context = []) {
+    // Avoid issues with proxies if we populated the object.
     if (isset($data['@id']) && !isset($context['object_to_populate'])) {
-      $context['object_to_populate'] = $this->iriConverter->getItemFromIri($data['@id'], true);
+      $context['object_to_populate'] = $this->iriConverter->getItemFromIri($data['@id'], TRUE);
     }
 
     return parent::denormalize($data, $class, $format, $context);
   }
 
-  protected function setAttributeValue($object, $attribute, $value, $format = null, array $context = [])
-  {
+  /**
+   *
+   */
+  protected function setAttributeValue($object, $attribute, $value, $format = NULL, array $context = []) {
     // @TODO: We should delegate this to our factories or a service.
     if ($object instanceof Taggable && $attribute === 'tags') {
       $tags = $this->tagManager->loadOrCreateTags($value);
@@ -128,14 +128,17 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
     parent::setAttributeValue($object, $attribute, $value, $format, $context);
   }
 
-  protected function getAttributeValue($object, $attribute, $format = null, array $context = [])
-  {
+  /**
+   *
+   */
+  protected function getAttributeValue($object, $attribute, $format = NULL, array $context = []) {
     if ($object instanceof Taggable && $attribute === 'tags') {
       $this->tagManager->loadTagging($object);
-      return $object->getTags()->map(function($tag) {
-        return $tag->getName();
+      return $object->getTags()->map(function ($tag) {
+          return $tag->getName();
       });
     }
     return parent::getAttributeValue($object, $attribute, $format, $context);
   }
+
 }
