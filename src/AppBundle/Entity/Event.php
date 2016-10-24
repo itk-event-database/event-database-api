@@ -72,7 +72,11 @@ class Event extends Thing implements Taggable
    *
    * @Groups({"event_read", "event_write"})
    * @ORM\Column(nullable=true)
-   * @Assert\Type(type="text")
+   * @Assert\Type(type="string")
+   * @Assert\Length(
+   *      max = 255,
+   *      maxMessage = "The excerpt cannot be longer than {{ limit }} characters"
+   * )
    */
   private $excerpt;
 

@@ -56,6 +56,8 @@ class Place extends Thing implements Taggable
 
   /**
    * @var string The telephone number.
+   *
+   * @Groups({"event_read", "event_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -63,7 +65,11 @@ class Place extends Thing implements Taggable
 
   /**
    * @var string The email address.
-   * @Assert\Type(type="email")
+   *
+   * @Groups({"event_read", "event_write"})
+   * @Assert\Email(
+   *   message = "The email '{{ value }}' is not a valid email."
+   * )
    * @ORM\Column(nullable=true)
    */
   private $email;
@@ -82,8 +88,7 @@ class Place extends Thing implements Taggable
    * @var boolean Does the place have disability access?
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\Column(nullable=true)
-   * @Assert\Type(type="boolean")
+   * @ORM\Column(type="boolean", nullable=true)
    */
   private $disabilityAccess;
 
@@ -136,8 +141,7 @@ class Place extends Thing implements Taggable
    * @var number The latitude of the location
    *
    * @Groups({"place_read", "place_write"})
-   * @Assert\Type(type="number")
-   * @ORM\Column(nullable=true, type="decimal", precision=9, scale=6)
+   * @ORM\Column(nullable=true, type="float")
    */
   private $latitude;
 
@@ -145,15 +149,13 @@ class Place extends Thing implements Taggable
    * @var number The longitude of the location
    *
    * @Groups({"place_read", "place_write"})
-   * @Assert\Type(type="number")
-   * @ORM\Column(nullable=true, type="decimal", precision=9, scale=6)
+   * @ORM\Column(nullable=true, type="float")
    */
   private $longitude;
 
   /**
    * @var ArrayCollection
    *
-   * @Groups({"place_read", "place_write"})
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="place")
    * @Groups({"place_read"})
    */
