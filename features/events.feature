@@ -38,6 +38,7 @@ Feature: Events
     """
     {
       "name": "Big bang",
+      "excerpt": "Stort bang! Større bum",
       "image": "http://static.billetlugen.dk/images/events/b/41677.jpg",
       "ticketPurchaseUrl": "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/",
       "videoUrl": "https://vimeo.com/183524061",
