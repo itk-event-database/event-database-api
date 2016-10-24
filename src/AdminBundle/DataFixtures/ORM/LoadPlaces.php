@@ -43,19 +43,43 @@ class LoadPlaces extends LoadData
       $place->setCreatedBy($user);
       $place->setUpdatedBy($user);
 
-      $place->setName($name);
-      $place->setStreetAddress($configuration['adress']);
-      $place->setPostalCode($configuration['postcode']);
-      $place->setAddressLocality($city);
-      $place->setDescription($configuration['description']);
-      $place->setImage($configuration['promopic']);
+      if(!empty($name)) {
+        $place->setName($name);
+      }
+      if(!empty($configuration['adress'])) {
+        $place->setStreetAddress($configuration['adress']);
+      }
+      if(!empty($configuration['postcode'])) {
+        $place->setPostalCode($configuration['postcode']);
+      }
+      if(!empty($city)) {
+        $place->setAddressLocality($city);
+      }
+      if(!empty($configuration['description'])) {
+        $place->setDescription($configuration['description']);
+      }
+      if(!empty($configuration['promopic'])) {
+        $place->setImage($configuration['promopic']);
+      }
       $place->setLangcode("DA");
-      $place->setLongitude($configuration['longitude']);
-      $place->setLatitude($configuration['latitude']);
-      $place->setUrl($configuration['website']);
-      $place->setTelephone($configuration['phone']);
-      $place->setLogo($configuration['logo']);
-      $place->setEmail($configuration['email']);
+      if(!empty($configuration['longitude'])) {
+        $place->setLongitude($configuration['longitude']);
+      }
+      if(!empty($configuration['latitude'])) {
+        $place->setLatitude($configuration['latitude']);
+      }
+      if(!empty($configuration['website'])) {
+        $place->setUrl($configuration['website']);
+      }
+      if(!empty($configuration['phone'])) {
+        $place->setTelephone($configuration['phone']);
+      }
+      if(!empty($configuration['logo'])) {
+        $place->setLogo($configuration['logo']);
+      }
+      if(!empty($configuration['email'])) {
+        $place->setEmail($configuration['email']);
+      }
 
       //Override Doctrine id generation to maintain id's form import
 
@@ -75,6 +99,9 @@ class LoadPlaces extends LoadData
       $loop++;
 
     }
+
+    echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
+    echo 'Flushing to DB...', PHP_EOL;
 
     $manager->flush();
   }

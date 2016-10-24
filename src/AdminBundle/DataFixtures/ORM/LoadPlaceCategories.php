@@ -52,7 +52,7 @@ class LoadPlaceCategories extends LoadData
 
       $loop++;
     }
-
+    echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
     echo 'Done adding tags to places', PHP_EOL;
 
   }
