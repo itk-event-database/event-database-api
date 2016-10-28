@@ -185,7 +185,7 @@ class Occurrence extends Entity {
   /**
    *
    */
-  public function setPlace(Place $place) {
+  public function setPlace($place) {
     $this->place = $place;
 
     return $this;

@@ -64,7 +64,8 @@ Feature: Events
       "name": "Repeating event",
       "occurrences": [ {
         "startDate": "2000-01T00:00:00+00:00",
-        "endDate": "2100-01T00:00:00+00:00"
+        "endDate": "2100-01T00:00:00+00:00",
+        "place": null
       },
       {
         "startDate": "2000-01T00:00:00+00:00",

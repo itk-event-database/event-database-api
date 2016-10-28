@@ -13,15 +13,15 @@ Feature: Events
      {
        "name": "Repeating event with multiple places",
        "occurrences": [ {
-         "startDate": "2001-01T00:00:00+00:00",
-         "endDate": "2100-01T00:00:00+00:00",
+         "startDate": "2001-01-01T00:00:00+00:00",
+         "endDate": "2100-01-01T00:00:00+00:00",
          "place": {
            "name": "Place 1"
          }
        },
        {
-         "startDate": "2002-01T00:00:00+00:00",
-         "endDate": "2100-01T00:00:00+00:00",
+         "startDate": "2002-01-01T00:00:00+00:00",
+         "endDate": "2100-01-01T00:00:00+00:00",
          "place": {
            "name": "Place 1"
          }
@@ -47,8 +47,8 @@ Feature: Events
      {
        "name": "Repeating event with multiple places",
        "occurrences": [ {
-         "startDate": "2003-01T00:00:00+00:00",
-         "endDate": "2100-01T00:00:00+00:00",
+         "startDate": "2003-01-01T00:00:00+00:00",
+         "endDate": "2100-01-01T00:00:00+00:00",
          "place": {
            "@id": "/api/places/1"
          }
