@@ -123,9 +123,10 @@ class Event extends Thing implements Taggable {
   public function setOccurrences($occurrences) {
     // Remove (and implicitly delete) occurrences that will be orphaned after
     // updating settings (new) occurrences.
-    $keepIds = array_map(function ($occurrence) {
-      return $occurrence->getId();
-    }, $occurrences);
+    $keepIds = [];
+    foreach ($occurrences as $occurrence) {
+      $keepIds[] = $occurrence->getId();
+    }
     foreach ($this->occurrences as $occurrence) {
       if (!in_array($occurrence->getId(), $keepIds)) {
         $this->occurrences->removeElement($occurrence);
