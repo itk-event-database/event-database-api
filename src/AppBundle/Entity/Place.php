@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineExtensions\Taggable\Taggable;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
@@ -21,9 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @see http://schema.org/Place Documentation on Schema.org
  *
  * @ORM\Entity
- *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
- *
  * @ApiResource(
  *   iri = "http://schema.org/Place",
  *   attributes = {
@@ -33,7 +32,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   }
  * )
  */
-class Place extends Thing {
+class Place extends Thing implements Taggable
+{
   use TimestampableEntity;
   use BlameableEntity;
   use SoftDeleteableEntity;
@@ -56,10 +56,23 @@ class Place extends Thing {
 
   /**
    * @var string The telephone number.
+   *
+   * @Groups({"event_read", "event_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
   private $telephone;
+
+  /**
+   * @var string The email address.
+   *
+   * @Groups({"event_read", "event_write"})
+   * @Assert\Email(
+   *   message = "The email '{{ value }}' is not a valid email."
+   * )
+   * @ORM\Column(nullable=true)
+   */
+  private $email;
 
   /**
    * @var string The logo of the item.
@@ -75,8 +88,7 @@ class Place extends Thing {
    * @var boolean Does the place have disability access?
    *
    * @Groups({"event_read", "event_write"})
-   * @ORM\Column(nullable=true)
-   * @Assert\Type(type="boolean")
+   * @ORM\Column(type="boolean", nullable=true)
    */
   private $disabilityAccess;
 
@@ -126,9 +138,24 @@ class Place extends Thing {
   private $streetAddress;
 
   /**
-   * @var ArrayCollection
+   * @var number The latitude of the location
    *
    * @Groups({"place_read", "place_write"})
+   * @ORM\Column(nullable=true, type="float")
+   */
+  private $latitude;
+
+  /**
+   * @var number The longitude of the location
+   *
+   * @Groups({"place_read", "place_write"})
+   * @ORM\Column(nullable=true, type="float")
+   */
+  private $longitude;
+
+  /**
+   * @var ArrayCollection
+   *
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="place")
    * @Groups({"place_read"})
    */
@@ -141,7 +168,8 @@ class Place extends Thing {
    *
    * @return $this
    */
-  public function setId($id) {
+  public function setId($id)
+  {
     $this->id = $id;
 
     return $this;
@@ -152,34 +180,32 @@ class Place extends Thing {
    *
    * @return int
    */
-  public function getId() {
+  public function getId()
+  {
     return $this->id;
   }
 
-  /**
-   *
-   */
-  public function setFeed($feed) {
+  public function setFeed($feed)
+  {
     $this->feed = $feed;
 
     return $this;
   }
 
-  /**
-   *
-   */
-  public function getFeed() {
+  public function getFeed()
+  {
     return $this->feed;
   }
+
 
   /**
    * Sets addressCountry.
    *
-   * @param string $addressCountry
-   *
+   * @param  string $addressCountry
    * @return $this
    */
-  public function setAddressCountry($addressCountry) {
+  public function setAddressCountry($addressCountry)
+  {
     $this->addressCountry = $addressCountry;
 
     return $this;
@@ -190,18 +216,19 @@ class Place extends Thing {
    *
    * @return string
    */
-  public function getAddressCountry() {
+  public function getAddressCountry()
+  {
     return $this->addressCountry;
   }
 
   /**
    * Sets addressLocality.
    *
-   * @param string $addressLocality
-   *
+   * @param  string $addressLocality
    * @return $this
    */
-  public function setAddressLocality($addressLocality) {
+  public function setAddressLocality($addressLocality)
+  {
     $this->addressLocality = $addressLocality;
 
     return $this;
@@ -212,18 +239,19 @@ class Place extends Thing {
    *
    * @return string
    */
-  public function getAddressLocality() {
+  public function getAddressLocality()
+  {
     return $this->addressLocality;
   }
 
   /**
    * Sets addressRegion.
    *
-   * @param string $addressRegion
-   *
+   * @param  string $addressRegion
    * @return $this
    */
-  public function setAddressRegion($addressRegion) {
+  public function setAddressRegion($addressRegion)
+  {
     $this->addressRegion = $addressRegion;
 
     return $this;
@@ -234,18 +262,19 @@ class Place extends Thing {
    *
    * @return string
    */
-  public function getAddressRegion() {
+  public function getAddressRegion()
+  {
     return $this->addressRegion;
   }
 
   /**
    * Sets postalCode.
    *
-   * @param string $postalCode
-   *
+   * @param  string $postalCode
    * @return $this
    */
-  public function setPostalCode($postalCode) {
+  public function setPostalCode($postalCode)
+  {
     $this->postalCode = $postalCode;
 
     return $this;
@@ -256,18 +285,19 @@ class Place extends Thing {
    *
    * @return string
    */
-  public function getPostalCode() {
+  public function getPostalCode()
+  {
     return $this->postalCode;
   }
 
   /**
    * Sets streetAddress.
    *
-   * @param string $streetAddress
-   *
+   * @param  string $streetAddress
    * @return $this
    */
-  public function setStreetAddress($streetAddress) {
+  public function setStreetAddress($streetAddress)
+  {
     $this->streetAddress = $streetAddress;
 
     return $this;
@@ -278,7 +308,8 @@ class Place extends Thing {
    *
    * @return string
    */
-  public function getStreetAddress() {
+  public function getStreetAddress()
+  {
     return $this->streetAddress;
   }
 
@@ -289,7 +320,8 @@ class Place extends Thing {
    *
    * @return $this
    */
-  public function setLogo($logo) {
+  public function setLogo($logo)
+  {
     $this->logo = $logo;
 
     return $this;
@@ -300,7 +332,8 @@ class Place extends Thing {
    *
    * @return string
    */
-  public function getLogo() {
+  public function getLogo()
+  {
     return $this->logo;
   }
 
@@ -311,7 +344,8 @@ class Place extends Thing {
    *
    * @return $this
    */
-  public function setOccurrences(ArrayCollection $occurrences) {
+  public function setOccurrences(ArrayCollection $occurrences)
+  {
     $this->occurrences = $occurrences;
 
     return $this;
@@ -322,8 +356,134 @@ class Place extends Thing {
    *
    * @return ArrayCollection
    */
-  public function getOccurrences() {
+  public function getOccurrences()
+  {
     return $this->occurrences;
+  }
+
+  /**
+   * @return string
+   */
+  public function getTelephone()
+  {
+    return $this->telephone;
+  }
+
+  /**
+   * @param string $telephone
+   */
+  public function setTelephone($telephone)
+  {
+    $this->telephone = $telephone;
+  }
+
+  /**
+   * @return boolean
+   */
+  public function isDisabilityAccess()
+  {
+    return $this->disabilityAccess;
+  }
+
+  /**
+   * @param boolean $disabilityAccess
+   */
+  public function setDisabilityAccess($disabilityAccess)
+  {
+    $this->disabilityAccess = $disabilityAccess;
+  }
+
+  /**
+   * @return number
+   */
+  public function getLatitude()
+  {
+    return $this->latitude;
+  }
+
+  /**
+   * @param number $latitude
+   */
+  public function setLatitude($latitude)
+  {
+    $this->latitude = $latitude;
+  }
+
+  /**
+   * @return number
+   */
+  public function getLongitude()
+  {
+    return $this->longitude;
+  }
+
+  /**
+   * @param number $longitude
+   */
+  public function setLongitude($longitude)
+  {
+    $this->longitude = $longitude;
+  }
+
+  /**
+   * @return string
+   */
+  public function getEmail()
+  {
+    return $this->email;
+  }
+
+  /**
+   * @param string $email
+   */
+  public function setEmail($email)
+  {
+    $this->email = $email;
+  }
+
+  /**
+   * @var ArrayCollection
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ ORM\Column(type="array", nullable=true)
+   */
+  private $tags;
+
+  /**
+   * Returns the unique taggable resource type
+   *
+   * @return string
+   */
+  function getTaggableType()
+  {
+    return 'place';
+  }
+
+  /**
+   * Returns the unique taggable resource identifier
+   *
+   * @return string
+   */
+  function getTaggableId()
+  {
+    return $this->getId();
+  }
+
+  // Method stub needed to make CustomItemNormalizer work. If no setter is
+  // defined, tags will not be processed during normalization.
+  function setTags($tags)
+  {
+  }
+
+  /**
+   * Returns the collection of tags for this Taggable entity
+   *
+   * @return Doctrine\Common\Collections\Collection
+   */
+  function getTags()
+  {
+    $this->tags = $this->tags ?: new ArrayCollection();
+    return $this->tags;
   }
 
 }

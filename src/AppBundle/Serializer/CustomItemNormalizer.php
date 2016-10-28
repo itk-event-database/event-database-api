@@ -116,7 +116,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
       return;
     }
     if ($object instanceof Occurrence && $attribute === 'place') {
-      if (empty($value['@id'])) {
+      if (is_array($value) && empty($value['@id'])) {
         // Get unidentified place (with no specified id) from factory.
         $place = $this->placeFactory->get($value);
         if ($place) {

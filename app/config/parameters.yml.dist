@@ -31,3 +31,5 @@ parameters:
     admin.base_url: http://event-database-api.vm
     admin.files_path: %kernel.root_dir%/../web/files/
     admin.files_url: files/
+    admin.uploads_path: %kernel.root_dir%/../web/uploads/
+    admin.uploads_url: uploads/

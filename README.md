@@ -49,7 +49,10 @@ bin/console fos:user:create api-write api-write@example.com apipass
 bin/console fos:user:promote api-write ROLE_API_WRITE
 ```
 
-Get all events:
+Using the API
+-------------
+
+### Get all events
 
 ```
 curl --silent --verbose --request GET --header "Accept: application/ld+json" http://event-database-api.vm/api/events
@@ -62,7 +65,7 @@ token=$(curl --silent --request POST http://event-database-api.vm/api/login_chec
 echo $token
 ```
 
-Create an event:
+### Create an event
 
 ```
 curl --silent --verbose --request POST --header "Authorization: Bearer $token" --header "Content-type: application/ld+json" --header "Accept: application/ld+json" http://event-database-api.vm/api/events --data @- <<'JSON'
@@ -82,6 +85,14 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
 JSON
 ```
 
+### Uploading files
+
+```
+# Get image
+curl http://lorempixel.com/400/200/ > /tmp/image.jpg
+# Upload image
+curl --silent --request POST --header "Authorization: Bearer $token" --form file=@/tmp/image.jpg http://event-database-api.vm/api/upload
+```
 
 Running tests
 -------------
