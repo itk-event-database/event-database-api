@@ -1,5 +1,5 @@
 <?php
-$relationships = getenv("PLATFORM_RELATIONSHIPS");
+$relationships = getenv('PLATFORM_RELATIONSHIPS');
 if (!$relationships) {
     return;
 }
@@ -24,3 +24,7 @@ foreach ($relationships['redis'] as $endpoint) {
     $container->setParameter('resque.redis.host', $endpoint['host']);
     $container->setParameter('resque.redis.port', $endpoint['port']);
 }
+
+$secret = getenv('PLATFORM_PROJECT_ENTROPY');
+$container->setParameter('secret', $secret);
+$container->setParameter('jwt_key_pass_phrase', $secret);
