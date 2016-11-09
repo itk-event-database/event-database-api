@@ -21,6 +21,6 @@ foreach ($relationships['database'] as $endpoint) {
 }
 
 foreach ($relationships['redis'] as $endpoint) {
-    $container->setParameter('redis_host', $endpoint['host']);
-    $container->setParameter('redis_port', $endpoint['port']);
+    $container->setParameter('resque.redis.host', $endpoint['host']);
+    $container->setParameter('resque.redis.port', $endpoint['port']);
 }
