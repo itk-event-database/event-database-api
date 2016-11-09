@@ -41,4 +41,5 @@ hooks:
       rm web/app_dev.php
       bin/console --env=prod assets:install --no-debug
     deploy: |
+      bin/console --env=prod doctrine:migrations:migrate --no-interaction
       bin/console --env=prod cache:clear
