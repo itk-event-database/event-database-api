@@ -19,3 +19,8 @@ foreach ($relationships['database'] as $endpoint) {
     $container->setParameter('database_password', $endpoint['password']);
     $container->setParameter('database_path', '');
 }
+
+foreach ($relationships['redis'] as $endpoint) {
+    $container->setParameter('redis_host', $endpoint['host']);
+    $container->setParameter('redis_port', $endpoint['port']);
+}

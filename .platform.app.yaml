@@ -6,6 +6,11 @@ name: app
 
 # The type of the application to build.
 type: php:7.0
+
+runtime:
+    extensions:
+        - redis
+
 build:
   flavor: composer
 
@@ -15,6 +20,7 @@ build:
 # side is in the form `<service name>:<endpoint name>`.
 relationships:
     database: "mysqldb:mysql"
+    redis: "rediscache:redis"
 
 # The configuration of app when it is exposed to the web.
 web:
