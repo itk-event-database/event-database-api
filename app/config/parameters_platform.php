@@ -35,3 +35,5 @@ if ($variables = getenv('PLATFORM_VARIABLES')) {
   $container->setParameter('secret', $variables['secret']);
   $container->setParameter('jwt_key_pass_phrase', $variables['jwt_key_pass_phrase']);
 }
+
+$container->setParameter('admin.base_url', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
