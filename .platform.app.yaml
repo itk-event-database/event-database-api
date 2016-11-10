@@ -40,8 +40,6 @@ mounts:
     "/var/logs": "shared:files/logs"
     "/var/sessions": "shared:files/sessions"
     "/var/jwt": "shared:files/jwt"
-    # Images and file uploads
-    "/web" : "shared:files/web"
 
 # The hooks that will be performed when the package is deployed.
 hooks:
