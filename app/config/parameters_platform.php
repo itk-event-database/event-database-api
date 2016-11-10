@@ -32,8 +32,9 @@ if ($relationships = getenv('PLATFORM_RELATIONSHIPS')) {
 if ($variables = getenv('PLATFORM_VARIABLES')) {
   $variables = json_decode(base64_decode($variables), true);
 
-  $container->setParameter('secret', $variables['secret']);
-  $container->setParameter('jwt_key_pass_phrase', $variables['jwt_key_pass_phrase']);
+  foreach (['secret', 'jwt_key_pass_phrase', 'admin.base_url'] as $name) {
+    if (isset($variables[$name])) {
+      $container->setParameter($name, $variables[$name]);
+    }
+  }
 }
-
-$container->setParameter('admin.base_url', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
