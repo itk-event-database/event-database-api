@@ -1,12 +1,9 @@
 <?php
-$relationships = getenv('PLATFORM_RELATIONSHIPS');
-if (!$relationships) {
-    return;
-}
 
-$relationships = json_decode(base64_decode($relationships), true);
+if ($relationships = getenv('PLATFORM_RELATIONSHIPS')) {
+  $relationships = json_decode(base64_decode($relationships), true);
 
-foreach ($relationships['database'] as $endpoint) {
+  foreach ($relationships['database'] as $endpoint) {
     if (empty($endpoint['query']['is_master'])) {
       continue;
     }
@@ -18,13 +15,23 @@ foreach ($relationships['database'] as $endpoint) {
     $container->setParameter('database_user', $endpoint['username']);
     $container->setParameter('database_password', $endpoint['password']);
     $container->setParameter('database_path', '');
-}
+  }
 
-foreach ($relationships['redis'] as $endpoint) {
+  foreach ($relationships['redis'] as $endpoint) {
     $container->setParameter('resque.redis.host', $endpoint['host']);
     $container->setParameter('resque.redis.port', $endpoint['port']);
+  }
 }
 
-$secret = getenv('PLATFORM_PROJECT_ENTROPY');
-$container->setParameter('secret', $secret);
-$container->setParameter('jwt_key_pass_phrase', $secret);
+/**
+ * Set some environment variables as Symfony parameters.
+ *
+ * @see https://docs.platform.sh/administration/web/configure-environment.html#variables
+ * @see https://docs.platform.sh/development/environment-variables.html
+ */
+if ($variables = getenv('PLATFORM_VARIABLES')) {
+  $variables = json_decode(base64_decode($variables), true);
+
+  $container->setParameter('secret', $variables['secret']);
+  $container->setParameter('jwt_key_pass_phrase', $variables['jwt_key_pass_phrase']);
+}
