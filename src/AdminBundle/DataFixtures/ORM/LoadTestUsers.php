@@ -9,6 +9,8 @@ use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 
 class LoadTestUsers extends LoadData {
+  protected $order = 4;
+
   public function load(ObjectManager $manager) {
     $yaml = $this->loadFixture('test_users.yml');
     $config = Yaml::parse($yaml);

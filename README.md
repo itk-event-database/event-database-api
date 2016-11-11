@@ -58,10 +58,16 @@ Using the API
 curl --silent --verbose --request GET --header "Accept: application/ld+json" http://event-database-api.vm/api/events
 ```
 
+Make the output more human readable by formatting the JSON:
+
+```
+curl --silent --request GET --header "Accept: application/ld+json" http://event-database-api.vm/api/events | php -r 'echo json_encode(json_decode(stream_get_contents(STDIN)), JSON_PRETTY_PRINT);'
+```
+
 Test the API using username and password to get a token:
 
 ```
-token=$(curl --silent --request POST http://event-database-api.vm/api/login_check --data _username=api-write --data _password=apipass | sed 's/{"token":"\(.*\)"}/\1/')
+token=$(curl --silent --request POST http://event-database-api.vm/api/login_check --data _username=api-write --data _password=apipass | php -r 'echo json_decode(stream_get_contents(STDIN))->token;')
 echo $token
 ```
 
@@ -75,8 +81,8 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
   "image": "https://dummyimage.com/600x400/000/00ffd5.png",
   "langcode": "en",
   "occurrences": [ {
-    "startDate": "2000-01-01",
-    "startDate": "2001-01-01",
+	"startDate": "2000-01-01",
+	"startDate": "2001-01-01",
 	"place": {
 	  "name": "Some place"
 	}

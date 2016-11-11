@@ -6,6 +6,7 @@ use AdminBundle\Entity\Feed;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Gedmo\Blameable\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
@@ -29,10 +30,11 @@ use DoctrineExtensions\Taggable\Taggable;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read", "place_read" } },
  *     "denormalization_context" = { "groups" = { "event_write", "place_write" } },
+ *     "filters" = { "place.search", "place.search.tag", "place.search.owner" }
  *   }
  * )
  */
-class Place extends Thing implements Taggable
+class Place extends Thing implements Taggable, Blameable
 {
   use TimestampableEntity;
   use BlameableEntity;

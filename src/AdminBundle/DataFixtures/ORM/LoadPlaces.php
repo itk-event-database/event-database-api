@@ -12,7 +12,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class LoadPlaces extends LoadData
 {
-  protected $order = 2;
+  protected $order = 6;
 
   public function load(ObjectManager $manager)
   {
