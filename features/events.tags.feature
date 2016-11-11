@@ -18,26 +18,16 @@ Feature: Events
 
   @createSchema
   Scenario: Check tags exist
-    When I add "Accept" header equal to "application/json"
+    When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/tags"
     Then the response status code should be 200
-    And the JSON should not differ from:
-    """
-    [
-        {
-            "id": "\/api\/tags\/1",
-            "name": "apple"
-        },
-        {
-            "id": "\/api\/tags\/2",
-            "name": "banana"
-        },
-        {
-            "id": "\/api\/tags\/3",
-            "name": "citrus"
-        }
-    ]
-    """
+    And the JSON node "hydra:member" should have 3 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/tags/1"
+    And the JSON node "hydra:member[0].name" should be equal to "apple"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/tags/2"
+    And the JSON node "hydra:member[1].name" should be equal to "banana"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/tags/3"
+    And the JSON node "hydra:member[2].name" should be equal to "citrus"
 
   Scenario: Events with tags
     When I authenticate as "api-write"

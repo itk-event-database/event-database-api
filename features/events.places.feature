@@ -115,14 +115,13 @@ Feature: Events
      """
     Then the response status code should be 200
     And the response should be in JSON
-    And print last JSON response
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
     And the JSON node "name" should be equal to "Updated repeating event with multiple places"
     And the JSON node "occurrences" should have 1 element
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
-    And the JSON node "occurrences[0].startDate" should be equal to "2003-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].startDate" should be equal to "2003-01-01T00:00:00+01:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+01:00"
     And the JSON node "occurrences[0].place.@id" should be equal to "/api/places/1"
     And the JSON node "occurrences[0].place.name" should be equal to "Place 1"
 
@@ -132,7 +131,6 @@ Feature: Events
     And I add "Accept" header equal to "application/ld+json"
     When I send a "GET" request to "/api/events/2"
     Then the response status code should be 200
-    And print last JSON response
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "name" should be equal to "Updated repeating event with multiple places"
