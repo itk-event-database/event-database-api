@@ -54,6 +54,11 @@ services:
             - [setOccurrenceFactory, ["@occurrence_factory"]]
 
     # Filters
+    app_bundle.doctrine.orm.tag_filter:
+        class:      AppBundle\Filter\TagFilter
+        arguments:  [ "@doctrine", "@request_stack", "@tag_manager" ]
+        public:     false
+
     resource.event.order_filter:
         parent:    "api_platform.doctrine.orm.order_filter"
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
@@ -64,20 +69,44 @@ services:
         arguments: [ { name: "partial", description: "partial", langcode: "exact", occurrences.place.name: "partial" } ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search' } ]
 
+    resource.event.search_owner_filter:
+        class:     AppBundle\Filter\OwnerFilter
+        arguments:
+            - "@doctrine"
+            - "@request_stack"
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.owner' } ]
+
     resource.event.search_date_filter:
         parent:    "api_platform.doctrine.orm.date_filter"
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
-    app_bundle.doctrine.orm.tag_filter:
-        class:      AppBundle\Filter\TagFilter
-        arguments:  [ "@doctrine", "@request_stack", "@tag_manager" ]
-        public:     false
-
     resource.event.search_tag_filter:
         parent:    "app_bundle.doctrine.orm.tag_filter"
         arguments: [ 'tags' ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search.tag' } ]
+
+    resource.place.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments: [ { name: "partial" } ]
+        tags:      [ { name: 'api_platform.filter', id: 'place.search' } ]
+
+    resource.place.search_owner_filter:
+        class:     AppBundle\Filter\OwnerFilter
+        arguments:
+            - "@doctrine"
+            - "@request_stack"
+            -
+                filters:
+                    user: user
+                    group: group
+                    editable_by: editable_by
+        tags:      [ { name: 'api_platform.filter', id: 'place.search.owner' } ]
+
+    resource.place.search_tag_filter:
+        parent:    "app_bundle.doctrine.orm.tag_filter"
+        arguments: [ 'tags' ]
+        tags:      [ { name: 'api_platform.filter', id: 'place.search.tag' } ]
 
     resource.occurrence.order_filter:
         parent:    "api_platform.doctrine.orm.order_filter"
@@ -98,8 +127,8 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
-    security.access.event_voter:
-        class:      AppBundle\Security\Authorization\Voter\EventVoter
+    security.access.edit_voter:
+        class:      AppBundle\Security\Authorization\Voter\EditVoter
         public:     false
         arguments: [ "@?security.role_hierarchy" ]
         tags:

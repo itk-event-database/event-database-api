@@ -5,7 +5,7 @@ namespace AppBundle\EventListener;
 use AppBundle\Entity\TagManager;
 use AppBundle\Entity\Thing;
 use AppBundle\Job\DownloadFilesJob;
-use AppBundle\Security\Authorization\Voter\EventVoter;
+use AppBundle\Security\Authorization\Voter\EditVoter;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -15,49 +15,15 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  *
  */
-class EventListener {
-  /**
-   * @var ContainerInterface
-   */
-  private $container;
-
+class EventListener extends EditListener {
   /**
    * @var TagManager
    */
-  private $tagManager;
+  protected $tagManager;
 
-  /**
-   *
-   */
   public function __construct(ContainerInterface $container) {
-    $this->container = $container;
-    $this->tagManager = $container->get('tag_manager');
-  }
-
-  /**
-   *
-   */
-  public function preUpdate(LifecycleEventArgs $args) {
-    $object = $args->getObject();
-
-    if ($object instanceof Event) {
-      if (!$this->isGranted(EventVoter::UPDATE, $object)) {
-        throw new AccessDeniedHttpException('Access denied');
-      }
-    }
-  }
-
-  /**
-   *
-   */
-  public function preRemove(LifecycleEventArgs $args) {
-    $object = $args->getObject();
-
-    if ($object instanceof Event) {
-      if (!$this->isGranted(EventVoter::REMOVE, $object)) {
-        throw new AccessDeniedHttpException('Access denied');
-      }
-    }
+    parent::__construct($container);
+    $this->tagManager = $this->container->get('tag_manager');
   }
 
   /**
@@ -102,42 +68,4 @@ class EventListener {
       $this->container->get('resque')->enqueue($job);
     }
   }
-
-  /**
-   * Check that the requested Event is owned by the current user.
-   *
-   * @throws AccessDeniedHttpException
-   */
-  private function checkOwner(Event $event) {
-    $token = $this->container->get('security.token_storage')->getToken();
-    $user = $token ? $token->getUser() : NULL;
-
-    if ($token->getRoles()) {
-    }
-
-    if (!$user || !$event->getCreatedBy() || $user->getId() != $event->getCreatedBy()->getId()) {
-      throw new AccessDeniedHttpException('Access denied');
-    }
-  }
-
-  /**
-   * Checks if the attributes are granted against the current authentication token and optionally supplied object.
-   *
-   * @param mixed $attributes
-   *   The attributes
-   * @param mixed $object
-   *   The object
-   *
-   * @return bool
-   *
-   * @throws \LogicException
-   */
-  protected function isGranted($attributes, $object = NULL) {
-    if (!$this->container->has('security.authorization_checker')) {
-      throw new \LogicException('The SecurityBundle is not registered in your application.');
-    }
-
-    return $this->container->get('security.authorization_checker')->isGranted($attributes, $object);
-  }
-
 }

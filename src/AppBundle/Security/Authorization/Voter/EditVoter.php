@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security\Authorization\Voter;
 
-use AppBundle\Entity\Event;
+use Gedmo\Blameable\Blameable;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
@@ -11,7 +11,7 @@ use AppBundle\Entity\User;
 /**
  *
  */
-class EventVoter extends Voter {
+class EditVoter extends Voter {
   const UPDATE = 'update';
   const REMOVE = 'remove';
 
@@ -40,7 +40,7 @@ class EventVoter extends Voter {
       return FALSE;
     }
 
-    if (!$subject instanceof Event) {
+    if (!$subject instanceof Blameable) {
       return FALSE;
     }
 
@@ -67,24 +67,26 @@ class EventVoter extends Voter {
       return FALSE;
     }
 
-    $event = $subject;
+    if (!$subject instanceof Blameable) {
+      return FALSE;
+    }
 
     switch ($attribute) {
       case self::UPDATE:
-        return $this->canUpdate($event, $user);
+        return $this->canUpdate($subject, $user);
 
       case self::REMOVE:
-        return $this->canRemove($event, $user);
+        return $this->canRemove($subject, $user);
     }
 
     throw new \LogicException('This code should not be reached!');
   }
 
   /**
-   * Check if a user can edit an event.
+   * Check if a user can edit a Blameable entity.
    */
-  private function canEdit(Event $event, User $user) {
-    $createdByUser = $event->getCreatedBy();
+  private function canEdit(Blameable $entity, User $user) {
+    $createdByUser = $entity->getCreatedBy();
     if (!$createdByUser) {
       return FALSE;
     }
@@ -112,15 +114,15 @@ class EventVoter extends Voter {
   /**
    *
    */
-  private function canUpdate(Event $event, User $user) {
-    return $this->canEdit($event, $user);
+  private function canUpdate(Blameable $entity, User $user) {
+    return $this->canEdit($entity, $user);
   }
 
   /**
    *
    */
-  private function canRemove(Event $event, User $user) {
-    return $this->canEdit($event, $user);
+  private function canRemove(Blameable $entity, User $user) {
+    return $this->canEdit($entity, $user);
   }
 
   /**
