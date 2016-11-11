@@ -213,3 +213,8 @@ services:
         arguments: ["%fos_user.model.user.class%", "@roles_helper"]
         tags:
             - { name: form.type, alias: user }
+
+    event.authentication_success_listener:
+        class: AdminBundle\EventListener\AuthenticationSuccessListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }

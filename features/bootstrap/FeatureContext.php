@@ -238,8 +238,8 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
       $username = $row['username'];
       $email = $username . '@example.com';
       $password = isset($row['password']) ? $row['password'] : uniqid();
-      $roles = preg_split('/\s*,\s*/', $row['roles'], -1, PREG_SPLIT_NO_EMPTY);
-      $groups = preg_split('/\s*,\s*/', $row['groups'], -1, PREG_SPLIT_NO_EMPTY);
+      $roles = isset($row['roles']) ? preg_split('/\s*,\s*/', $row['roles'], -1, PREG_SPLIT_NO_EMPTY) : [];
+      $groups = isset($row['groups']) ? preg_split('/\s*,\s*/', $row['groups'], -1, PREG_SPLIT_NO_EMPTY) : [];
 
       $this->createUser($username, $email, $password, $roles, $groups);
     }
@@ -248,8 +248,14 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
   private function createUser(string $username, string $email, string $password, array $roles, array $groups) {
     $groups = $this->createGroups($groups);
 
-    $user = new User();
+    $userManager = $this->container->get('fos_user.user_manager');
+
+    $user = $userManager->findUserBy(['username' => $username ]);
+    if (!$user) {
+      $user = $userManager->createUser();
+    }
     $user
+      ->setEnabled(true)
       ->setUsername($username)
       ->setPlainPassword($password)
       ->setEmail($email)
@@ -258,8 +264,7 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
     foreach ($groups as $group) {
       $user->addGroup($group);
     }
-    $this->manager->persist($user);
-    $this->manager->flush();
+    $userManager->updateUser($user);
   }
 
   private function createGroups(array $names, array $roles = null) {
