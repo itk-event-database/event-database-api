@@ -4,12 +4,14 @@ namespace AdminBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\User;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  *
  */
-class LoadFeedUsers extends LoadData {
+class LoadUsers extends LoadData {
+  protected $order = 2;
 
   /**
    * @param \Doctrine\Common\Persistence\ObjectManager $manager
@@ -20,6 +22,7 @@ class LoadFeedUsers extends LoadData {
 
     $repository = $this->container->get('doctrine')->getRepository('AppBundle:User');
 
+    $accessor = new PropertyAccessor();
     foreach ($config as $username => $data) {
       $user = $repository->findOneByUsername($username);
       if (!$user) {
@@ -31,7 +34,15 @@ class LoadFeedUsers extends LoadData {
         ->setRoles(['ROLE_API_WRITE']);
       if ($data) {
         foreach ($data as $key => $value) {
-          $user->{'set' . $key}($value);
+          if ($key === 'groups') {
+            $groups = $this->container->get('doctrine')->getRepository('AppBundle:Group')->findByName($value);
+            foreach ($groups as $group) {
+              $user->addGroup($group);
+            }
+          }
+          elseif ($accessor->isWritable($user, $key)) {
+            $accessor->setValue($user, $key, $value);
+          }
         }
       }
 

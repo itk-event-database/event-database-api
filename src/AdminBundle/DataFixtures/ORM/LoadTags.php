@@ -10,6 +10,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  */
 class LoadTags extends LoadData {
+  protected $order = 5;
 
   /**
    * @param \Doctrine\Common\Persistence\ObjectManager $manager

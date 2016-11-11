@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  */
 class LoadFeeds extends LoadData {
-  protected $order = 2;
+  protected $order = 3;
 
   /**
    * @param \Doctrine\Common\Persistence\ObjectManager $manager
