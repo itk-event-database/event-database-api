@@ -11,6 +11,8 @@ Feature: Events
       | user-1-group-1-write | ROLE_API_WRITE | group-1 |
 
     When I authenticate as "user-0-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
     {"name": "Created by user-0-group-0-write"}
@@ -19,6 +21,8 @@ Feature: Events
     And the JSON node "@id" should be equal to "/api/events/1"
 
     When I authenticate as "user-1-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
     {"name": "Created by user-1-group-0-write"}
@@ -28,6 +32,8 @@ Feature: Events
 
   Scenario: Update an event
     When I authenticate as "user-1-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "PUT" request to "/api/events/1" with body:
     """
     {"name": "Updated by user-1-group-0-write"}
