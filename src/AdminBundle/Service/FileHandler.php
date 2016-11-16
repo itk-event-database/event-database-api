@@ -9,6 +9,7 @@ use League\Uri\Modifiers\Resolve;
 use League\Uri\Schemes\Http as HttpUri;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  *
@@ -76,6 +77,16 @@ class FileHandler {
 
     $filesystem = new Filesystem();
     $filesystem->dumpFile($path, $content);
+
+    if (empty($info['extension'])) {
+      // Try to guess the file extension type and rename it.
+      $file = new File($path);
+      $extension = $file->guessExtension();
+      if ($extension) {
+        $filesystem->rename($path, $path . '.' . $extension, true);
+        $filename .= '.' . $extension;
+      }
+    }
 
     $localUrl = $this->baseUrlResolver->__invoke(HttpUri::createFromString($this->filesUrl . '/' . $filename));
 
