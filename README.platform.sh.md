@@ -1,6 +1,17 @@
 Event database – the API on platform.sh
 =======================================
 
+Environment variables
+---------------------
+
+The configuration in `app/config/parameters.yml` is read-only, but some variables must be set as [environment variables in platform.sh](https://docs.platform.sh/development/environment-variables.html):
+
+Name | Description
+-----|------------
+itk:symfony:jwt_key_pass_phrase | The pass phrase used by JWT (see [Security](#security))
+itk:symfony:secret | See http://symfony.com/doc/current/reference/configuration/framework.html#secret
+itk:symfony:admin.base_url | The base url of the application, e.g. http://test-t6dnbai-7c5mshwfj6vdi.eu.platform.sh. Used for generating absolute urls.
+
 Security
 --------
 
