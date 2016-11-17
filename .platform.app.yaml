@@ -52,7 +52,8 @@ hooks:
       bin/console --env=prod doctrine:migrations:migrate --no-interaction
       bin/console --env=prod cache:clear
 
-crons:
-    resque:
-        spec: '*/5 * * * *'
-        cmd: 'bin/console --env=prod events:resque:worker-start default'
+# https://support.platform.sh/hc/en-us/requests/12477
+# crons:
+#     resque:
+#         spec: '*/5 * * * *'
+#         cmd: 'bin/console --env=prod events:resque:worker-start default'
