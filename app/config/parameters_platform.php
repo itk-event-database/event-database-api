@@ -26,15 +26,17 @@ if ($relationships = getenv('PLATFORM_RELATIONSHIPS')) {
 /**
  * Set some environment variables as Symfony parameters.
  *
+ * Variables prefixed with itk:symfony: will be added as parameters.
+ *
  * @see https://docs.platform.sh/administration/web/configure-environment.html#variables
  * @see https://docs.platform.sh/development/environment-variables.html
  */
 if ($variables = getenv('PLATFORM_VARIABLES')) {
   $variables = json_decode(base64_decode($variables), true);
 
-  foreach (['secret', 'jwt_key_pass_phrase', 'admin.base_url'] as $name) {
-    if (isset($variables[$name])) {
-      $container->setParameter($name, $variables[$name]);
+  foreach ($variables as $name => $value) {
+    if (preg_match('/^itk:symfony:(?<name>.+)$/', $name, $matches)) {
+      $container->setParameter($matches['name'], $value);
     }
   }
 }
