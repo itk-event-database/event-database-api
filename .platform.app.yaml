@@ -55,4 +55,4 @@ hooks:
 crons:
     resque:
         spec: '*/5 * * * *'
-        cmd: 'bin/console events:resque:worker-start --env=prod default'
+        cmd: 'bin/console --env=prod events:resque:worker-start default'
