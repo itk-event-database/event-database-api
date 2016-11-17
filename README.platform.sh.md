@@ -1,6 +1,7 @@
 Event database – the API on platform.sh
 =======================================
 
+
 Environment variables
 ---------------------
 
