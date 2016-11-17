@@ -51,3 +51,8 @@ hooks:
     deploy: |
       bin/console --env=prod doctrine:migrations:migrate --no-interaction
       bin/console --env=prod cache:clear
+
+crons:
+    resque:
+        spec: '*/5 * * * *'
+        cmd: 'bin/console --env=prod events:resque:worker-start default'
