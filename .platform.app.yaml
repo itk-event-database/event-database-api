@@ -46,11 +46,12 @@ mounts:
 # The hooks that will be performed when the package is deployed.
 hooks:
     build: |
+      SYMFONY_ENV=prod composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
       rm web/app_dev.php
-      bin/console --env=prod assets:install --no-debug
+      SYMFONY_ENV=prod bin/console assets:install --no-debug
     deploy: |
-      bin/console --env=prod doctrine:migrations:migrate --no-interaction
-      bin/console --env=prod cache:clear
+      SYMFONY_ENV=prod bin/console doctrine:migrations:migrate --no-interaction
+      SYMFONY_ENV=prod bin/console cache:clear
 
 # https://support.platform.sh/hc/en-us/requests/12477
 crons:
@@ -59,4 +60,4 @@ crons:
         # Tell the worker to exit if the job queue is empty (--interval=00).
         # It must be --interval=00 (double 0) since '00' is not empty
         # (cf. https://github.com/resquebundle/resque/blob/master/bin/resque#L49-L52)
-        cmd: 'bin/console --env=prod resque:worker-start default --interval=00'
+        cmd: 'bin/console --env=prod resque:worker-start default --foreground --interval=00'
