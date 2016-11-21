@@ -46,7 +46,7 @@
         "league/uri": "^4.1",
         "skyscanner/jsonpath": "^0.7.1",
         "psr/log": "1.0.0",
-        "resquebundle/resque": "dev-feature/allow-zero-as-interval",
+        "resquebundle/resque": "^1.0",
         "exercise/htmlpurifier-bundle": "^0.2.3",
         "sebastian/diff": "^1.4"
     },
@@ -94,12 +94,6 @@
         },
         "branch-alias": {
             "dev-master": "2.0-dev"
-        }
-    },
-    "repositories": {
-        "itk-event-database-resque": {
-            "type": "vcs",
-            "url": "https://github.com/itk-event-database/resque"
         }
     },
     "minimum-stability": "dev",
