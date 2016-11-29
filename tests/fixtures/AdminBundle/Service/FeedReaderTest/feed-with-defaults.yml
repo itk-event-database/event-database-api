@@ -1,0 +1,20 @@
+url: https://s3-eu-west-1.amazonaws.com/spotfestival/48/publicinfo/details_da
+type: json
+# root:
+mapping:
+    id: Id
+    name: Title
+    tags:
+        path: Tags
+        split: ','
+    occurrences:
+        mapping:
+            startDate: Start
+            endDate: End
+            venue: Venue_Id
+        defaults:
+            venue: 'Musikhuset Aarhus'
+defaults:
+    tags:
+        value: [ 'SPOT Festival' ]
+        append: true

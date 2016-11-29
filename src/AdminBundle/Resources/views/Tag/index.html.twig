@@ -1,0 +1,28 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+  <h1>{{ 'Tag list' | trans }}</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{{ 'Name' | trans }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tag in tags %}
+        <tr>
+          <td><a href="{{ path('admin_tag_show', { 'id': tag.id }) }}">{{ tag.name }}</a></td>
+          <td class="actions">
+						{# <a class="btn btn-primary btn-xs" href="{{ path('admin_tag_show', { 'id': tag.id }) }}">{{ 'Show' | trans }}</a> #}
+            <a class="btn btn-default btn-xs" href="{{ path('admin_tag_edit', { 'id': tag.id }) }}">{{ 'Edit' | trans }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+	<div class="actions">
+    <a class="btn btn-default" href="{{ path('admin_tag_new') }}">{{ 'Create new tag' | trans }}</a>
+	</div>
+{% endblock %}

@@ -4,10 +4,246 @@ parameters:
 #    parameter_name: value
 
 services:
+    value_converter:
+        class: AdminBundle\Service\FeedReader\ValueConverter
 
-# Examples of API resource mapping, learn more at
-# https://github.com/dunglas/DunglasApiBundle
-    resource.event:
-        parent:      "api.resource"
-        arguments: [ "AppBundle\\Entity\\Event" ]
-        tags:      [ { name: "api.resource" } ]
+    file_handler:
+        class: AdminBundle\Service\FileHandler
+        arguments:
+            - "@logger"
+            -
+                base_url: "%admin.base_url%"
+                files:
+                    path: "%admin.files_path%"
+                    url: "%admin.files_url%"
+
+    authenticator:
+        class: AdminBundle\Service\AuthenticatorService
+        arguments:
+            - "@security.token_storage"
+            -
+                firewall: main
+
+    download_files:
+        class: AdminBundle\Service\DownloadFilesService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@file_handler"
+            - "@authenticator"
+
+    # Factories
+    entity_factory:
+        class: AdminBundle\Factory\EntityFactory
+        abstract:  true
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@tag_manager" ]
+
+    place_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\PlaceFactory
+
+    occurrence_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\OccurrenceFactory
+        calls:
+            - [setPlaceFactory, ["@place_factory"]]
+
+    event_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\EventFactory
+        calls:
+            - [setOccurrenceFactory, ["@occurrence_factory"]]
+
+    # Filters
+    app_bundle.doctrine.orm.tag_filter:
+        class:      AppBundle\Filter\TagFilter
+        arguments:  [ "@doctrine", "@request_stack", "@tag_manager" ]
+        public:     false
+
+    resource.event.order_filter:
+        parent:    "api_platform.doctrine.orm.order_filter"
+        arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.order' } ]
+
+    resource.event.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments: [ { name: "partial", description: "partial", langcode: "exact", occurrences.place.name: "partial" } ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.search' } ]
+
+    resource.event.search_owner_filter:
+        class:     AppBundle\Filter\OwnerFilter
+        arguments:
+            - "@doctrine"
+            - "@request_stack"
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.owner' } ]
+
+    resource.event.search_date_filter:
+        parent:    "api_platform.doctrine.orm.date_filter"
+        arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
+
+    resource.event.search_tag_filter:
+        parent:    "app_bundle.doctrine.orm.tag_filter"
+        arguments: [ 'tags' ]
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.tag' } ]
+
+    resource.place.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments: [ { name: "partial" } ]
+        tags:      [ { name: 'api_platform.filter', id: 'place.search' } ]
+
+    resource.place.search_owner_filter:
+        class:     AppBundle\Filter\OwnerFilter
+        arguments:
+            - "@doctrine"
+            - "@request_stack"
+            -
+                filters:
+                    user: user
+                    group: group
+                    editable_by: editable_by
+        tags:      [ { name: 'api_platform.filter', id: 'place.search.owner' } ]
+
+    resource.place.search_tag_filter:
+        parent:    "app_bundle.doctrine.orm.tag_filter"
+        arguments: [ 'tags' ]
+        tags:      [ { name: 'api_platform.filter', id: 'place.search.tag' } ]
+
+    resource.occurrence.order_filter:
+        parent:    "api_platform.doctrine.orm.order_filter"
+        arguments: [ { startDate: ~, endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
+
+    resource.occurrence.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments: [ { place.name: "partial" } ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search' } ]
+
+    resource.occurrence.search_date_filter:
+        parent:    "api_platform.doctrine.orm.date_filter"
+        arguments: [ { startDate: ~, endDate: ~ } ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
+
+    # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
+    fos_user.doctrine_registry:
+        alias: doctrine
+
+    security.access.edit_voter:
+        class:      AppBundle\Security\Authorization\Voter\EditVoter
+        public:     false
+        arguments: [ "@?security.role_hierarchy" ]
+        tags:
+            - { name: security.voter }
+
+    # https://api-platform.com/doc/1.0/api-bundle/the-event-system
+    event.event_listener:
+        class: AppBundle\EventListener\EventListener
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+
+    feed_reader.json:
+        class: AdminBundle\Service\FeedReader\Json
+
+    feed_reader.xml:
+        class: AdminBundle\Service\FeedReader\Xml
+
+    feed_reader_event_importer:
+        class: AdminBundle\Service\FeedReader\EventImporter
+        arguments:
+            - "@event_factory"
+            - "@place_factory"
+            - "@file_handler"
+
+    feed_reader:
+        class: AdminBundle\Service\FeedReader
+        arguments:
+            - "@value_converter"
+            - "@feed_reader_event_importer"
+            -
+                readers:
+                    json: "@feed_reader.json"
+                    xml: "@feed_reader.xml"
+            - "@logger"
+            - "@authenticator"
+            - "@stof_doctrine_extensions.listener.blameable"
+
+    twig_extension:
+        class: AdminBundle\Twig\Extension\TwigExtension
+        tags:
+            - { name: "twig.extension" }
+
+    description_normalizer:
+        class: AdminBundle\Service\ContentNormalizer
+        arguments:
+            - "@exercise_html_purifier.default"
+
+    excerpt_normalizer:
+        class: AdminBundle\Service\ContentNormalizer
+        arguments:
+            - "@exercise_html_purifier.default"
+            -
+                strip_tags: true
+                max_length: 160
+
+    # Override vendor/api-platform/core/src/Bridge/Symfony/Bundle/Resources/config/jsonld.xml
+    api_platform.jsonld.normalizer.item:
+        public: false
+        class: AppBundle\Serializer\CustomItemNormalizer
+        arguments:
+            - "@api_platform.metadata.resource.metadata_factory"
+            - "@api_platform.metadata.property.name_collection_factory"
+            - "@api_platform.metadata.property.metadata_factory"
+            - "@api_platform.iri_converter"
+            - "@api_platform.resource_class_resolver"
+            - "@api_platform.jsonld.context_builder"
+            - "@api_platform.property_accessor"
+            - "@?api_platform.name_converter"
+            - "@tag_manager"
+            - "@place_factory"
+
+        tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    tag_normalizer:
+        class: AdminBundle\Service\TagNormalizer
+        arguments:
+            - "@service_container"
+            -
+                services:
+                    tag_manager: tag_manager
+                    unknown_tag_manager: unknown_tag_manager
+
+    tag_manager:
+        class: AppBundle\Entity\TagManager
+        calls:
+            - [setTagNormalizer, ["@tag_normalizer"]]
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "%fpn_tag.entity.tag.class%"
+            - "%fpn_tag.entity.tagging.class%"
+            - "@fpn_tag.slugifier"
+
+    unknown_tag_manager:
+        class: AppBundle\Entity\TagManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - AppBundle\Entity\UnknownTag
+            - "%fpn_tag.entity.tagging.class%"
+            - "@fpn_tag.slugifier"
+
+    roles_helper:
+        class: AdminBundle\Service\RolesHelper
+        arguments: [ "%security.role_hierarchy.roles%" ]
+
+    user.form.type:
+        class: AdminBundle\Form\UserType
+        arguments: ["%fos_user.model.user.class%", "@roles_helper"]
+        tags:
+            - { name: form.type, alias: user }
+
+    event.authentication_success_listener:
+        class: AdminBundle\EventListener\AuthenticationSuccessListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }

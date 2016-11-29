@@ -1,0 +1,67 @@
+# This file describes an application. You can have multiple applications
+# in the same project.
+
+# The name of this app. Must be unique within a project.
+name: app
+
+# The type of the application to build.
+type: php:7.0
+
+runtime:
+    extensions:
+        - redis
+
+build:
+  flavor: none
+
+# The relationships of the application with services or other applications.
+# The left-hand side is the name of the relationship as it will be exposed
+# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+# side is in the form `<service name>:<endpoint name>`.
+relationships:
+    database: "mysqldb:mysql"
+    redis: "rediscache:redis"
+
+# The configuration of app when it is exposed to the web.
+web:
+    locations:
+        "/":
+            # The public directory of the app, relative to its root.
+            root: "web"
+            # The front-controller script to send non-static requests to.
+            passthru: "/app.php"
+
+# The size of the persistent disk of the application (in MB).
+disk: 2048
+
+# The mounts that will be performed when the package is deployed.
+mounts:
+    "/var/cache": "shared:files/cache"
+    "/var/logs": "shared:files/logs"
+    "/var/sessions": "shared:files/sessions"
+    "/var/jwt": "shared:files/jwt"
+    "/web/files": "shared:files/files"
+    "/web/uploads": "shared:files/uploads"
+
+# The hooks that will be performed when the package is deployed.
+hooks:
+    build: |
+      SYMFONY_ENV=prod composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
+      rm web/app_dev.php
+      SYMFONY_ENV=prod bin/console assets:install --no-debug
+    deploy: |
+      SYMFONY_ENV=prod bin/console doctrine:migrations:migrate --no-interaction
+      SYMFONY_ENV=prod bin/console cache:clear
+
+# https://support.platform.sh/hc/en-us/requests/12477
+crons:
+    resque:
+        spec: '*/5 * * * *'
+        # Tell the worker to exit if the job queue is empty (--interval=00).
+        # It must be --interval=00 (double 0) since '00' is not empty
+        # (cf. https://github.com/resquebundle/resque/blob/master/bin/resque#L49-L52)
+        cmd: 'SYMFONY_ENV=prod bin/console resque:worker-start default --foreground --interval=00'
+    feed_reader:
+        # Read feeds once every hour
+        spec: '0 * * * *'
+        cmd: 'SYMFONY_ENV=prod bin/console events:feeds:read'

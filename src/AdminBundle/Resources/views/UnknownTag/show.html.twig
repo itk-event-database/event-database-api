@@ -1,0 +1,18 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+  <h1>{{ 'Unknown tag' | trans }}</h1>
+
+  <dl class="dl-horizontal">
+    <dt>{{ 'Name' | trans }}</dt>
+    <dd>{{ tag.name }}</dd>
+
+	  <dt>{{ 'Tag' | trans }}</dt>
+    <dd>{{ tag.tag }}</dd>
+	</dl>
+
+  <div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_unknown_tag') }}">{{ 'Back to the list' | trans  }}</a>
+		<a class="btn btn-primary" href="{{ path('admin_unknown_tag_edit', { 'id': tag.id }) }}">{{ 'Edit' | trans  }}</a>
+	</div>
+{% endblock %}

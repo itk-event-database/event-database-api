@@ -1,0 +1,30 @@
+diff --git a/vendor/doctrine/dbal/lib/Doctrine/DBAL/Platforms/SqlitePlatform.php b/vendor/doctrine/dbal/lib/Doctrine/DBAL/Platforms/SqlitePlatform.php
+index 4711d99..107c897 100644
+--- a/vendor/doctrine/dbal/lib/Doctrine/DBAL/Platforms/SqlitePlatform.php
++++ b/vendor/doctrine/dbal/lib/Doctrine/DBAL/Platforms/SqlitePlatform.php
+@@ -27,6 +27,7 @@ use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+ use Doctrine\DBAL\Schema\Index;
+ use Doctrine\DBAL\Schema\Identifier;
+ use Doctrine\DBAL\Schema\Constraint;
++use Doctrine\DBAL\Types\StringType;
+
+ /**
+  * The SqlitePlatform class describes the specifics and dialects of the SQLite
+@@ -318,6 +319,17 @@ class SqlitePlatform extends AbstractPlatform
+     protected function _getCreateTableSQL($name, array $columns, array $options = array())
+     {
+         $name = str_replace('.', '__', $name);
++        // Propagate collate option to string columns (cf. https://www.sqlite.org/datatype3.html#collation)
++        if (isset($options['collate'])) {
++            $collation = strtoupper($options['collate']);
++            if (in_array($collation, array('BINARY', 'NOCASE', 'RTRIM'))) {
++                foreach ($columns as &$column) {
++                    if ($column['type'] instanceof StringType) {
++                        $column['collation'] = $collation;
++                    }
++                }
++            }
++        }
+         $queryFields = $this->getColumnDeclarationListSQL($columns);
+
+         if (isset($options['uniqueConstraints']) && ! empty($options['uniqueConstraints'])) {

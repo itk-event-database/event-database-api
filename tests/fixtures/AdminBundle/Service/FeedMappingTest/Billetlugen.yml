@@ -1,0 +1,26 @@
+url: Billetlugen.json
+type: json
+root: events.event
+timeZone: CEST
+mapping:
+    id: id
+    name: name
+    description: page[0].html
+    url: url
+    image: images[0].primary
+    tags:
+        path: categories[*].category[*].name
+    occurrences:
+        path: eventdate
+        mapping:
+            startDate: startdate
+            # endDate: End
+            venue: venue[0].name
+            room: venue[0].hall[0].name
+            url: url
+# defaults:
+#     tags:
+#         value: [ 'Musikhuset Aarhus' ]
+#         append: true
+#     occurrences:
+#         venue: 'Musikhuset Aarhus'

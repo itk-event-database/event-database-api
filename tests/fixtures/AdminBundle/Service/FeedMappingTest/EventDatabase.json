@@ -1,0 +1,447 @@
+{
+  "@context": "/api/contexts/Event",
+  "@id": "/api/events",
+  "@type": "hydra:Collection",
+  "hydra:member": [
+    {
+      "@id": "/api/events/1",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/1",
+          "@type": "Occurrence",
+          "event": "/api/events/1",
+          "startDate": "2016-10-10T13:00:00+02:00",
+          "endDate": "2016-10-10T17:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Over hele verden markeres den 10. oktober hvert år som Sindets Dag - også i Danmark Sindets Dag afholdes også i Aarhus. Temaet er psykologisk og mental førstehjælp.</p>\n<p>Der vil være tale ved Rådmand Thomas Meedom, Aarhus kommune, levende musik og boder og festligt for både børn og voksne. Mulighed for at tale med socialforvaltningen i Aarhus kommune og foreninger om arbejdet med psykisk sundhed.</p>\n<p>Sindets Dag i Aarhus arrangeres af følgende foreninger:</p>\n<p>SIND, Gallohuset, Cafe Parasollen, Bedre Psykiatri, Kofoeds Skole, SIND Pårørenderådgivning, Peernetværk Danmark, Aarhus kommunes socialforvaltning, Cafe Smilet, Muhabet, Dagtilbuddet Netværket, Dagtilbuddet Katrinebjergvej </p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/Screen%20Shot%202016-09-20%20at%2016.44.44.png",
+      "name": "Sindets dag",
+      "url": "http://dokk1.vm/begivenheder/sindets-dag",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/2",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/2",
+          "@type": "Occurrence",
+          "event": "/api/events/2",
+          "startDate": "2016-10-10T13:15:00+02:00",
+          "endDate": "2016-10-10T15:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Produktionsskolens fotolinje startede med at forevige fem begivenheder fra deres ungdomsliv i Aarhus. Fotografierne har eleverne fra Produktionsskolen herefter overleveret til Risskov efterskoles designlinje, som skulle hente inspiration i fotografierne og arbejde med at kreere kjoler herefter.</p>\n<p>Projektet har skabt forbindelse mellem de to skoler og motiveret de unge deltagere til at reflektere over forskelle og ligheder i et ungdomsliv i Aarhus.</p>\n<p>Både kjoler og fotomateriale kan ses på Rampetrin 1.</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/rsz_colourbox8679909_title_2_1.jpg",
+      "name": "Udstilling: Fra fotos til kjoler",
+      "url": "http://dokk1.vm/begivenheder/udstilling-fra-fotos-til-kjoler-0",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/3",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/3",
+          "@type": "Occurrence",
+          "event": "/api/events/3",
+          "startDate": "2016-10-10T16:00:00+02:00",
+          "endDate": "2016-10-10T17:30:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>I sprogcafeen kan man <strong>hver mandag kl. 16</strong> tale og lære alle sprog: fra fransk til kinesisk eller tysk. Men rigtig mange vil gerne blive bedre til engelsk, så kender du en englænder eller amerikaner, der kunne være interesseret, eller er engelsk dit modersmål, skal du være mere end velkommen i sprogcafeen.</p>\n<p><strong>Deltagerne sætter selv hold</strong><br />\nDeltagerne møder bare op og 'sætter hold' kl. 16 og aftaler selv hvilke sprog, der skal tales parvis - eller i grupper den dag. Ideen er gensidig sprogudveksling ud fra 'give and take-modellen' - man giver noget og får noget tilbage - og selvfølgelig ud fra glæden ved at møde andre mennesker, lære dem at kende og høre om deres baggrund og kultur - og samtidig udveksle jeres respektive sprog. Vi mødes i Hjørnet, det nordøstlige hjørne af bygningen på niveau 1.</p>\n<p><strong>Vide mere?</strong><br />\nMød gerne op og få mere at vide - du kan også forlods kontakte Martin Greif Madsen, tlf. 4185 6554, mail: <a href=\"mailto:%20magm@aarhus.dk\">magm@aarhus.dk</a> </p>\n<p>-------------------</p>\n<p><strong>Are you a native English speaker?</strong></p>\n<p>In our language cafè you get the opportunity, every monday 16 o`clock sharp, to practice any language, from French to Cantonese to German. We meet in Hjørnet, the corner on level one in the north east part of the building.</p>\n<p>Fluency in English, though, is especially sought after, so if you happen to know an American, or someone from a Commonwealth country, or if you yourself happen to be a native English speaker, the language cafè bids you welcome!</p>\n<p> </p>\n<p><strong>Participants organize their own teams</strong></p>\n<p>Participants simply show up to \"set up\" teams at 16 o`clock, then agree on what languages are to be spoken by partners, or as a team, that day. The idea is to reciprocally exchange languages based on the `give and take` model- and, of course, the desire to make new acquaintances, learn more about them, their backgrounds, their culture-and, of course, their languages.</p>\n<p><strong>Would you like to know more?</strong></p>\n<p>Then feel free to come to one of our meetings.</p>\n<p>For more information, contact Martin Greif Madsen on 4185 6554, mail: <a href=\"mailto:%20magm@aarhus.dk\">magm@aarhus.dk</a></p>\n<p> </p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/Udklip_17.PNG",
+      "name": "Sprogcafé",
+      "url": "http://dokk1.vm/begivenheder/sprogcafe-16",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/4",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/4",
+          "@type": "Occurrence",
+          "event": "/api/events/4",
+          "startDate": "2016-10-10T16:00:00+02:00",
+          "endDate": "2016-10-10T19:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Hvad er en Pokémon Liga? Det er et sted, hvor fans af Pokémon Trading Card Game har mulig for at mødes og have det sjovt.</p>\n<p>Har du ikke et deck, eller ved du ikke, hvordan man spiller, så er der mulighed for at låne et deck og lære det.</p>\n<p><strong>Kom og vær med - vi spiller hver mandag fra kl. 16.00-19.00 på Rampen.</strong></p>\n<p>Ud over at lære at spille spillet, har du mulighed for at deltage i sjove turneringer.</p>\n<p>Det bedste er, at du kan gøre dette med andre Pokémon-spillere, som elsker at samle og spille lige så meget, som du gør.</p>\n<p>Er du til andre kortspil end Pokémon, er du naturligvis også meget velkommen til at kigge forbi! </p>\n<p>For spørgsmål kontakt <a href=\"mailto:steff5001@hotmail.com\">steff5001@hotmail.com</a> og vær med på <a href=\"http://www.facebook.com/groups/pokemondk/\">Facebook</a>.</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/20151221_161845300x500%20-%20Kopi_26.jpg",
+      "name": "Pokémon-klub",
+      "url": "http://dokk1.vm/begivenheder/pokemon-klub-18",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/5",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/5",
+          "@type": "Occurrence",
+          "event": "/api/events/5",
+          "startDate": "2016-10-10T16:30:00+02:00",
+          "endDate": "2016-10-10T18:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>I Lytteklubben skiftes vi til at høre hinandens yndlingsmusik. Nyt eller gammelt, uanset stil og genre. Tag din yndlings-LP, cd eller kassettebånd under armen - vælg ét eller to gode numre – og glæd dig til at møde andre musiknørder, der gider høre efter.<br />\nVi har også mulighed for at streame med god lyd, så du behøver ikke at have musikken med i fysisk format.</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/Dokk1%20Lytteklubben%20-%20gi%27%20det%20videre_5.jpg",
+      "name": "Lytteklubben - gi&#039; det videre",
+      "url": "http://dokk1.vm/begivenheder/lytteklubben-gi-det-videre-6",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/6",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/6",
+          "@type": "Occurrence",
+          "event": "/api/events/6",
+          "startDate": "2016-10-10T17:00:00+02:00",
+          "endDate": "2016-10-10T18:30:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Det fortæller han i dette foredrag med udgangspunkt i hans bog ”Hvor taler du flot dansk!”, som omhandler hans families kamp for at lykkes i Danmark.</p>\n<p>Hør historien om en arabisk families rejse fra Libanon til asylcenteret i Holte, over Middelfart og til Ølstykke. Om opvæksten som førstegenerationsflygtninge i et Danmark, der forandrede sig undervejs. Om den førstefødte søn, der blev sine forældres prøvekanin i det nye samfund. Ønsket om at blive dansk på den rigtige måde. Grundtvivlen om, hvornår man har gjort nok. Om man nogensinde kan?</p>\n<p>Men mere end noget andet, er det en snak om hverdagen og om dem, der gik en ekstra mil for Abdels familie: Naboer, lærere, arbejdsgivere.</p>\n<p>For integration handler – undskyld klichéen – om mennesker og om den lille vilje hver dag. Integrationen har alt for længe været holdt i et jerngreb af politikere og debattører, som ikke evner andet end polarisering og pegen fingre. Ingen fløj nævnt, ingen glemt. </p>\n<p>Det er altså ikke et foredrag med de rigtige meninger, men med gode råd. Både dem Abdel fik og dem, han virkelig godt kunne have brugt.</p>\n<p>Læs om arrangementet på <a href=\"https://www.aakb.dk/arrangementer/debat/abdel-aziz-mahmoud-hvor-taler-du-godt-dansk\">aakb.dk</a>.</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/Dokk1_Abdel%20Aziz%20Mahmoud%204.jpg",
+      "name": "Abdel Aziz Mahmoud : Hvor taler du godt dansk!",
+      "url": "http://dokk1.vm/begivenheder/abdel-aziz-mahmoud-hvor-taler-du-godt-dansk",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/7",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/7",
+          "@type": "Occurrence",
+          "event": "/api/events/7",
+          "startDate": "2016-10-10T17:00:00+02:00",
+          "endDate": "2016-10-10T19:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Aarhus oplever i disse år en stærk og tilsyneladende ustoppelig vækst. Hvordan vil det forandre byen? Hvordan vil det forandre Danmark? Og kan det nye Aarhus stadig være \"Aarhus\"?</p>\n<p>I et nyt debatformat lader Nyhedsmagasinet Ræson borgmester Jacob Bundsgaard møde fire gæster, der hver har en udfordring til ham. Derefter spørgsmål fra - og debat med - salen. Bemærk at der er gratis adgang til dette og de øvrige arrangementer i serien RÆSON på DOKK1.</p>\n<p>Det kræver ikke billet at være med. Arrangementet foregår på Rampen. Pladserne er efter \"først-til-mølle-princippet\".</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/Bundsgaard.jpg",
+      "name": "Ræson på Dokk1: Fremtidens Aarhus",
+      "url": "http://dokk1.vm/begivenheder/raeson-pa-dokk1-fremtidens-aarhus",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/8",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/8",
+          "@type": "Occurrence",
+          "event": "/api/events/8",
+          "startDate": "2016-10-10T17:00:00+02:00",
+          "endDate": "2016-10-10T19:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Coding Pirates har indtaget dokken med kreativ teknologi-leg.</p>\n<p>Hver mandag kl. 17-19 mødes en gruppe børn i alderen 7-17 år sammen med voksne frivillige fra Coding Pirates for sammen at kode, programmere, eksperimentere, nørkle og udvikle. Her arbejder de med en række forskellige teknologier og programmeringssprog. Det kan eksempelvis være Makey Makey, Scratch, WeDo, Mindstorm, Ozobotter eller spilprogrammering.</p>\n<p>Har du spørgsmål, så kontakt venligst Coding Pirates på Dokk1 på e-mail: <br />\n<a href=\"mailto:/dokk1@codingpirates.dk\" target=\"_blank\">dokk1@codingpirates.dk</a></p>\n<p>NB: Coding Pirates er et lukket arrangement. Der er tilmelding via venteliste <a href=\"http://http//codingpirates.dk/tilmelding/\">her</a>. Prisen er 500 kr. pr. sæson.</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/cp_dokk1-01_12.jpg",
+      "name": "Coding Pirates",
+      "url": "http://dokk1.vm/begivenheder/coding-pirates-6",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/9",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/9",
+          "@type": "Occurrence",
+          "event": "/api/events/9",
+          "startDate": "2016-10-11T11:00:00+02:00",
+          "endDate": "2016-10-11T12:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Her kan du møde Rita Maj Johansen, som læser op af en spændende tekst i en halv times tid.</p>\n<p>Derefter fortæller hun om forskellige retoriske virkemidler som tempo, pauser, frasering, melodi, klang, rytme og artikulation, og vi diskuterer, hvad der gør teksten levende. Du har også mulighed for selv at prøve at læse op - så hvis du har en kort tekst (f.eks. et stykke kortprosa, et digt eller et uddrag af en novelle), du har lyst til at dele, så tag den med.<br />\nAlle er velkomne. </p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/fagbogen_1.jpg",
+      "name": "Rita Majs læsetime",
+      "url": "http://dokk1.vm/begivenheder/rita-majs-laesetime-0",
+      "videoUrl": null,
+      "langcode": "da"
+    },
+    {
+      "@id": "/api/events/10",
+      "@type": "http://schema.org/Event",
+      "occurrences": [
+        {
+          "@id": "/api/occurrences/10",
+          "@type": "Occurrence",
+          "event": "/api/events/10",
+          "startDate": "2016-10-11T13:00:00+02:00",
+          "endDate": "2016-10-11T16:00:00+02:00",
+          "place": {
+            "@id": "/api/places/1",
+            "@type": "http://schema.org/Place",
+            "logo": null,
+            "description": null,
+            "image": null,
+            "name": "Dokk1",
+            "url": null,
+            "videoUrl": null,
+            "langcode": null
+          },
+          "ticketPriceRange": null,
+          "eventStatusText": null
+        }
+      ],
+      "ticketPurchaseUrl": null,
+      "tags": [
+        "dokk1"
+      ],
+      "description": "<p>Slægtshistorisk Forening holder Åbent Hus, hvor du kan få tips og idéer til at komme videre i din slægtsforskning.</p>\n<p>Er du f.eks. gået i stå i et brev med gotiske bogstaver, er du velkommen til at medbringe det og få hjælp til læsningen.</p>\n<p>Alle er velkomne.</p>\n<p>Tilmeld dig til arrangementet via e-mail til Elin Damm Madsen på <a href=\"mailto:edm@slaegt-aarhus.dk\">edm@slaegt-aarhus.dk</a>.</p>\n",
+      "image": "http://dokk1.vm/sites/default/files/images/slaegt_6.jpg",
+      "name": "Spørgehjørne for slægtsforskere",
+      "url": "http://dokk1.vm/begivenheder/sporgehjorne-slaegtsforskere-9",
+      "videoUrl": null,
+      "langcode": "da"
+    }
+  ],
+  "hydra:totalItems": 10,
+  "hydra:search": {
+    "@type": "hydra:IriTemplate",
+    "hydra:template": "/api/events{?order[occurrences.startDate],order[occurrences.endDate],name,description,langcode,langcode[],occurrences.place.name,occurrences.startDate[before],occurrences.startDate[after],occurrences.endDate[before],occurrences.endDate[after],tags}",
+    "hydra:variableRepresentation": "BasicRepresentation",
+    "hydra:mapping": [
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "order[occurrences.startDate]",
+        "property": "occurrences.startDate",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "order[occurrences.endDate]",
+        "property": "occurrences.endDate",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "name",
+        "property": "name",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "description",
+        "property": "description",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "langcode",
+        "property": "langcode",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "langcode[]",
+        "property": "langcode",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "occurrences.place.name",
+        "property": "occurrences.place.name",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "occurrences.startDate[before]",
+        "property": "occurrences.startDate",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "occurrences.startDate[after]",
+        "property": "occurrences.startDate",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "occurrences.endDate[before]",
+        "property": "occurrences.endDate",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "occurrences.endDate[after]",
+        "property": "occurrences.endDate",
+        "required": false
+      },
+      {
+        "@type": "IriTemplateMapping",
+        "variable": "tags",
+        "property": "tags",
+        "required": false
+      }
+    ]
+  }
+}

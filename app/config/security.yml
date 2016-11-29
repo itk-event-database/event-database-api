@@ -1,12 +1,71 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
 security:
+    role_hierarchy:
+        ROLE_API_READ:    [ ROLE_USER ]
+        ROLE_API_WRITE:   [ ROLE_API_READ ]
+        ROLE_ADMIN:       [ ROLE_API_WRITE ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
 
     firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
-            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        default:
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path:               /api/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            methods: [POST, PUT, DELETE]
+            lexik_jwt: ~
+
+        main:
             anonymous: ~
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            # form_login:
+
+            pattern:   ^/
+            form_login:
+                provider: fos_userbundle
+                check_path: fos_user_security_check
+                login_path: fos_user_security_login
+                # csrf_provider: security.csrf.token_manager
+            logout:
+            anonymous: true
+
+    access_control:
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Read/write API access
+        - { path: ^/api,       roles: [ ROLE_API_WRITE ], methods: [ POST, PUT, DELETE ] }
+        - { path: ^/api/upload,       roles: [ ROLE_API_WRITE ], methods: [ POST ] }
+        # Read only API access
+        - { path: ^/api,       roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, role: ROLE_USER }
+        - { path: ^/resque, role: ROLE_SUPER_ADMIN }

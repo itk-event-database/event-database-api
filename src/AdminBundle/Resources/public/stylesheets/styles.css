@@ -1,0 +1,13 @@
+body > .container,
+body > .container-fluid {
+  padding: 60px 15px 0;
+}
+
+td.actions {
+	text-align: right;
+}
+
+form .actions {
+	margin: 2em 0;
+	text-align: right;
+}

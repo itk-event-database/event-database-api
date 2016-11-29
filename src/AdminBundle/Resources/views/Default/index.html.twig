@@ -1,0 +1,26 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body %}
+	<section id="technical-stuff">
+		<h1>{{ 'Technical stuff' | trans }}</h1>
+
+		<ul>
+			<li><a href="{{ path('api_doc') }}">Fancy API documentation</a></li>
+			<li><a href="https://github.com/itk-event-database">Source code for the API and related stuff</a></li>
+		</ul>
+	</section>
+
+	<section id="admin-stuff">
+		<h1>{{ 'Admin stuff' | trans }}</h1>
+
+		<ul>
+			<li><a href="{{ path('admin_feed') }}">Feeds</a></li>
+			<li><a href="{{ path('admin_tag') }}">Tags</a></li>
+			<li><a href="{{ path('admin_unknown_tag') }}">Unknown tags</a></li>
+		</ul>
+
+		<ul>
+			<li><a href="/resque">Jobs</a></li>
+		</ul>
+	</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+url: http://dokk1.vm/events/feed?starttime={{ 'now' | date('Y-m-d') }}
+type: json
+mapping:
+  id: id
+  name: title
+  description: description
+  excerpt: excerpt
+  url: url
+  image: artist_image
+  langcode: langcode
+  occurrences:
+    mapping:
+      startDate: starttime
+      endDate: endtime
+      place:
+        type: object
+        mapping:
+          room: room
+        defaults:
+          name: Dokk1
+  defaults:
+    occurrences.place.name: Dokk1

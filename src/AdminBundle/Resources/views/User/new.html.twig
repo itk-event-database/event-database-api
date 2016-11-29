@@ -1,0 +1,13 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+  <h1>{{ 'Create user' | trans }}</h1>
+
+  {{ form_start(form) }}
+  {{ form_rest(form) }}
+	<div class="actions">
+		<a class="btn btn-default" href="{{ path('admin_user') }}">{{ 'Cancel' | trans  }}</a>
+		<button class="btn btn-primary" type="submit">{{ 'Create' | trans }}</button>
+	</div>
+  {{ form_end(form) }}
+{% endblock %}
