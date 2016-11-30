@@ -61,3 +61,7 @@ crons:
         # It must be --interval=00 (double 0) since '00' is not empty
         # (cf. https://github.com/resquebundle/resque/blob/master/bin/resque#L49-L52)
         cmd: 'SYMFONY_ENV=prod bin/console resque:worker-start default --foreground --interval=00'
+    feed_reader:
+        # Read feeds once every hour
+        spec: '0 * * * *'
+        cmd: 'SYMFONY_ENV=prod bin/console events:feeds:read'
