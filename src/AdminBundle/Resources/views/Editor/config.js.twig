@@ -1,0 +1,7 @@
+var baseUrl = '{{ url('api_entrypoint') | raw }}/';
+
+var tagChoices = [
+  {% for tag in tags %}
+  {value: '{{ tag.name | raw }}', label: '{{ tag.name | raw }}'},
+  {% endfor %}
+];

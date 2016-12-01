@@ -53,6 +53,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
+        github_url: "%github_url%"
+        editor_url: "%editor_url%"
         site_title: "%site_title%"
         kernelRootDir: "%kernel.root_dir%"
 
