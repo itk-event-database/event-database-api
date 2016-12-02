@@ -1,3 +1,4 @@
 [submodule "web/editor"]
 	path = web/editor
 	url = https://github.com/itk-event-database/event-admin-spa.git
+	ignore = untracked
