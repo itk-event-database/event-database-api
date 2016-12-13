@@ -47,21 +47,21 @@ class UserController extends Controller {
    * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
    */
   public function createAction(Request $request) {
-    $user = new User();
+    $userManager = $this->get('fos_user.user_manager');
+    $user = $userManager->createUser();
+
     $form = $this->createCreateForm($user);
     $form->handleRequest($request);
 
     if ($form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($user);
-      $em->flush();
+      $userManager->updateUser($user);
 
       return $this->redirectToRoute('admin_user_show', ['id' => $user->getId()]);
     }
 
     return [
       'user' => $user,
-      'form'   => $form->createView(),
+      'form' => $form->createView(),
     ];
   }
 
@@ -92,12 +92,15 @@ class UserController extends Controller {
    * @Template()
    */
   public function newAction() {
-    $user = new User();
-    $form   = $this->createCreateForm($user);
+    $userManager = $this->get('fos_user.user_manager');
+    $user = $userManager->createUser();
+    $user->setEnabled(TRUE);
+
+    $form = $this->createCreateForm($user);
 
     return [
       'user' => $user,
-      'form'   => $form->createView(),
+      'form' => $form->createView(),
     ];
   }
 

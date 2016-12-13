@@ -9,6 +9,7 @@
         <th>{{ 'Username' | trans }}</th>
         <th>{{ 'Email' | trans }}</th>
         <th>{{ 'Roles' | trans }}</th>
+        <th>{{ 'Enabled' | trans }}</th>
         <th></th>
       </tr>
     </thead>
@@ -18,11 +19,12 @@
           <td><a href="{{ path('admin_user_show', { 'id': user.id }) }}">{{ user.username }}</a></td>
           <td>{{ user.email }}</td>
           <td>
-						{%- for index, role in user.roles -%}
-							{% if index > 0 %}, {% endif %}
-							{{ role | trans }}
-						{%- endfor -%}
-					</td>
+            {%- for index, role in user.roles -%}
+              {% if index > 0 %}, {% endif %}
+              {{ role | trans }}
+            {%- endfor -%}
+          </td>
+          <td>{{ user.enabled ? 'yes' : 'no' | trans }}</td>
           <td class="actions">
             <a class="btn btn-primary btn-xs" href="{{ path('admin_user_show', { 'id': user.id }) }}">{{ 'Show' | trans }}</a>
             <a class="btn btn-default btn-xs" href="{{ path('admin_user_edit', { 'id': user.id }) }}">{{ 'Edit' | trans }}</a>
@@ -32,7 +34,7 @@
     </tbody>
   </table>
 
-	<div class="actions">
+  <div class="actions">
     <a class="btn btn-default" href="{{ path('admin_user_new') }}">{{ 'Create new user' | trans }}</a>
-	</div>
+  </div>
 {% endblock %}
