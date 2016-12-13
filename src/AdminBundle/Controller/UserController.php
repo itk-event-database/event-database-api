@@ -49,7 +49,6 @@ class UserController extends Controller {
   public function createAction(Request $request) {
     $userManager = $this->get('fos_user.user_manager');
     $user = $userManager->createUser();
-    $user->setEnabled(TRUE);
 
     $form = $this->createCreateForm($user);
     $form->handleRequest($request);
@@ -93,12 +92,15 @@ class UserController extends Controller {
    * @Template()
    */
   public function newAction() {
-    $user = new User();
-    $form   = $this->createCreateForm($user);
+    $userManager = $this->get('fos_user.user_manager');
+    $user = $userManager->createUser();
+    $user->setEnabled(TRUE);
+
+    $form = $this->createCreateForm($user);
 
     return [
       'user' => $user,
-      'form'   => $form->createView(),
+      'form' => $form->createView(),
     ];
   }
 
