@@ -34,6 +34,10 @@ ROLE_API_READ: Read-only access to API
 ROLE_API_WRITE: Write access to API
 ROLE_SUPER_ADMIN: Super administrator
 ROLE_USER: User
+ROLE_EVENT_EDITOR: Event editor
+ROLE_TAG_EDITOR: Tag editor
+ROLE_USER_EDITOR: User editor
+ROLE_FEED_EDITOR: Feed editor
 Roles: Roles
 Root: Root
 Save: Save

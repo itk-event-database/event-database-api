@@ -21,33 +21,45 @@
 					</button>
 					<a href="/" class="navbar-brand">{{ site_title }}</a>
 				</div>
-				{% if app.user %}
 				<div id="navbar" class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="http://event-database-editor.hulk.aakb.dk/">{{ 'Editor' | trans }}</a></li>
-						<li><a href="{{ path('admin_feed') }}">{{ 'Feeds' | trans }}</a></li><li><a href="{{ path('admin_feed') }}">{{ 'Feeds' | trans }}</a></li>
-						<li><a href="{{ path('admin_tag') }}">{{ 'Tags' | trans }}</a></li>
-						<li><a href="{{ path('admin_unknown_tag') }}">{{ 'Unknown tags' | trans }}</a></li>
-						{% if is_granted('ROLE_ADMIN') %}
-							<li><a href="{{ path('admin_user') }}">{{ 'User' | trans }}</a></li>
-							<li><a href="/resque">Jobs</a></li>
-						{% endif %}
-					</ul>
+					{% if app.user %}
+						<ul class="nav navbar-nav">
+							{% if is_granted('ROLE_EVENT_EDITOR') %}
+								<li><a href="http://event-database-editor.hulk.aakb.dk/">{{ 'Event editor' | trans }}</a></li>
+							{% endif %}
+							{% if is_granted('ROLE_FEED_EDITOR') %}
+								<li><a href="{{ path('admin_feed') }}">{{ 'Feeds' | trans }}</a></li>
+							{% endif %}
+							{% if is_granted('ROLE_TAG_EDITOR') %}
+								<li><a href="{{ path('admin_tag') }}">{{ 'Tags' | trans }}</a></li>
+								<li><a href="{{ path('admin_unknown_tag') }}">{{ 'Unknown tags' | trans }}</a></li>
+							{% endif %}
+							{% if is_granted('ROLE_USER_EDITOR') %}
+								<li><a href="{{ path('admin_user') }}">{{ 'User' | trans }}</a></li>
+							{% endif %}
+							{% if is_granted('ROLE_SUPER_ADMIN') %}
+								<li><a href="/resque">Jobs</a></li>
+							{% endif %}
+						</ul>
 
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								{{ 'Signed in as %username%' | trans({ '%username%': app.user.username}) }} <span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="{{ path('fos_user_profile_show') }}">{{ 'Profile' | trans }}</a></li>
-								<li><a href="{{ path('fos_user_change_password') }}">{{ 'Change password' | trans }}</a></li>
-							</ul>
-						</li>
-						<li><a href="{{ path('fos_user_security_logout') }}">{{ 'Sign out' | trans }}</a></li>
-					</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+									{{ 'Signed in as %username%' | trans({ '%username%': app.user.username}) }} <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="{{ path('fos_user_profile_show') }}">{{ 'Profile' | trans }}</a></li>
+									<li><a href="{{ path('fos_user_change_password') }}">{{ 'Change password' | trans }}</a></li>
+								</ul>
+							</li>
+							<li><a href="{{ path('fos_user_security_logout') }}">{{ 'Sign out' | trans }}</a></li>
+						</ul>
+					{% else %}
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="{{ path('fos_user_security_login') }}">{{ 'Sign in' | trans }}</a></li>
+						</ul>
+					{% endif %}
 				</div>
-				{% endif %}
 			</div>
 		</nav>
 

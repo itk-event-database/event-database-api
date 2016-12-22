@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\UnknownTag;
 
@@ -15,6 +16,7 @@ use AppBundle\Entity\UnknownTag;
  * UnknownTag controller.
  *
  * @Route("/admin/unknown_tag")
+ * @Security("has_role('ROLE_TAG_EDITOR')")
  */
 class UnknownTagController extends Controller {
   /**

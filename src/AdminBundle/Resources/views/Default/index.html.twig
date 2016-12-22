@@ -2,33 +2,7 @@
 
 {% block body %}
 	<div class="row">
-    <div class="col-md-6">
-      <section id="admin-stuff">
-        <h1>{{ 'Admin stuff' | trans }}</h1>
-
-        <ul>
-          <li><a href="{{ path('admin_feed') }}">Feeds</a></li>
-          <li><a href="{{ path('admin_tag') }}">Tags</a></li>
-          <li><a href="{{ path('admin_unknown_tag') }}">Unknown tags</a></li>
-        </ul>
-
-        <ul>
-          {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="{{ path('admin_user') }}">{{ 'User' | trans }}</a></li>
-            <li><a href="{{ path('ResqueBundle_homepage') }}">Jobs</a></li>
-          {% endif %}
-        </ul>
-      </section>
-    </div>
-    <div class="col-md-6">
-      <section id="technical-stuff">
-        <h1>{{ 'Editor' | trans }}</h1>
-
-        <ul class="list-unstyled">
-          <li><a href="{{ editor_url }}" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Editor</a></li>
-        </ul>
-      </section>
-
+    <div class="col-md-12">
       <section id="technical-stuff">
         <h1>{{ 'Technical stuff' | trans }}</h1>
 

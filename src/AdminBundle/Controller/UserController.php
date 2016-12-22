@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
 
@@ -14,6 +15,7 @@ use AppBundle\Entity\User;
  * User controller.
  *
  * @Route("/admin/user")
+ * @Security("has_role('ROLE_USER_EDITOR')")
  */
 class UserController extends Controller {
 
