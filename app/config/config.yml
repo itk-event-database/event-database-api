@@ -17,6 +17,16 @@ api_platform:
     eager_loading:
         force_eager: false
 
+    formats:
+        jsonld:  ['application/ld+json']
+        jsonhal: ['application/hal+json']
+        xml:     ['application/xml', 'text/xml']
+        json:    ['application/json']
+        html:    ['text/html']
+        # Custom formats
+        # AoA
+        jsonaoa: ['application/aoa+json']
+
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
