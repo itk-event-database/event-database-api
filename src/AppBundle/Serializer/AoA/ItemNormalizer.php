@@ -60,23 +60,24 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data = [];
     $data['event_id'] = $event->getId();
 
-    $data['category'] = null;
-    $data['category_id'] = null;
-    if ($event->getTags()->count() > 0) {
-      $tag = $event->getTags()->first();
-      $data['category'] = $tag->getName();
-      $data['category_id'] = $tag->getId();
-    }
+    $data['category'] = 'Byliv';
+    $data['category_id'] = 64237;
 
-    $startTime = null;
-    $endTime = null;
+    $eventStartTime = null;
+    $eventEndTime = null;
     $location = null;
     foreach ($event->getOccurrences() as $index => $occurrence) {
-      if ($startTime === null || ($occurrence->getStartDate() < $startTime)) {
-        $startTime = $occurrence->getStartDate();
+      $startTime = $occurrence->getStartDate();
+      $endTime = $occurrence->getEndDate();
+      if (!$endTime && $startTime) {
+        $endTime = $startTime->add(new \DateInterval('PT1H'));
       }
-      if ($endTime === null || ($occurrence->getEndDate() > $endTime)) {
-        $endTime = $occurrence->getEndDate();
+
+      if ($eventStartTime === null || $startTime < $eventStartTime) {
+        $eventStartTime = $startTime;
+      }
+      if ($eventEndTime === null || $endTime > $eventEndTime) {
+        $eventEndTime = $endTime;
       }
 
       if ($index === 0) {
@@ -85,47 +86,57 @@ class ItemNormalizer extends AbstractItemNormalizer {
         if ($place) {
           $location = [
             'id' => $place->getId(),
-            'name' => $place->getName(),
-            'street' => $place->getStreetAddress(),
-            'postal_code' => $place->getPostalCode(),
-            'city' => $place->getAddressLocality(),
-            'phone' => $place->getTelephone(),
-            'web_address' => $place->getUrl(),
-            'lat' => $place->getLatitude(),
-            'lng' => $place->getLongitude(),
+            'name' => $place->getName() ?: '',
+            'street' => $place->getStreetAddress() ?: '',
+            'postal_code' => $place->getPostalCode() ?: '',
+            'city' => $place->getAddressLocality() ?: '',
+            'phone' => $place->getTelephone() ?: '',
+            'web_address' => $place->getUrl() ?: '',
+            'lat' => $place->getLatitude() ?: '',
+            'lng' => $place->getLongitude() ?: '',
             'details' => [],
           ];
         }
       }
 
-      $date = null;
+      $date = '';
       if ($occurrence->getStartDate()) {
         $dayName = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'][$occurrence->getStartDate()->format('w')];
         $date = $dayName . ', ' . $occurrence->getStartDate()->format('Y-m-d');
       }
       $location['details'][$occurrence->getId()] = [
         'date' => $date,
-				'time_start' => $occurrence->getStartDate() ? $occurrence->getStartDate()->format('H:i') : null,
-				'time_end' => $occurrence->getEndDate() ? $occurrence->getEndDate()->format('H:i') : null,
+				'time_start' => $occurrence->getStartDate() ? $occurrence->getStartDate()->format('H:i') : '',
+				'time_end' => $occurrence->getEndDate() ? $occurrence->getEndDate()->format('H:i') : '',
       ];
     }
-    $data['start_time'] = $startTime ? $startTime->format(\DateTime::RFC2822) : null;
-    $data['end_time'] = $endTime ? $endTime->format(\DateTime::RFC2822) : null;
+    $data['start_time'] = $eventStartTime ? $eventStartTime->format(\DateTime::RFC2822) : '';
+    $data['end_time'] = $eventEndTime ? $eventEndTime->format(\DateTime::RFC2822) : '';
 
     $data['title'] = $normalized['name'];
-    $data['supertitle'] = null;
-    $data['summary'] = $normalized['excerpt'];
-    $data['body_text'] = $normalized['description'];
+    $data['supertitle'] = '';
+
+    $data['summary'] = $this->encode($normalized['excerpt']);
+    $data['body_text'] = $this->encode($normalized['description']);
 
     $data['images'] = [
-      'image' => $normalized['image'],
-      'image_full' => $normalized['image'],
-      'caption' => null,
+      'image' => $normalized['image'] ?: '',
+      'image_full' => $normalized['image'] ?: '',
+      'caption' => '',
     ];
 
     $data['location'] = $location;
 
     return $data;
+  }
+
+  /**
+   * Replace come characters with unicode escapes.
+   */
+  private function encode($value) {
+    return preg_replace_callback('@[</>"]@', function ($match) {
+      return '\u' . sprintf('%04X', ord($match[0]));
+    }, $value);
   }
 
   /**
@@ -142,7 +153,7 @@ class ItemNormalizer extends AbstractItemNormalizer {
     if ($object instanceof Taggable && $attribute === 'tags') {
       $this->tagManager->loadTagging($object);
       return $object->getTags()->map(function ($tag) {
-          return $tag->getName();
+        return $tag->getName();
       });
     }
 
