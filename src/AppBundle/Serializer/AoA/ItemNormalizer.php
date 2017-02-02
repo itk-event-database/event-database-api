@@ -70,7 +70,8 @@ class ItemNormalizer extends AbstractItemNormalizer {
       $startTime = $occurrence->getStartDate();
       $endTime = $occurrence->getEndDate();
       if (!$endTime && $startTime) {
-        $endTime = $startTime->add(new \DateInterval('PT1H'));
+        $endTime = clone $startTime;
+        $endTime->add(new \DateInterval('PT1H'));
       }
 
       if ($eventStartTime === null || $startTime < $eventStartTime) {
@@ -106,8 +107,8 @@ class ItemNormalizer extends AbstractItemNormalizer {
       }
       $location['details'][$occurrence->getId()] = [
         'date' => $date,
-				'time_start' => $occurrence->getStartDate() ? $occurrence->getStartDate()->format('H:i') : '',
-				'time_end' => $occurrence->getEndDate() ? $occurrence->getEndDate()->format('H:i') : '',
+				'time_start' => $startTime ? $startTime->format('H:i') : '',
+				'time_end' => $endTime ? $endTime->format('H:i') : '',
       ];
     }
     $data['start_time'] = $eventStartTime ? $eventStartTime->format(\DateTime::RFC2822) : '';
@@ -116,8 +117,8 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data['title'] = $normalized['name'];
     $data['supertitle'] = '';
 
-    $data['summary'] = $this->encode($normalized['excerpt']);
-    $data['body_text'] = $this->encode($normalized['description']);
+    $data['summary'] = $normalized['excerpt'];
+    $data['body_text'] = $normalized['description'];
 
     $data['images'] = [
       'image' => $normalized['image'] ?: '',
@@ -128,15 +129,6 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data['location'] = $location;
 
     return $data;
-  }
-
-  /**
-   * Replace come characters with unicode escapes.
-   */
-  private function encode($value) {
-    return preg_replace_callback('@[</>"]@', function ($match) {
-      return '\u' . sprintf('%04X', ord($match[0]));
-    }, $value);
   }
 
   /**
