@@ -28,6 +28,11 @@ class AppKernel extends Kernel
 
       new AppBundle\AppBundle(),
       new AdminBundle\AdminBundle(),
+
+      // EasyAdminBundle
+      new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
+      new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+      new Vich\UploaderBundle\VichUploaderBundle(),
     ];
 
     if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
