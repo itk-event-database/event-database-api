@@ -248,4 +248,11 @@ class Occurrence extends Entity {
     $this->eventStatusText = $eventStatusText;
   }
 
+  public function __toString()
+  {
+    $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
+    $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
+    return $start.' - '.$end;
+  }
+
 }

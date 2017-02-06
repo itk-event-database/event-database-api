@@ -235,4 +235,20 @@ abstract class Thing extends Entity {
     $this->videoUrl = $videoUrl;
   }
 
+  public function getCreatedAt() {
+    return $this->createdAt;
+  }
+
+  public function getUpdatedAt() {
+    return $this->updatedAt;
+  }
+
+  public function getCreatedBy() {
+    return $this->createdBy;
+  }
+
+  public function getUpdatedBy() {
+    return $this->updatedBy;
+  }
+
 }

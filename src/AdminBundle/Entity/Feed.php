@@ -176,4 +176,9 @@ class Feed {
     return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : NULL;
   }
 
+  public function __toString()
+  {
+    return $this->getName();
+  }
+
 }

@@ -293,4 +293,28 @@ class Event extends Thing implements Taggable, Blameable {
     return $this->tags;
   }
 
+  public function getPlaceList() {
+    $names = array();
+    $places = $this->getUniquePlaces();
+
+    foreach ($places as $place) {
+      if(!empty($place->getName())) {
+        $names[] = $place->getName();
+      }
+    }
+    
+    return implode(', ', $names);
+  }
+
+  private function getUniquePlaces() {
+    $places = array();
+    foreach ($this->getOccurrences() as $occurrence) {
+      if ($occurrence->getPlace() && !in_array($occurrence->getPlace(), $places)) {
+        $places[] = $occurrence->getPlace();
+      }
+    }
+
+    return $places;
+  }
+
 }

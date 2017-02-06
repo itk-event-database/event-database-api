@@ -1,0 +1,5 @@
+app:
+  menu:
+    events: Begivenheder
+    places: Steder
+    users: Brugere

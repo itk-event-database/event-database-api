@@ -1,0 +1,48 @@
+easy_admin:
+  site_name: 'Aarhus Events'
+
+  design:
+    brand_color: '#154194'
+    color_scheme: 'light'
+    form_theme: 'vertical'
+
+    menu:
+      - { entity: 'Event', icon: 'flag' }
+      - { entity: 'Place', icon: 'map-marker' }
+      - { entity: 'User', icon: 'user-circle-o' }
+
+  list:
+    title: '%%entity_label%%'
+    max_results: 20
+
+  entities:
+    Event:
+      label: app.menu.events
+      class: AppBundle\Entity\Event
+      list:
+        fields:
+          - name
+          - { property: 'placeList', label: 'Places' }
+          - feed
+          - { property: 'excerpt', label: 'Excerpt' }
+          - { property: 'updatedAt', label: 'Updated', format: 'j/n/Y' }
+          - { property: 'updatedBY', label: 'Updated by'}
+      form:  # <-- 'form' is applied to both 'new' and 'edit' views
+        fields:
+          - name
+          - excerpt
+          - { property: 'description', type: 'ckeditor' }
+          - { property: 'occurrences' }
+          - { property: 'image', type: 'file' }
+          - feed
+
+    Place:
+      label: app.menu.places
+      class: AppBundle\Entity\Place
+
+    User:
+      label: app.menu.users
+      class: AppBundle\Entity\User
+
+vich_uploader:
+    db_driver: orm
