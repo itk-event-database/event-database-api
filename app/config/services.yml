@@ -76,6 +76,13 @@ services:
             - "@request_stack"
         tags:      [ { name: 'api_platform.filter', id: 'event.search.owner' } ]
 
+    resource.event.search_published_filter:
+        class:      AppBundle\Filter\PublishedFilter
+        arguments:
+            - "@doctrine"
+            - "@request_stack"
+        tags:      [ { name: 'api_platform.filter', id: 'event.search.published' } ]
+
     resource.event.search_date_filter:
         parent:    "api_platform.doctrine.orm.date_filter"
         arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
