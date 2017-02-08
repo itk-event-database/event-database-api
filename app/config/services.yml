@@ -247,3 +247,22 @@ services:
         class: AdminBundle\EventListener\AuthenticationSuccessListener
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
+    app.aoa.encoder:
+        class: AppBundle\Serializer\AoA\Encoder
+        tags:
+            - { name: serializer.encoder }
+
+    app.aoa.item_normalizer:
+        public: false
+        class: AppBundle\Serializer\AoA\ItemNormalizer
+        arguments:
+            - "@api_platform.metadata.property.name_collection_factory"
+            - "@api_platform.metadata.property.metadata_factory"
+            - "@api_platform.iri_converter"
+            - "@api_platform.resource_class_resolver"
+            - "@api_platform.property_accessor"
+            - "@?api_platform.name_converter"
+            - "@tag_manager"
+
+        tags: [ { name: serializer.normalizer, priority: 10 } ]
