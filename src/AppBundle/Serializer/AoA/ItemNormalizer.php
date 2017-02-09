@@ -114,11 +114,11 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data['start_time'] = $eventStartTime ? $eventStartTime->format(\DateTime::RFC2822) : '';
     $data['end_time'] = $eventEndTime ? $eventEndTime->format(\DateTime::RFC2822) : '';
 
-    $data['title'] = $normalized['name'];
+    $data['title'] = $normalized['name'] ?: '';
     $data['supertitle'] = '';
 
-    $data['summary'] = $normalized['excerpt'];
-    $data['body_text'] = $normalized['description'];
+    $data['summary'] = $normalized['excerpt'] ?: '';
+    $data['body_text'] = $normalized['description'] ?: '';
 
     $data['images'] = [
       'image' => $normalized['image'] ?: '',
