@@ -488,4 +488,14 @@ class Place extends Thing implements Taggable, Blameable
     return $this->tags;
   }
 
+  public function __toString() {
+    $values = [
+      $this->getName(),
+      $this->getStreetAddress(),
+      $this->getPostalCode() . ' ' . $this->getAddressLocality(),
+      $this->getAddressCountry(),
+    ];
+
+    return implode(', ', array_filter(array_map('trim', $values)));
+  }
 }

@@ -1,5 +1,29 @@
 app:
-  menu:
-    events: Begivenheder
-    places: Steder
-    users: Brugere
+    menu:
+        events: Begivenheder
+        places: Steder
+        users: Brugere
+        tags: Tags
+        unknown_tags: Ukendte tags
+        api_docs: API-dokumentation
+    help:
+        event:
+            # name: ''
+            tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
+
+Event: Begivenhed
+Events: Begivenheder
+Excerpt: Uddrag
+Feed: Feed
+Name: Navn
+Places: Steder
+Tag: Tag
+Updated by: Opdateret af
+Updated: Opdateret
+action.add_another_item: Tilføj element
+action.delete: Slet
+action.edit: Rediger
+action.list: Tilbage til oversigten
+action.remove_item: Slet element
+action.save: Gem
+label.null: '–'

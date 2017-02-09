@@ -1,48 +1,220 @@
+services:
+    # Inject our custom config manager.
+    easyadmin.config.manager:
+        class: AdminBundle\Configuration\ConfigManager
+        arguments: ['@service_container', '@security.token_storage', '@security.role_hierarchy']
+
 easy_admin:
-  site_name: 'Aarhus Events'
+    site_name: 'Aarhus Events'
 
-  design:
-    brand_color: '#154194'
-    color_scheme: 'light'
-    form_theme: 'vertical'
+    design:
+        brand_color: '#154194'
+        color_scheme: 'light'
+        form_theme: 'horizontal'
+        assets:
+            css:
+                - 'assets/easyadmin.css'
 
-    menu:
-      - { entity: 'Event', icon: 'flag' }
-      - { entity: 'Place', icon: 'map-marker' }
-      - { entity: 'User', icon: 'user-circle-o' }
+        menu:
+            - entity: 'Event'
+              icon: 'flag'
+            - entity: 'Place'
+              icon: 'map-marker'
+            - entity: 'User'
+              icon: 'user-circle-o'
+              roles: [ROLE_ADMIN]
+            - entity: 'Tag'
+              icon: 'tag'
+              roles: [ROLE_ADMIN]
+            - entity: 'UnknownTag'
+              icon: 'tag'
+              roles: [ROLE_ADMIN]
+            # - entity: 'Feed'
+            #   roles: [ROLE_ADMIN]
+            - entity: 'Event'
+              icon: 'plus-circle'
+              label: 'menu.events.new'
+              params:
+                - action: 'new'
+              roles: [ROLE_API_WRITE]
 
-  list:
-    title: '%%entity_label%%'
-    max_results: 20
+            - label: 'Sign out'
+              route: fos_user_security_logout
 
-  entities:
-    Event:
-      label: app.menu.events
-      class: AppBundle\Entity\Event
-      list:
-        fields:
-          - name
-          - { property: 'placeList', label: 'Places' }
-          - feed
-          - { property: 'excerpt', label: 'Excerpt' }
-          - { property: 'updatedAt', label: 'Updated', format: 'j/n/Y' }
-          - { property: 'updatedBY', label: 'Updated by'}
-      form:  # <-- 'form' is applied to both 'new' and 'edit' views
-        fields:
-          - name
-          - excerpt
-          - { property: 'description', type: 'ckeditor' }
-          - { property: 'occurrences' }
-          - { property: 'image', type: 'file' }
-          - feed
+            - label: 'app.menu.api_docs'
+              url: '/api/docs'
+              target: '_blank'
 
-    Place:
-      label: app.menu.places
-      class: AppBundle\Entity\Place
+            - label: Test stuff
+            - entity: 'Occurrence'
 
-    User:
-      label: app.menu.users
-      class: AppBundle\Entity\User
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i:s'
+
+    list:
+        title: '%%entity_label%%'
+        max_results: 20
+        actions: ['show', 'edit', '-delete']
+
+    entities:
+        Event:
+            label: app.menu.events
+            class: AppBundle\Entity\Event
+            list:
+                actions:
+                    - show
+                    - edit
+                    - clone
+                title: Events
+                fields:
+                    - name
+                    - property: isPublished
+                      type: boolean
+                    - property: image
+                      type: image
+                    - property: tagList
+                      label: Tags
+                    - property: placeList
+                      label: Places
+                    - property: excerpt
+                      label: Excerpt
+            form:
+                fields:
+                    - property: name
+                      # help: app.help.event.name
+                    - property: isPublished
+                    - property: image
+                      # type: vich_image
+                      # type_options:
+                      #   - required: true
+                      type: url
+                    - property: url
+                      type: url
+                    - videoUrl
+                    - ticketPurchaseUrl
+                    - excerpt
+                    - property: description
+                      type: ckeditor
+                    - property: tags
+                      help: 'app.help.event.tags'
+                      # type: text
+                      type: easyadmin_autocomplete
+                      # type: AdminBundle\Form\Type\TagAutocompleteType
+                      type_options:
+                          multiple: true
+                          class: AppBundle\Entity\Tag
+                    - property: occurrences
+                      type: collection
+                      type_options:
+                        entry_type: AdminBundle\Form\OccurrenceType
+                        by_reference: false
+                      embedded: true
+
+        Occurrence:
+            class: AppBundle\Entity\Occurrence
+            list:
+                label: Occurrence
+                fields:
+                    - startDate
+                    - endDate
+                    - place
+                    - ticketPriceRange
+                    - eventStatusText
+
+            form:
+                fields:
+                    - startDate
+                    - endDate
+                    - property: place
+                      type: easyadmin_autocomplete
+
+        Place:
+            label: app.menu.places
+            class: AppBundle\Entity\Place
+            list:
+                title: Places
+                fields:
+                    - name
+                    - description
+                    - property: image
+                      type: image
+                    - url
+                    - telephone
+                    - logo
+                    - langcode
+                    - video_url
+                    - disability_access
+                    - address_country
+                    - address_locality
+                    - address_region
+                    - postal_code
+                    - street_address
+                    - latitude
+                    - longitude
+                    - email
+
+            form:
+                fields:
+                    - property: name
+                      help: app.help.place.name
+                    - property: description
+                      help: app.help.place.description
+                    - property: street_address
+                      type: text
+                    - property: postal_code
+                      type: text
+                    - property: address_locality
+                      type: text
+                    - property: address_region
+                      type: text
+                    - property: address_country
+                      type: text
+                    - property: image
+                      # type: vich_image
+                      # type_options:
+                      #   - required: true
+                      type: url
+                    - property: telephone
+                    - property: logo
+                    - property: langcode
+                    - property: video_url
+                    - property: disability_access
+                    - property: latitude
+                    - property: longitude
+                    - property: email
+
+        User:
+            label: app.menu.users
+            class: AppBundle\Entity\User
+
+        Tag:
+            label: app.menu.tags
+            class: AppBundle\Entity\Tag
+            list:
+                fields:
+                    - name
+            show:
+                fields:
+                    - name
+                    - createdAt
+                    - updatedAt/
+            form:
+                fields:
+                    - name
+
+        UnknownTag:
+            label: app.menu.unknown_tags
+            class: AppBundle\Entity\UnknownTag
+            list:
+                fields:
+                    - name
+                    - tag
+            form:
+                fields:
+                    - name
+                    - tag
 
 vich_uploader:
     db_driver: orm

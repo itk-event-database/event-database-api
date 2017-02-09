@@ -68,4 +68,14 @@ class EventListener extends EditListener {
       $this->container->get('resque')->enqueue($job);
     }
   }
+
+  /**
+   *
+   */
+  public function postLoad(LifecycleEventArgs $args) {
+    $object = $args->getObject();
+    if ($object instanceof Taggable) {
+      $this->tagManager->loadTagging($object);
+    }
+  }
 }

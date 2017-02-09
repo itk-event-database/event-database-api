@@ -293,6 +293,15 @@ class Event extends Thing implements Taggable, Blameable {
     return $this->tags;
   }
 
+  public function getTagList() {
+    $names = [];
+    foreach ($this->getTags() as $tag) {
+      $names[] = $tag->getName();
+    }
+
+    return implode(', ', $names);
+  }
+
   public function getPlaceList() {
     $names = array();
     $places = $this->getUniquePlaces();
@@ -317,4 +326,15 @@ class Event extends Thing implements Taggable, Blameable {
     return $places;
   }
 
+  public function __clone() {
+    $this->setId(null);
+    $this->setIsPublished(false);
+    $self = $this;
+    $this->occurrences = $this->getOccurrences()->map(function ($occurrence) use ($self) {
+      $clone = clone $occurrence;
+      $clone->setId(null);
+      $clone->setEvent($self);
+      return $clone;
+    });
+  }
 }

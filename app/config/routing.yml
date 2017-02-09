@@ -29,6 +29,6 @@ ResqueBundle:
     prefix:   /resque
 
 easy_admin_bundle:
-    resource: "@EasyAdminBundle/Controller/"
+    resource: "@AdminBundle/Controller/AdminController.php"
     type:     annotation
     prefix:   /easyadmin

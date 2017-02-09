@@ -150,6 +150,7 @@ services:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postLoad }
 
     feed_reader.json:
         class: AdminBundle\Service\FeedReader\Json
@@ -224,6 +225,7 @@ services:
 
     tag_manager:
         class: AppBundle\Entity\TagManager
+        autowiring_types: AppBundle\Entity\TagManager
         calls:
             - [setTagNormalizer, ["@tag_normalizer"]]
         arguments:
@@ -273,3 +275,11 @@ services:
             - "@tag_manager"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    app.twig_extension_easy_admin:
+        class: AdminBundle\Twig\Extension\EasyAdminExtension
+        arguments:
+            - '@security.token_storage'
+            - '@security.access.edit_voter'
+        tags:
+            - { name: "twig.extension" }

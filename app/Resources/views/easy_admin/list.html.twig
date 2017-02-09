@@ -1,0 +1,14 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block item_actions %}
+  {% set filtered_actions = {} %}
+  {% for action_name, action_config in _list_item_actions %}
+		{% if true or can_perform_action(action_name, item) %}
+			{% set filtered_actions = filtered_actions|merge([action_config]) %}
+    {% endif %}
+  {% endfor %}
+
+  {% set _list_item_actions = filtered_actions %}
+
+  {{ parent() }}
+{% endblock item_actions %}
