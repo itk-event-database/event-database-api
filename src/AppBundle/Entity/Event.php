@@ -58,7 +58,7 @@ class Event extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="boolean")
    * @ApiProperty(iri="http://schema.org/Boolean")
    */
-  private $isPublished;
+  private $isPublished = true;
 
   /**
    * @var ArrayCollection
