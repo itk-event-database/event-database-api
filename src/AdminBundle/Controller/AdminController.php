@@ -31,4 +31,17 @@ class AdminController extends BaseAdminController {
         'entity' => $this->request->query->get('entity'),
       ));
   }
+
+  // @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/fosuserbundle-integration.md
+  public function createNewUserEntity() {
+    return $this->get('fos_user.user_manager')->createUser();
+  }
+
+  public function prePersistUserEntity($user) {
+    $this->get('fos_user.user_manager')->updateUser($user, false);
+  }
+
+  public function preUpdateUserEntity($user) {
+    $this->get('fos_user.user_manager')->updateUser($user, false);
+  }
 }

@@ -1,0 +1,7 @@
+<div class="user-roles">
+	{% for role in item.roles %}
+		<span class="user-role">{{ role | trans }}</span>{% if not loop.last %}, {% endif %}
+  {% else %}
+		<span class="user-no-roles">–</span>
+	{% endfor %}
+</div>

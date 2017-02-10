@@ -5,12 +5,14 @@ app:
         users: Brugere
         tags: Tags
         unknown_tags: Ukendte tags
+        feeds: Feeds
         api_docs: API-dokumentation
     help:
         event:
             # name: ''
             tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
 
+Clone: Kopier
 Event: Begivenhed
 Events: Begivenheder
 Excerpt: Uddrag
@@ -27,3 +29,20 @@ action.list: Tilbage til oversigten
 action.remove_item: Slet element
 action.save: Gem
 label.null: '–'
+
+Username: Brugernavn
+Email: E-mail
+Roles: Roller
+
+ROLE_USER: Bruger
+ROLE_API_READ: API-læseadgang
+ROLE_API_WRITE: API-skriveadgang
+ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_PLACE_EDITOR: Stedredaktør
+ROLE_TAG_EDITOR: Tagredaktør
+ROLE_USER_EDITOR: Brugerreadktør
+ROLE_FEED_EDITOR: Feedredaktør
+ROLE_ADMIN: Administrator
+ROLE_SUPER_ADMIN: Superadministrator
+Groups: Grupper
+Enabled: Aktiv

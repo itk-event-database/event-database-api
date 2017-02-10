@@ -1,0 +1,15 @@
+{% set places = {} %}
+
+{% for occurrence in item.occurrences %}
+  {% if occurrence.place not in places %}
+		{% set places = places|merge([occurrence.place]) %}
+  {% endif %}
+{% endfor %}
+
+<div class="event-places">
+	{% for place in places %}
+		<span class="event-place">{{ place.name }}</span>{% if not loop.last %}, {% endif %}
+  {% else %}
+		<span class="event-no-places">–</span>
+	{% endfor %}
+</div>

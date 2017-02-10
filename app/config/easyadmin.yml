@@ -18,35 +18,25 @@ easy_admin:
         menu:
             - entity: 'Event'
               icon: 'flag'
+              roles: [ROLE_EVENT_EDITOR]
             - entity: 'Place'
               icon: 'map-marker'
+              roles: [ROLE_PLACE_EDITOR]
             - entity: 'User'
               icon: 'user-circle-o'
-              roles: [ROLE_ADMIN]
+              roles: [ROLE_USER_EDITOR]
             - entity: 'Tag'
               icon: 'tag'
-              roles: [ROLE_ADMIN]
+              roles: [ROLE_TAG_EDITOR]
             - entity: 'UnknownTag'
               icon: 'tag'
-              roles: [ROLE_ADMIN]
-            # - entity: 'Feed'
-            #   roles: [ROLE_ADMIN]
-            - entity: 'Event'
-              icon: 'plus-circle'
-              label: 'menu.events.new'
-              params:
-                - action: 'new'
-              roles: [ROLE_API_WRITE]
-
-            - label: 'Sign out'
-              route: fos_user_security_logout
+              roles: [ROLE_TAG_EDITOR]
+            - entity: 'Feed'
+              roles: [ROLE_FEED_EDITOR]
 
             - label: 'app.menu.api_docs'
               url: '/api/docs'
               target: '_blank'
-
-            - label: Test stuff
-            - entity: 'Occurrence'
 
     formats:
         date:     'd/m/Y'
@@ -69,15 +59,18 @@ easy_admin:
                     - clone
                 title: Events
                 fields:
-                    - name
+                    - property: name
                     - property: isPublished
                       type: boolean
                     - property: image
                       type: image
-                    - property: tagList
+                    - property: tags
                       label: Tags
-                    - property: placeList
+                      template: tags.html.twig
+                    - property: id
+                      sortable: false
                       label: Places
+                      template: places.html.twig
                     - property: excerpt
                       label: Excerpt
             form:
@@ -92,9 +85,9 @@ easy_admin:
                       type: url
                     - property: url
                       type: url
-                    - videoUrl
-                    - ticketPurchaseUrl
-                    - excerpt
+                    - property: videoUrl
+                    - property: ticketPurchaseUrl
+                    - property: excerpt
                     - property: description
                       type: ckeditor
                     - property: tags
@@ -117,16 +110,16 @@ easy_admin:
             list:
                 label: Occurrence
                 fields:
-                    - startDate
-                    - endDate
-                    - place
-                    - ticketPriceRange
-                    - eventStatusText
+                    - property: startDate
+                    - property: endDate
+                    - property: place
+                    - property: ticketPriceRange
+                    - property: eventStatusText
 
             form:
                 fields:
-                    - startDate
-                    - endDate
+                    - property: startDate
+                    - property: endDate
                     - property: place
                       type: easyadmin_autocomplete
 
@@ -136,24 +129,24 @@ easy_admin:
             list:
                 title: Places
                 fields:
-                    - name
-                    - description
+                    - property: name
+                    - property: description
                     - property: image
                       type: image
-                    - url
-                    - telephone
-                    - logo
-                    - langcode
-                    - video_url
-                    - disability_access
-                    - address_country
-                    - address_locality
-                    - address_region
-                    - postal_code
-                    - street_address
-                    - latitude
-                    - longitude
-                    - email
+                    - property: url
+                    - property: telephone
+                    - property: logo
+                    - property: langcode
+                    - property: video_url
+                    - property: disability_access
+                    - property: address_country
+                    - property: address_locality
+                    - property: address_region
+                    - property: postal_code
+                    - property: street_address
+                    - property: latitude
+                    - property: longitude
+                    - property: email
 
             form:
                 fields:
@@ -188,33 +181,111 @@ easy_admin:
         User:
             label: app.menu.users
             class: AppBundle\Entity\User
+            disabled_actions: ['show']
+            list:
+                fields:
+                    - property: username
+                    - property: email
+                    - property: roles
+                      template: roles.html.twig
+                    - property: groups
+                      template: groups.html.twig
+                    - property: enabled
+                      type: boolean
+                    - lastLogin
+            edit:
+                fields:
+                    - property: enabled
+                    - property: username
+                    - property: email
+                      type: email
+                    - property: roles
+                      type: choice
+                      type_options:
+                          multiple: true
+                          expanded: true
+                          choices:
+                              ROLE_API_READ: ROLE_API_READ
+                              ROLE_API_WRITE: ROLE_API_WRITE
+                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
+                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
+                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
+                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
+                              ROLE_ADMIN: ROLE_ADMIN
+                    - groups
+                    - property: plainPassword
+                      type: text
+                      type_options:
+                          required: false
+            new:
+                fields:
+                    - enabled
+                    - username
+                    - property: email
+                      type: email
+                    - property: roles
+                      type: choice
+                      type_options:
+                          multiple: true
+                          expanded: true
+                          choices:
+                              ROLE_API_READ: ROLE_API_READ
+                              ROLE_API_WRITE: ROLE_API_WRITE
+                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
+                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
+                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
+                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
+                              ROLE_ADMIN: ROLE_ADMIN
+                    - groups
+                    - property: plainPassword
+                      type_options:
+                          required: true
+                      type: text
+                      type_options:
+                          required: false
 
         Tag:
             label: app.menu.tags
             class: AppBundle\Entity\Tag
             list:
                 fields:
-                    - name
+                    - property: name
             show:
                 fields:
-                    - name
-                    - createdAt
-                    - updatedAt/
+                    - property: name
             form:
                 fields:
-                    - name
+                    - property: name
 
         UnknownTag:
             label: app.menu.unknown_tags
             class: AppBundle\Entity\UnknownTag
             list:
                 fields:
-                    - name
-                    - tag
+                    - property: name
+                    - property: tag
             form:
                 fields:
-                    - name
-                    - tag
+                    - property: name
+                    - property: tag
+
+        Feed:
+            label: app.menu.feeds
+            class: AdminBundle\Entity\Feed
+            list:
+                fields:
+                    - property: name
+                    - property: url
+                      type: url
+                    - property: lastRead
+
+            form:
+                fields:
+                    - property: name
+                    # - property: configuration
+                    #   type: text
 
 vich_uploader:
     db_driver: orm
