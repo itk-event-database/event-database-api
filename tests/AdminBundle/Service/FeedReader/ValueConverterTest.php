@@ -33,9 +33,9 @@ class ValueConverterTest extends BaseTestCase {
   public function convertValueProvider() {
     return [
       ['stuff', '2000-01-01', '2000-01-01'],
-      ['startDate', '2000-01-01', new \DateTime('2000-01-01T00:00:00+01:00', new \DateTimeZone('UTC'))],
-      ['startDate', '2000-01-01', new \DateTime('2000-01-01')],
-      ['endDate', '2000-01-01', new \DateTime('2000-01-01')],
+      ['startDate', '2000-01-01', new \DateTime('2000-01-01T00:00:00+00:00')],
+      ['startDate', '2000-01-01', new \DateTime('2000-01-01', new \DateTimeZone('UTC'))],
+      ['endDate', '2000-01-01', new \DateTime('2000-01-01', new \DateTimeZone('UTC'))],
       ['url', 'images/horse.jpg', 'http://example.com/images/horse.jpg'],
       ['url', 'http://domain.com/images/horse.jpg', 'http://domain.com/images/horse.jpg'],
     ];

@@ -1,0 +1,12 @@
+url: https://s3-eu-west-1.amazonaws.com/spotfestival/48/publicinfo/details_da
+type: json
+timeZone: CET
+
+mapping:
+    id: id
+    name: title
+    occurrences:
+        path: occurrences
+        mapping:
+            startDate: startDate
+            endDate: endDate

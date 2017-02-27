@@ -71,14 +71,11 @@ class ValueConverter {
 
     if ($date === NULL) {
       try {
-        $date = new \DateTime($value);
+        $timeZone = $this->feed ? $this->feed->getTimeZone() : null;
+        $date = new \DateTime($value, $timeZone);
       }
       catch (\Exception $e) {
       }
-    }
-
-    if ($date !== NULL && $this->feed && $this->feed->getTimeZone()) {
-      $date->setTimezone($this->feed->getTimeZone());
     }
 
     return $date;
