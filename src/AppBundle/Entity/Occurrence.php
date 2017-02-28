@@ -21,6 +21,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.order" }
  *   }
  * )
+ * @ORM\Table(
+ *   indexes={
+ *     @ORM\Index(name="IDX_OCCURRENCE_DATES", columns={"start_date", "end_date"})
+ *   }
+ * )
  */
 class Occurrence extends Entity {
   /**
