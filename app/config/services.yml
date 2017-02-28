@@ -178,6 +178,18 @@ services:
             - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
 
+    feed_previewer:
+        class: AdminBundle\Service\FeedPreviewer
+        arguments:
+            - "@value_converter"
+            -
+                readers:
+                    json: "@feed_reader.json"
+                    xml: "@feed_reader.xml"
+            - "@logger"
+            - "@authenticator"
+            - "@stof_doctrine_extensions.listener.blameable"
+
     twig_extension:
         class: AdminBundle\Twig\Extension\TwigExtension
         tags:
