@@ -274,3 +274,27 @@ services:
             - "@tag_manager"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    app.encoder.firebase:
+        class: AppBundle\Serializer\Firebase\Encoder
+        tags:
+            - { name: serializer.encoder }
+
+    app.item_normalizer.firebase:
+        public: false
+        class: AppBundle\Serializer\Firebase\ItemNormalizer
+        arguments:
+            - "@api_platform.metadata.property.name_collection_factory"
+            - "@api_platform.metadata.property.metadata_factory"
+            - "@api_platform.iri_converter"
+            - "@api_platform.resource_class_resolver"
+            - "@api_platform.property_accessor"
+            - "@?api_platform.name_converter"
+            - "@tag_manager"
+
+        tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    # app.serializer.builder.firebase:
+    #     decorates: api_platform.serializer.context_builder
+    #     class: AppBundle\Serializer\Firebase\ContextBuilder
+    #     arguments: ['@app.serializer.builder.firebase.inner']
