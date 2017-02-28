@@ -6,15 +6,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * An occurrence of an Event.
  *
  * @ORM\Entity
- *
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  *
  * @ApiResource(
  *   attributes = {
@@ -26,8 +23,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  */
 class Occurrence extends Entity {
-  use SoftDeleteableEntity;
-
   /**
    * @var int
    *
