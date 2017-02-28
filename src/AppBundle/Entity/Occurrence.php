@@ -6,15 +6,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * An occurrence of an Event.
  *
  * @ORM\Entity
- *
- * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  *
  * @ApiResource(
  *   attributes = {
@@ -24,10 +21,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.order" }
  *   }
  * )
+ * @ORM\Table(
+ *   indexes={
+ *     @ORM\Index(name="IDX_OCCURRENCE_DATES", columns={"start_date", "end_date"})
+ *   }
+ * )
  */
 class Occurrence extends Entity {
-  use SoftDeleteableEntity;
-
   /**
    * @var int
    *
