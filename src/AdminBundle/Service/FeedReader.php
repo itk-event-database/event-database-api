@@ -92,7 +92,9 @@ class FeedReader implements Controller {
     if (!$user) {
       $user = $this->feed->getCreatedBy();
     }
-    $this->authenticator->authenticate($user);
+    if ($this->authenticator) {
+      $this->authenticator->authenticate($user);
+    }
     $this->eventImporter
       ->setFeed($feed)
       ->setUser($user)
@@ -137,7 +139,7 @@ class FeedReader implements Controller {
   /**
    *
    */
-  private function getContent() {
+  protected function getContent() {
     $client = new Client();
     $feedUrl = $this->processUrl($this->feed->getUrl());
 
