@@ -104,7 +104,8 @@ class Json extends FeedReader {
         $value = $this->getValue($item, $path);
         if ($value !== NULL) {
           if (isset($spec['split'])) {
-            $values = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, NULL, PREG_SPLIT_NO_EMPTY);
+            $limit = isset($spec['limit']) ? $spec['limit'] : null;
+            $values = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, $limit, PREG_SPLIT_NO_EMPTY);
             // @TODO: Generalize this and move into parent class.
             if (isset($spec['trim'])) {
               $values = array_map('trim', $values);

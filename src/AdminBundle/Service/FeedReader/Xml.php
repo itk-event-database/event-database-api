@@ -119,7 +119,8 @@ class Xml extends FeedReader {
     }
 
     if (isset($configuration['defaults'])) {
-      $this->setDefaults($data, $configuration['defaults']);
+      // @FIXME: We must be able to pass $item as an array to setDefaults.
+      $this->setDefaults($data, $configuration['defaults'], []);
     }
 
     return $data;

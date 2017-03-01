@@ -91,9 +91,7 @@ class EventTest extends DatabaseTestCase {
     $stmt->execute();
     $result = $stmt->fetchAll();
 
-    $this->assertEquals(1, count($result));
-    $this->assertNotNull($result[0]['deleted_at']);
-    $this->assertLessThanOrEqual(new \DateTime(), $result[0]['deleted_at']);
+    $this->assertEquals(0, count($result));
   }
 
 }
