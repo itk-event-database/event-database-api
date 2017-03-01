@@ -296,8 +296,3 @@ services:
             - "@tag_manager"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
-
-    # app.serializer.builder.firebase:
-    #     decorates: api_platform.serializer.context_builder
-    #     class: AppBundle\Serializer\Firebase\ContextBuilder
-    #     arguments: ['@app.serializer.builder.firebase.inner']
