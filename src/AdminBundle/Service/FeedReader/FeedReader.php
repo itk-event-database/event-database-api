@@ -3,6 +3,7 @@
 namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  *
@@ -16,7 +17,16 @@ abstract class FeedReader {
   /**
    * @var Controller
    */
-  private $controller;
+  protected $controller;
+
+  /**
+   * @var ContainerInterface
+   */
+  protected $container;
+
+  public function __construct(ContainerInterface $container) {
+    $this->container = $container;
+  }
 
   /**
    * @param \AdminBundle\Service\FeedReader\Controller $controller
@@ -65,9 +75,9 @@ abstract class FeedReader {
    * @param array $data
    * @param array $defaults
    */
-  protected function setDefaults(array &$data, array $defaults) {
+  protected function setDefaults(array &$data, array $defaults, array $item) {
     foreach ($defaults as $key => $spec) {
-      $this->setDefaultValue($data, $key, $spec);
+      $this->setDefaultValue($data, $key, $spec, $item);
     }
   }
 
@@ -76,7 +86,7 @@ abstract class FeedReader {
    * @param string $key
    * @param $spec
    */
-  private function setDefaultValue(array &$data, string $key, $spec) {
+  private function setDefaultValue(array &$data, string $key, array $spec, array $item) {
     if (empty($data[$key])) {
       $data[$key] = isset($spec['value']) ? $spec['value'] : $spec;
     }
@@ -90,6 +100,43 @@ abstract class FeedReader {
         else {
           $data[$key][] = $spec['value'];
         }
+      }
+    }
+
+    if (isset($spec['type'])) {
+      $data[$key] = null;
+      switch ($spec['type']) {
+        case 'lookup':
+          if (isset($spec['values'], $spec['key'])) {
+            $lookupKey = isset($item[$spec['key']]) ? $item[$spec['key']] : (isset($data[$spec['key']]) ? $data[$spec['key']] : NULL);
+            $data[$key] = isset($spec['values'][$lookupKey]) ? $spec['values'][$lookupKey] : null;
+          }
+          break;
+        case 'service':
+          if (isset($spec['service'])) {
+            $serviceName = $spec['service'];
+            if ($this->container->has($serviceName)) {
+              $service = $this->container->get($serviceName);
+              $methodName = isset($spec['method']) ? $spec['method'] : 'getValue';
+              if (method_exists($service, $methodName)) {
+                try {
+                  $arguments = isset($spec['arguments']) ? $spec['arguments'] : [];
+                  if (!is_array($arguments)) {
+                    $arguments = [$arguments];
+                  }
+                  $arguments = array_map(function ($argument) use ($data, $item) {
+                    if (preg_match('/^@(?<key>.+)$/', $argument, $matches)) {
+                      $key = $matches['key'];
+                      return $item[$key] ? $item[$key] : (isset($data[$key]) ? $data[$key] : NULL);
+                    }
+                    return $argument;
+                  }, $arguments);
+                  $data[$key] = call_user_func_array([$service, $methodName], $arguments);
+                } catch (\Exception $ex) {}
+              }
+            }
+          }
+          break;
       }
     }
   }
