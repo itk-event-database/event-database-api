@@ -128,8 +128,42 @@ vendor/symfony/symfony/phpunit
 ```
 
 
-Import feeds
-------------
+Importing feed configurations
+-----------------------------
+
+Create/update feed configurations from yaml files:
+
+```
+bin/console events:feed:import --help
+```
+
+Previewing feed data
+--------------------
+
+```
+bin/console events:feed:preview --help
+```
+
+Reading feeds
+-------------
+
+
+Run console command to import events from feeds:
+
+```
+bin/console events:feeds:read
+```
+
+To read specific feed use either 'name' or 'id' as parameter:
+
+```
+bin/console events:feeds:read --name="Feed name"
+bin/console events:feeds:read --id=3
+```
+
+
+Loading fixtures
+----------------
 
 Add feed import configuration files (Outside vagrant, from htdocs directory):
 
@@ -149,17 +183,4 @@ Create a user for reading feeds (matching username and password in parameters.ym
 ```
 bin/console fos:user:create feed-reader feed-reader@example.com feed-reader
 bin/console fos:user:promote feed-reader ROLE_ADMIN
-```
-
-Run console command to import events from feeds:
-
-```
-bin/console events:feeds:read
-```
-
-To read specific feed use either 'name' or 'id' as parameter:
-
-```
-bin/console events:feeds:read --name="Feed name"
-bin/console events:feeds:read --id=3
 ```

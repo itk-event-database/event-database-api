@@ -13,6 +13,9 @@ use Psr\Log\LoggerInterface;
  *
  */
 class FeedPreviewer extends FeedReader {
+  /**
+   * @var \AdminBundle\Service\FeedPreviewer\EventImporter
+   */
   protected $eventImporter;
 
   protected $events = [];
