@@ -15,11 +15,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *
  */
 class PublishedFilter extends AbstractFilter {
+  private $property = 'published';
+
   protected function extractProperties(Request $request): array {
     $properties = $request->query->all();
 
-    if (!isset($properties['published'])) {
-      $properties['published'] = true;
+    if (!array_key_exists($this->property, $properties)) {
+      $properties[$this->property] = true;
     }
 
     return $properties;
@@ -29,7 +31,7 @@ class PublishedFilter extends AbstractFilter {
    * {@inheritdoc}
    */
   protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = NULL) {
-    if (NULL === ($request = $this->requestStack->getCurrentRequest())) {
+    if ($property !== $this->property) {
       return;
     }
 
@@ -38,16 +40,12 @@ class PublishedFilter extends AbstractFilter {
       return;
     }
 
-    foreach ($this->extractProperties($request) as $property => $values) {
-      if ($property == 'published') {
-        $value = strcasecmp($value, 'false') !== 0 && boolval($value);
-        $alias = 'o';
-        $valueParameter = $queryNameGenerator->generateParameterName($property);
-        $queryBuilder
-          ->andWhere(sprintf('%s.isPublished = :%s', $alias, $valueParameter))
-          ->setParameter($valueParameter, $value ? 1 : 0);
-      }
-    }
+    $value = strcasecmp($value, 'false') !== 0 && boolval($value);
+    $alias = 'o';
+    $valueParameter = $queryNameGenerator->generateParameterName($property);
+    $queryBuilder
+      ->andWhere(sprintf('%s.isPublished = :%s', $alias, $valueParameter))
+      ->setParameter($valueParameter, $value ? 1 : 0);
   }
 
   /**
