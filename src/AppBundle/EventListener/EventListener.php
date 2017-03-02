@@ -5,12 +5,10 @@ namespace AppBundle\EventListener;
 use AppBundle\Entity\TagManager;
 use AppBundle\Entity\Thing;
 use AppBundle\Job\DownloadFilesJob;
-use AppBundle\Security\Authorization\Voter\EditVoter;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Event;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  *
@@ -66,6 +64,14 @@ class EventListener extends EditListener {
       ];
 
       $this->container->get('resque')->enqueue($job);
+    }
+  }
+
+  public function preRemove(LifecycleEventArgs $args) {
+    parent::preRemove($args);
+    $object = $args->getObject();
+    if ($object instanceof Event) {
+      $object->getOccurrences()->clear();
     }
   }
 }

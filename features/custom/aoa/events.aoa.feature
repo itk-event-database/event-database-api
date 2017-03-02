@@ -4,6 +4,12 @@ Feature: AoA Events
   I need to be able to retrieve, create, update and delete events trough the API.
 
   Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
     Given the following tags exist:
       | name     |
       | byliv    |
@@ -12,7 +18,7 @@ Feature: AoA Events
   @createSchema
   Scenario: Count events
     When I add "Accept" header equal to "application/aoa+json"
-    And I send a "GET" request to "/api/events"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0"
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/aoa+json; charset=utf-8"
     And the response should be in JSON
@@ -52,14 +58,14 @@ Feature: AoA Events
 
   Scenario: Get events (Accept: application/aoa+json)
     When I add "Accept" header equal to "application/aoa+json"
-    And I send a "GET" request to "/api/events"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0"
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/aoa+json; charset=utf-8"
     And the response should be in JSON
     And the JSON node "" should have 1 element
 
   Scenario: Get events (events.jsonaoa)
-    WhenI send a "GET" request to "/api/events.jsonaoa"
+    WhenI send a "GET" request to "/api/events.jsonaoa?occurrences.startDate[after]=@0"
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/aoa+json; charset=utf-8"
     And the response should be in JSON
@@ -67,7 +73,7 @@ Feature: AoA Events
 
   Scenario: Get events
     When I add "Accept" header equal to "application/aoa+json"
-    And I send a "GET" request to "/api/events"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/aoa+json; charset=utf-8"
@@ -175,14 +181,14 @@ Feature: AoA Events
 
   Scenario: Get events (Accept: application/aoa+json)
     When I add "Accept" header equal to "application/aoa+json"
-    And I send a "GET" request to "/api/events"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0"
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/aoa+json; charset=utf-8"
     And the response should be in JSON
     And the JSON node "" should have 2 element
 
   Scenario: Get events (events.jsonaoa)
-    WhenI send a "GET" request to "/api/events.jsonaoa"
+    WhenI send a "GET" request to "/api/events.jsonaoa?occurrences.startDate[after]=@0"
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/aoa+json; charset=utf-8"
     And the response should be in JSON
