@@ -76,26 +76,40 @@ easy_admin:
             form:
                 fields:
                     - property: name
-                      # help: app.help.event.name
+                      type_options:
+                          required: true
+                      help: app.help.event.name
                     - property: isPublished
-                    - property: image
-                      # type: vich_image
-                      # type_options:
-                      #   - required: true
+                    - property: langcode
+                      type: choice
+                      type_options:
+                          choices:
+                              '': ''
+                              Dansk: da
+                              English: en
+                              Deutsch: de
+                          required: true
+                    - property: imageFile
+                      type: vich_image
+                      type_options:
+                          required: true
                       type: url
                     - property: url
                       type: url
                     - property: videoUrl
                     - property: ticketPurchaseUrl
                     - property: excerpt
+                      type_options:
+                          required: true
                     - property: description
                       type: ckeditor
+                      type_options:
+                          required: true
                     - property: tags
                       help: 'app.help.event.tags'
-                      # type: text
                       type: easyadmin_autocomplete
-                      # type: AdminBundle\Form\Type\TagAutocompleteType
                       type_options:
+                          required: true
                           multiple: true
                           class: AppBundle\Entity\Tag
                     - property: occurrences
@@ -132,7 +146,6 @@ easy_admin:
                     - property: name
                     - property: description
                     - property: image
-                      type: image
                     - property: url
                     - property: telephone
                     - property: logo
@@ -164,11 +177,10 @@ easy_admin:
                       type: text
                     - property: address_country
                       type: text
-                    - property: image
-                      # type: vich_image
+                    - property: imageFile
+                      type: vich_image
                       # type_options:
                       #   - required: true
-                      type: url
                     - property: telephone
                     - property: logo
                     - property: langcode
@@ -289,3 +301,7 @@ easy_admin:
 
 vich_uploader:
     db_driver: orm
+    mappings:
+        thing_images:
+            upload_destination: "%admin.uploads_path%"
+            uri_prefix:         "%admin.uploads_url%"

@@ -314,3 +314,14 @@ services:
             - "@tag_manager"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    app.uploads_subscriber:
+        class: AdminBundle\EventSubscriber\UploadsSubscriber
+        arguments:
+            -
+                base_url: "%admin.base_url%"
+                files:
+                    path: "%admin.uploads_path%"
+                    url: "%admin.uploads_url%"
+        tags:
+            - { name: doctrine.event_subscriber }
