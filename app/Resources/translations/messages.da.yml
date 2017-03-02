@@ -17,7 +17,7 @@ Event: Begivenhed
 Events: Begivenheder
 Excerpt: Uddrag
 Feed: Feed
-Name: Navn
+Name: Titel
 Places: Steder
 Tag: Tag
 Updated by: Opdateret af
@@ -46,3 +46,24 @@ ROLE_ADMIN: Administrator
 ROLE_SUPER_ADMIN: Superadministrator
 Groups: Grupper
 Enabled: Aktiv
+
+
+Is published: Udgivet
+Image: Billede
+Tags: Tags
+
+Actions: Handlinger
+Show: Vis
+Search: Søg
+
+
+
+Url: Url
+Video url: Videourl
+Ticket purchase url: Billeturl
+Description: Brødtekst
+Occurrences: Dato og tid
+Start date: Starttidspunkt
+End date: Sluttidspunkt
+Place: Sted
+Add new item: Tilføj ny
