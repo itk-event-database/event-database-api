@@ -4,6 +4,13 @@ Feature: Places
   As a client software developer
   I need to be able to retrieve, create, update and delete places trough the API.
 
+  Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
   @createSchema
   Scenario: Anonymous access
     When I add "Accept" header equal to "application/ld+json"
