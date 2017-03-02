@@ -52,11 +52,22 @@ bin/console fos:user:promote api-write ROLE_API_WRITE
 Using the API
 -------------
 
-### Get all events
+### Get events
+
+Get future events:
 
 ```
 curl --silent --verbose --request GET --header "Accept: application/ld+json" http://event-database-api.vm/api/events
 ```
+
+By default, only future events are returned and to get all events (incl. past events) you must specify a start date query.
+
+To get all events after 2001-01-01 use a query like this:
+
+```
+curl --silent --verbose --request GET --header "Accept: application/ld+json" http://event-database-api.vm/api/events?occurrences.startDate[after]=2001-01-01
+```
+
 
 Make the output more human readable by formatting the JSON:
 
