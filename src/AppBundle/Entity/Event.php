@@ -32,7 +32,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.order", "event.order.default" }
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.order", "event.order.default" },
+ *     "validation_groups"={"event_write"}
  *   }
  * )
  */
@@ -56,6 +57,7 @@ class Event extends Thing implements Taggable, Blameable {
    * @Groups({"event_read", "event_write"})
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"}, orphanRemoval=true)
    * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
+   * @Assert\Count(min=1, minMessage="You must specify at least one occurrence", groups={"event_write"})
    */
   private $occurrences;
 

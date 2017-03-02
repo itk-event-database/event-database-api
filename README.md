@@ -103,10 +103,11 @@ curl --silent --request POST --header "Authorization: Bearer $token" --form file
 Running tests
 -------------
 
-First, clear out the test cache:
+First, clear out the test cache and create the test database:
 
 ```
 bin/console --env=test cache:clear
+bin/console --env=test doctrine:database:create
 ```
 
 Run all behat tests like this:

@@ -3,6 +3,13 @@ Feature: Occurrences
   As a client software developer
   I need to be able to retrieve, create, update and delete occurrences trough the API.
 
+  Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
   @createSchema
   Scenario: Anonymous access
     When I add "Accept" header equal to "application/ld+json"
@@ -46,20 +53,21 @@ Feature: Occurrences
 
   Scenario: Count Occurrences
     When I authenticate as "api-write"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:member" should have 2 elements
+    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
   Scenario: Order by startDate
     When I authenticate as "api-read"
-    And I send a "GET" request to "/api/occurrences?order[startDate]=asc"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&order[startDate]=asc"
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/2"
 
-    When I send a "GET" request to "/api/occurrences?order[startDate]=desc"
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&order[startDate]=desc"
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/1"
@@ -80,13 +88,13 @@ Feature: Occurrences
 
   Scenario: Filter by place name
     When I authenticate as "api-write"
-    And I send a "GET" request to "/api/occurrences?place.name=Some place"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&place.name=Some place"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
     And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
-    When I send a "GET" request to "/api/occurrences?place.name=Another place"
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&place.name=Another place"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
@@ -99,7 +107,7 @@ Feature: Occurrences
 
   Scenario: Count Occurrences
     When I authenticate as "api-write"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
@@ -129,7 +137,6 @@ Feature: Occurrences
       } ]
     }
     """
-
     Then the response status code should be 201
     And the JSON node "occurrences" should have 2 elements
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
