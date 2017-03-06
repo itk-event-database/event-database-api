@@ -307,7 +307,12 @@ class Event extends Thing implements Taggable, Blameable {
     });
   }
 
-  private $repeatingOccurrences;
+  /**
+   * @var array
+   *
+   * @ORM\Column(type="array")
+   */
+  private $repeatingOccurrences = [];
 
   public function setRepeatingOccurrences(array $repeatingOccurrences) {
     $this->repeatingOccurrences = $repeatingOccurrences;

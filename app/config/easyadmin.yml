@@ -14,6 +14,8 @@ easy_admin:
         assets:
             css:
                 - 'assets/easyadmin.css'
+            js:
+                - 'assets/easyadmin.js'
 
         menu:
             - entity: 'Event'
@@ -67,6 +69,7 @@ easy_admin:
                     - property: tags
                       label: Tags
                       template: tags.html.twig
+                    - property: occurrences
                     - property: id
                       sortable: false
                       label: Places
@@ -75,10 +78,6 @@ easy_admin:
                       label: Excerpt
             form:
                 fields:
-                    - property: repeating_occurrences
-                      type: AdminBundle\Form\RepeatingOccurrencesType
-                      type_options:
-                          required: false
                     - property: name
                       type_options:
                           required: true
@@ -122,6 +121,18 @@ easy_admin:
                         entry_type: AdminBundle\Form\OccurrenceType
                         by_reference: false
                       embedded: true
+
+                    - type: group
+                      css_class: repeating-occurrences
+                      label: Repeating occurrences
+                      icon: calendar
+                      help: event.repeating_occurrences.help
+                    - property: repeating_occurrences
+                      css_class: repeating-occurrences-form
+                      type: AdminBundle\Form\RepeatingOccurrencesType
+                      type_options:
+                          required: false
+
             edit:
                 fields:
                     - property: imageFile

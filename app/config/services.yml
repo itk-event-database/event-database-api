@@ -325,3 +325,15 @@ services:
                     url: "%admin.uploads_url%"
         tags:
             - { name: doctrine.event_subscriber }
+
+    app.reposity.place:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Place
+
+    app.form.type.repeating_occurrences:
+        class: AdminBundle\Form\RepeatingOccurrencesType
+        arguments: ["@app.reposity.place"]
+        tags:
+            - { name: form.type, alias: repeating_occurrences }
