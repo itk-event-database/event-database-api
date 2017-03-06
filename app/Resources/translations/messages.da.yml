@@ -67,3 +67,24 @@ Start date: Starttidspunkt
 End date: Sluttidspunkt
 Place: Sted
 Add new item: Tilføj ny
+
+
+
+Repeating occurrences: Gentagne forekomster
+Start day: Startdato
+End day: Slutdato
+Start time 1: Mandag, starttidspunkt
+End time 1: Mandag, sluttidspunkt
+Start time 2: Tirsdag, starttidspunkt
+End time 2: Tirsdag, sluttidspunkt
+Start time 3: Onsdag, starttidspunkt
+End time 3: Onsdag, sluttidspunkt
+Start time 4: Torsdag, starttidspunkt
+End time 4: Torsdag, sluttidspunkt
+Start time 5: Fredag, starttidspunkt
+End time 5: Fredag, sluttidspunkt
+Start time 6: Lørdag, starttidspunkt
+End time 6: Lørdag, sluttidspunkt
+Start time 7: Søndag, starttidspunkt
+End time 7: Søndag, sluttidspunkt
+Update repeating occurrences: Opdater gentagne forekomster
