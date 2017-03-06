@@ -306,4 +306,14 @@ class Event extends Thing implements Taggable, Blameable {
       return $clone;
     });
   }
+
+  private $repeatingOccurrences;
+
+  public function setRepeatingOccurrences(array $repeatingOccurrences) {
+    $this->repeatingOccurrences = $repeatingOccurrences;
+  }
+
+  public function getRepeatingOccurrences() {
+    return $this->repeatingOccurrences;
+  }
 }

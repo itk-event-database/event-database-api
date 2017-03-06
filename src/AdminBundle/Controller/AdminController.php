@@ -44,4 +44,14 @@ class AdminController extends BaseAdminController {
   public function preUpdateUserEntity($user) {
     $this->get('fos_user.user_manager')->updateUser($user, false);
   }
+
+  public function preUpdateEventEntity(Event $event) {
+    $repeatingOccurrences = $event->getRepeatingOccurrences();
+    if ($repeatingOccurrences && isset($repeatingOccurrences['place'], $repeatingOccurrences['start_day'], $repeatingOccurrences['end_day'])) {
+      header('Content-type: text/plain'); echo var_export([
+        (string)$repeatingOccurrences['place'],
+        array_keys($repeatingOccurrences),
+      ], true); die(__FILE__.':'.__LINE__.':'.__METHOD__);
+    }
+  }
 }

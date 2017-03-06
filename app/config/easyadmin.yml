@@ -75,6 +75,10 @@ easy_admin:
                       label: Excerpt
             form:
                 fields:
+                    - property: repeating_occurrences
+                      type: AdminBundle\Form\RepeatingOccurrencesType
+                      type_options:
+                          required: false
                     - property: name
                       type_options:
                           required: true
@@ -118,6 +122,12 @@ easy_admin:
                         entry_type: AdminBundle\Form\OccurrenceType
                         by_reference: false
                       embedded: true
+            edit:
+                fields:
+                    - property: imageFile
+                      type: vich_image
+                      type_options:
+                          required: false
 
         Occurrence:
             class: AppBundle\Entity\Occurrence
