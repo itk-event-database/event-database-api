@@ -88,9 +88,9 @@ easy_admin:
                       type_options:
                           choices:
                               '': ''
-                              Dansk: da
+                              Danish: da
                               English: en
-                              Deutsch: de
+                              German: de
                           required: true
                     - property: imageFile
                       type: vich_image

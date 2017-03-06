@@ -157,11 +157,12 @@ class Event extends Thing implements Taggable, Blameable {
    */
   public function setOccurrences($occurrences) {
     // Remove (and implicitly delete) occurrences that will be orphaned after
-    // updating settings (new) occurrences.
+    // setting (new) occurrences.
     $keepIds = [];
     foreach ($occurrences as $occurrence) {
       $keepIds[] = $occurrence->getId();
     }
+
     foreach ($this->occurrences as $occurrence) {
       if (!in_array($occurrence->getId(), $keepIds)) {
         $this->occurrences->removeElement($occurrence);
