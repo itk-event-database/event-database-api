@@ -11,6 +11,27 @@ app:
         event:
             # name: ''
             tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
+action:
+    add_another_item: Tilføj element
+    delete: Slet
+    edit: Rediger
+    list: Tilbage til oversigten
+    remove_item: Slet element
+    save: Gem
+    search: Søg
+    new: Tilføj %entity_name%
+    show: Vis
+    cancel: Annuller
+
+label:
+    null: '–'
+    yes: ja
+    no: nej
+    form:
+        empty_value: (tom)
+
+new.page_title: Opret %entity_name%
+edit.page_title: Rediger %entity_name% (#%entity_id%)
 
 Clone: Kopier
 Event: Begivenhed
@@ -22,13 +43,6 @@ Places: Steder
 Tag: Tag
 Updated by: Opdateret af
 Updated: Opdateret
-action.add_another_item: Tilføj element
-action.delete: Slet
-action.edit: Rediger
-action.list: Tilbage til oversigten
-action.remove_item: Slet element
-action.save: Gem
-label.null: '–'
 
 Username: Brugernavn
 Email: E-mail
@@ -94,3 +108,9 @@ Danish: Dansk
 English: Engelsk
 German: Tysk
 Image file: Billede
+
+Last login: Seneste login
+User: Bruger
+
+UnknownTag: Ukendt tag
+Last read: Senest læst

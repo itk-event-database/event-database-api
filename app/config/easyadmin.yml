@@ -64,6 +64,7 @@ easy_admin:
                     - property: name
                     - property: isPublished
                       type: boolean
+                      template: yes_no.html.twig
                     - property: image
                       type: image
                     - property: tags
@@ -225,6 +226,7 @@ easy_admin:
                       template: groups.html.twig
                     - property: enabled
                       type: boolean
+                      template: yes_no.html.twig
                     - lastLogin
             edit:
                 fields:
