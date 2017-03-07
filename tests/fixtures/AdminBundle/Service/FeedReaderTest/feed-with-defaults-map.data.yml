@@ -1,0 +1,17 @@
+-
+    id: 1,
+    name: Event 1
+    occurrences:
+        -
+            place:
+                name: Place 1
+                zipcode: 8000
+        -
+            place:
+                name: Place 2
+                zipcode: 8310
+
+        -
+            place:
+                name: Place 3
+                zipcode: 1234

@@ -1,0 +1,26 @@
+url: https://s3-eu-west-1.amazonaws.com/spotfestival/48/publicinfo/details_da
+type: json
+timeZone: CET
+
+mapping:
+    id: id
+    name: title
+    occurrences:
+        path: occurrences
+        mapping:
+            startDate: startDate
+            endDate: endDate
+            place:
+                path: place
+                type: object
+                mapping:
+                    name: name
+                    postal_code: zipcode
+                    address_locality: _dummy_
+                defaults:
+                    name: Somewhere in time
+                    address_locality:
+                        type: service
+                        service: app.danish_zip_code
+                        method: getCity
+                        arguments: ['@zipcode']
