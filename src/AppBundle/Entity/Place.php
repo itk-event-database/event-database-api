@@ -28,7 +28,7 @@ use DoctrineExtensions\Taggable\Taggable;
  *   iri = "http://schema.org/Place",
  *   attributes = {
  *     "jsonld_embed_context" = true,
- *     "normalization_context" = { "groups" = { "event_read", "place_read" } },
+ *     "normalization_context" = { "groups" = { "place_read", "event_read", "occurrence_read" } },
  *     "denormalization_context" = { "groups" = { "event_write", "place_write" } },
  *     "filters" = { "place.search", "place.search.tag", "place.search.owner" }
  *   }
@@ -59,7 +59,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The telephone number.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -68,7 +68,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The email address.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @Assert\Email(
    *   message = "The email '{{ value }}' is not a valid email."
    * )
@@ -79,7 +79,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The logo of the item.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/image")
@@ -89,7 +89,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var boolean Does the place have disability access?
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(type="boolean", nullable=true)
    */
   private $disabilityAccess;
@@ -97,7 +97,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -106,7 +106,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The locality. For example, Mountain View.
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -115,7 +115,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The region. For example, CA.
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -124,7 +124,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The postal code. For example, 94043.
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -133,7 +133,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var string The street address. For example, 1600 Amphitheatre Pkwy.
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
@@ -142,7 +142,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var number The latitude of the location
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @ORM\Column(nullable=true, type="float")
    */
   private $latitude;
@@ -150,7 +150,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var number The longitude of the location
    *
-   * @Groups({"place_read", "place_write"})
+   * @Groups({"place_read", "occurrence_read", "place_write"})
    * @ORM\Column(nullable=true, type="float")
    */
   private $longitude;
