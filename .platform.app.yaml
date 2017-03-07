@@ -10,6 +10,7 @@ type: php:7.0
 runtime:
     extensions:
         - redis
+        - apcu
 
 build:
   flavor: none

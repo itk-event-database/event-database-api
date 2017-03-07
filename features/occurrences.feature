@@ -58,7 +58,7 @@ Feature: Occurrences
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
+    And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
   Scenario: Order by startDate
     When I authenticate as "api-read"
@@ -78,13 +78,11 @@ Feature: Occurrences
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
-    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
     When I send a "GET" request to "/api/occurrences?startDate[after]=2020-01-01&endDate[before]=2100-01-01"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
-    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
   Scenario: Filter by place name
     When I authenticate as "api-write"
@@ -92,13 +90,11 @@ Feature: Occurrences
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
-    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
     When I send a "GET" request to "/api/occurrences?startDate[after]=@0&place.name=Another place"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
-    And the JSON node "hydra:member[0].event.occurrences" should have 2 elements
 
   Scenario: Delete event
     When I authenticate as "api-write"

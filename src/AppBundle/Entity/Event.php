@@ -74,7 +74,7 @@ class Event extends Thing implements Taggable, Blameable {
   /**
    * @var string The URI for ticket purchase
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
@@ -84,7 +84,7 @@ class Event extends Thing implements Taggable, Blameable {
   /**
    * @var string Excerpt, i.e. short description, without any markup
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @Assert\Length(
@@ -255,7 +255,7 @@ class Event extends Thing implements Taggable, Blameable {
   /**
    * @var ArrayCollection
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ ORM\Column(type="array", nullable=true)
    */
   private $tags;

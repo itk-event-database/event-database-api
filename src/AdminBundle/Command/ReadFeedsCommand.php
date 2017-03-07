@@ -52,7 +52,13 @@ class ReadFeedsCommand extends ContainerAwareCommand {
       $this->writeFeedInfo($feed);
       $this->writeln(str_repeat('-', 80));
 
-      $reader->read($feed);
+      try {
+        $reader->read($feed);
+      } catch (\Throwable $t) {
+        $this->writeln('-- Error -----------------------------------------------------------------------');
+        $this->writeln(sprintf('%s (feed #%d)', $t->getMessage(), $feed->getId()));
+        $this->writeln('--------------------------------------------------------------------------------');
+      }
     }
   }
 

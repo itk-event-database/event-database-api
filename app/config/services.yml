@@ -163,10 +163,17 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postLoad }
 
+    feed_reader.base:
+        class: AdminBundle\Service\FeedReader\FeedReader
+        abstract: true
+        arguments: ['@service_container']
+
     feed_reader.json:
+        parent: feed_reader.base
         class: AdminBundle\Service\FeedReader\Json
 
     feed_reader.xml:
+        parent: feed_reader.base
         class: AdminBundle\Service\FeedReader\Xml
 
     feed_reader_event_importer:
@@ -181,6 +188,18 @@ services:
         arguments:
             - "@value_converter"
             - "@feed_reader_event_importer"
+            -
+                readers:
+                    json: "@feed_reader.json"
+                    xml: "@feed_reader.xml"
+            - "@logger"
+            - "@authenticator"
+            - "@stof_doctrine_extensions.listener.blameable"
+
+    feed_previewer:
+        class: AdminBundle\Service\FeedPreviewer
+        arguments:
+            - "@value_converter"
             -
                 readers:
                     json: "@feed_reader.json"
@@ -337,3 +356,7 @@ services:
         arguments: ["@app.reposity.place"]
         tags:
             - { name: form.type, alias: repeating_occurrences }
+
+    # Feed import services
+    app.danish_zip_code:
+        class: AdminBundle\Service\DanishZipCode
