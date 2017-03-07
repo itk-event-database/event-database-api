@@ -86,7 +86,7 @@ services:
         arguments:
             - occurrences.startDate:
                 default: { after: now }
-            - occurrences.endDate: ~
+              occurrences.endDate: ~
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
     resource.event.search_tag_filter:
@@ -127,8 +127,11 @@ services:
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search' } ]
 
     resource.occurrence.search_date_filter:
-        parent:    "api_platform.doctrine.orm.date_filter"
-        arguments: [ { startDate: ~, endDate: ~ } ]
+        parent:    "app_bundle.doctrine.orm.date_filter"
+        arguments:
+            - startDate:
+                default: { after: now }
+              endDate: ~
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
@@ -264,6 +267,25 @@ services:
     app.aoa.item_normalizer:
         public: false
         class: AppBundle\Serializer\AoA\ItemNormalizer
+        arguments:
+            - "@api_platform.metadata.property.name_collection_factory"
+            - "@api_platform.metadata.property.metadata_factory"
+            - "@api_platform.iri_converter"
+            - "@api_platform.resource_class_resolver"
+            - "@api_platform.property_accessor"
+            - "@?api_platform.name_converter"
+            - "@tag_manager"
+
+        tags: [ { name: serializer.normalizer, priority: 10 } ]
+
+    app.encoder.firebase:
+        class: AppBundle\Serializer\Firebase\Encoder
+        tags:
+            - { name: serializer.encoder }
+
+    app.item_normalizer.firebase:
+        public: false
+        class: AppBundle\Serializer\Firebase\ItemNormalizer
         arguments:
             - "@api_platform.metadata.property.name_collection_factory"
             - "@api_platform.metadata.property.metadata_factory"

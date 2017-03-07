@@ -4,6 +4,12 @@ Feature: Events
   I need to be able to retrieve, create, update and delete events trough the API.
 
   Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
     Given the following tags exist:
       | name   |
       | apple  |
@@ -37,7 +43,8 @@ Feature: Events
     """
     {
       "name": "A tagged event",
-      "tags": [ "apple", "Banana" ]
+      "tags": [ "apple", "Banana" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
     }
     """
     Then the response status code should be 201
@@ -50,7 +57,8 @@ Feature: Events
     """
     {
       "name": "Another tagged event",
-      "tags": [ "banana", "CITRUS" ]
+      "tags": [ "banana", "CITRUS" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
     }
     """
     Then the response status code should be 201
@@ -67,7 +75,8 @@ Feature: Events
     """
     {
       "name": "A tagged event",
-      "tags": [ "æble" ]
+      "tags": [ "æble" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
     }
     """
     Then the response status code should be 201
@@ -80,7 +89,8 @@ Feature: Events
     """
     {
       "name": "A tagged event",
-      "tags": [ "æble", "banan" ]
+      "tags": [ "æble", "banan" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
     }
     """
     Then the response status code should be 201
@@ -94,7 +104,8 @@ Feature: Events
     """
     {
       "name": "A tagged event",
-      "tags": [ "æble", "apple" ]
+      "tags": [ "æble", "apple" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
     }
     """
     Then the response status code should be 201
@@ -115,16 +126,16 @@ Feature: Events
     When I authenticate as "api-read"
     And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/events?tags=apple"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=apple"
     Then the JSON node "hydra:member" should have 4 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
 
-    When I send a "GET" request to "/api/events?tags=banana"
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=banana"
     And the JSON node "hydra:member" should have 3 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/events/2"
 
-    When I send a "GET" request to "/api/events?tags=citrus"
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=citrus"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
 

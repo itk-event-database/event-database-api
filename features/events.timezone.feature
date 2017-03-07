@@ -3,6 +3,13 @@ Feature: Events
   As a client software developer
   I need to be able to retrieve, create, update and delete events trough the API.
 
+  Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
   @createSchema
   Scenario: Create an event
     When I authenticate as "api-write"

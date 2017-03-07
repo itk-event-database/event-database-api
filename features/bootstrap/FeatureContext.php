@@ -1,25 +1,21 @@
 <?php
 
-use AppBundle\Entity\Tag;
+use AppBundle\Entity\Group;
+use AppBundle\Entity\User;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\DBAL\Exception\TableNotFoundException;
 use Doctrine\ORM\Tools\SchemaTool;
-use AppBundle\Entity\User;
-use AppBundle\Entity\Group;
 use Sanpi\Behatch\Context\BaseContext;
+use Sanpi\Behatch\HttpCall\Request;
 use Sanpi\Behatch\Json\Json;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Sanpi\Behatch\HttpCall\Request;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Defines application features from the specific context.
@@ -76,56 +72,6 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
   public function dropDatabase()
   {
     $this->schemaTool->dropSchema($this->classes);
-  }
-
-  private $users = [ // username, password, roles
-    [ 'api-read', 'apipass', [ 'ROLE_API_READ' ], null ],
-    [ 'api-write', 'apipass', [ 'ROLE_API_WRITE' ], null ],
-    [ 'api-write2', 'apipass', [ 'ROLE_API_WRITE' ], null ],
-    // [ 'user0-group0-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group0'] ],
-    // [ 'user1-group0-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group0'] ],
-    // [ 'user0-group1-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group1'] ],
-    // [ 'user1-group1-write', 'apipass', [ 'ROLE_API_WRITE' ], [ 'group1'] ],
-  ];
-
-  /** @BeforeScenario */
-  public function createApiUsers(BeforeScenarioScope $scope) {
-    // foreach ($this->groups as $data) {
-    //   list($name, $roles) = $data;
-    //   $group = new Group($name, $roles ?: []);
-    //   $this->manager->persist($group);
-    // }
-    // $this->manager->flush();
-
-    $groupRepository = $this->manager->getRepository(Group::class);
-
-    foreach ($this->users as $data) {
-      list($username, $password, $roles, $groups) = $data;
-      $email = $username . '@example.com';
-      $roles = $roles ?: [];
-      $groups = $groups ?: [];
-
-      $this->createUser($username, $email, $password, $roles, $groups);
-    }
-  }
-
-  /** @AfterScenario */
-  public function removeApiUsers(AfterScenarioScope $scope) {
-    try {
-      $userRepository = $this->manager->getRepository(User::class);
-      $users = $userRepository->findBy(['username' => array_map(function($data) {
-        return $data[0];
-      }, $this->users)]);
-      foreach ($users as $user) {
-        foreach ($user->getGroups() as $group) {
-          $this->manager->remove($group);
-        }
-        $this->manager->remove($user);
-      }
-      $this->manager->flush();
-    } catch (TableNotFoundException $ex) {
-      // The table may no longer exist.
-    }
   }
 
   /** @AfterScenario */

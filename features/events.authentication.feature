@@ -3,6 +3,13 @@ Feature: Events Authentication
   As a client software developer
   I need to be able to retrieve, create, update and delete events trough the API.
 
+  Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
   @createSchema
   Scenario: Read events anonymously
     When I add "Accept" header equal to "application/ld+json"
@@ -27,7 +34,10 @@ Feature: Events Authentication
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
-    {"name": "Created by api-read"}
+    {
+      "name": "Created by api-read",
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
     """
     Then the response status code should be 403
     And the response should be in JSON
@@ -38,7 +48,10 @@ Feature: Events Authentication
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
-    {"name": "Created by api-write"}
+    {
+      "name": "Created by api-write",
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
     """
     Then the response status code should be 201
     And the response should be in JSON
@@ -51,7 +64,10 @@ Feature: Events Authentication
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
-    {"name": "Created by api-write2"}
+    {
+      "name": "Created by api-write2",
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
     """
     Then the response status code should be 201
     And the response should be in JSON
