@@ -40,6 +40,191 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
     $this->assertEquals('Musikhuset Aarhus', $event['occurrences'][0]['venue']);
   }
 
+  public function testReadJsonFeedWithDefaultsIndex() {
+    $feedConfiguration = $this->readFixture('feed-with-defaults-index.config.yml');
+    $json = $this->readFixture('feed-with-defaults-index.data.yml');
+
+    $feed = $this->createFeed($feedConfiguration);
+
+    $reader = $this->container->get('feed_reader.json');
+    $reader
+      ->setController($this)
+      ->setFeed($feed);
+    $reader->read($json);
+
+    $this->assertEquals(1, count($this->events));
+    $occurrences = $this->events[0]['occurrences'];
+    $this->assertEquals(3, count($occurrences));
+    $occurrence = $occurrences[0];
+    $this->assertEquals([
+      'name' => 'Place 1',
+      'postal_code' => 8000,
+      'address_locality' => 'Aarhus C',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[1];
+    $this->assertEquals([
+      'name' => 'Place 2',
+      'postal_code' => 7400,
+      'address_locality' => 'Herning',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[2];
+    $this->assertEquals([
+      'name' => 'Place 3',
+      'postal_code' => 1234,
+      'address_locality' => 'Andeby',
+    ], $occurrence['place']);
+  }
+
+  public function testReadJsonFeedWithDefaultsMap() {
+    $feedConfiguration = $this->readFixture('feed-with-defaults-map.config.yml');
+    $json = $this->readFixture('feed-with-defaults-map.data.yml');
+
+    $feed = $this->createFeed($feedConfiguration);
+
+    $reader = $this->container->get('feed_reader.json');
+    $reader
+      ->setController($this)
+      ->setFeed($feed);
+    $reader->read($json);
+
+    $this->assertEquals(1, count($this->events));
+    $occurrences = $this->events[0]['occurrences'];
+    $this->assertEquals(3, count($occurrences));
+    $occurrence = $occurrences[0];
+    $this->assertEquals([
+      'name' => 'Place 1',
+      'postal_code' => 8000,
+      'address_locality' => 'Aarhus C',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[1];
+    $this->assertEquals([
+      'name' => 'Place 2',
+      'postal_code' => 8310,
+      'address_locality' => 'Tranbjerg J',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[2];
+    $this->assertEquals([
+      'name' => 'Place 3',
+      'postal_code' => 1234,
+      'address_locality' => 'Andeby',
+    ], $occurrence['place']);
+  }
+
+  public function testReadJsonFeedWithDefaultsMapNoDefaultValue() {
+    $feedConfiguration = $this->readFixture('feed-with-defaults-map-no-default-value.config.yml');
+    $json = $this->readFixture('feed-with-defaults-map.data.yml');
+
+    $feed = $this->createFeed($feedConfiguration);
+
+    $reader = $this->container->get('feed_reader.json');
+    $reader
+      ->setController($this)
+      ->setFeed($feed);
+    $reader->read($json);
+
+    $this->assertEquals(1, count($this->events));
+    $occurrences = $this->events[0]['occurrences'];
+    $this->assertEquals(3, count($occurrences));
+    $occurrence = $occurrences[0];
+    $this->assertEquals([
+      'name' => 'Place 1',
+      'postal_code' => 8000,
+      'address_locality' => 'Aarhus C',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[1];
+    $this->assertEquals([
+      'name' => 'Place 2',
+      'postal_code' => 8310,
+      'address_locality' => 'Tranbjerg J',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[2];
+    $this->assertEquals([
+      'name' => 'Place 3',
+      'postal_code' => 1234,
+      'address_locality' => null,
+    ], $occurrence['place']);
+  }
+
+  public function testReadJsonFeedWithDefaultsService() {
+    $feedConfiguration = $this->readFixture('feed-with-defaults-service.config.yml');
+    $json = $this->readFixture('feed-with-defaults-service.data.yml');
+
+    $feed = $this->createFeed($feedConfiguration);
+
+    $reader = $this->container->get('feed_reader.json');
+    $reader
+      ->setController($this)
+      ->setFeed($feed);
+    $reader->read($json);
+
+    $this->assertEquals(1, count($this->events));
+    $occurrences = $this->events[0]['occurrences'];
+    $this->assertEquals(3, count($occurrences));
+    $occurrence = $occurrences[0];
+    $this->assertEquals([
+      'name' => 'Place 1',
+      'postal_code' => 8000,
+      'address_locality' => 'Aarhus C',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[1];
+    $this->assertEquals([
+      'name' => 'Place 2',
+      'postal_code' => 8310,
+      'address_locality' => 'Tranbjerg J',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[2];
+    $this->assertEquals([
+      'name' => 'Place 3',
+      'postal_code' => 1234,
+      'address_locality' => 'Andeby',
+    ], $occurrence['place']);
+  }
+
+  public function testReadJsonFeedWithDefaultsServiceNoDefaultValue() {
+    $feedConfiguration = $this->readFixture('feed-with-defaults-service-no-default-value.config.yml');
+    $json = $this->readFixture('feed-with-defaults-service.data.yml');
+
+    $feed = $this->createFeed($feedConfiguration);
+
+    $reader = $this->container->get('feed_reader.json');
+    $reader
+      ->setController($this)
+      ->setFeed($feed);
+    $reader->read($json);
+
+    $this->assertEquals(1, count($this->events));
+    $occurrences = $this->events[0]['occurrences'];
+    $this->assertEquals(3, count($occurrences));
+    $occurrence = $occurrences[0];
+    $this->assertEquals([
+      'name' => 'Place 1',
+      'postal_code' => 8000,
+      'address_locality' => 'Aarhus C',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[1];
+    $this->assertEquals([
+      'name' => 'Place 2',
+      'postal_code' => 8310,
+      'address_locality' => 'Tranbjerg J',
+    ], $occurrence['place']);
+
+    $occurrence = $occurrences[2];
+    $this->assertEquals([
+      'name' => 'Place 3',
+      'postal_code' => 1234,
+      'address_locality' => null,
+    ], $occurrence['place']);
+  }
+
   public function testReadXmlFeedWithDefaults() {
     $feedConfiguration = $this->readFixture('feed-with-defaults.yml');
     $xml = $this->readFixture('feed-with-defaults.xml');

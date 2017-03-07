@@ -87,7 +87,10 @@ class Xml extends FeedReader {
         $type = isset($spec['type']) ? $spec['type'] : 'list';
         $path = isset($spec['path']) ? $spec['path'] : NULL;
         if ($type === 'object') {
-          $item = $path ? $this->getValue($item, $path) : $item;
+          $item = $path ? $this->getItems($item, $path) : $item;
+          if (is_array($item)) {
+            // $item = array_shift($item);
+          }
           $data[$key] = $this->getData($item, $spec);
         }
         else {
@@ -119,7 +122,8 @@ class Xml extends FeedReader {
     }
 
     if (isset($configuration['defaults'])) {
-      $this->setDefaults($data, $configuration['defaults']);
+      // @FIXME: We must be able to pass $item as an array to setDefaults.
+      $this->setDefaults($data, $configuration['defaults'], []);
     }
 
     return $data;

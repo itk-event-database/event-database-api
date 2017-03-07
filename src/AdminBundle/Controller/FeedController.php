@@ -3,6 +3,7 @@
 namespace AdminBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -234,6 +235,25 @@ class FeedController extends Controller {
             ->setAction($this->generateUrl('admin_feed_delete', ['id' => $feed->getId()]))
             ->setMethod('DELETE')
             ->getForm();
+  }
+
+  /**
+   * Finds and displays a Feed entity.
+   *
+   * @Route("/{id}/preview", name="admin_feed_preview")
+   *
+   * @Method("GET")
+   *
+   * @Template()
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return array
+   */
+  public function previewAction(Feed $feed) {
+    $previewer = $this->get('feed_previewer');
+    $previewer->read($feed);
+    $events = $previewer->getEvents();
+
+    return new JsonResponse($events);
   }
 
 }

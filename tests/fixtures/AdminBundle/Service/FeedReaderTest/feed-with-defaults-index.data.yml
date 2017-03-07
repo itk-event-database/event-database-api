@@ -1,0 +1,16 @@
+-
+    id: 1,
+    name: Event 1
+    occurrences:
+        -
+            place:
+                name: Place 1
+                zip_and_city: 8000 Aarhus C
+        -
+            place:
+                name: Place 2
+                zip_and_city: '7400 Herning  '
+        -
+            place:
+                name: Place 3
+                zip_and_city: 1234
