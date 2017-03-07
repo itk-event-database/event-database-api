@@ -87,7 +87,10 @@ class Xml extends FeedReader {
         $type = isset($spec['type']) ? $spec['type'] : 'list';
         $path = isset($spec['path']) ? $spec['path'] : NULL;
         if ($type === 'object') {
-          $item = $path ? $this->getValue($item, $path) : $item;
+          $item = $path ? $this->getItems($item, $path) : $item;
+          if (is_array($item)) {
+            // $item = array_shift($item);
+          }
           $data[$key] = $this->getData($item, $spec);
         }
         else {
