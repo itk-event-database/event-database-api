@@ -19,7 +19,7 @@ abstract class Thing extends Entity {
   /**
    * @var string A short description of the item.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(type="text", nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="https://schema.org/description")
@@ -29,7 +29,7 @@ abstract class Thing extends Entity {
   /**
    * @var string
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/image")
@@ -48,7 +48,7 @@ abstract class Thing extends Entity {
   /**
    * @var string The name of the item.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="https://schema.org/name")
@@ -58,7 +58,7 @@ abstract class Thing extends Entity {
   /**
    * @var string The URI of the item.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
@@ -68,7 +68,7 @@ abstract class Thing extends Entity {
   /**
    * @var string The video (Youtube/Vimeo/etc.) URI of the item.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
@@ -78,7 +78,7 @@ abstract class Thing extends Entity {
   /**
    * @var string The language code of the item.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/langcode")
