@@ -89,7 +89,7 @@ class Xml extends FeedReader {
         if ($type === 'object') {
           $item = $path ? $this->getItems($item, $path) : $item;
           if (is_array($item)) {
-            // $item = array_shift($item);
+            $item = array_shift($item);
           }
           $data[$key] = $this->getData($item, $spec);
         }
