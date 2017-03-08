@@ -55,6 +55,6 @@ class EasyAdminExtension extends Twig_Extension {
         return true;
     }
 
-    return $this->voter->vote($token, $subject, [$action]) ==  VoterInterface::ACCESS_GRANTED;
+    return $this->voter->vote($token, $subject, [$action]) == VoterInterface::ACCESS_GRANTED;
   }
 }
