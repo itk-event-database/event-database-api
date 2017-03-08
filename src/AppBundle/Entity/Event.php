@@ -82,6 +82,16 @@ class Event extends Thing implements Taggable, Blameable {
   private $ticketPurchaseUrl;
 
   /**
+   * @var string The URI for (Facebook) event.
+   *
+   * @Groups({"event_read", "occurrence_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/url")
+   */
+  private $eventUrl;
+
+  /**
    * @var string Excerpt, i.e. short description, without any markup
    *
    * @Groups({"event_read", "occurrence_read", "event_write"})
@@ -231,6 +241,19 @@ class Event extends Thing implements Taggable, Blameable {
     $this->ticketPurchaseUrl = $ticketPurchaseUrl;
   }
 
+  /**
+   * @return string|null
+   */
+  public function geteventUrl() {
+    return $this->eventUrl;
+  }
+
+  /**
+   * @param string $eventUrl
+   */
+  public function setEventUrl($eventUrl) {
+    $this->eventUrl = $eventUrl;
+  }
   /**
    * @return string
    */
