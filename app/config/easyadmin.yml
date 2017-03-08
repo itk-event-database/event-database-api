@@ -72,6 +72,7 @@ easy_admin:
                       template: yes_no.html.twig
                     - property: image
                       type: image
+                      sortable: false
                     - property: tags
                       label: Tags
                       template: tags.html.twig
