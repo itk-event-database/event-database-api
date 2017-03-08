@@ -35,4 +35,9 @@ class Group extends BaseGroup {
   public function getUsers() {
     return $this->users ?: $this->users = new ArrayCollection();
   }
+
+  public function __toString()
+  {
+    return $this->getName();
+  }
 }

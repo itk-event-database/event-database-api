@@ -67,6 +67,17 @@ class EventListener extends EditListener {
     }
   }
 
+  /**
+   *
+   */
+  public function postLoad(LifecycleEventArgs $args) {
+    $object = $args->getObject();
+    if ($object instanceof Taggable) {
+      $this->tagManager->loadTagging($object);
+    }
+  }
+
+
   public function preRemove(LifecycleEventArgs $args) {
     parent::preRemove($args);
     $object = $args->getObject();

@@ -90,7 +90,10 @@ class FeedReader implements Controller {
   public function read(Feed $feed, User $user = NULL) {
     $this->feed = $feed;
     if (!$user) {
-      $user = $this->feed->getCreatedBy();
+      $user = $this->feed->getUser();
+    }
+    if (!$user) {
+      throw new \Exception('No user on feed.');
     }
     if ($this->authenticator) {
       $this->authenticator->authenticate($user);

@@ -40,10 +40,6 @@ class EditVoter extends Voter {
       return FALSE;
     }
 
-    if (!$subject instanceof Blameable) {
-      return FALSE;
-    }
-
     return TRUE;
   }
 

@@ -32,7 +32,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.order", "event.order.default" },
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.order", "event.order.default" },
  *     "validation_groups"={"event_write"}
  *   }
  * )
@@ -50,6 +50,16 @@ class Event extends Thing implements Taggable, Blameable {
    * @ORM\GeneratedValue(strategy="AUTO")
    */
   private $id;
+
+  /**
+   * @var boolean
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(type="boolean")
+   * @Assert\Type(type="boolean")
+   * @ApiProperty(iri="http://schema.org/Boolean")
+   */
+  private $isPublished = true;
 
   /**
    * @var ArrayCollection
@@ -131,15 +141,38 @@ class Event extends Thing implements Taggable, Blameable {
   }
 
   /**
+   * Sets isPublished.
+   *
+   * @param int $isPublished
+   *
+   * @return $this
+   */
+  public function setIsPublished($isPublished) {
+    $this->isPublished = $isPublished;
+
+    return $this;
+  }
+
+  /**
+   * Gets isPublished.
+   *
+   * @return int
+   */
+  public function getIsPublished() {
+    return $this->isPublished;
+  }
+
+  /**
    *
    */
   public function setOccurrences($occurrences) {
     // Remove (and implicitly delete) occurrences that will be orphaned after
-    // updating settings (new) occurrences.
+    // setting (new) occurrences.
     $keepIds = [];
     foreach ($occurrences as $occurrence) {
       $keepIds[] = $occurrence->getId();
     }
+
     foreach ($this->occurrences as $occurrence) {
       if (!in_array($occurrence->getId(), $keepIds)) {
         $this->occurrences->removeElement($occurrence);
@@ -286,4 +319,30 @@ class Event extends Thing implements Taggable, Blameable {
     return $this->tags;
   }
 
+  public function __clone() {
+    $this->setId(null);
+    $this->setIsPublished(false);
+    $self = $this;
+    $this->occurrences = $this->getOccurrences()->map(function ($occurrence) use ($self) {
+      $clone = clone $occurrence;
+      $clone->setId(null);
+      $clone->setEvent($self);
+      return $clone;
+    });
+  }
+
+  /**
+   * @var array
+   *
+   * @ORM\Column(type="array")
+   */
+  private $repeatingOccurrences = [];
+
+  public function setRepeatingOccurrences(array $repeatingOccurrences) {
+    $this->repeatingOccurrences = $repeatingOccurrences;
+  }
+
+  public function getRepeatingOccurrences() {
+    return $this->repeatingOccurrences;
+  }
 }

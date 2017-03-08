@@ -4,8 +4,10 @@ namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * The most generic type of item.
@@ -14,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ORM\MappedSuperclass
  * @ ApiResource(iri="http://schema.org/Thing")
+ * @Vich\Uploadable
  */
 abstract class Thing extends Entity {
   /**
@@ -235,4 +238,61 @@ abstract class Thing extends Entity {
     $this->videoUrl = $videoUrl;
   }
 
+  public function getCreatedAt() {
+    return $this->createdAt;
+  }
+
+  public function getUpdatedAt() {
+    return $this->updatedAt;
+  }
+
+  public function getCreatedBy() {
+    return $this->createdBy;
+  }
+
+  public function getUpdatedBy() {
+    return $this->updatedBy;
+  }
+
+
+  /**
+   * @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/upload-files-and-images.md
+   */
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   */
+  private $imagePath;
+
+  /**
+   * @Vich\UploadableField(mapping="thing_images", fileNameProperty="imagePath")
+   * @var File
+   */
+  private $imageFile;
+
+  public function setImagePath($imagePath) {
+    $this->imagePath = $imagePath;
+  }
+
+  public function getImagePath() {
+    return $this->imagePath;
+  }
+
+  public function setImageFile(File $image = null) {
+    $this->imageFile = $image;
+
+    // VERY IMPORTANT:
+    // It is required that at least one field changes if you are using Doctrine,
+    // otherwise the event listeners won't be called and the file is lost
+    if ($image) {
+      $this->originalImage = 'upload://' . $image->getFilename();
+    }
+  }
+
+  public function getImageFile() {
+    return $this->imageFile;
+  }
 }

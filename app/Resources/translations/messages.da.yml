@@ -1,0 +1,147 @@
+app:
+    menu:
+        events: Begivenheder
+        places: Steder
+        groups: Grupper
+        users: Brugere
+        tags: Tags
+        unknown_tags: Ukendte tags
+        feeds: Feeds
+        api_docs: API-dokumentation
+    help:
+        event:
+            # name: ''
+            tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
+action:
+    delete: Slet
+    edit: Rediger
+    list: Tilbage til oversigten
+    remove_item: Slet element
+    save: Gem
+    search: Søg
+    new: Tilføj %entity_name%
+    show: Vis
+    cancel: Annuller
+
+label:
+    yes: ja
+    no: nej
+    form:
+        empty_value: (tom)
+
+label.null: '–'
+
+Clone: Kopier
+Event: Begivenhed
+Events: Begivenheder
+Excerpt: Uddrag
+Feed: Feed
+Name: Titel
+Places: Steder
+Tag: Tag
+Updated by: Opdateret af
+Updated: Opdateret
+
+Username: Brugernavn
+Email: E-mail
+Roles: Roller
+
+ROLE_USER: Bruger
+ROLE_API_READ: API-læseadgang
+ROLE_API_WRITE: API-skriveadgang
+ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_PLACE_EDITOR: Stedredaktør
+ROLE_TAG_EDITOR: Tagredaktør
+ROLE_USER_EDITOR: Brugerredaktør
+ROLE_FEED_EDITOR: Feedredaktør
+ROLE_ADMIN: Administrator
+ROLE_SUPER_ADMIN: Superadministrator
+Groups: Grupper
+Enabled: Aktiv
+
+
+Plain password: Adgangskode
+
+
+Is published: Udgivet
+Image: Billede
+Tags: Tags
+
+Actions: Handlinger
+Show: Vis
+Search: Søg
+
+
+
+Url: Url
+Video url: Videourl
+Ticket purchase url: Billeturl
+Description: Beskrivelse
+Occurrences: Dato og tid
+Start date: Starttidspunkt
+End date: Sluttidspunkt
+Place: Sted
+Add new item: Tilføj ny
+
+event.description: Brødtekst
+event.eventUrl: Eventurl
+event.eventUrl.help: Eventurl, fx til Facebook-event
+
+event.tags.help: Vælg et eller flere tags.
+
+
+Repeating occurrences: Gentagne forekomster
+Start day: Startdato
+End day: Slutdato
+Start time 1: Mandag, starttidspunkt
+End time 1: Mandag, sluttidspunkt
+Start time 2: Tirsdag, starttidspunkt
+End time 2: Tirsdag, sluttidspunkt
+Start time 3: Onsdag, starttidspunkt
+End time 3: Onsdag, sluttidspunkt
+Start time 4: Torsdag, starttidspunkt
+End time 4: Torsdag, sluttidspunkt
+Start time 5: Fredag, starttidspunkt
+End time 5: Fredag, sluttidspunkt
+Start time 6: Lørdag, starttidspunkt
+End time 6: Lørdag, sluttidspunkt
+Start time 7: Søndag, starttidspunkt
+End time 7: Søndag, sluttidspunkt
+Update repeating occurrences: Opdater gentagne forekomster
+
+Langcode: Sprog
+Danish: Dansk
+English: Engelsk
+German: Tysk
+Image file: Billede
+
+Last login: Seneste login
+User: Bruger
+Users: Brugere
+
+UnknownTag: Ukendt tag
+Last read: Senest læst
+
+Group: Gruppe
+
+'%entity_label%': '%entity_label%'
+
+
+
+
+Telephone: Telefonnr.
+Logo: Logo
+Disability access: Adgang for handicappede
+Address country: Land
+Address locality: By
+Address region: Region
+Postal code: Postnr.
+Street address: Adresse
+Latitude: Længdegrad
+Longitude: Breddegrad
+
+lat_lng: Lokation
+
+
+'%entity_name% created': '%entity_name% oprettet'
+'%entity_name% updated': '%entity_name% opdateret'

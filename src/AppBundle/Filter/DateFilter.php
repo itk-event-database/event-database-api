@@ -15,7 +15,7 @@ class DateFilter extends BaseDateFilter {
     $properties = parent::extractProperties($request);
 
     foreach ($this->properties as $property => $config) {
-      if (isset($config['default']) && !isset($properties[$property])) {
+      if (!array_key_exists($property, $properties) && isset($config['default'])) {
         $properties[$property] = $config['default'];
       }
     }

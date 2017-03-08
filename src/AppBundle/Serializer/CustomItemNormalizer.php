@@ -133,7 +133,6 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
    */
   protected function getAttributeValue($object, $attribute, $format = NULL, array $context = []) {
     if ($object instanceof Taggable && $attribute === 'tags') {
-      $this->tagManager->loadTagging($object);
       return $object->getTags()->map(function ($tag) {
           return $tag->getName();
       });

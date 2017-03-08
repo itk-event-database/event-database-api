@@ -1,0 +1,13 @@
+<div class="user-roles">
+	{% set roles = [] %}
+	{% for role in item.roles %}
+		{% if role != 'ROLE_USER' %}
+			{% set roles = roles | merge([role]) %}
+		{% endif %}
+	{% endfor %}
+	{% for role in roles %}
+		<span class="user-role">{{ role | trans }}</span>{% if not loop.last %}, {% endif %}
+  {% else %}
+		<span class="user-no-roles">–</span>
+	{% endfor %}
+</div>

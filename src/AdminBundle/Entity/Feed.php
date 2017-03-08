@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Entity;
 
+use AppBundle\Entity\User;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
@@ -37,6 +38,13 @@ class Feed {
    * @ORM\Column(type="string", length=255)
    */
   private $name;
+
+  /**
+   * @var User
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+   * @ORM\JoinColumn(referencedColumnName="id")
+   */
+  private $user;
 
   /**
    * @var string
@@ -81,6 +89,28 @@ class Feed {
    */
   public function getName() {
     return $this->name;
+  }
+
+  /**
+   * Set user.
+   *
+   * @param User $user
+   *
+   * @return Feed
+   */
+  public function setUser($user) {
+    $this->user = $user;
+
+    return $this;
+  }
+
+  /**
+   * Get user.
+   *
+   * @return string
+   */
+  public function getUser() {
+    return $this->user;
   }
 
   /**
@@ -174,6 +204,11 @@ class Feed {
    */
   public function getTimeZone() {
     return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : NULL;
+  }
+
+  public function __toString()
+  {
+    return $this->getName();
   }
 
 }

@@ -5,10 +5,11 @@ security:
         ROLE_API_READ:     [ ROLE_USER ]
         ROLE_API_WRITE:    [ ROLE_API_READ ]
         ROLE_EVENT_EDITOR: [ ROLE_USER ]
+        ROLE_PLACE_EDITOR: [ ROLE_USER ]
         ROLE_TAG_EDITOR:   [ ROLE_USER ]
         ROLE_USER_EDITOR:  [ ROLE_USER ]
         ROLE_FEED_EDITOR:  [ ROLE_USER ]
-        ROLE_ADMIN:        [ ROLE_API_WRITE, ROLE_EVENT_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR ]
+        ROLE_ADMIN:        [ ROLE_API_WRITE, ROLE_EVENT_EDITOR, ROLE_PLACE_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR ]
         ROLE_SUPER_ADMIN:  [ ROLE_ADMIN ]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
@@ -72,4 +73,5 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_USER }
+        - { path: ^/easyadmin, role: ROLE_USER }
         - { path: ^/resque, role: ROLE_SUPER_ADMIN }

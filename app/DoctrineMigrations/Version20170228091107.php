@@ -37,7 +37,8 @@ CREATE TABLE `tmp_event` (
   `langcode` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `video_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ticket_purchase_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `excerpt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+  `excerpt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_published` tinyint(1) NOT NULL
 );');
 
         $this->addSql('
@@ -80,6 +81,7 @@ CREATE TABLE `tmp_occurrence` (
   `video_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ticket_purchase_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `excerpt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_published` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_3BAE0AA751A5BC03` (`feed_id`),
   KEY `IDX_3BAE0AA7B03A8386` (`created_by_id`),
