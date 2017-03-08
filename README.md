@@ -93,7 +93,7 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
   "langcode": "en",
   "occurrences": [ {
 	"startDate": "2000-01-01",
-	"startDate": "2001-01-01",
+	"endDate": "2001-01-01",
 	"place": {
 	  "name": "Some place"
 	}
