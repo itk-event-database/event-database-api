@@ -3,6 +3,7 @@
 namespace AdminBundle\Controller;
 
 use AppBundle\Entity\Event;
+use AppBundle\Entity\Group;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +17,10 @@ class AdminController extends BaseAdminController {
       $clone = clone $event;
       $this->em->persist($clone);
       $this->em->flush();
+
+      $tranlator = $this->container->get('translator');
+      $message = $tranlator->trans('Event %event_name% cloned', ['%event_name%' => $event->getName()]);
+      $this->addFlash('info', $message);
 
       return $this->redirectToRoute('easyadmin', array(
         'action' => 'edit',
@@ -32,6 +37,10 @@ class AdminController extends BaseAdminController {
         'action' => 'list',
         'entity' => $this->request->query->get('entity'),
       ));
+  }
+
+  public function createNewGroupEntity() {
+    return new Group('');
   }
 
   // @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/fosuserbundle-integration.md

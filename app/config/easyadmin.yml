@@ -24,19 +24,24 @@ easy_admin:
             - entity: 'Place'
               icon: 'map-marker'
               roles: [ROLE_PLACE_EDITOR]
+            - entity: 'Group'
+              icon: 'users'
+              roles: [ROLE_USER_EDITOR]
             - entity: 'User'
-              icon: 'user-circle-o'
+              icon: 'user'
               roles: [ROLE_USER_EDITOR]
             - entity: 'Tag'
-              icon: 'tag'
+              icon: 'tags'
               roles: [ROLE_TAG_EDITOR]
             - entity: 'UnknownTag'
-              icon: 'tag'
+              icon: 'tags'
               roles: [ROLE_TAG_EDITOR]
             - entity: 'Feed'
+              icon: 'cloud-download'
               roles: [ROLE_FEED_EDITOR]
 
             - label: 'app.menu.api_docs'
+              icon: 'book'
               url: '/api/docs'
               target: '_blank'
 
@@ -106,6 +111,7 @@ easy_admin:
                       type_options:
                           required: true
                     - property: description
+                      label: event.description
                       type: ckeditor
                       type_options:
                           required: true
@@ -166,29 +172,30 @@ easy_admin:
                 title: Places
                 fields:
                     - property: name
-                    - property: description
-                    - property: image
                     - property: url
                     - property: telephone
-                    - property: logo
-                    - property: langcode
-                    - property: video_url
                     - property: disability_access
                     - property: address_country
                     - property: address_locality
                     - property: address_region
                     - property: postal_code
                     - property: street_address
-                    - property: latitude
-                    - property: longitude
                     - property: email
+                    - property: latitude
+                      label: lat_lng
+                      template: lat_lng.html.twig
 
             form:
                 fields:
                     - property: name
                       help: app.help.place.name
                     - property: description
+                      type: ckeditor
                       help: app.help.place.description
+                    - property: imageFile
+                      type: vich_image
+
+                    - { type: 'section', label: 'Address' }
                     - property: street_address
                       type: text
                     - property: postal_code
@@ -199,18 +206,49 @@ easy_admin:
                       type: text
                     - property: address_country
                       type: text
-                    - property: imageFile
-                      type: vich_image
-                      # type_options:
-                      #   - required: true
-                    - property: telephone
-                    - property: logo
-                    - property: langcode
-                    - property: video_url
-                    - property: disability_access
-                    - property: latitude
-                    - property: longitude
                     - property: email
+                      type: email
+                    - property: telephone
+                    - property: latitude
+                      type: number
+                      type_options:
+                          scale: 7
+                    - property: longitude
+                      type: number
+                      type_options:
+                          scale: 7
+
+                    - { type: 'section', label: 'Miscellaneous' }
+                    - property: disability_access
+
+        Group:
+            label: app.menu.groups
+            class: AppBundle\Entity\Group
+            disabled_actions: ['show']
+            list:
+                fields:
+                    - property: name
+                    - property: roles
+                      template: roles.html.twig
+                    - property: users
+                      # template: users.html.twig
+            form:
+                fields:
+                    - property: name
+                    - property: roles
+                      type: choice
+                      type_options:
+                          multiple: true
+                          expanded: true
+                          choices:
+                              ROLE_API_READ: ROLE_API_READ
+                              ROLE_API_WRITE: ROLE_API_WRITE
+                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
+                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
+                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
+                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
+                              ROLE_ADMIN: ROLE_ADMIN
 
         User:
             label: app.menu.users
@@ -250,6 +288,7 @@ easy_admin:
                               ROLE_ADMIN: ROLE_ADMIN
                     - groups
                     - property: plainPassword
+                      help: user.plainPassword.help
                       type: text
                       type_options:
                           required: false
