@@ -84,6 +84,11 @@ Place: Sted
 Add new item: Tilføj ny
 
 event.description: Brødtekst
+event.eventUrl: Eventurl
+event.eventUrl.help: Eventurl, fx til Facebook-event
+
+event.tags.help: Vælg et eller flere tags.
+
 
 Repeating occurrences: Gentagne forekomster
 Start day: Startdato

@@ -123,6 +123,10 @@ easy_admin:
                           required: true
                           multiple: true
                           class: AppBundle\Entity\Tag
+                    - property: eventUrl
+                      label: event.eventUrl
+                      help: event.eventUrl.help
+                      type: url
                     - property: occurrences
                       type: collection
                       type_options:
