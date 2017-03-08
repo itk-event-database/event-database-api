@@ -312,6 +312,7 @@ easy_admin:
             list:
                 fields:
                     - property: name
+                    - property: user
                     - property: url
                       type: url
                     - property: lastRead
@@ -319,8 +320,11 @@ easy_admin:
             form:
                 fields:
                     - property: name
-                    # - property: configuration
-                    #   type: text
+                    - property: user
+                    - property: configuration
+                      type: AdminBundle\Form\YamlType
+                      type_options:
+                          schema: "%kernel.root_dir%/../src/AdminBundle/Resources/public/schema/feed.schema.json"
 
 vich_uploader:
     db_driver: orm
