@@ -15,6 +15,7 @@ class AdminController extends BaseAdminController {
     $event = $this->em->getRepository('AppBundle:Event')->find($id);
     if ($event) {
       $clone = clone $event;
+      $clone->setMaster($event);
       $this->em->persist($clone);
       $this->em->flush();
 
