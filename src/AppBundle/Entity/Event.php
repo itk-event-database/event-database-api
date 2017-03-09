@@ -105,6 +105,13 @@ class Event extends Thing implements Taggable, Blameable {
   private $excerpt;
 
   /**
+   * @var Event
+   *
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event")
+   */
+  private $master;
+
+  /**
    * @var Feed
    *
    * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
@@ -244,7 +251,7 @@ class Event extends Thing implements Taggable, Blameable {
   /**
    * @return string|null
    */
-  public function geteventUrl() {
+  public function getEventUrl() {
     return $this->eventUrl;
   }
 
@@ -266,6 +273,28 @@ class Event extends Thing implements Taggable, Blameable {
    */
   public function setExcerpt($excerpt) {
     $this->excerpt = $excerpt;
+  }
+
+  /**
+   * Sets master.
+   *
+   * @param string $master
+   *
+   * @return $this
+   */
+  public function setMaster($master) {
+    $this->master = $master;
+
+    return $this;
+  }
+
+  /**
+   * Gets master.
+   *
+   * @return string
+   */
+  public function getMaster() {
+    return $this->master;
   }
 
   /**

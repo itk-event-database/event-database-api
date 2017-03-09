@@ -10,11 +10,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 
 class AdminController extends BaseAdminController {
+  protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = NULL, $sortDirection = NULL, $dqlFilter = NULL) {
+    // Use only list fields in search query.
+    $this->entity['search']['fields'] = array_filter($this->entity['search']['fields'], function ($key) {
+      return isset($this->entity['list']['fields'][$key]);
+    }, ARRAY_FILTER_USE_KEY);
+
+    return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+  }
+
   public function cloneEventAction() {
     $id = $this->request->query->get('id');
     $event = $this->em->getRepository('AppBundle:Event')->find($id);
     if ($event) {
       $clone = clone $event;
+      $clone->setMaster($event);
       $this->em->persist($clone);
       $this->em->flush();
 
@@ -37,6 +47,14 @@ class AdminController extends BaseAdminController {
         'action' => 'list',
         'entity' => $this->request->query->get('entity'),
       ));
+  }
+
+  public function createNewEventEntity() {
+    $event = new Event();
+
+    $event->setOccurrences(new ArrayCollection([new Occurrence()]));
+
+    return $event;
   }
 
   public function createNewGroupEntity() {

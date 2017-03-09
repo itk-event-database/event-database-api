@@ -4,6 +4,15 @@
 		});
 
 		window.confirmCreateRepeatingOccurrences = function(form) {
-				return confirm('Please confirm creation of repeating occurrences');
+				var message = 'Please confirm creation of repeating occurrences';
+				try {
+						message = AppBundle.Translations.translate(message);
+				} catch (ex) {}
+				return confirm(message);
 		}
+
+		// @see https://github.com/javiereguiluz/EasyAdminBundle/issues/1518#issuecomment-284824895
+		$('.field-collection').on('easyadmin.collection.item-added', function() {
+				createAutoCompleteFields();
+		});
 }(jQuery));
