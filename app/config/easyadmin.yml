@@ -7,6 +7,8 @@ services:
 easy_admin:
     site_name: 'Aarhus Events'
 
+    disabled_actions: ['delete']
+
     design:
         brand_color: '#154194'
         color_scheme: 'light'
@@ -40,7 +42,7 @@ easy_admin:
               icon: 'cloud-download'
               roles: [ROLE_FEED_EDITOR]
 
-            - label: 'app.menu.api_docs'
+            - label: app.menu.api_docs
               icon: 'book'
               url: '/api/docs'
               target: '_blank'
@@ -67,6 +69,7 @@ easy_admin:
                 title: Events
                 fields:
                     - property: name
+                      label: app.event.name
                     - property: isPublished
                       type: boolean
                       template: yes_no.html.twig
@@ -86,11 +89,13 @@ easy_admin:
             form:
                 fields:
                     - property: name
+                      help: app.event.help.name
                       type_options:
                           required: true
-                      help: app.help.event.name
                     - property: isPublished
+                      help: app.event.help.isPublished
                     - property: langcode
+                      help: app.event.help.langcode
                       type: choice
                       type_options:
                           choices:
@@ -100,34 +105,41 @@ easy_admin:
                               German: de
                           required: true
                     - property: imageFile
+                      help: app.event.help.imageFile
                       type: vich_image
                       type_options:
                           required: true
                       type: url
                     - property: url
+                      help: app.event.help.url
                       type: url
                     - property: videoUrl
+                      help: app.event.help.videoUrl
                     - property: ticketPurchaseUrl
+                      help: app.event.help.ticketPurchaseUrl
                     - property: excerpt
+                      help: app.event.help.excerpt
                       type_options:
                           required: true
                     - property: description
-                      label: event.description
+                      help: app.event.help.description
+                      label: app.event.description
                       type: ckeditor
                       type_options:
                           required: true
                     - property: tags
-                      help: 'app.help.event.tags'
+                      help: app.event.help.tags
                       type: easyadmin_autocomplete
                       type_options:
                           required: true
                           multiple: true
                           class: AppBundle\Entity\Tag
                     - property: eventUrl
-                      label: event.eventUrl
-                      help: event.eventUrl.help
+                      help: app.event.help.eventUrl
+                      label: app.event.eventUrl
                       type: url
                     - property: occurrences
+                      help: app.event.help.occurrences
                       type: collection
                       type_options:
                         entry_type: AdminBundle\Form\OccurrenceType
@@ -138,8 +150,9 @@ easy_admin:
                       css_class: repeating-occurrences
                       label: Repeating occurrences
                       icon: calendar
-                      help: event.repeating_occurrences.help
+                      help: app.event.help.repeating_occurrences
                     - property: repeating_occurrences
+                      # help: app.event.help.repeating_occurrences
                       css_class: repeating-occurrences-form
                       type: AdminBundle\Form\RepeatingOccurrencesType
                       type_options:
@@ -166,9 +179,14 @@ easy_admin:
             form:
                 fields:
                     - property: startDate
+                      help: app.help.occurrence.startDate
+                      type_options:
+                          hest: xxx
                     - property: endDate
+                      help: app.help.occurrence.endDate
                     - property: place
                       type: easyadmin_autocomplete
+                      help: app.help.occurrence.place
 
         Place:
             label: app.menu.places
@@ -177,54 +195,81 @@ easy_admin:
                 title: Places
                 fields:
                     - property: name
-                    - property: url
-                    - property: telephone
-                    - property: disability_access
-                    - property: address_country
-                    - property: address_locality
-                    - property: address_region
-                    - property: postal_code
+                      label: app.place.name
                     - property: street_address
+                      label: app.place.street_address
+                    - property: postal_code
+                      label: app.place.postal_code
+                    - property: address_locality
+                      label: app.place.address_locality
+                    - property: address_region
+                      label: app.place.address_region
+                    - property: address_country
+                      label: app.place.address_country
+                    - property: telephone
+                      label: app.place.telephone
                     - property: email
+                      label: app.place.email
+                    - property: url
+                      label: app.place.url
                     - property: latitude
-                      label: lat_lng
+                      label: app.place.lat_lng
                       template: lat_lng.html.twig
 
             form:
                 fields:
                     - property: name
-                      help: app.help.place.name
-                    - property: description
-                      type: ckeditor
-                      help: app.help.place.description
-                    - property: imageFile
-                      type: vich_image
-
-                    - { type: 'section', label: 'Address' }
+                      label: app.place.name
+                      help: app.place.help.name
+                      type_options:
+                          required: true
                     - property: street_address
+                      label: app.place.street_address
                       type: text
+                      type_options:
+                          required: true
                     - property: postal_code
+                      label: app.place.postal_code
                       type: text
+                      type_options:
+                          required: true
                     - property: address_locality
+                      label: app.place.address_locality
                       type: text
+                      type_options:
+                          required: true
                     - property: address_region
+                      label: app.place.address_region
                       type: text
                     - property: address_country
+                      label: app.place.address_country
                       type: text
                     - property: email
+                      label: app.place.email
                       type: email
                     - property: telephone
+                      label: app.place.telephone
                     - property: latitude
+                      label: app.place.latitude
                       type: number
                       type_options:
                           scale: 7
                     - property: longitude
+                      label: app.place.longitude
                       type: number
                       type_options:
                           scale: 7
-
-                    - { type: 'section', label: 'Miscellaneous' }
+                    - property: description
+                      label: app.place.description
+                      help: app.place.help.description
+                      type: ckeditor
+                    - property: imageFile
+                      label: app.place.imageFile
+                      help: app.place.help.imageFile
+                      type: vich_image
                     - property: disability_access
+                      label: app.place.disability_access
+                      help: app.place.help.disability_access
 
         Group:
             label: app.menu.groups

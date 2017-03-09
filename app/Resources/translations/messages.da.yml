@@ -12,6 +12,61 @@ app:
         event:
             # name: ''
             tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
+
+    event:
+        description: Beskrivelse
+        eventUrl: Eventurl
+        excerpt: Uddrag
+        image: Billede
+        isPublished: Udgivet
+        langcode: Sprog
+        name: Titel
+        occurrences: Dato og tid
+        tags: Tags
+        ticketPurchaseUrl: Billeturl
+        url: Url
+        videoUrl: Videourl
+        help:
+            description: Beskrivelse af begivenheden
+            eventUrl: Eventurl, fx til Facebook-event
+            excerpt: Kort beskrivelse af begivenheden
+            image: Upload et billede
+            imageFile: Upload et billede
+            isPublished: Angiv om begivenheden skal vises
+            langcode: Vælg sprog
+            name: Skriv begivenhedens titel. Undgå overskrifter med kun store bogstaver.
+            occurrences: Angiv dato, tid og sted for begivenheden. Brug "Tilføj et element" hvis begivenheden afholdes mere end én gang.
+            tags: Vælg et eller flere tags.
+            ticketPurchaseUrl: Skriv url til billetkøb
+            url: Url med uddybende beskrivelse af begivenheden
+            videoUrl: Url til video om begivenheden
+            repeating_occurrences: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.
+
+    place:
+        address: Adresse
+        address_country: Land
+        address_locality: By
+        address_region: Område
+        description: Beskrivelse
+        description: Beskrivelse
+        disability_access: Adgang for handicappede
+        email: E-mail
+        imageFile: Billede
+        imageFile: Billede
+        lat_lng: Lokation
+        latitude: Længdegrad
+        longitude: Breddegrad
+        name: Navn
+        postal_code: Postnr.
+        street_address: Adresse
+        telephone: Telefonnr.
+        url: Url
+        help:
+            name: Stedets navn
+            description: Beskrivelse af stedet
+            imageFile: Upload et billede
+            disability_access: Beskriv adgangsmuligheder for handicappede
+
 action:
     delete: Slet
     edit: Rediger
@@ -36,7 +91,6 @@ Event: Begivenhed
 Events: Begivenheder
 Excerpt: Uddrag
 Feed: Feed
-Name: Titel
 Places: Steder
 Tag: Tag
 Updated by: Opdateret af
@@ -83,11 +137,6 @@ End date: Sluttidspunkt
 Place: Sted
 Add new item: Tilføj ny
 
-event.description: Brødtekst
-event.eventUrl: Eventurl
-event.eventUrl.help: Eventurl, fx til Facebook-event
-
-event.tags.help: Vælg et eller flere tags.
 
 
 Repeating occurrences: Gentagne forekomster
@@ -129,19 +178,18 @@ Group: Gruppe
 
 
 
-Telephone: Telefonnr.
-Logo: Logo
-Disability access: Adgang for handicappede
-Address country: Land
-Address locality: By
-Address region: Region
-Postal code: Postnr.
-Street address: Adresse
-Latitude: Længdegrad
-Longitude: Breddegrad
-
-lat_lng: Lokation
 
 
 '%entity_name% created': '%entity_name% oprettet'
 '%entity_name% updated': '%entity_name% opdateret'
+
+
+
+form.type.occurrence.datetime.placeholder.year: åååå
+form.type.occurrence.datetime.placeholder.month: mm
+form.type.occurrence.datetime.placeholder.day: dd
+form.type.occurrence.datetime.placeholder.hour: tt
+form.type.occurrence.datetime.placeholder.minute: mm
+
+
+Please confirm creation of repeating occurrences: Bekræft venligt at du vil oprette gentagne forekomster.

@@ -1,0 +1,13 @@
+<script>
+ AppBundle = {
+	 Translations: {
+		 translations: {
+			 'Please confirm creation of repeating occurrences': {{ 'Please confirm creation of repeating occurrences' | trans | json_encode | raw }}
+		 },
+
+		 translate: function(text) {
+			 return typeof(this.translations[text]) !== 'undefined' ? this.translations[text] : text;
+		 }
+	 }
+ };
+</script>

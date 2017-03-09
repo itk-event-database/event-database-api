@@ -351,6 +351,12 @@ services:
         arguments:
             - AppBundle\Entity\Place
 
+    app.form.type.occurrence:
+        class: AdminBundle\Form\OccurrenceType
+        arguments: ["@translator.default"]
+        tags:
+            - { name: form.type, alias: occurrence }
+
     app.form.type.repeating_occurrences:
         class: AdminBundle\Form\RepeatingOccurrencesType
         arguments: ["@app.reposity.place"]
