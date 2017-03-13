@@ -46,10 +46,7 @@ class YamlType extends AbstractType implements DataTransformerInterface
    * @param array $options
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder
-      ->addViewTransformer($this)
-    //  ->setDataMapper($this)
-    ;
+    $builder->addViewTransformer($this);
   }
 
   /**

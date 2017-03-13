@@ -14,6 +14,7 @@ app:
             tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
 
     event:
+        name: Titel
         description: Beskrivelse
         eventUrl: Eventurl
         excerpt: Uddrag
@@ -34,10 +35,10 @@ app:
             imageFile: Upload et billede
             isPublished: Angiv om begivenheden skal vises
             langcode: Vælg sprog
-            name: Skriv begivenhedens titel. Undgå overskrifter med kun store bogstaver.
+            name: Begivenhedens titel. Undgå titler med kun store bogstaver.
             occurrences: Angiv dato, tid og sted for begivenheden. Brug "Tilføj et element" hvis begivenheden afholdes mere end én gang.
             tags: Vælg et eller flere tags.
-            ticketPurchaseUrl: Skriv url til billetkøb
+            ticketPurchaseUrl: Url til billetkøb
             url: Url med uddybende beskrivelse af begivenheden
             videoUrl: Url til video om begivenheden
             repeating_occurrences: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.

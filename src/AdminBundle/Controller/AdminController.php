@@ -96,7 +96,7 @@ class AdminController extends BaseAdminController {
         /** @var \DateTime $endDay */
         $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : null;
 
-        if ($place && $startDay && $endDay && $startDay < $endDay) {
+        if ($place && $startDay && $endDay && $startDay <= $endDay) {
           $occurrences = new ArrayCollection();
 
           $startDay->setTime(0, 0, 0);
@@ -118,14 +118,13 @@ class AdminController extends BaseAdminController {
             $startDay->add(new \DateInterval('P1D'));
           }
 
-          if ($occurrences->count() > 0) {
-            $event->getOccurrences()->clear();
-            $event->setOccurrences($occurrences);
-            $message = $event->getId()
-              ? sprintf('Updated %d occurrence(s)', count($occurrences))
-              : sprintf('Created %d occurrence(s)', count($occurrences));
-            $this->addFlash('info', $message);
-          }
+          $event->getOccurrences()->clear();
+          $event->setOccurrences($occurrences);
+
+          $message = $event->getId()
+                   ? sprintf('Updated %d occurrence(s)', count($occurrences))
+                   : sprintf('Created %d occurrence(s)', count($occurrences));
+          $this->addFlash('info', $message);
         }
       }
     }
