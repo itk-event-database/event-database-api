@@ -7,6 +7,9 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -34,21 +37,32 @@ class OccurrenceType extends AbstractType {
     $builder
       ->add('startDate', DateTimeType::class, [
         'placeholder' => $placeholder,
-        // 'widget' => 'single_text',
-        // 'html5' => false,
-        'attr' => [
-          'help' => __METHOD__,
-        ],
+        'required' => TRUE,
       ])
       ->add('endDate', DateTimeType::class, [
         'placeholder' => $placeholder,
+        'required' => TRUE,
         'attr' => [
           // 'easyadmin' => ['help' => __METHOD__],
         ],
       ])
       ->add('place', EasyAdminAutocompleteType::class, [
         'class' => Place::class,
+        'required' => TRUE,
       ]);
+
+    $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+      $form = $event->getForm();
+      $place = $form->get('place')->getData();
+      if (!$place) {
+        $form->get('place')->addError(new FormError('Please select a place'));
+      }
+      $startDate = $form->get('startDate')->getData();
+      $endDate = $form->get('endDate')->getData();
+      if ($startDate && $endDate && $endDate <= $startDate) {
+        $form->get('endDate')->addError(new FormError('End date must be after start date'));
+      }
+    });
   }
 
   /**

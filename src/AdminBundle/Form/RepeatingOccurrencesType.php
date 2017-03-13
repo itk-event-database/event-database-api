@@ -8,8 +8,10 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -34,23 +36,36 @@ class RepeatingOccurrencesType extends AbstractType {
     $builder
       ->add('place', EasyAdminAutocompleteType::class, [
         'class' => Place::class,
-        'required' => false,
+        'required' => FALSE,
       ])
       ->add('start_day', DateType::class, [
-        'placeholder' => ['year' => '', 'month' => '', 'day' => ''],
+        'placeholder' => ['year' => 'form.type.occurrence.datetime.placeholder.year', 'month' => 'form.type.occurrence.datetime.placeholder.month', 'day' => 'form.type.occurrence.datetime.placeholder.day'],
       ])
       ->add('end_day', DateType::class, [
-        'placeholder' => ['year' => '', 'month' => '', 'day' => ''],
-      ]);
+        'placeholder' => ['year' => 'form.type.occurrence.datetime.placeholder.year', 'month' => 'form.type.occurrence.datetime.placeholder.month', 'day' => 'form.type.occurrence.datetime.placeholder.day'],
+      ])
+      ;
+
     for ($day = 1; $day <= 7; $day++) {
       $builder
         ->add('start_time_' . $day, TimeType::class, [
-          'placeholder' => ['hour' => '', 'minute' => ''],
+          'placeholder' => ['hour' => 'form.type.occurrence.datetime.placeholder.hour', 'minute' => 'form.type.occurrence.datetime.placeholder.minute'],
         ])
         ->add('end_time_' . $day, TimeType::class, [
-          'placeholder' => ['hour' => '', 'minute' => ''],
+          'placeholder' => ['hour' => 'form.type.occurrence.datetime.placeholder.hour', 'minute' => 'form.type.occurrence.datetime.placeholder.minute'],
         ]);
     }
+
+    // A pseudo field used only for general error messages.
+    $builder->add('message', TextType::class, [
+      'label_attr' => [
+        'class' => 'hidden',
+      ],
+      'attr' => [
+        'class' => 'hidden',
+      ],
+    ]);
+
     $builder->add('update_repeating_occurrences', SubmitType::class, [
       'label' => 'Update repeating occurrences',
       'attr' => [
@@ -72,12 +87,53 @@ class RepeatingOccurrencesType extends AbstractType {
         $parent = $form->getParent();
         if ($parent) {
           if ($form->get('update_repeating_occurrences')->isClicked()) {
+            // We don't want to submit occurrences when (re)creating repeating occurrences.
             $parent->remove('occurrences');
+            $this->validateRepeatingOccurrences($event);
           }
         } else {
+          // We don't want to update repeating occurrences data when not creating repeating occurrences.
           $parent->remove($form->getName());
         }
       });
+  }
+
+  private function validateRepeatingOccurrences(FormEvent $event) {
+    $form = $event->getForm();
+    $place = $form->get('place');
+    if (!$place->getData()) {
+      $place->addError(new FormError('Please select a place'));
+    }
+    $startDay = $form->get('start_day');
+    if (!$startDay->getData()) {
+      $startDay->addError(new FormError('Please specify a start day'));
+    }
+    $endDay = $form->get('end_day');
+    if (!$endDay->getData()) {
+      $endDay->addError(new FormError('Please specify a end day'));
+    }
+    if ($startDay->getData() && $endDay->getData() && $endDay->getData() < $startDay->getData()) {
+      $endDay->addError(new FormError('End day must be after start day'));
+    }
+
+    $numberOfTimeIntervals = 0;
+    for ($day = 1; $day <= 7; $day++) {
+      $startTime = $form->get('start_time_' . $day);
+      $endTime = $form->get('end_time_' . $day);
+
+      if ($startTime->getData() && !$endTime->getData()) {
+        $endTime->addError(new FormError('Please specify an end time'));
+      } elseif (!$startTime->getData() && $endTime->getData()) {
+        $startTime->addError(new FormError('Please specify a start time'));
+      } elseif ($startTime->getData() && $endTime->getData() && $endTime->getData() <= $startTime->getData()) {
+        $endTime->addError(new FormError('End time must be after start time'));
+      } else {
+        $numberOfTimeIntervals++;
+      }
+    }
+    if ($numberOfTimeIntervals === 0) {
+      $form->get('message')->addError(new FormError('Please specify at least one time interval'));
+    }
   }
 
   /**

@@ -252,7 +252,7 @@ class Occurrence extends Entity {
   {
     $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
     $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
-    return $start.' - '.$end;
+    return $start.' - '.$end . ($this->getPlace() ? ' @ ' . $this->getPlace()->getName() : '');
   }
 
 }
