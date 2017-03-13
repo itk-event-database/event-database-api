@@ -7,8 +7,6 @@ services:
 easy_admin:
     site_name: 'Aarhus Events'
 
-    disabled_actions: ['delete']
-
     design:
         brand_color: '#154194'
         color_scheme: 'light'
