@@ -431,6 +431,10 @@ easy_admin:
             label: app.menu.feeds
             class: AdminBundle\Entity\Feed
             list:
+                actions:
+                    - show
+                    - edit
+                    - preview
                 fields:
                     - property: name
                     - property: user
