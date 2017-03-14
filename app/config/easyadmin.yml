@@ -374,7 +374,7 @@ easy_admin:
                               ROLE_ADMIN: ROLE_ADMIN
                     - groups
                     - property: plainPassword
-                      help: user.plainPassword.help
+                      help: app.user.help.plainPassword
                       type: text
                       type_options:
                           required: false

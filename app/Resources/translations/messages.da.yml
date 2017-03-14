@@ -68,6 +68,10 @@ app:
             imageFile: Upload et billede
             disability_access: Beskriv adgangsmuligheder for handicappede
 
+    user:
+        help:
+            plainPassword: Indtast kodeord hvis brugeren skal have et nyt kodeord.
+
 action:
     delete: Slet
     edit: Rediger
