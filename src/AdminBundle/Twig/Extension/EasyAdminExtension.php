@@ -52,6 +52,7 @@ class EasyAdminExtension extends Twig_Extension {
         $action = EditVoter::REMOVE;
         break;
       case 'show':
+      case 'preview':
         return true;
     }
 

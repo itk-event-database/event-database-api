@@ -45,6 +45,10 @@ easy_admin:
               url: '/api/docs'
               target: '_blank'
 
+            - label: Sign out
+              icon: sign-out
+              route: fos_user_security_logout
+
     formats:
         date:     'd/m/Y'
         time:     'H:i'
@@ -431,6 +435,10 @@ easy_admin:
             label: app.menu.feeds
             class: AdminBundle\Entity\Feed
             list:
+                actions:
+                    - show
+                    - edit
+                    - preview
                 fields:
                     - property: name
                     - property: user
