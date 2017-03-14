@@ -67,6 +67,10 @@ class EventListener extends EditListener {
     }
   }
 
+  public function postUpdate(LifecycleEventArgs $args) {
+    $this->postPersist($args);
+  }
+
   /**
    *
    */
