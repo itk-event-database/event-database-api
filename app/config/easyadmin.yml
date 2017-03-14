@@ -45,6 +45,10 @@ easy_admin:
               url: '/api/docs'
               target: '_blank'
 
+            - label: Sign out
+              icon: sign-out
+              route: fos_user_security_logout
+
     formats:
         date:     'd/m/Y'
         time:     'H:i'
