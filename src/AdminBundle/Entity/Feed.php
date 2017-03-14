@@ -206,6 +206,10 @@ class Feed {
     return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : NULL;
   }
 
+  public function getDateFormat() {
+    return isset($this->configuration['dateFormat']) ? $this->configuration['dateFormat'] : NULL;
+  }
+
   public function __toString()
   {
     return $this->getName();
