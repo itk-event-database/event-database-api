@@ -24,6 +24,7 @@ class EventFactoryTest extends DatabaseTestCase {
 
     $data = [
       'name' => 'Some event',
+      'feed_event_id' => uniqid(),
       'occurrences' => [
         [
           'startDate' => new \DateTime('2000-01-01'),
