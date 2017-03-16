@@ -6,16 +6,19 @@ Based on https://api-platform.com/
 Installation
 ------------
 
+Get the code
+
 ```
-./install.sh
+git clone https://github.com/itk-event-database/event-database-api.git htdocs
+```
 
-vagrant up
-vagrant ssh
+Install
 
-cd /vagrant/htdocs
-mysql -u root -e "create database symfony"
+```
+cd htdocs
 composer install
-bin/console doctrine:migrations:migrate
+bin/console doctrine:database:create
+bin/console doctrine:migrations:migrate --no-interaction
 ```
 
 Install assets
@@ -47,6 +50,13 @@ bin/console fos:user:promote api-read ROLE_API_READ
 
 bin/console fos:user:create api-write api-write@example.com apipass
 bin/console fos:user:promote api-write ROLE_API_WRITE
+```
+
+Create admin user:
+
+```
+bin/console fos:user:create admin admin@example.com password
+bin/console fos:user:promote admin ROLE_SUPER_ADMIN
 ```
 
 Using the API

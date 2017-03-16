@@ -1,14 +1,22 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
 {% block body %}
-	<div class="row">
+  <div class="row">
     <div class="col-md-12">
-      <section id="technical-stuff">
-        <h1>{{ 'Technical stuff' | trans }}</h1>
+      <section id="api">
+        <h1>{{ 'API' | trans }}</h1>
 
         <ul class="list-unstyled">
-          <li><a href="{{ path('api_doc') }}" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Fancy API documentation</a></li>
-          <li><a href="{{ github_url }}" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Source code for the API and related stuff</a></li>
+          <li><a href="{{ path('api_doc') }}" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Automatically generated API documentation</a></li>
+          <li><a href="https://github.com/itk-event-database/event-database-api/blob/master/docs/api-examples.md" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> API examples</a></li>
+        </ul>
+      </section>
+
+      <section id="api">
+        <h1>{{ 'Source code' | trans }}</h1>
+
+        <ul class="list-unstyled">
+          <li><a href="https://github.com/itk-event-database/event-database-api" target="_blank"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span> Source code for the API</a></li>
         </ul>
       </section>
     </div>

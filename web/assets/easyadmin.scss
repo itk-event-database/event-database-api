@@ -1,0 +1,41 @@
+.easyadmin {
+	form[name=event] {
+		.field-occurrence {
+			> .control-label {
+				display: none;
+			}
+		}
+
+		.repeating-occurrences {
+			.box-header {
+				cursor: pointer;
+
+				&:after {
+					font: normal normal normal 14px/1 FontAwesome;
+					content: '\f0d7';
+					position: absolute;
+					right: 1em;
+					top: 50%;
+					line-height: 0;
+					display: block;
+				}
+			}
+
+			.box-body {
+				display: none;
+			}
+
+			&.expanded {
+				.box-header {
+					&:after {
+						content: '\f0d8';
+					}
+				}
+
+				.box-body {
+					display: block;
+				}
+			}
+		}
+	}
+}

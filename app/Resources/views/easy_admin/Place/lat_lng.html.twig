@@ -1,0 +1,6 @@
+{% if item.latitude and item.longitude %}
+	{% set url = 'http://maps.google.com/maps?' ~ ({ 'z': 15, 'q': 'loc:' ~ item.latitude ~ ',' ~ item.longitude } | url_encode) %}
+	<a href="{{ url }}">{{ item.latitude }}, {{ item.longitude }}</a>
+{% else %}
+	<span class="place-no-location">–</span>
+{% endif %}

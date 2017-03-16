@@ -82,6 +82,7 @@ class ImportFeedCommand extends FeedCommand {
     }
     $feed
       ->setCreatedBy($user)
+      ->setUser($user)
       ->setName($name)
       ->setConfiguration($configuration);
 

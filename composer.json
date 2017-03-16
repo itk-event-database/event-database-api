@@ -19,7 +19,7 @@
         "psr-4": { "Tests\\": "tests/" }
     },
     "require": {
-        "php": ">=7.0",
+        "php": "~7.0.0",
         "symfony/symfony": "3.1.*",
         "symfony/property-info": "3.2.*@dev",
         "api-platform/core": "^2.0@rc",
@@ -48,7 +48,10 @@
         "psr/log": "1.0.0",
         "resquebundle/resque": "^1.0",
         "exercise/htmlpurifier-bundle": "^0.2.3",
-        "sebastian/diff": "^1.4"
+        "sebastian/diff": "^1.4",
+        "javiereguiluz/easyadmin-bundle": "^1.16",
+        "vich/uploader-bundle": "^1.5",
+        "egeloen/ckeditor-bundle": "^4.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
