@@ -72,7 +72,7 @@ class ValueConverter {
     if ($date === NULL) {
       try {
         $timeZone = $this->feed ? $this->feed->getTimeZone() : null;
-        $format = $this->feed->getDateFormat();
+        $format = $this->feed ? $this->feed->getDateFormat() : null;
         $date = $format
               ? \DateTime::createFromFormat($format, $value, $timeZone)
               : new \DateTime($value, $timeZone);
