@@ -26,6 +26,7 @@ An event must either provide a start time and an end time or a list of [*occurre
 |-------------|---------------------------|----------|---------|
 | id          | integer or string         | Yes      | A unique identifier for the event. Used to detect if an event is new or an update. |
 | name        | string                    | Yes      | Name of the event |
+| image       | url                       | Yes      | Image for the event |
 | description | string                    | Yes      | Can contain HTML. |
 | excerpt     | string                    | No       | Short description. If not set, it will be generated from "description" |
 | occurrences | list of occurrences       | Yes†     | † See [Note on occurrences](#note-on-occurrences). |
