@@ -47,8 +47,8 @@ mounts:
 # The hooks that will be performed when the package is deployed.
 hooks:
     build: |
-      SYMFONY_ENV=prod composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
       rm -fr var/cache/*/* web/app_dev.php
+      SYMFONY_ENV=prod composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
       SYMFONY_ENV=prod bin/console assets:install --no-debug
     deploy: |
       SYMFONY_ENV=prod bin/console doctrine:migrations:migrate --no-interaction
