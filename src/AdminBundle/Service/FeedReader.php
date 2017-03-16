@@ -90,7 +90,10 @@ class FeedReader implements Controller {
   public function read(Feed $feed, User $user = NULL) {
     $this->feed = $feed;
     if (!$user) {
-      $user = $this->feed->getCreatedBy();
+      $user = $this->feed->getUser();
+    }
+    if (!$user) {
+      throw new \Exception('No user on feed.');
     }
     if ($this->authenticator) {
       $this->authenticator->authenticate($user);
@@ -186,9 +189,12 @@ class FeedReader implements Controller {
     $data['feed'] = $this->feed;
     $data['feed_event_id'] = $data['id'];
     $event = $this->eventImporter->import($data);
-
-    $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
-    $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
+    if ($event) {
+      $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
+      $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
+    } else {
+      $this->writeln(sprintf('Cannot import event: id: %s; feed: %s', var_export($data['id'], true), $this->feed->getName()));
+    }
   }
 
   /**

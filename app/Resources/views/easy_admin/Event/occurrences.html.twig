@@ -1,0 +1,21 @@
+<div class="occurrences">
+	{% if item.occurrences %}
+		<ol>
+			{% for occurrence in item.occurrences %}
+				<li>
+					{%- if (occurrence.startDate | date('Y-m-d')) == (occurrence.endDate | date('Y-m-d')) -%}
+						{{ occurrence.startDate | date('Y-m-d') }}
+						<span class="start-time">{{- occurrence.startDate | date('H:i') -}}</span>–<span class="end-time">{{- occurrence.endDate | date('H:i') -}}</span>
+					{%- else -%}
+						<span class="start-time">{{ occurrence.startDate | date('Y-m-d H:i') }}</span>
+						–
+						<span class="end-time">{{ occurrence.endDate | date('Y-m-d H:i') }}</span>
+					{%- endif -%};
+					<span class="place">{{ occurrence.place.name }}</span>
+				</li>
+			{% endfor %}
+		</ol>
+	{% else %}
+		<span class="no-occurrences">–</span>
+	{% endif %}
+</div>

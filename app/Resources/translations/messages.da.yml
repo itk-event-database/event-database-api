@@ -1,0 +1,202 @@
+app:
+    menu:
+        events: Begivenheder
+        places: Steder
+        groups: Grupper
+        users: Brugere
+        tags: Tags
+        unknown_tags: Ukendte tags
+        feeds: Feeds
+        api_docs: API-dokumentation
+    help:
+        event:
+            # name: ''
+            tags: Non nobis, Domine, non nobis, sed nomini tuo da gloriam.
+
+    event:
+        name: Titel
+        description: Beskrivelse
+        eventUrl: Eventurl
+        excerpt: Uddrag
+        image: Billede
+        isPublished: Udgivet
+        langcode: Sprog
+        name: Titel
+        occurrences: Dato og tid
+        tags: Tags
+        ticketPurchaseUrl: Billeturl
+        url: Url
+        videoUrl: Videourl
+        help:
+            description: Beskrivelse af begivenheden
+            eventUrl: Eventurl, fx til Facebook-event
+            excerpt: Kort beskrivelse af begivenheden
+            image: Upload et billede
+            imageFile: Upload et billede
+            isPublished: Angiv om begivenheden skal vises
+            langcode: Vælg sprog
+            name: Begivenhedens titel. Undgå titler med kun store bogstaver.
+            occurrences: Angiv dato, tid og sted for begivenheden. Brug "Tilføj et element" hvis begivenheden afholdes mere end én gang.
+            tags: Vælg et eller flere tags.
+            ticketPurchaseUrl: Url til billetkøb
+            url: Url med uddybende beskrivelse af begivenheden
+            videoUrl: Url til video om begivenheden
+            repeating_occurrences: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.
+
+    place:
+        address: Adresse
+        address_country: Land
+        address_locality: By
+        address_region: Område
+        description: Beskrivelse
+        description: Beskrivelse
+        disability_access: Adgang for handicappede
+        email: E-mail
+        imageFile: Billede
+        imageFile: Billede
+        lat_lng: Lokation
+        latitude: Længdegrad
+        longitude: Breddegrad
+        name: Navn
+        postal_code: Postnr.
+        street_address: Adresse
+        telephone: Telefonnr.
+        url: Url
+        help:
+            name: Stedets navn
+            description: Beskrivelse af stedet
+            imageFile: Upload et billede
+            disability_access: Beskriv adgangsmuligheder for handicappede
+
+    user:
+        help:
+            plainPassword: Indtast kodeord hvis brugeren skal have et nyt kodeord.
+
+action:
+    delete: Slet
+    edit: Rediger
+    list: Tilbage til oversigten
+    remove_item: Slet element
+    save: Gem
+    search: Søg
+    new: Tilføj %entity_name%
+    show: Vis
+    cancel: Annuller
+
+label:
+    yes: ja
+    no: nej
+    form:
+        empty_value: (tom)
+
+label.null: '–'
+
+Clone: Kopier
+Event: Begivenhed
+Events: Begivenheder
+Excerpt: Uddrag
+Feed: Feed
+Places: Steder
+Tag: Tag
+Updated by: Opdateret af
+Updated: Opdateret
+
+Username: Brugernavn
+Email: E-mail
+Roles: Roller
+
+ROLE_USER: Bruger
+ROLE_API_READ: API-læseadgang
+ROLE_API_WRITE: API-skriveadgang
+ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_PLACE_EDITOR: Stedredaktør
+ROLE_TAG_EDITOR: Tagredaktør
+ROLE_USER_EDITOR: Brugerredaktør
+ROLE_FEED_EDITOR: Feedredaktør
+ROLE_ADMIN: Administrator
+ROLE_SUPER_ADMIN: Superadministrator
+Groups: Grupper
+Enabled: Aktiv
+
+
+Plain password: Adgangskode
+
+
+Is published: Udgivet
+Image: Billede
+Tags: Tags
+
+Actions: Handlinger
+Show: Vis
+Search: Søg
+
+
+
+Url: Url
+Video url: Videourl
+Ticket purchase url: Billeturl
+Description: Beskrivelse
+Occurrences: Dato og tid
+Start date: Starttidspunkt
+End date: Sluttidspunkt
+Place: Sted
+Add new item: Tilføj ny
+
+
+
+Repeating occurrences: Gentagne forekomster
+Start day: Startdato
+End day: Slutdato
+Start time 1: Mandag, starttidspunkt
+End time 1: Mandag, sluttidspunkt
+Start time 2: Tirsdag, starttidspunkt
+End time 2: Tirsdag, sluttidspunkt
+Start time 3: Onsdag, starttidspunkt
+End time 3: Onsdag, sluttidspunkt
+Start time 4: Torsdag, starttidspunkt
+End time 4: Torsdag, sluttidspunkt
+Start time 5: Fredag, starttidspunkt
+End time 5: Fredag, sluttidspunkt
+Start time 6: Lørdag, starttidspunkt
+End time 6: Lørdag, sluttidspunkt
+Start time 7: Søndag, starttidspunkt
+End time 7: Søndag, sluttidspunkt
+Update repeating occurrences: Opdater gentagne forekomster
+
+Langcode: Sprog
+Danish: Dansk
+English: Engelsk
+German: Tysk
+Image file: Billede
+
+Last login: Seneste login
+User: Bruger
+Users: Brugere
+
+UnknownTag: Ukendt tag
+Last read: Senest læst
+
+Group: Gruppe
+
+'%entity_label%': '%entity_label%'
+
+
+Sign in: Log ind
+Sign out: Log ud
+
+
+
+
+'%entity_name% created': '%entity_name% oprettet'
+'%entity_name% updated': '%entity_name% opdateret'
+
+
+
+form.type.occurrence.datetime.placeholder.year: åååå
+form.type.occurrence.datetime.placeholder.month: mm
+form.type.occurrence.datetime.placeholder.day: dd
+form.type.occurrence.datetime.placeholder.hour: tt
+form.type.occurrence.datetime.placeholder.minute: mm
+
+
+Please confirm creation of repeating occurrences: Bekræft venligt at du vil oprette gentagne forekomster.

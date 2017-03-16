@@ -1,71 +1,73 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<title>{% block title %}Events database{% endblock %}</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
-		<link rel="stylesheet" href="{{ asset('bundles/admin/stylesheets/styles.css') }}"/>
-		{% block stylesheets %}{% endblock %}
-	</head>
-	<body>
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">{{ 'Toggle navigation' | trans }}</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a href="/" class="navbar-brand">{{ site_title }}</a>
-				</div>
-				<div id="navbar" class="collapse navbar-collapse">
-					{% if app.user %}
-						<ul class="nav navbar-nav">
-							{% if is_granted('ROLE_EVENT_EDITOR') %}
-								<li><a href="http://event-database-editor.hulk.aakb.dk/">{{ 'Event editor' | trans }}</a></li>
-							{% endif %}
-							{% if is_granted('ROLE_FEED_EDITOR') %}
-								<li><a href="{{ path('admin_feed') }}">{{ 'Feeds' | trans }}</a></li>
-							{% endif %}
-							{% if is_granted('ROLE_TAG_EDITOR') %}
-								<li><a href="{{ path('admin_tag') }}">{{ 'Tags' | trans }}</a></li>
-								<li><a href="{{ path('admin_unknown_tag') }}">{{ 'Unknown tags' | trans }}</a></li>
-							{% endif %}
-							{% if is_granted('ROLE_USER_EDITOR') %}
-								<li><a href="{{ path('admin_user') }}">{{ 'User' | trans }}</a></li>
-							{% endif %}
-							{% if is_granted('ROLE_SUPER_ADMIN') %}
-								<li><a href="/resque">Jobs</a></li>
-							{% endif %}
-						</ul>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}Events database{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{{ asset('bundles/admin/stylesheets/styles.css') }}"/>
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">{{ 'Toggle navigation' | trans }}</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/" class="navbar-brand">{{ site_title }}</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          {% if app.user %}
+            <ul class="nav navbar-nav">
+              {% if is_granted('ROLE_EVENT_EDITOR') %}
+                <li><a href="{{ path('easyadmin', { 'entity': 'Event' }) }}">{{ 'Event editor' | trans }}</a></li>
+              {% endif %}
+              {% if is_granted('ROLE_PLACE_EDITOR') %}
+                <li><a href="{{ path('easyadmin', { 'entity': 'Place' }) }}">{{ 'Place editor' | trans }}</a></li>
+              {% endif %}
+              {% if is_granted('ROLE_FEED_EDITOR') %}
+                <li><a href="{{ path('easyadmin', { 'entity': 'Feed' }) }}">{{ 'Feeds' | trans }}</a></li>
+              {% endif %}
+              {% if is_granted('ROLE_TAG_EDITOR') %}
+                <li><a href="{{ path('easyadmin', { 'entity': 'Tag' }) }}">{{ 'Tags' | trans }}</a></li>
+              {% endif %}
+              {% if is_granted('ROLE_USER_EDITOR') %}
+                <li><a href="{{ path('easyadmin', { 'entity': 'User' }) }}">{{ 'Users' | trans }}</a></li>
+              {% endif %}
+              {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li><a href="/resque">Jobs</a></li>
+              {% endif %}
+            </ul>
 
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									{{ 'Signed in as %username%' | trans({ '%username%': app.user.username}) }} <span class="caret"></span>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="{{ path('fos_user_profile_show') }}">{{ 'Profile' | trans }}</a></li>
-									<li><a href="{{ path('fos_user_change_password') }}">{{ 'Change password' | trans }}</a></li>
-								</ul>
-							</li>
-							<li><a href="{{ path('fos_user_security_logout') }}">{{ 'Sign out' | trans }}</a></li>
-						</ul>
-					{% else %}
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="{{ path('fos_user_security_login') }}">{{ 'Sign in' | trans }}</a></li>
-						</ul>
-					{% endif %}
-				</div>
-			</div>
-		</nav>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  {{ 'Signed in as %username%' | trans({ '%username%': app.user.username}) }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ path('fos_user_profile_show') }}">{{ 'Profile' | trans }}</a></li>
+                  <li><a href="{{ path('fos_user_change_password') }}">{{ 'Change password' | trans }}</a></li>
+                </ul>
+              </li>
+              <li><a href="{{ path('fos_user_security_logout') }}">{{ 'Sign out' | trans }}</a></li>
+            </ul>
+          {% else %}
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ path('fos_user_security_login') }}">{{ 'Sign in' | trans }}</a></li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
 
-		<div class="container">
-			{% for type, messages in app.session.flashbag.all() %}
-				{% set type = (type == 'error') ? 'danger' : type %}
+    <div class="container">
+      {% for type, messages in app.session.flashbag.all() %}
+        {% set type = (type == 'error') ? 'danger' : type %}
         {% for message in messages %}
           <div class="alert alert-{{ type }}">
             {{ message }}
@@ -73,11 +75,11 @@
         {% endfor %}
       {% endfor %}
 
-			{% block body %}{% endblock %}
-		</div>
+      {% block body %}{% endblock %}
+    </div>
 
-		<script src="//code.jquery.com/jquery.js"></script>
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		{% block javascripts %}{% endblock %}
-	</body>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    {% block javascripts %}{% endblock %}
+  </body>
 </html>

@@ -44,9 +44,11 @@ class EventFactory extends EntityFactory {
    */
   public function get(array $data) {
     $entity = $this->getEntity($data);
-    $this->setValues($entity, $data);
-    $this->persist($entity);
-    $this->flush();
+    if ($entity) {
+      $this->setValues($entity, $data);
+      $this->persist($entity);
+      $this->flush();
+    }
 
     return $entity;
   }
@@ -59,6 +61,10 @@ class EventFactory extends EntityFactory {
     $feed = isset($data['feed']) ? $data['feed'] : NULL;
     $feedEventId = isset($data['feed_event_id']) ? $data['feed_event_id'] : NULL;
     $id = isset($data['id']) ? $data['id'] : uniqid();
+
+    if (!$feedEventId) {
+      return NULL;
+    }
 
     $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
       'feed' => $feed,

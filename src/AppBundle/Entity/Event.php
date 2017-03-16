@@ -32,7 +32,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.order", "event.order.default" },
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.order", "event.order.default" },
  *     "validation_groups"={"event_write"}
  *   }
  * )
@@ -52,6 +52,16 @@ class Event extends Thing implements Taggable, Blameable {
   private $id;
 
   /**
+   * @var boolean
+   *
+   * @Groups({"event_read", "event_write"})
+   * @ORM\Column(type="boolean")
+   * @Assert\Type(type="boolean")
+   * @ApiProperty(iri="http://schema.org/Boolean")
+   */
+  private $isPublished = true;
+
+  /**
    * @var ArrayCollection
    *
    * @Groups({"event_read", "event_write"})
@@ -64,7 +74,7 @@ class Event extends Thing implements Taggable, Blameable {
   /**
    * @var string The URI for ticket purchase
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
@@ -72,9 +82,19 @@ class Event extends Thing implements Taggable, Blameable {
   private $ticketPurchaseUrl;
 
   /**
+   * @var string The URI for (Facebook) event.
+   *
+   * @Groups({"event_read", "occurrence_read", "event_write"})
+   * @ORM\Column(nullable=true)
+   * @Assert\Type(type="string")
+   * @ApiProperty(iri="http://schema.org/url")
+   */
+  private $eventUrl;
+
+  /**
    * @var string Excerpt, i.e. short description, without any markup
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    * @Assert\Length(
@@ -83,6 +103,13 @@ class Event extends Thing implements Taggable, Blameable {
    * )
    */
   private $excerpt;
+
+  /**
+   * @var Event
+   *
+   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event")
+   */
+  private $master;
 
   /**
    * @var Feed
@@ -121,15 +148,38 @@ class Event extends Thing implements Taggable, Blameable {
   }
 
   /**
+   * Sets isPublished.
+   *
+   * @param int $isPublished
+   *
+   * @return $this
+   */
+  public function setIsPublished($isPublished) {
+    $this->isPublished = $isPublished;
+
+    return $this;
+  }
+
+  /**
+   * Gets isPublished.
+   *
+   * @return int
+   */
+  public function getIsPublished() {
+    return $this->isPublished;
+  }
+
+  /**
    *
    */
   public function setOccurrences($occurrences) {
     // Remove (and implicitly delete) occurrences that will be orphaned after
-    // updating settings (new) occurrences.
+    // setting (new) occurrences.
     $keepIds = [];
     foreach ($occurrences as $occurrence) {
       $keepIds[] = $occurrence->getId();
     }
+
     foreach ($this->occurrences as $occurrence) {
       if (!in_array($occurrence->getId(), $keepIds)) {
         $this->occurrences->removeElement($occurrence);
@@ -199,6 +249,19 @@ class Event extends Thing implements Taggable, Blameable {
   }
 
   /**
+   * @return string|null
+   */
+  public function getEventUrl() {
+    return $this->eventUrl;
+  }
+
+  /**
+   * @param string $eventUrl
+   */
+  public function setEventUrl($eventUrl) {
+    $this->eventUrl = $eventUrl;
+  }
+  /**
    * @return string
    */
   public function getExcerpt() {
@@ -213,6 +276,28 @@ class Event extends Thing implements Taggable, Blameable {
   }
 
   /**
+   * Sets master.
+   *
+   * @param string $master
+   *
+   * @return $this
+   */
+  public function setMaster($master) {
+    $this->master = $master;
+
+    return $this;
+  }
+
+  /**
+   * Gets master.
+   *
+   * @return string
+   */
+  public function getMaster() {
+    return $this->master;
+  }
+
+  /**
    *
    */
   public function __construct() {
@@ -222,7 +307,7 @@ class Event extends Thing implements Taggable, Blameable {
   /**
    * @var ArrayCollection
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ ORM\Column(type="array", nullable=true)
    */
   private $tags;
@@ -263,4 +348,30 @@ class Event extends Thing implements Taggable, Blameable {
     return $this->tags;
   }
 
+  public function __clone() {
+    $this->setId(null);
+    $this->setIsPublished(false);
+    $self = $this;
+    $this->occurrences = $this->getOccurrences()->map(function ($occurrence) use ($self) {
+      $clone = clone $occurrence;
+      $clone->setId(null);
+      $clone->setEvent($self);
+      return $clone;
+    });
+  }
+
+  /**
+   * @var array
+   *
+   * @ORM\Column(type="array")
+   */
+  private $repeatingOccurrences = [];
+
+  public function setRepeatingOccurrences(array $repeatingOccurrences) {
+    $this->repeatingOccurrences = $repeatingOccurrences;
+  }
+
+  public function getRepeatingOccurrences() {
+    return $this->repeatingOccurrences;
+  }
 }

@@ -42,7 +42,7 @@ abstract class FeedCommand extends ContainerAwareCommand {
       'name:   ' . $feed->getName(),
       'id:     ' . $feed->getId(),
       'url:    ' . $feed->getUrl(),
-      'user:   ' . $feed->getCreatedBy(),
+      'user:   ' . $feed->getUser(),
     ]);
   }
 
@@ -60,14 +60,14 @@ abstract class FeedCommand extends ContainerAwareCommand {
    * Get feeds.
    *
    */
-  protected function getFeeds($id, $name) {
+  protected function getFeeds($ids, $names) {
     $repository = $this->getContainer()->get('doctrine')->getRepository('AdminBundle:Feed');
     $query = [];
-    if ($id) {
-      $query['id'] = $id;
+    if ($ids) {
+      $query['id'] = $ids;
     }
-    if ($name) {
-      $query['name'] = $name;
+    if ($names) {
+      $query['name'] = $names;
     }
 
     return $repository->findBy($query);

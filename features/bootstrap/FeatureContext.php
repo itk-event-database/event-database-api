@@ -8,12 +8,12 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Symfony2Extension\Context\KernelAwareContext;
+use Behatch\Context\BaseContext;
+use Behatch\HttpCall\Request;
+use Behatch\Json\Json;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
-use Sanpi\Behatch\Context\BaseContext;
-use Sanpi\Behatch\HttpCall\Request;
-use Sanpi\Behatch\Json\Json;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
 

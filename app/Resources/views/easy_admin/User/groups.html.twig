@@ -1,0 +1,7 @@
+<div class="user-groups">
+	{% for group in item.groups %}
+		<span class="user-group">{{ group.name }}</span>{% if not loop.last %}, {% endif %}
+  {% else %}
+		<span class="user-no-groups">–</span>
+	{% endfor %}
+</div>

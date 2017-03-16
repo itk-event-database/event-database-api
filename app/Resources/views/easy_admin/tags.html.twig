@@ -1,0 +1,7 @@
+<div class="tags">
+	{% for tag in item.tags %}
+		<span class="tag">{{ tag | trans }}</span>{% if not loop.last %}, {% endif %}
+  {% else %}
+		<span class="no-tags">–</span>
+	{% endfor %}
+</div>

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *   attributes = {
  *     "jsonld_embed_context" = true,
- *     "normalization_context" = { "groups" = { "event_read", "place_read" } },
+ *     "normalization_context" = { "groups" = { "occurrence_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
  *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.order" }
  *   }
@@ -39,35 +39,35 @@ class Occurrence extends Entity {
 
   /**
    * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences")
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    */
   protected $event;
 
   /**
    * @var \DateTime
    * @ORM\Column(type="datetime", nullable=true)
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    */
   protected $startDate;
 
   /**
    * @var \DateTime
    * @ORM\Column(type="datetime", nullable=true)
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    */
   protected $endDate;
 
   /**
    * @var Place
    * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences")
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    */
   protected $place;
 
   /**
    * @var string The range of prices for tickets.
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    */
@@ -76,7 +76,7 @@ class Occurrence extends Entity {
   /**
    * @var string The status of the event
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    */
@@ -94,7 +94,7 @@ class Occurrence extends Entity {
    * 6: Moved
    * 7: Ekstra show
    *
-   * @Groups({"event_read", "event_write"})
+   * @Groups({"occurrence_read", "event_read", "event_write"})
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="integer")
    */
@@ -246,6 +246,13 @@ class Occurrence extends Entity {
    */
   public function setEventStatusText($eventStatusText) {
     $this->eventStatusText = $eventStatusText;
+  }
+
+  public function __toString()
+  {
+    $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
+    $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
+    return $start.' - '.$end . ($this->getPlace() ? ' @ ' . $this->getPlace()->getName() : '');
   }
 
 }
