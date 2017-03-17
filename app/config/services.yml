@@ -209,6 +209,11 @@ services:
             - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
 
+    feed_manager:
+        class: AdminBundle\Service\FeedManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
     twig_extension:
         class: AdminBundle\Twig\Extension\TwigExtension
         tags:

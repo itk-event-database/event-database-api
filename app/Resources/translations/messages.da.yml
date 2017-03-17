@@ -200,3 +200,11 @@ form.type.occurrence.datetime.placeholder.minute: mm
 
 
 Please confirm creation of repeating occurrences: Bekræft venligt at du vil oprette gentagne forekomster.
+
+Name: Navn
+Configuration: Konfiguration
+Close: Luk
+Disable feed: Deaktiver feed
+Enable feed: Aktiver feed
+feed.disable.confirm.message: Bekræft at du vil deaktivere feedet %feed_name%. Alle event fra feedet vil blive slettet.
+feed.enable.confirm.message: Bekræft at du vil aktivere feedet %feed_name%.

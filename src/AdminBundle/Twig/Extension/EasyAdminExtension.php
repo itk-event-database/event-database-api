@@ -5,15 +5,13 @@ namespace AdminBundle\Twig\Extension;
 use AppBundle\Security\Authorization\Voter\EditVoter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Twig_Extension;
-use Twig_SimpleFunction;
 
 /**
  * Class TwigExtension.
  *
  * @package AdminBundle\Twig\Extension
  */
-class EasyAdminExtension extends Twig_Extension {
+class EasyAdminExtension extends \Twig_Extension {
   /**
    * @var \AdminBundle\Twig\Extension\TokenStorageInterface
    */
@@ -34,7 +32,15 @@ class EasyAdminExtension extends Twig_Extension {
    */
   public function getFunctions() {
     return [
-      new Twig_SimpleFunction('can_perform_action', [$this, 'canPerformAction'], ['is_safe' => ['all']]),
+      new \Twig_Function('can_perform_action', [$this, 'canPerformAction'], ['is_safe' => ['all']]),
+    ];
+  }
+
+  public function getTests() {
+    return [
+      new \Twig_Test('instanceof', function ($var, $class) {
+        return $var instanceof $class;
+      }),
     ];
   }
 
@@ -52,7 +58,6 @@ class EasyAdminExtension extends Twig_Extension {
         $action = EditVoter::REMOVE;
         break;
       case 'show':
-      case 'preview':
         return true;
     }
 

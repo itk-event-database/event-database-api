@@ -1,7 +1,19 @@
-{% extends '@EasyAdmin/default/new.html.twig' %}
+{% extends '@EasyAdmin/default/edit.html.twig' %}
 
 {% block body_javascript %}
 	{{ parent() }}
 
 	{% include 'include/_translations.js.twig' %}
+{% endblock %}
+
+{% block _main %}
+	{{ dump() }}
+{% endblock %}
+
+{% block entity_form %}
+	{{ parent() }}
+
+	{% if entity is instanceof('AdminBundle\\Entity\\Feed') %}
+		{% include 'include/_edit_feed.html.twig' %}
+	{% endif %}
 {% endblock %}
