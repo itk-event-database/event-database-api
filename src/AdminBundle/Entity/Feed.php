@@ -61,6 +61,13 @@ class Feed {
   private $lastRead;
 
   /**
+   * @var bool
+   *
+   * @ORM\Column(type="boolean")
+   */
+  private $enabled = false;
+
+  /**
    * Get id.
    *
    * @return integer
@@ -155,6 +162,14 @@ class Feed {
    */
   public function getLastRead() {
     return $this->lastRead;
+  }
+
+  public function setEnabled($enabled) {
+    $this->enabled = $enabled;
+  }
+
+  public function getEnabled() {
+    return $this->enabled;
   }
 
   /**

@@ -69,6 +69,7 @@ abstract class FeedCommand extends ContainerAwareCommand {
     if ($names) {
       $query['name'] = $names;
     }
+    $query['enabled'] = true;
 
     return $repository->findBy($query);
   }
