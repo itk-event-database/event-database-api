@@ -3,19 +3,18 @@
 namespace AppBundle\Entity;
 
 use AdminBundle\Entity\Feed;
-
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use AppBundle\Traits\BlameableEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use DoctrineExtensions\Taggable\Taggable;
 use Gedmo\Blameable\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use AppBundle\Traits\BlameableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.
@@ -103,6 +102,13 @@ class Event extends Thing implements Taggable, Blameable {
    * )
    */
   private $excerpt;
+
+  /**
+   * @var Organizer
+   * @ORM\ManyToOne(targetEntity="Organizer", inversedBy="events")
+   * @Groups({"event_read", "event_write"})
+   */
+  protected $organizer;
 
   /**
    * @var Event
@@ -275,6 +281,14 @@ class Event extends Thing implements Taggable, Blameable {
     $this->excerpt = $excerpt;
   }
 
+  public function setOrganizer(Organizer $organizer = NULL) {
+    $this->organizer = $organizer;
+  }
+
+  public function getOrganizer() {
+    return $this->organizer;
+  }
+
   /**
    * Sets master.
    *
@@ -373,5 +387,9 @@ class Event extends Thing implements Taggable, Blameable {
 
   public function getRepeatingOccurrences() {
     return $this->repeatingOccurrences;
+  }
+
+  public function __toString() {
+    return $this->getName();
   }
 }

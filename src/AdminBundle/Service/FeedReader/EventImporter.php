@@ -4,6 +4,7 @@ namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
 use AdminBundle\Factory\EventFactory;
+use AdminBundle\Factory\OrganizerFactory;
 use AdminBundle\Factory\PlaceFactory;
 use AdminBundle\Service\FileHandler;
 use AppBundle\Entity\User;
@@ -15,6 +16,7 @@ use Psr\Log\LoggerInterface;
 class EventImporter {
   protected $eventFactory;
   protected $placeFactory;
+  protected $organizerFactory;
   protected $fileHandler;
 
   protected $feed;
@@ -26,9 +28,10 @@ class EventImporter {
    * @param \AdminBundle\Factory\PlaceFactory $placeFactory
    * @param \AdminBundle\Service\FileHandler $fileHandler
    */
-  public function __construct(EventFactory $eventFactory, PlaceFactory $placeFactory, FileHandler $fileHandler) {
+  public function __construct(EventFactory $eventFactory, PlaceFactory $placeFactory, OrganizerFactory $organizerFactory, FileHandler $fileHandler) {
     $this->eventFactory = $eventFactory;
     $this->placeFactory = $placeFactory;
+    $this->organizerFactory = $organizerFactory;
     $this->fileHandler = $fileHandler;
   }
 

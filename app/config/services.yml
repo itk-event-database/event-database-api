@@ -41,6 +41,10 @@ services:
         parent: entity_factory
         class: AdminBundle\Factory\PlaceFactory
 
+    organizer_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\OrganizerFactory
+
     occurrence_factory:
         parent: entity_factory
         class: AdminBundle\Factory\OccurrenceFactory
@@ -51,6 +55,7 @@ services:
         parent: entity_factory
         class: AdminBundle\Factory\EventFactory
         calls:
+            - [setOrganizerFactory, ["@organizer_factory"]]
             - [setOccurrenceFactory, ["@occurrence_factory"]]
 
     # Filters
@@ -182,6 +187,7 @@ services:
         arguments:
             - "@event_factory"
             - "@place_factory"
+            - "@organizer_factory"
             - "@file_handler"
 
     feed_reader:
@@ -246,6 +252,7 @@ services:
             - "@api_platform.property_accessor"
             - "@?api_platform.name_converter"
             - "@tag_manager"
+            - "@organizer_factory"
             - "@place_factory"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
