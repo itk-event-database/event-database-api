@@ -117,7 +117,6 @@ class FeedReader implements Controller {
       return;
     }
     $reader->read($content);
-    $feed->setLastRead(new \DateTime());
   }
 
   /**

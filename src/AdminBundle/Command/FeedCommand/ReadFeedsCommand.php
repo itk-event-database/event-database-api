@@ -44,6 +44,10 @@ class ReadFeedsCommand extends FeedCommand {
 
       try {
         $reader->read($feed);
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $feed->setLastRead(new \DateTime());
+        $em->persist($feed);
+        $em->flush();
       } catch (\Throwable $t) {
         $this->writeln('-- Error -----------------------------------------------------------------------');
         $this->writeln(sprintf('%s (feed #%d)', $t->getMessage(), $feed->getId()));
