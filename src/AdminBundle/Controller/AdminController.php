@@ -2,14 +2,12 @@
 
 namespace AdminBundle\Controller;
 
-use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Group;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use Doctrine\Common\Collections\ArrayCollection;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminController extends BaseAdminController {
   protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = NULL, $sortDirection = NULL, $dqlFilter = NULL) {
@@ -19,17 +17,6 @@ class AdminController extends BaseAdminController {
     }, ARRAY_FILTER_USE_KEY);
 
     return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
-  }
-
-  public function previewFeedAction() {
-    $id = $this->request->query->get('id');
-    $feed = $this->em->getRepository('AdminBundle:Feed')->find($id);
-
-    $previewer = $this->get('feed_previewer');
-    $previewer->read($feed);
-    $events = $previewer->getEvents();
-
-    return new JsonResponse($events);
   }
 
   public function cloneEventAction() {

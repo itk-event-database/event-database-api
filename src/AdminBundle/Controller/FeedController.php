@@ -3,14 +3,14 @@
 namespace AdminBundle\Controller;
 
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AdminBundle\Entity\Feed;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AdminBundle\Entity\Feed;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Feed controller.
@@ -238,13 +238,10 @@ class FeedController extends Controller {
   }
 
   /**
-   * Finds and displays a Feed entity.
-   *
    * @Route("/{id}/preview", name="admin_feed_preview")
    *
    * @Method("GET")
    *
-   * @Template()
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
    */
@@ -256,4 +253,88 @@ class FeedController extends Controller {
     return new JsonResponse($events);
   }
 
+  /**
+   * Validate feed data.
+   *
+   * @Route("/{id}/validate", name="admin_feed_validate")
+   *
+   * @Method("GET")
+   *
+   * @Template()
+   * @param \AdminBundle\Entity\Feed $feed
+   * @return array
+   */
+  public function validateAction(Feed $feed) {
+    // $previewer = $this->get('feed_previewer');
+    // $previewer->read($feed);
+    // $events = $previewer->getEvents();
+
+    $events = [['id'=>false],['id'=>true, 'occurrences' => [1,2,]]];
+
+    $eventErrors = [];
+    foreach ($events as $eventIndex => $event) {
+      if (empty($event['id'])) {
+        $eventErrors[$eventIndex][] = 'Missing or invalid id: ' . json_encode($event['id']);
+      }
+      if (empty($event['occurrences'])) {
+        $eventErrors[$eventIndex][] = 'Missing occurrences';
+      } else {
+        $eventErrors[$eventIndex]['occurrences'] = [];
+        $occurrenceErrors = &$eventErrors[$eventIndex]['occurrences'];
+        foreach ($event['occurrences'] as $occurrence) {
+          $occurrenceErrors[] = 'Missing or invalid id: ';
+        }
+      }
+    }
+
+    return [
+      'feed' => $feed,
+      'events' => $events,
+      'eventErrors' => $eventErrors,
+    ];
+  }
+
+  /**
+   * @Route("/{id}/easyadmin", name="admin_feed_easyadmin_edit")
+   *
+   * @Method({"GET", "POST"})
+   *
+   * @Security("has_role('ROLE_FEED_EDITOR')")
+   */
+  public function easyadminEditAction(Request $request, Feed $feed) {
+    $action = $request->get('action');
+    $redirect = $request->get('redirect');
+
+    $manager = $this->get('feed_manager');
+
+    if ($request->getMethod() === 'POST') {
+      switch ($action) {
+        case 'enable':
+          if ($manager->enable($feed)) {
+            $translator = $this->container->get('translator');
+            $message = $translator->trans('Feed %feed_name% enabled', ['%feed_name%' => $feed->getName()]);
+            $this->addFlash('info', $message);
+          }
+          break;
+        case 'disable':
+          if ($manager->disable($feed)) {
+            $translator = $this->container->get('translator');
+            $message = $translator->trans('Feed %feed_name% disabled', ['%feed_name%' => $feed->getName()]);
+            $this->addFlash('info', $message);
+          }
+          break;
+      }
+    } elseif ($request->getMethod() === 'GET') {
+    }
+
+    if ($redirect) {
+      return $this->redirect($redirect);
+    }
+
+    return $this->redirectToRoute('easyadmin', array(
+      'action' => 'edit',
+      'id' => $feed->getId(),
+      'entity' => 'Feed',
+    ));
+  }
 }

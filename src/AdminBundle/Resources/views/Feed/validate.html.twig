@@ -1,0 +1,30 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body -%}
+	<h1>{{ feed.name }}</h1>
+
+	{% for index, event in events %}
+		{% if eventErrors[index] is defined %}
+			{% for key, error in eventErrors[index] %}
+				{% if key matches '/^\\d+$/' %}
+					<div class="alert alert-danger">
+						{{ 'Event validation error' | trans }}: {{ error }}
+					</div>
+				{% endif %}
+			{% endfor %}
+
+			{% if eventErrors[index].occurrences is defined %}
+				{% for error in eventErrors[index].occurrences %}
+					<div class="alert alert-danger">
+						{{ 'Occurrence validation error' | trans }}: {{ error }}
+					</div>
+				{% endfor %}
+			{% endif %}
+			<pre>{{ event | json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+		{% else %}
+			<div class="alert alert-success">
+				{{ event.id }}: {{ event.name }}
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

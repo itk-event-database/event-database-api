@@ -54,6 +54,9 @@ class FeedPreviewer extends FeedReader {
     $data['feed_event_id'] = $data['id'];
     $event = $this->eventImporter->import($data);
 
+    unset($event['feed']);
+    unset($event['feed_event_id']);
+
     $this->events[] = $event;
   }
 

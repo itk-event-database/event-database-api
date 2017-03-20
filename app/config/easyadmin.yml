@@ -438,12 +438,14 @@ easy_admin:
                 actions:
                     - show
                     - edit
-                    - preview
                 fields:
                     - property: name
                     - property: user
                     - property: url
                       type: url
+                    - property: enabled
+                      type: boolean
+                      template: yes_no.html.twig
                     - property: lastRead
 
             form:
