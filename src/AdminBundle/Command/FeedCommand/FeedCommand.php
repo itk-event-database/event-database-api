@@ -29,7 +29,7 @@ abstract class FeedCommand extends ContainerAwareCommand {
   }
 
   protected function listFeeds() {
-    $feeds = $this->getFeeds(NULL, NULL);
+    $feeds = $this->getFeeds(NULL, NULL, TRUE);
     foreach ($feeds as $feed) {
       $this->writeln(str_repeat('-', 80));
       $this->writeFeedInfo($feed);
@@ -39,10 +39,11 @@ abstract class FeedCommand extends ContainerAwareCommand {
 
   protected function writeFeedInfo(Feed $feed) {
     $this->writeln([
-      'name:   ' . $feed->getName(),
-      'id:     ' . $feed->getId(),
-      'url:    ' . $feed->getUrl(),
-      'user:   ' . $feed->getUser(),
+      'name:    ' . $feed->getName(),
+      'id:      ' . $feed->getId(),
+      'enabled: ' . ($feed->getEnabled() ? 'yes' : 'no'),
+      'url:     ' . $feed->getUrl(),
+      'user:    ' . $feed->getUser(),
     ]);
   }
 
@@ -60,7 +61,7 @@ abstract class FeedCommand extends ContainerAwareCommand {
    * Get feeds.
    *
    */
-  protected function getFeeds($ids, $names) {
+  protected function getFeeds($ids, $names, $getAll = FALSE) {
     $repository = $this->getContainer()->get('doctrine')->getRepository('AdminBundle:Feed');
     $query = [];
     if ($ids) {
@@ -69,7 +70,9 @@ abstract class FeedCommand extends ContainerAwareCommand {
     if ($names) {
       $query['name'] = $names;
     }
-    $query['enabled'] = true;
+    if (!$getAll) {
+      $query['enabled'] = TRUE;
+    }
 
     return $repository->findBy($query);
   }
