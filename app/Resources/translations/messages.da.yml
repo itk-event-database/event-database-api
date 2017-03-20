@@ -44,6 +44,7 @@ app:
             url: Url med uddybende beskrivelse af begivenheden
             videoUrl: Url til video om begivenheden
             repeating_occurrences: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.
+            organizer: Vælg arrangør
 
     place:
         address: Adresse
