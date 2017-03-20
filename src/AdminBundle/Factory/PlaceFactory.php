@@ -3,21 +3,11 @@
 namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Place;
-use AppBundle\Entity\User;
 
 /**
  *
  */
 class PlaceFactory extends EntityFactory {
-  protected $user;
-
-  /**
-   * @param \AppBundle\Entity\User $user
-   */
-  public function setUser(User $user) {
-    $this->user = $user;
-  }
-
   /**
    * @param array $data
    * @return \AppBundle\Entity\Place|object
@@ -54,18 +44,4 @@ class PlaceFactory extends EntityFactory {
 
     return $place;
   }
-
-  /**
-   *
-   */
-  private function getUser() {
-    if ($this->user) {
-      return $this->user;
-    }
-
-    $token = $this->container->get('security.token_storage')->getToken();
-
-    return $token ? $token->getUser() : NULL;
-  }
-
 }

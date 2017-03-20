@@ -2,15 +2,16 @@
 # http://symfony.com/doc/current/book/security.html
 security:
     role_hierarchy:
-        ROLE_API_READ:     [ ROLE_USER ]
-        ROLE_API_WRITE:    [ ROLE_API_READ ]
-        ROLE_EVENT_EDITOR: [ ROLE_USER ]
-        ROLE_PLACE_EDITOR: [ ROLE_USER ]
-        ROLE_TAG_EDITOR:   [ ROLE_USER ]
-        ROLE_USER_EDITOR:  [ ROLE_USER ]
-        ROLE_FEED_EDITOR:  [ ROLE_USER ]
-        ROLE_ADMIN:        [ ROLE_API_WRITE, ROLE_EVENT_EDITOR, ROLE_PLACE_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR ]
-        ROLE_SUPER_ADMIN:  [ ROLE_ADMIN ]
+        ROLE_API_READ:         [ ROLE_USER ]
+        ROLE_API_WRITE:        [ ROLE_API_READ ]
+        ROLE_EVENT_EDITOR:     [ ROLE_USER ]
+        ROLE_PLACE_EDITOR:     [ ROLE_USER ]
+        ROLE_ORGANIZER_EDITOR: [ ROLE_USER ]
+        ROLE_TAG_EDITOR:       [ ROLE_USER ]
+        ROLE_USER_EDITOR:      [ ROLE_USER ]
+        ROLE_FEED_EDITOR:      [ ROLE_USER ]
+        ROLE_ADMIN:            [ ROLE_API_WRITE, ROLE_EVENT_EDITOR, ROLE_PLACE_EDITOR, ROLE_ORGANIZER_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR ]
+        ROLE_SUPER_ADMIN:      [ ROLE_ADMIN ]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:

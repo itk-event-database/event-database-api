@@ -2,6 +2,7 @@ app:
     menu:
         events: Begivenheder
         places: Steder
+        organizer: Arrangører
         groups: Grupper
         users: Brugere
         tags: Tags
@@ -23,6 +24,7 @@ app:
         langcode: Sprog
         name: Titel
         occurrences: Dato og tid
+        organizer: Arrangør
         tags: Tags
         ticketPurchaseUrl: Billeturl
         url: Url
@@ -68,6 +70,14 @@ app:
             imageFile: Upload et billede
             disability_access: Beskriv adgangsmuligheder for handicappede
 
+    organizer:
+        email: E-mail
+        name: Navn
+        url: Url
+        events: Begivenheder
+        help:
+            name: Arrangørens navn
+
     user:
         help:
             plainPassword: Indtast kodeord hvis brugeren skal have et nyt kodeord.
@@ -109,6 +119,7 @@ ROLE_USER: Bruger
 ROLE_API_READ: API-læseadgang
 ROLE_API_WRITE: API-skriveadgang
 ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_ORGANIZER_EDITOR: Arrangørredaktør
 ROLE_PLACE_EDITOR: Stedredaktør
 ROLE_TAG_EDITOR: Tagredaktør
 ROLE_USER_EDITOR: Brugerredaktør

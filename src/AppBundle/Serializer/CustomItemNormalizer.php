@@ -2,6 +2,7 @@
 
 namespace AppBundle\Serializer;
 
+use AdminBundle\Factory\OrganizerFactory;
 use AdminBundle\Factory\PlaceFactory;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\ResourceClassResolverInterface;
@@ -12,6 +13,7 @@ use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInte
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
 use ApiPlatform\Core\Serializer\ContextTrait;
+use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
@@ -44,6 +46,11 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   private $tagManager;
 
   /**
+   * @var OrganizerFactory
+   */
+  private $organizerFactory;
+
+  /**
    * @var PlaceFactory
    */
   private $placeFactory;
@@ -51,12 +58,13 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   /**
    *
    */
-  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = NULL, NameConverterInterface $nameConverter = NULL, TagManager $tagManager, PlaceFactory $placeFactory) {
+  public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = NULL, NameConverterInterface $nameConverter = NULL, TagManager $tagManager, OrganizerFactory $organizerFactory, PlaceFactory $placeFactory) {
     parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
 
     $this->resourceMetadataFactory = $resourceMetadataFactory;
     $this->contextBuilder = $contextBuilder;
     $this->tagManager = $tagManager;
+    $this->organizerFactory = $organizerFactory;
     $this->placeFactory = $placeFactory;
   }
 
@@ -121,6 +129,16 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
         $place = $this->placeFactory->get($value);
         if ($place) {
           $object->setPlace($place);
+          return;
+        }
+      }
+    }
+    if ($object instanceof Event && $attribute === 'organizer') {
+      if (is_array($value) && empty($value['@id'])) {
+        // Get unidentified organizer (with no specified id) from factory.
+        $organizer = $this->organizerFactory->get($value);
+        if ($organizer) {
+          $object->setOrganizer($organizer);
           return;
         }
       }

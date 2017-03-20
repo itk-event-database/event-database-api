@@ -17,6 +17,11 @@ class EventFactory extends EntityFactory {
   protected $feed;
 
   /**
+   * @var OrganizerFactory
+   */
+  protected $organizerFactory;
+
+  /**
    * @var OccurrenceFactory
    */
   protected $occurrenceFactory;
@@ -29,6 +34,10 @@ class EventFactory extends EntityFactory {
     if ($this->valueConverter) {
       $this->valueConverter->setFeed($feed);
     }
+  }
+
+  public function setOrganizerFactory(OrganizerFactory $organizerFactory) {
+    $this->organizerFactory = $organizerFactory;
   }
 
   /**
@@ -109,6 +118,10 @@ class EventFactory extends EntityFactory {
               $occurrences->add($occurrence);
             }
             $entity->setOccurrences($occurrences);
+            return;
+          case 'organizer':
+            $organizer = $this->organizerFactory->get($value);
+            $entity->setOrganizer($organizer);
             return;
         }
       }

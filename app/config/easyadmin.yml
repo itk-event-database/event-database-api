@@ -24,6 +24,9 @@ easy_admin:
             - entity: 'Place'
               icon: 'map-marker'
               roles: [ROLE_PLACE_EDITOR]
+            - entity: 'Organizer'
+              icon: 'map-marker'
+              roles: [ROLE_ORGANIZER_EDITOR]
             - entity: 'Group'
               icon: 'users'
               roles: [ROLE_USER_EDITOR]
@@ -81,6 +84,8 @@ easy_admin:
                     - property: tags
                       label: Tags
                       template: tags.html.twig
+                    - property: organizer
+                      label: app.event.organizer
                     - property: occurrences
                     - property: id
                       sortable: false
@@ -142,6 +147,8 @@ easy_admin:
                           required: true
                           multiple: true
                           class: AppBundle\Entity\Tag
+                    - property: organizer
+                      help: app.event.help.organizer
                     - property: occurrences
                       help: app.event.help.occurrences
                       type: collection
@@ -197,6 +204,8 @@ easy_admin:
                     - property: tags
                       label: app.event.tags
                       template: tags.html.twig
+                    - property: organizer
+                      label: app.event.organizer
                     - property: occurrences
                       label: app.event.occurrences
                       template: occurrences.html.twig
@@ -307,6 +316,44 @@ easy_admin:
                       label: app.place.disability_access
                       help: app.place.help.disability_access
 
+        Organizer:
+            label: app.menu.organizer
+            class: AppBundle\Entity\Organizer
+            list:
+                fields:
+                    - property: name
+                      label: app.organizer.name
+                    - property: email
+                      label: app.organizer.email
+                    - property: url
+                      label: app.organizer.url
+                    - property: events
+                      label: app.organizer.events
+            show:
+                fields:
+                    - property: name
+                      label: app.organizer.name
+                    - property: email
+                      label: app.organizer.email
+                    - property: url
+                      label: app.organizer.url
+                    - property: events
+                      label: app.organizer.events
+                      # template: events.html.twig
+            form:
+                fields:
+                    - property: name
+                      label: app.organizer.name
+                      help: app.organizer.help.name
+                      type_options:
+                          required: true
+                    - property: email
+                      label: app.organizer.email
+                      type: email
+                    - property: url
+                      label: app.organizer.url
+                      type: url
+
         Group:
             label: app.menu.groups
             class: AppBundle\Entity\Group
@@ -326,10 +373,11 @@ easy_admin:
                       type_options:
                           multiple: true
                           expanded: true
-                          choices:
+                          choices: &role_list
                               ROLE_API_READ: ROLE_API_READ
                               ROLE_API_WRITE: ROLE_API_WRITE
                               ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_ORGANIZER_EDITOR: ROLE_ORGANIZER_EDITOR
                               ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
                               ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
                               ROLE_USER_EDITOR: ROLE_USER_EDITOR
@@ -364,14 +412,7 @@ easy_admin:
                           multiple: true
                           expanded: true
                           choices:
-                              ROLE_API_READ: ROLE_API_READ
-                              ROLE_API_WRITE: ROLE_API_WRITE
-                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
-                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
-                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
-                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
-                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
-                              ROLE_ADMIN: ROLE_ADMIN
+                              <<: *role_list
                     - groups
                     - property: plainPassword
                       help: app.user.help.plainPassword
@@ -390,14 +431,7 @@ easy_admin:
                           multiple: true
                           expanded: true
                           choices:
-                              ROLE_API_READ: ROLE_API_READ
-                              ROLE_API_WRITE: ROLE_API_WRITE
-                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
-                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
-                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
-                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
-                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
-                              ROLE_ADMIN: ROLE_ADMIN
+                              <<: *role_list
                     - groups
                     - property: plainPassword
                       type_options:

@@ -3,6 +3,7 @@
 namespace AdminBundle\Factory;
 
 use AdminBundle\Service\FeedReader\ValueConverter;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
@@ -106,4 +107,29 @@ abstract class EntityFactory {
     }
   }
 
+  protected $user;
+
+  /**
+   * @param \AppBundle\Entity\User $user
+   */
+  public function setUser(User $user) {
+    $this->user = $user;
+  }
+
+  /**
+   *
+   */
+  protected function getUser() {
+    if ($this->user) {
+      return $this->user;
+    }
+
+    if ($this->container->has('security.token_storage')) {
+      $token = $this->container->get('security.token_storage')->getToken();
+
+      return $token ? $token->getUser() : NULL;
+    }
+
+    return NULL;
+  }
 }
