@@ -75,6 +75,8 @@ easy_admin:
                 fields:
                     - property: name
                       label: app.event.name
+                    - property: organizer
+                      label: app.event.organizer
                     - property: isPublished
                       type: boolean
                       template: yes_no.html.twig
@@ -84,8 +86,6 @@ easy_admin:
                     - property: tags
                       label: Tags
                       template: tags.html.twig
-                    - property: organizer
-                      label: app.event.organizer
                     - property: occurrences
                     - property: id
                       sortable: false
@@ -98,6 +98,10 @@ easy_admin:
                     - property: name
                       label: app.event.name
                       help: app.event.help.name
+                      type_options:
+                          required: true
+                    - property: organizer
+                      help: app.event.help.organizer
                       type_options:
                           required: true
                     - property: isPublished
@@ -147,8 +151,6 @@ easy_admin:
                           required: true
                           multiple: true
                           class: AppBundle\Entity\Tag
-                    - property: organizer
-                      help: app.event.help.organizer
                     - property: occurrences
                       help: app.event.help.occurrences
                       type: collection
@@ -181,6 +183,8 @@ easy_admin:
                 fields:
                     - property: name
                       label: app.event.name
+                    - property: organizer
+                      label: app.event.organizer
                     - property: isPublished
                       label: app.event.isPublished
                     - property: langcode
@@ -204,8 +208,6 @@ easy_admin:
                     - property: tags
                       label: app.event.tags
                       template: tags.html.twig
-                    - property: organizer
-                      label: app.event.organizer
                     - property: occurrences
                       label: app.event.occurrences
                       template: occurrences.html.twig
