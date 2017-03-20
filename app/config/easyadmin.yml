@@ -448,6 +448,14 @@ easy_admin:
                       template: yes_no.html.twig
                     - property: lastRead
 
+            show:
+                fields:
+                    - property: name
+                    - property: user
+                    - property: url
+                      type: url
+                    - property: lastRead
+
             form:
                 fields:
                     - property: name
