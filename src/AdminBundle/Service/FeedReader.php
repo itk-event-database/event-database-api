@@ -88,10 +88,6 @@ class FeedReader implements Controller {
    * @param \AppBundle\Entity\User $user
    */
   public function read(Feed $feed, User $user = NULL) {
-    if (!$feed->getEnabled()) {
-      return;
-    }
-
     $this->feed = $feed;
     if (!$user) {
       $user = $this->feed->getUser();
