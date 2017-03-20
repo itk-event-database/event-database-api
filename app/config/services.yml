@@ -187,7 +187,6 @@ services:
     feed_reader:
         class: AdminBundle\Service\FeedReader
         arguments:
-            - "@doctrine.orm.entity_manager"
             - "@value_converter"
             - "@feed_reader_event_importer"
             -

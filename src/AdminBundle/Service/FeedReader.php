@@ -7,7 +7,6 @@ use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Service\FeedReader\EventImporter;
 use AdminBundle\Service\FeedReader\ValueConverter;
 use AppBundle\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Blameable\BlameableListener;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
@@ -17,11 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  */
 class FeedReader implements Controller {
-  /**
-   * @var EntityManagerInterface
-   */
-  protected $em;
-
   /**
    * @var ValueConverter
    */
@@ -70,8 +64,7 @@ class FeedReader implements Controller {
    * @param \AdminBundle\Service\AuthenticatorService $authenticator
    * @param \Gedmo\Blameable\BlameableListener $blameableListener
    */
-  public function __construct(EntityManagerInterface $em, ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
-    $this->em = $em;
+  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
     $this->valueConverter = $valueConverter;
     $this->eventImporter = $eventImporter;
     $this->configuration = $configuration;
@@ -125,8 +118,6 @@ class FeedReader implements Controller {
     }
     $reader->read($content);
     $feed->setLastRead(new \DateTime());
-    $this->em->persist($feed);
-    $this->em->flush();
   }
 
   /**
