@@ -66,6 +66,14 @@ class EventFactory extends EntityFactory {
       return NULL;
     }
 
+    // An event may have been (soft) deleted. We want to reuse it.
+    $hasSoftdeleteable = FALSE;
+    $filters = $this->em->getFilters();
+    if ($filters->has('softdeleteable')) {
+      $hasSoftdeleteable = TRUE;
+      $filters->disable('softdeleteable');
+    }
+
     $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
       'feed' => $feed,
       'feedEventId' => $feedEventId,
@@ -74,6 +82,11 @@ class EventFactory extends EntityFactory {
     if ($event === NULL) {
       $event = new Event();
       $event->setFeedEventId($id);
+    }
+
+    if ($hasSoftdeleteable) {
+      $event->setDeletedAt(NULL);
+      $filters->enable('softdeleteable');
     }
 
     return $event;

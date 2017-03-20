@@ -41,31 +41,12 @@ class FeedManager {
     $repository = $this->em->getRepository(Event::class);
     $events = $repository->findBy(['feed' => $feed]);
 
-    // Delete occurrences.
-    $qb = $this->em->createQueryBuilder();
-    $query = $qb->delete(Occurrence::class, 'e')
-      ->where('e.event in (:events)')
-      ->setParameter('events', $events)
-      ->getQuery();
-    $result = $query->execute();
-
-    // Remove master references.
-    $qb = $this->em->createQueryBuilder();
-    $query = $qb->update(Event::class, 'e')
-      ->set('e.master', ':master')
-      ->setParameter(':master', NULL)
-      ->where('e.master in (:events)')
-      ->setParameter('events', $events)
-      ->getQuery();
-    $query->execute();
-
-    // Delete events.
-    $qb = $this->em->createQueryBuilder();
-    $query = $qb->delete(Event::class, 'e')
-      ->where('e.id in (:events)')
-      ->setParameter('events', $events)
-      ->getQuery();
-    $result = $query->execute();
+    foreach ($events as $event) {
+      $event->getOccurrences()->clear();
+      $this->em->persist($event);
+      $this->em->remove($event);
+    }
+    $this->em->flush();
   }
 
   /**
