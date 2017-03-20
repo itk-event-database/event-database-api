@@ -51,6 +51,9 @@ class ReadFeedsCommand extends FeedCommand {
       } catch (\Throwable $t) {
         $this->writeln('-- Error -----------------------------------------------------------------------');
         $this->writeln(sprintf('%s (feed #%d)', $t->getMessage(), $feed->getId()));
+        if ($input->getOption('verbose')) {
+          $this->writeln($t->getTraceAsString());
+        }
         $this->writeln('--------------------------------------------------------------------------------');
       }
     }
