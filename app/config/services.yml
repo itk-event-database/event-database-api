@@ -319,6 +319,11 @@ services:
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
 
+    app.integrity_manager:
+        public: false
+        class: AdminBundle\Service\IntegrityManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
 
     app.twig_extension_easy_admin:
         class: AdminBundle\Twig\Extension\EasyAdminExtension
@@ -326,6 +331,7 @@ services:
             - '@security.token_storage'
             - '@security.access.edit_voter'
             - '@translator'
+            - '@app.integrity_manager'
         tags:
             - { name: "twig.extension" }
 

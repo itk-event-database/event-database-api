@@ -5,3 +5,11 @@
 
 	{% include 'include/_translations.js.twig' %}
 {% endblock %}
+
+{% block delete_form %}
+	{% if can_delete(entity) %}
+		{{ parent() }}
+	{% else %}
+		{% include 'include/_cannot_delete_message.html.twig' %}
+	{% endif %}
+{% endblock %}
