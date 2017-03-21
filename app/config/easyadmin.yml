@@ -28,9 +28,6 @@ easy_admin:
             - entity: 'Organizer'
               icon: 'map-marker'
               roles: [ROLE_ORGANIZER_EDITOR]
-            - entity: 'Group'
-              icon: 'users'
-              roles: [ROLE_USER_EDITOR]
             - entity: 'User'
               icon: 'user'
               roles: [ROLE_USER_EDITOR]
@@ -415,20 +412,26 @@ easy_admin:
                       label: app.organizer.url
                       type: url
 
-        Group:
-            label: app.menu.groups
-            class: AppBundle\Entity\Group
+        User:
+            label: app.menu.users
+            class: AppBundle\Entity\User
             disabled_actions: ['show']
             list:
                 fields:
-                    - property: name
+                    - property: username
+                    - property: email
                     - property: roles
                       template: roles.html.twig
-                    - property: users
-                      # template: users.html.twig
-            form:
+                    - property: enabled
+                      type: boolean
+                      template: yes_no.html.twig
+                    - lastLogin
+            new:
                 fields:
-                    - property: name
+                    - enabled
+                    - username
+                    - property: email
+                      type: email
                     - property: roles
                       type: choice
                       type_options:
@@ -444,23 +447,12 @@ easy_admin:
                               ROLE_USER_EDITOR: ROLE_USER_EDITOR
                               ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
                               ROLE_ADMIN: ROLE_ADMIN
-
-        User:
-            label: app.menu.users
-            class: AppBundle\Entity\User
-            disabled_actions: ['show']
-            list:
-                fields:
-                    - property: username
-                    - property: email
-                    - property: roles
-                      template: roles.html.twig
-                    - property: groups
-                      template: groups.html.twig
-                    - property: enabled
-                      type: boolean
-                      template: yes_no.html.twig
-                    - lastLogin
+                    - property: plainPassword
+                      type_options:
+                          required: true
+                      type: text
+                      type_options:
+                          required: false
             edit:
                 fields:
                     - property: enabled
@@ -474,29 +466,8 @@ easy_admin:
                           expanded: true
                           choices:
                               <<: *role_list
-                    - groups
                     - property: plainPassword
                       help: app.user.help.plainPassword
-                      type: text
-                      type_options:
-                          required: false
-            new:
-                fields:
-                    - enabled
-                    - username
-                    - property: email
-                      type: email
-                    - property: roles
-                      type: choice
-                      type_options:
-                          multiple: true
-                          expanded: true
-                          choices:
-                              <<: *role_list
-                    - groups
-                    - property: plainPassword
-                      type_options:
-                          required: true
                       type: text
                       type_options:
                           required: false
