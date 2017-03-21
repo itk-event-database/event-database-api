@@ -51,7 +51,7 @@ class AccessSubscriber implements EventSubscriberInterface {
   private static $requiredRoles = [
     Event::class => 'ROLE_EVENT_EDITOR',
     Place::class => 'ROLE_PLACE_EDITOR',
-    Group::class => 'ROLE_GROUP_EDITOR',
+    Group::class => 'ROLE_USER_EDITOR',
     User::class => 'ROLE_USER_EDITOR',
     Tag::class => 'ROLE_TAG_EDITOR',
     UnknownTag::class => 'ROLE_TAG_EDITOR',
