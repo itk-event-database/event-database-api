@@ -10,7 +10,8 @@ easy_admin:
     design:
         brand_color: '#154194'
         color_scheme: 'light'
-        form_theme: 'horizontal'
+        form_theme: 'easy_admin/form/bootstrap_3_horizontal_layout.html.twig'
+
         assets:
             css:
                 - 'assets/easyadmin.css'
@@ -152,7 +153,7 @@ easy_admin:
                           multiple: true
                           class: AppBundle\Entity\Tag
                     - property: occurrences
-                      help: app.event.help.occurrences
+                      help: app.event.help.occurrences.collection
                       type: collection
                       type_options:
                         entry_type: AdminBundle\Form\OccurrenceType
@@ -195,10 +196,10 @@ easy_admin:
                       type: url
                     - property: videoUrl
                       type: url
-                    - property: ticketPurchaseUrl
-                      type: url
                     - property: eventUrl
                       label: app.event.eventUrl
+                      type: url
+                    - property: ticketPurchaseUrl
                       type: url
                     - property: excerpt
                       label: app.event.excerpt

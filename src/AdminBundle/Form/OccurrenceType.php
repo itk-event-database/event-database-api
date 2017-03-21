@@ -11,19 +11,11 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  *
  */
 class OccurrenceType extends AbstractType {
-  /** @var \Symfony\Component\Translation\TranslatorInterface */
-  private $translator;
-
-  public function __construct(TranslatorInterface $translator) {
-    $this->translator = $translator;
-  }
-
   /**
    * @param FormBuilderInterface $builder
    * @param array $options
@@ -42,14 +34,15 @@ class OccurrenceType extends AbstractType {
       ->add('endDate', DateTimeType::class, [
         'placeholder' => $placeholder,
         'required' => TRUE,
-        'attr' => [
-          // 'easyadmin' => ['help' => __METHOD__],
-        ],
       ])
       ->add('place', EasyAdminAutocompleteType::class, [
         'class' => Place::class,
         'required' => TRUE,
       ]);
+
+    $builder->add('ticketPriceRange', PriceRangeType::class, [
+      'required' => TRUE,
+    ]);
 
     $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
       $form = $event->getForm();

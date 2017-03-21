@@ -91,6 +91,7 @@ class AdminController extends BaseAdminController {
       if ($repeatingOccurrences) {
         /** @var Place $place */
         $place = isset($repeatingOccurrences['place']) ? $repeatingOccurrences['place'] : null;
+        $ticketPriceRange = isset($repeatingOccurrences['ticket_price_range']) ? $repeatingOccurrences['ticket_price_range'] : null;
         /** @var \DateTime $startDay */
         $startDay = isset($repeatingOccurrences['start_day']) ? clone $repeatingOccurrences['start_day'] : null;
         /** @var \DateTime $endDay */
@@ -112,6 +113,7 @@ class AdminController extends BaseAdminController {
               $occurrence->getStartDate()->setTime($startTime->format('H'), $startTime->format('i'));
               $occurrence->setEndDate(clone $startDay);
               $occurrence->getEndDate()->setTime($endTime->format('H'), $endTime->format('i'));
+              $occurrence->setTicketPriceRange($ticketPriceRange);
               $occurrences[] = $occurrence;
             }
 
