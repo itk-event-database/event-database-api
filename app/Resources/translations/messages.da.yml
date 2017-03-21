@@ -107,6 +107,7 @@ action:
     new: Tilføj %entity_name%
     show: Vis
     cancel: Annuller
+    ok: OK
 
 label:
     yes: ja
@@ -247,3 +248,17 @@ Please specify a start day: Angiv venligt startdato
 Please specify an end day: Angiv venligt slutdato
 Please specify ticket price: Angiv venligt billetpris
 Please specify at least one time interval: Angiv venligt start- og sluttidspunkt for én eller flere dage
+
+'Cannot delete %type% %name%': '"%name%" kan ikke slettes.'
+
+Organizer is used by %count% events: >
+    Arrangøren bruges af én begivenhed.
+    | Arrangøren bruges af %count% begivenheder.
+
+Place is used by %count% occurrences: >
+    Stedet bruges af én begivenhed
+    | Stedet bruges af %count% begivenheder
+
+Tag is used by %count% objects: >
+    Tagget bruges på ét element
+    | Tagget bruges af %count% elementer

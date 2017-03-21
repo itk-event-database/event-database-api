@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Twig\Extension;
 
+use AdminBundle\Service\IntegrityManager;
 use AppBundle\Security\Authorization\Voter\EditVoter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -28,10 +29,16 @@ class EasyAdminExtension extends \Twig_Extension {
    */
   private $translator;
 
-  public function __construct(TokenStorageInterface $tokenStorage, EditVoter $voter, TranslatorInterface $translator) {
+  /**
+   * @var \AdminBundle\Service\IntegrityManager
+   */
+  private $integrityManager;
+
+  public function __construct(TokenStorageInterface $tokenStorage, EditVoter $voter, TranslatorInterface $translator, IntegrityManager $integrityManager) {
     $this->tokenStorage = $tokenStorage;
     $this->voter = $voter;
     $this->translator = $translator;
+    $this->integrityManager = $integrityManager;
   }
 
   /**
@@ -40,6 +47,9 @@ class EasyAdminExtension extends \Twig_Extension {
   public function getFunctions() {
     return [
       new \Twig_Function('can_perform_action', [$this, 'canPerformAction'], ['is_safe' => ['all']]),
+      new \Twig_Function('can_delete', [$this, 'canDelete'], ['is_safe' => ['all']]),
+      new \Twig_Function('get_cannot_delete_info', [$this, 'getCannotDeleteInfo'], ['is_safe' => ['all']]),
+      new \Twig_Function('get_entity_type', [$this, 'getEntityType'], ['is_safe' => ['all']]),
       new \Twig_Function('get_field_help', [$this, 'getFieldHelp'], ['is_safe' => ['all']]),
     ];
   }
@@ -70,6 +80,19 @@ class EasyAdminExtension extends \Twig_Extension {
     }
 
     return $this->voter->vote($token, $subject, [$action]) == VoterInterface::ACCESS_GRANTED;
+  }
+
+  public function canDelete($entity) {
+    return $this->integrityManager->canDelete($entity) === TRUE;
+  }
+
+  public function getCannotDeleteInfo($entity) {
+    $info = $this->integrityManager->canDelete($entity);
+    return is_array($info) ? $info : NULL;
+  }
+
+  public function getEntityType($entity) {
+    return get_class($entity);
   }
 
   public function getFieldHelp(array $context) {
