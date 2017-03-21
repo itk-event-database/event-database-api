@@ -51,8 +51,9 @@ hooks:
       SYMFONY_ENV=prod composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
       SYMFONY_ENV=prod bin/console assets:install --no-debug
     deploy: |
-      SYMFONY_ENV=prod bin/console doctrine:migrations:migrate --no-interaction
+      rm -fr var/cache/*/* web/app_dev.php
       SYMFONY_ENV=prod bin/console cache:clear
+      SYMFONY_ENV=prod bin/console doctrine:migrations:migrate --no-interaction
 
 # https://support.platform.sh/hc/en-us/requests/12477
 crons:

@@ -94,7 +94,7 @@ easy_admin:
                       template: places.html.twig
                     - property: excerpt
                       label: Excerpt
-            form:
+            new:
                 fields:
                     - property: name
                       label: app.event.name
@@ -160,7 +160,72 @@ easy_admin:
                         by_reference: false
                         required: true
                       embedded: true
-
+            edit:
+                fields:
+                    - property: name
+                      label: app.event.name
+                      help: app.event.help.name
+                      type_options:
+                          required: true
+                    - property: organizer
+                      help: app.event.help.organizer
+                      type_options:
+                          required: true
+                    - property: isPublished
+                      help: app.event.help.isPublished
+                    - property: langcode
+                      label: app.event.langcode
+                      help: app.event.help.langcode
+                      type: choice
+                      type_options:
+                          choices:
+                              '': ''
+                              Danish: da
+                              English: en
+                              German: de
+                          required: true
+                    - property: imageFile
+                      help: app.event.help.imageFile
+                      type: vich_image
+                      type_options:
+                          required: false
+                      type: url
+                    - property: url
+                      help: app.event.help.url
+                      type: url
+                    - property: videoUrl
+                      help: app.event.help.videoUrl
+                    - property: ticketPurchaseUrl
+                      help: app.event.help.ticketPurchaseUrl
+                    - property: eventUrl
+                      help: app.event.help.eventUrl
+                      label: app.event.eventUrl
+                      type: url
+                    - property: excerpt
+                      help: app.event.help.excerpt
+                      type_options:
+                          required: true
+                    - property: description
+                      help: app.event.help.description
+                      label: app.event.description
+                      type: ckeditor
+                      type_options:
+                          required: true
+                    - property: tags
+                      help: app.event.help.tags
+                      type: easyadmin_autocomplete
+                      type_options:
+                          required: true
+                          multiple: true
+                          class: AppBundle\Entity\Tag
+                    - property: occurrences
+                      help: app.event.help.occurrences.collection
+                      type: collection
+                      type_options:
+                        entry_type: AdminBundle\Form\OccurrenceType
+                        by_reference: false
+                        required: true
+                      embedded: true
                     - type: group
                       css_class: repeating-occurrences
                       label: Repeating occurrences
@@ -170,13 +235,6 @@ easy_admin:
                       # help: app.event.help.repeating_occurrences
                       css_class: repeating-occurrences-form
                       type: AdminBundle\Form\RepeatingOccurrencesType
-                      type_options:
-                          required: false
-
-            edit:
-                fields:
-                    - property: imageFile
-                      type: vich_image
                       type_options:
                           required: false
 
