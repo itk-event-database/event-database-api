@@ -73,6 +73,7 @@ app:
         latitude: Længdegrad
         longitude: Breddegrad
         name: Navn
+        occurrences: Begivenheder
         postal_code: Postnr.
         street_address: Adresse
         telephone: Telefonnr.
