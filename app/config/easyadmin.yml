@@ -28,9 +28,6 @@ easy_admin:
             - entity: 'Organizer'
               icon: 'map-marker'
               roles: [ROLE_ORGANIZER_EDITOR]
-            - entity: 'User'
-              icon: 'user'
-              roles: [ROLE_USER_EDITOR]
             - entity: 'Tag'
               icon: 'tags'
               roles: [ROLE_TAG_EDITOR]
@@ -40,6 +37,9 @@ easy_admin:
             - entity: 'Feed'
               icon: 'cloud-download'
               roles: [ROLE_FEED_EDITOR]
+            - entity: 'User'
+              icon: 'user'
+              roles: [ROLE_USER_EDITOR]
 
             - label: app.menu.api_docs
               icon: 'book'
