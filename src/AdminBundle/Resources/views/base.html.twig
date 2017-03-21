@@ -25,10 +25,10 @@
           {% if app.user %}
             <ul class="nav navbar-nav">
               {% if is_granted('ROLE_EVENT_EDITOR') %}
-                <li><a href="{{ path('easyadmin', { 'entity': 'Event' }) }}">{{ 'Event editor' | trans }}</a></li>
+                <li><a href="{{ path('easyadmin', { 'entity': 'Event' }) }}">{{ 'Events' | trans }}</a></li>
               {% endif %}
               {% if is_granted('ROLE_PLACE_EDITOR') %}
-                <li><a href="{{ path('easyadmin', { 'entity': 'Place' }) }}">{{ 'Place editor' | trans }}</a></li>
+                <li><a href="{{ path('easyadmin', { 'entity': 'Place' }) }}">{{ 'Places' | trans }}</a></li>
               {% endif %}
               {% if is_granted('ROLE_FEED_EDITOR') %}
                 <li><a href="{{ path('easyadmin', { 'entity': 'Feed' }) }}">{{ 'Feeds' | trans }}</a></li>
