@@ -1,0 +1,7 @@
+{% extends 'easy_admin/edit.html.twig' %}
+
+{% block entity_form %}
+	{{ parent() }}
+
+	{% include 'include/_edit_feed.html.twig' %}
+{% endblock %}

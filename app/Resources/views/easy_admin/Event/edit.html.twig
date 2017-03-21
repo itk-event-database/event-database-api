@@ -1,0 +1,15 @@
+{% extends 'easy_admin/edit.html.twig' %}
+
+{% block body_javascript %}
+  {{ parent() }}
+
+  <script>(function($) {
+     $(document).ready(function() {
+       var repeatingOccurrences = $('.repeating-occurrences');
+       if (repeatingOccurrences.find('.has-error').length > 0) {
+         repeatingOccurrences.addClass('expanded');
+         $('html, body').scrollTop(repeatingOccurrences.offset().top);
+       }
+     });
+   }(jQuery))</script>
+{% endblock %}

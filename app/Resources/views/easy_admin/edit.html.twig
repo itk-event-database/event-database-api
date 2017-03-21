@@ -5,11 +5,3 @@
 
 	{% include 'include/_translations.js.twig' %}
 {% endblock %}
-
-{% block entity_form %}
-	{{ parent() }}
-
-	{% if entity is instanceof('AdminBundle\\Entity\\Feed') %}
-		{% include 'include/_edit_feed.html.twig' %}
-	{% endif %}
-{% endblock %}
