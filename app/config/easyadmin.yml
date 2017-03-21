@@ -318,6 +318,35 @@ easy_admin:
                     - property: latitude
                       label: app.place.lat_lng
                       template: lat_lng.html.twig
+                    - property: occurrences
+                      label: app.place.occurrences
+
+            show:
+                title: Places
+                fields:
+                    - property: name
+                      label: app.place.name
+                    - property: street_address
+                      label: app.place.street_address
+                    - property: postal_code
+                      label: app.place.postal_code
+                    - property: address_locality
+                      label: app.place.address_locality
+                    - property: address_region
+                      label: app.place.address_region
+                    - property: address_country
+                      label: app.place.address_country
+                    - property: telephone
+                      label: app.place.telephone
+                    - property: email
+                      label: app.place.email
+                    - property: url
+                      label: app.place.url
+                    - property: latitude
+                      label: app.place.lat_lng
+                      template: lat_lng.html.twig
+                    - property: occurrences
+                      label: app.place.occurrences
 
             form:
                 fields:
