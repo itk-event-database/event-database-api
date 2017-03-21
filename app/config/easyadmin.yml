@@ -124,14 +124,14 @@ easy_admin:
                     - property: url
                       help: app.event.help.url
                       type: url
-                    - property: videoUrl
-                      help: app.event.help.videoUrl
                     - property: ticketPurchaseUrl
                       help: app.event.help.ticketPurchaseUrl
                     - property: eventUrl
                       help: app.event.help.eventUrl
                       label: app.event.eventUrl
                       type: url
+                    - property: videoUrl
+                      help: app.event.help.videoUrl
                     - property: excerpt
                       help: app.event.help.excerpt
                       type_options:
@@ -190,14 +190,14 @@ easy_admin:
                     - property: url
                       help: app.event.help.url
                       type: url
-                    - property: videoUrl
-                      help: app.event.help.videoUrl
                     - property: ticketPurchaseUrl
                       help: app.event.help.ticketPurchaseUrl
                     - property: eventUrl
                       help: app.event.help.eventUrl
                       label: app.event.eventUrl
                       type: url
+                    - property: videoUrl
+                      help: app.event.help.videoUrl
                     - property: excerpt
                       help: app.event.help.excerpt
                       type_options:
