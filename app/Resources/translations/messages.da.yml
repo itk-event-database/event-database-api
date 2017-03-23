@@ -136,6 +136,7 @@ ROLE_USER: Bruger
 ROLE_API_READ: API-læseadgang
 ROLE_API_WRITE: API-skriveadgang
 ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_EVENT_ADMIN: Begivenhedsadministrator
 ROLE_ORGANIZER_EDITOR: Arrangørredaktør
 ROLE_PLACE_EDITOR: Stedredaktør
 ROLE_TAG_EDITOR: Tagredaktør
