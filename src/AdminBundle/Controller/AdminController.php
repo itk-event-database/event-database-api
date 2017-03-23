@@ -7,16 +7,66 @@ use AppBundle\Entity\Group;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Blameable\Blameable;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends BaseAdminController {
+  protected function initialize(Request $request) {
+    parent::initialize($request);
+    if (!$this->request->query->has('_event_list_filter')) {
+      $this->request->query->add(['_event_list_filter' => 'my']);
+    }
+  }
+
+  protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null) {
+    $this->limitByUser($dqlFilter, $entityClass, 'entity');
+    return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+  }
+
   protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = NULL, $sortDirection = NULL, $dqlFilter = NULL) {
     // Use only list fields in search query.
     $this->entity['search']['fields'] = array_filter($this->entity['search']['fields'], function ($key) {
       return isset($this->entity['list']['fields'][$key]);
     }, ARRAY_FILTER_USE_KEY);
 
+    $this->limitByUser($dqlFilter, $entityClass, 'entity');
     return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+  }
+
+  private function limitByUser(string &$dqlFilter = null, string $entityClass, string $alias) {
+    $limitByUserFilter = $this->getLimitByUserFilter($entityClass, $alias);
+    if ($limitByUserFilter) {
+      if ($dqlFilter) {
+        $dqlFilter .= ' and ' . $limitByUserFilter;
+      } else {
+        $dqlFilter = $limitByUserFilter;
+      }
+    }
+  }
+
+  private function getLimitByUserFilter(string $entityClass, string $alias) {
+    // instanceof does not work with string as first operand.
+    if (!is_subclass_of($entityClass, Blameable::class)) {
+      return NULL;
+    }
+
+    $token = $this->get('security.token_storage')->getToken();
+    $user = $token ? $token->getUser() : NULL;
+    $filter = $this->request->get('_event_list_filter');
+    switch ($filter) {
+      case 'all':
+        return NULL;
+      case 'mine':
+      case 'my':
+      if ($user) {
+          return $alias . '.createdBy = ' . $user->getId();
+        }
+        break;
+      case 'editable':
+        // @TODO: Use EditVoter to get editable events.
+        return NULL;
+    }
   }
 
   public function cloneEventAction() {

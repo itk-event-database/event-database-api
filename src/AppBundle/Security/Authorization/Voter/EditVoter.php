@@ -55,10 +55,6 @@ class EditVoter extends Voter {
    * @return bool
    */
   protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
-    if ($this->hasRole($this->getTokenRoles($token), 'ROLE_ADMIN')) {
-      return TRUE;
-    }
-
     $user = $token->getUser();
     if (!$user instanceof User) {
       // The user must be logged in; if not, deny access.
@@ -86,6 +82,10 @@ class EditVoter extends Voter {
   private function canEdit(Blameable $entity, User $user) {
     // Hack!
     if ($entity instanceof Event) {
+      if ($entity->getFeed()) {
+        // Events from feed cannot be edited.
+        return FALSE;
+      }
       $userRoles = $this->getUserRoles($user);
       if ($this->hasRole($userRoles, 'ROLE_EVENT_ADMIN')) {
         // ROLE_EVENT_ADMIN can edit all events.

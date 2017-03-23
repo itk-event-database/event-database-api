@@ -264,3 +264,6 @@ Place is used by %count% occurrences: >
 Tag is used by %count% objects: >
     Tagget bruges på ét element
     | Tagget bruges af %count% elementer
+
+Show my events: Mine begivenheder
+Show all events: Alle begivenheder
