@@ -382,6 +382,9 @@ easy_admin:
                     - property: email
                       label: app.place.email
                       type: email
+                    - property: url
+                      label: app.place.url
+                      type: url
                     - property: telephone
                       label: app.place.telephone
                     - property: latitude
