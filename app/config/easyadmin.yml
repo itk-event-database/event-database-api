@@ -294,6 +294,9 @@ easy_admin:
         Place:
             label: app.menu.places
             class: AppBundle\Entity\Place
+            search:
+                fields:
+                    - name
             list:
                 title: Places
                 fields:
