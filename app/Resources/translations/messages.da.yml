@@ -34,7 +34,7 @@ app:
             eventUrl: Eventurl, fx til Facebook-event
             excerpt: Kort beskrivelse af begivenheden
             image: Upload et billede
-            imageFile: Upload et billede
+            imageFile: Upload et billede. Billedet bør være minimum 1000px bredt.
             isPublished: Angiv om begivenheden skal vises
             langcode: Vælg sprog
             name: Begivenhedens titel. Undgå titler med kun store bogstaver.
