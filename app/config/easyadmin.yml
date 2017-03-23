@@ -98,6 +98,16 @@ easy_admin:
                       help: app.event.help.name
                       type_options:
                           required: true
+                    - property: excerpt
+                      help: app.event.help.excerpt
+                      type_options:
+                          required: true
+                    - property: description
+                      help: app.event.help.description
+                      label: app.event.description
+                      type: ckeditor
+                      type_options:
+                          required: true
                     - property: organizer
                       help: app.event.help.organizer
                       type_options:
@@ -132,16 +142,6 @@ easy_admin:
                       type: url
                     - property: videoUrl
                       help: app.event.help.videoUrl
-                    - property: excerpt
-                      help: app.event.help.excerpt
-                      type_options:
-                          required: true
-                    - property: description
-                      help: app.event.help.description
-                      label: app.event.description
-                      type: ckeditor
-                      type_options:
-                          required: true
                     - property: tags
                       help: app.event.help.tags
                       type: easyadmin_autocomplete
@@ -162,6 +162,16 @@ easy_admin:
                     - property: name
                       label: app.event.name
                       help: app.event.help.name
+                      type_options:
+                          required: true
+                    - property: excerpt
+                      help: app.event.help.excerpt
+                      type_options:
+                          required: true
+                    - property: description
+                      help: app.event.help.description
+                      label: app.event.description
+                      type: ckeditor
                       type_options:
                           required: true
                     - property: organizer
@@ -198,16 +208,6 @@ easy_admin:
                       type: url
                     - property: videoUrl
                       help: app.event.help.videoUrl
-                    - property: excerpt
-                      help: app.event.help.excerpt
-                      type_options:
-                          required: true
-                    - property: description
-                      help: app.event.help.description
-                      label: app.event.description
-                      type: ckeditor
-                      type_options:
-                          required: true
                     - property: tags
                       help: app.event.help.tags
                       type: easyadmin_autocomplete
@@ -294,6 +294,9 @@ easy_admin:
         Place:
             label: app.menu.places
             class: AppBundle\Entity\Place
+            search:
+                fields:
+                    - name
             list:
                 title: Places
                 fields:
@@ -379,6 +382,9 @@ easy_admin:
                     - property: email
                       label: app.place.email
                       type: email
+                    - property: url
+                      label: app.place.url
+                      type: url
                     - property: telephone
                       label: app.place.telephone
                     - property: latitude
@@ -467,15 +473,14 @@ easy_admin:
                           multiple: true
                           expanded: true
                           choices: &role_list
-                              ROLE_API_READ: ROLE_API_READ
                               ROLE_API_WRITE: ROLE_API_WRITE
                               ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_EVENT_ADMIN: ROLE_EVENT_ADMIN
                               ROLE_ORGANIZER_EDITOR: ROLE_ORGANIZER_EDITOR
                               ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
                               ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
                               ROLE_USER_EDITOR: ROLE_USER_EDITOR
                               ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
-                              ROLE_ADMIN: ROLE_ADMIN
                     - property: plainPassword
                       type_options:
                           required: true

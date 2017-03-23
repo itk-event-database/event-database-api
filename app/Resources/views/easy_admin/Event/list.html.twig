@@ -1,0 +1,28 @@
+{% extends 'easy_admin/list.html.twig' %}
+
+{% block content_header %}
+  <div class="event-list-filter">
+    {% set filter_name = '_event_list_filter' %}
+    <ul class="nav nav-tabs">
+      {% for key, label in {
+        'my': 'Show my events',
+        'all': 'Show all events'
+      } %}
+        {% set active = app.request.get(filter_name) == key %}
+        {% set url = path(app.request.get('_route'), app.request.query.all|merge({(filter_name): key})) %}
+        <li role="presentation" {{ active ? ' class="active"' : '' }}>
+          <a href="{{ url }}">{{ label | trans }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {{ parent() }}
+{% endblock %}
+
+{% block search_form %}
+  {{ parent() }}
+
+  {% set filter_name = '_event_list_filter' %}
+  <input type="hidden" name="{{ filter_name }}" value="{{ app.request.get(filter_name) }}"/>
+{% endblock %}

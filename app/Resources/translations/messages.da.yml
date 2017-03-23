@@ -34,7 +34,7 @@ app:
             eventUrl: Eventurl, fx til Facebook-event
             excerpt: Kort beskrivelse af begivenheden
             image: Upload et billede
-            imageFile: Upload et billede
+            imageFile: Upload et billede. Billedet bør være minimum 1000px bredt.
             isPublished: Angiv om begivenheden skal vises
             langcode: Vælg sprog
             name: Begivenhedens titel. Undgå titler med kun store bogstaver.
@@ -136,6 +136,7 @@ ROLE_USER: Bruger
 ROLE_API_READ: API-læseadgang
 ROLE_API_WRITE: API-skriveadgang
 ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_EVENT_ADMIN: Begivenhedsadministrator
 ROLE_ORGANIZER_EDITOR: Arrangørredaktør
 ROLE_PLACE_EDITOR: Stedredaktør
 ROLE_TAG_EDITOR: Tagredaktør
@@ -263,3 +264,6 @@ Place is used by %count% occurrences: >
 Tag is used by %count% objects: >
     Tagget bruges på ét element
     | Tagget bruges af %count% elementer
+
+Show my events: Mine begivenheder
+Show all events: Alle begivenheder

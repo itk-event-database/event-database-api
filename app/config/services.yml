@@ -153,7 +153,7 @@ services:
     security.access.edit_voter:
         class:      AppBundle\Security\Authorization\Voter\EditVoter
         public:     false
-        arguments: [ "@?security.role_hierarchy" ]
+        arguments: [ "@security.role_hierarchy" ]
         tags:
             - { name: security.voter }
 
@@ -325,6 +325,11 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
 
+    app.user_manager:
+        public: false
+        class: AdminBundle\Service\UserManager
+        arguments: [ "@security.role_hierarchy" ]
+
     app.twig_extension_easy_admin:
         class: AdminBundle\Twig\Extension\EasyAdminExtension
         arguments:
@@ -332,6 +337,7 @@ services:
             - '@security.access.edit_voter'
             - '@translator'
             - '@app.integrity_manager'
+            - '@app.user_manager'
         tags:
             - { name: "twig.extension" }
 
