@@ -2,9 +2,11 @@
 
 namespace AppBundle\Security\Authorization\Voter;
 
+use AppBundle\Entity\Event;
 use Gedmo\Blameable\Blameable;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use AppBundle\Entity\User;
 
@@ -53,7 +55,7 @@ class EditVoter extends Voter {
    * @return bool
    */
   protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
-    if ($this->hasRole($token, 'ROLE_ADMIN')) {
+    if ($this->hasRole($this->getTokenRoles($token), 'ROLE_ADMIN')) {
       return TRUE;
     }
 
@@ -82,6 +84,15 @@ class EditVoter extends Voter {
    * Check if a user can edit a Blameable entity.
    */
   private function canEdit(Blameable $entity, User $user) {
+    // Hack!
+    if ($entity instanceof Event) {
+      $userRoles = $this->getUserRoles($user);
+      if ($this->hasRole($userRoles, 'ROLE_EVENT_ADMIN')) {
+        // ROLE_EVENT_ADMIN can edit all events.
+        return TRUE;
+      }
+    }
+
     $createdByUser = $entity->getCreatedBy();
     if (!$createdByUser) {
       return FALSE;
@@ -124,18 +135,21 @@ class EditVoter extends Voter {
   /**
    *
    */
-  private function hasRole(TokenInterface $token, $roleName) {
-    if (NULL === $this->roleHierarchy) {
-      return in_array($roleName, $token->getRoles(), TRUE);
-    }
-
-    foreach ($this->roleHierarchy->getReachableRoles($token->getRoles()) as $role) {
-      if ($roleName === $role->getRole()) {
-        return TRUE;
-      }
-    }
-
-    return FALSE;
+  private function hasRole(array $roles, $roleName) {
+    return array_filter($roles, function (Role $role) use ($roleName) {
+      return $role->getRole() === $roleName;
+    });
   }
 
+  private function getTokenRoles(TokenInterface $token) {
+    return $this->roleHierarchy->getReachableRoles($token->getRoles());
+  }
+
+  private function getUserRoles(User $user) {
+    $roles = array_map(function ($name) {
+      return new Role($name);
+    }, $user->getRoles());
+
+    return $this->roleHierarchy->getReachableRoles($roles);
+  }
 }

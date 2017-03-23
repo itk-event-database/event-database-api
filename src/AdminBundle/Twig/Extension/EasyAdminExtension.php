@@ -3,8 +3,12 @@
 namespace AdminBundle\Twig\Extension;
 
 use AdminBundle\Service\IntegrityManager;
+use AdminBundle\Service\UserManager;
+use AppBundle\Entity\Event;
+use AppBundle\Entity\User;
 use AppBundle\Security\Authorization\Voter\EditVoter;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -34,11 +38,17 @@ class EasyAdminExtension extends \Twig_Extension {
    */
   private $integrityManager;
 
-  public function __construct(TokenStorageInterface $tokenStorage, EditVoter $voter, TranslatorInterface $translator, IntegrityManager $integrityManager) {
+  /**
+   * @var \AdminBundle\Service\UserManager
+   */
+  private $userManager;
+
+  public function __construct(TokenStorageInterface $tokenStorage, EditVoter $voter, TranslatorInterface $translator, IntegrityManager $integrityManager, UserManager $userManager) {
     $this->tokenStorage = $tokenStorage;
     $this->voter = $voter;
     $this->translator = $translator;
     $this->integrityManager = $integrityManager;
+    $this->userManager = $userManager;
   }
 
   /**
@@ -67,6 +77,16 @@ class EasyAdminExtension extends \Twig_Extension {
     if (!$token) {
       return false;
     }
+    if ($subject instanceof Event) {
+      return $this->canPerformActionOnEvent($action, $subject, $token);
+    } elseif ($subject instanceof User) {
+      return $this->canPerformActionOnUser($action, $subject, $token);
+    }
+
+    return TRUE;
+  }
+
+  private function canPerformActionOnEvent($action, Event $event, TokenInterface $token) {
     switch ($action) {
       case 'clone':
       case 'edit':
@@ -79,7 +99,17 @@ class EasyAdminExtension extends \Twig_Extension {
         return true;
     }
 
-    return $this->voter->vote($token, $subject, [$action]) == VoterInterface::ACCESS_GRANTED;
+    return $this->voter->vote($token, $event, [$action]) == VoterInterface::ACCESS_GRANTED;
+  }
+
+  public function canPerformActionOnUser($action, User $user, TokenInterface $token) {
+    switch ($action) {
+      case 'edit':
+      case 'delete':
+        return $this->userManager->canEdit($user, $token);
+    }
+
+    return true;
   }
 
   public function canDelete($entity) {
