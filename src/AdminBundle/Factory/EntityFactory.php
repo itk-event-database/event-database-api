@@ -96,8 +96,7 @@ abstract class EntityFactory {
 
       case 'tags':
         if ($entity instanceof Taggable && $this->tagManager) {
-          $tags = $this->tagManager->loadOrCreateTags($value);
-          $this->tagManager->replaceTags($tags, $entity);
+          $tags = $this->tagManager->setTags($value, $entity);
         }
         return;
     }

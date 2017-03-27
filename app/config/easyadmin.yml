@@ -264,6 +264,8 @@ easy_admin:
                     - property: tags
                       label: app.event.tags
                       template: tags.html.twig
+                    - property: customTags
+                      label: app.event.customTags
                     - property: occurrences
                       label: app.event.occurrences
                       template: occurrences.html.twig

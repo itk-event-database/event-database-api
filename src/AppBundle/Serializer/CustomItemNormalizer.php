@@ -15,7 +15,6 @@ use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
 use ApiPlatform\Core\Serializer\ContextTrait;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
-use AppBundle\Entity\CustomTaggable;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -120,18 +119,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   protected function setAttributeValue($object, $attribute, $value, $format = NULL, array $context = []) {
     // @TODO: We should delegate this to our factories or a service.
     if ($object instanceof Taggable && $attribute === 'tags') {
-      $tags = $this->tagManager->loadOrCreateTags($value);
-      $this->tagManager->addTags($tags, $object);
-
-      // Store all tags as custom tags on object.
-      if ($object instanceof CustomTaggable) {
-        $customTags = array_diff($value, array_map(function ($tag) {
-          return $tag->getName();
-        }, $tags));
-        if ($customTags) {
-          $object->setCustomTags($customTags);
-        }
-      }
+      $this->tagManager->setTags($value, $object);
       return;
     }
     if ($object instanceof Occurrence && $attribute === 'place') {

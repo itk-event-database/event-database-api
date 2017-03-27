@@ -26,6 +26,7 @@ app:
         occurrences: Dato og tid
         organizer: Arrangør
         tags: Tags
+        customTags: Ukendte tags
         ticketPurchaseUrl: Billeturl
         url: Url
         videoUrl: Videourl
