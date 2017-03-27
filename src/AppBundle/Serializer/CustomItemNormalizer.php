@@ -119,8 +119,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   protected function setAttributeValue($object, $attribute, $value, $format = NULL, array $context = []) {
     // @TODO: We should delegate this to our factories or a service.
     if ($object instanceof Taggable && $attribute === 'tags') {
-      $tags = $this->tagManager->loadOrCreateTags($value);
-      $this->tagManager->addTags($tags, $object);
+      $this->tagManager->setTags($value, $object);
       return;
     }
     if ($object instanceof Occurrence && $attribute === 'place') {
