@@ -265,32 +265,14 @@ class FeedController extends Controller {
    * @return array
    */
   public function validateAction(Feed $feed) {
-    // $previewer = $this->get('feed_previewer');
-    // $previewer->read($feed);
-    // $events = $previewer->getEvents();
-
-    $events = [['id'=>false],['id'=>true, 'occurrences' => [1,2,]]];
-
-    $eventErrors = [];
-    foreach ($events as $eventIndex => $event) {
-      if (empty($event['id'])) {
-        $eventErrors[$eventIndex][] = 'Missing or invalid id: ' . json_encode($event['id']);
-      }
-      if (empty($event['occurrences'])) {
-        $eventErrors[$eventIndex][] = 'Missing occurrences';
-      } else {
-        $eventErrors[$eventIndex]['occurrences'] = [];
-        $occurrenceErrors = &$eventErrors[$eventIndex]['occurrences'];
-        foreach ($event['occurrences'] as $occurrence) {
-          $occurrenceErrors[] = 'Missing or invalid id: ';
-        }
-      }
-    }
+    $validator = $this->get('feed_validator');
+    $errors = $validator->validate($feed);
+    $events = $validator->getEvents();
 
     return [
       'feed' => $feed,
       'events' => $events,
-      'eventErrors' => $eventErrors,
+      'errors' => $errors,
     ];
   }
 
