@@ -45,6 +45,9 @@ class Json extends FeedReader {
    * @return mixed
    */
   protected function getValue($data, $path, $failOnError = FALSE) {
+    if (!$path) {
+      return NULL;
+    }
     $json = new JsonObject($data, TRUE);
     $prefix = strpos($path, '[') === 0 ? '$' : '$.';
     return $json->get($prefix . $path);

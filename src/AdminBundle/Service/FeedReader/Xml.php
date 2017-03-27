@@ -37,6 +37,9 @@ class Xml extends FeedReader {
    * @throws \Exception
    */
   private function getItems(\SimpleXMLElement $el, $path, $failOnError = FALSE) {
+    if (!$path) {
+      return NULL;
+    }
     $nodes = $el->xpath($path);
     if ($nodes === FALSE) {
       if ($failOnError) {
