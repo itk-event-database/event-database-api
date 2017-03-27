@@ -18,11 +18,11 @@ class FeedValidator extends FeedPreviewer {
     return $this->validateEvents($this->events);
   }
 
-  protected function validateEvents(array $events) {
+  protected function validateEvents(array &$events) {
     $errors = [];
 
     if ($events) {
-      foreach ($events as $index => $event) {
+      foreach ($events as $index => &$event) {
         $eventErrors = $this->validateEvent($event);
         if ($eventErrors) {
           $errors[$index] = $eventErrors;
@@ -33,7 +33,7 @@ class FeedValidator extends FeedPreviewer {
     return $errors;
   }
 
-  protected function validateEvent(array $event) {
+  protected function validateEvent(array &$event) {
     $errors = [];
 
     $this->requireValues($event, ['id', 'langcode', 'organizer', 'occurrences'], $errors);
@@ -52,22 +52,30 @@ class FeedValidator extends FeedPreviewer {
       }
     }
 
+    if ($errors) {
+      $event['__validation_errors__'] = $errors;
+    }
+
     return $errors;
   }
 
-  protected function validateOrganizer(array $organizer) {
+  protected function validateOrganizer(array &$organizer) {
     $errors = [];
 
     $this->requireValues($organizer, ['name', 'url', 'email'], $errors);
 
+    if ($errors) {
+      $organizer['__validation_errors__'] = $errors;
+    }
+
     return $errors;
   }
 
-  protected function validateOccurrences(array $occurrences) {
+  protected function validateOccurrences(array &$occurrences) {
     $errors = [];
 
     if ($occurrences) {
-      foreach ($occurrences as $index => $occurrence) {
+      foreach ($occurrences as $index => &$occurrence) {
         $occurrenceErrors = $this->validateOccurrence($occurrence, $errors, $index);
         if ($occurrenceErrors) {
           $errors[$index] = $occurrenceErrors;
@@ -78,7 +86,7 @@ class FeedValidator extends FeedPreviewer {
     return $errors;
   }
 
-  protected function validateOccurrence(array $occurrence) {
+  protected function validateOccurrence(array &$occurrence) {
     $errors = [];
 
     $this->requireValues($occurrence, ['startDate', 'endDate'], $errors);
@@ -94,13 +102,21 @@ class FeedValidator extends FeedPreviewer {
       }
     }
 
+    if ($errors) {
+      $occurrence['__validation_errors__'] = $errors;
+    }
+
     return $errors;
   }
 
-  protected function validatePlace(array $place) {
+  protected function validatePlace(array &$place) {
     $errors = [];
 
     $this->requireValues($place, ['name', 'street_address'], $errors);
+
+    if ($errors) {
+      $place['__validation_errors__'] = $errors;
+    }
 
     return $errors;
   }
