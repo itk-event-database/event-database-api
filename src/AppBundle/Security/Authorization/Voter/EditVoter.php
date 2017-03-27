@@ -82,11 +82,11 @@ class EditVoter extends Voter {
   private function canEdit(Blameable $entity, User $user) {
     // Hack!
     if ($entity instanceof Event) {
-      if ($entity->getFeed()) {
-        // Events from feed cannot be edited.
-        return FALSE;
-      }
       $userRoles = $this->getUserRoles($user);
+      if ($entity->getFeed()) {
+        // Events from feed can only be edited by owner.
+        return $entity->getCreatedBy()->getId() === $user->getId();
+      }
       if ($this->hasRole($userRoles, 'ROLE_EVENT_ADMIN')) {
         // ROLE_EVENT_ADMIN can edit all events.
         return TRUE;

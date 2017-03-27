@@ -5,6 +5,7 @@ namespace AdminBundle\Service;
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 
 class FeedManager {
@@ -41,12 +42,24 @@ class FeedManager {
     $repository = $this->em->getRepository(Event::class);
     $events = $repository->findBy(['feed' => $feed]);
 
-    foreach ($events as $event) {
-      $event->getOccurrences()->clear();
-      $this->em->persist($event);
-      $this->em->remove($event);
-    }
-    $this->em->flush();
+    // Note: We bypass all voters and stuff when deleting feed events.
+    // Delete occurrences.
+    $qb = $this->em->createQueryBuilder();
+    $query = $qb->delete(Occurrence::class, 'e')
+      ->where('e.event in (:events)')
+      ->setParameter('events', $events)
+      ->getQuery();
+    $query->execute();
+
+    // (Soft-)delete events.
+    $qb = $this->em->createQueryBuilder();
+    $query = $qb->update(Event::class, 'e')
+      ->set('e.deletedAt', ':deletedAt')
+      ->where('e.id in (:events)')
+      ->setParameter('events', $events)
+      ->setParameter('deletedAt', new \DateTime(), Type::DATETIME)
+      ->getQuery();
+    $query->execute();
   }
 
   /**
