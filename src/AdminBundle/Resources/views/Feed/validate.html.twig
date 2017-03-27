@@ -1,30 +1,73 @@
 {% extends 'AdminBundle::base.html.twig' %}
 
+{% macro showError(message, error) %}
+	<div class="alert alert-danger alert-dismissible">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{ message | trans }}: {{ error }}
+	</div>
+{% endmacro %}
+
+{% macro showEventErrors(errors) %}
+	{% import _self as self %}
+
+	{% for key, error in errors %}
+		{% if key matches '/^\\d+$/' %}
+			{{ self.showError('Event validation error', error) }}
+		{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% macro showOccurrenceErrors(errors) %}
+	{% import _self as self %}
+
+	{% for key, error in errors %}
+		{% if key matches '/^\\d+$/' %}
+			{{ self.showError('Occurrence validation error', error) }}
+		{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% macro showPlaceErrors(errors) %}
+	{% import _self as self %}
+
+	{% for key, error in errors %}
+		{% if key matches '/^\\d+$/' %}
+			{{ self.showError('Place validation error', error) }}
+		{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% import _self as self %}
+
 {% block body -%}
 	<h1>{{ feed.name }}</h1>
 
-	{% for index, event in events %}
-		{% if eventErrors[index] is defined %}
-			{% for key, error in eventErrors[index] %}
-				{% if key matches '/^\\d+$/' %}
-					<div class="alert alert-danger">
-						{{ 'Event validation error' | trans }}: {{ error }}
-					</div>
-				{% endif %}
-			{% endfor %}
+	{% if errors %}
+		<div class="alert alert-danger">{{ '#errors: @count' | trans({'@count': errors|length}) }}</div>
+	{% else %}
+		<div class="alert alert-success">{{ 'No errors in feed data' | trans }}</div>
+	{% endif %}
 
-			{% if eventErrors[index].occurrences is defined %}
-				{% for error in eventErrors[index].occurrences %}
-					<div class="alert alert-danger">
-						{{ 'Occurrence validation error' | trans }}: {{ error }}
-					</div>
+	{% for index, event in events %}
+		{% if errors[index] is defined %}
+			{{ self.showEventErrors(errors[index]) }}
+
+			{% if errors[index].occurrences is defined %}
+				{% for occurrenceErrors in errors[index].occurrences %}
+					{{ self.showOccurrenceErrors(occurrenceErrors) }}
+					{% if occurrenceErrors.place is defined %}
+						{{ self.showPlaceErrors(occurrenceErrors.place) }}
+					{% endif %}
 				{% endfor %}
 			{% endif %}
-			<pre>{{ event | json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 		{% else %}
 			<div class="alert alert-success">
 				{{ event.id }}: {{ event.name }}
 			</div>
 		{% endif %}
+
+		<pre>{{ event | json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 	{% endfor %}
 {% endblock %}

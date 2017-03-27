@@ -215,6 +215,10 @@ services:
             - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
 
+    feed_validator:
+        class: AdminBundle\Service\FeedValidator
+        parent: feed_previewer
+
     feed_manager:
         class: AdminBundle\Service\FeedManager
         arguments:
