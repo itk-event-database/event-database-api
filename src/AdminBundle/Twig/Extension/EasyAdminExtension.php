@@ -51,6 +51,12 @@ class EasyAdminExtension extends \Twig_Extension {
     $this->userManager = $userManager;
   }
 
+  public function getFilters() {
+    return [
+      new \Twig_SimpleFilter('exclude', [$this, 'excludeKeys'], ['is_safe' => ['all']]),
+    ];
+  }
+
   /**
    *
    */
@@ -70,6 +76,26 @@ class EasyAdminExtension extends \Twig_Extension {
         return $var instanceof $class;
       }),
     ];
+  }
+
+  public function excludeKeys($subject, $keys) {
+    if (!is_array($keys)) {
+      $keys = [$keys];
+    }
+
+    if (is_array($subject)) {
+      foreach ($keys as $key) {
+        unset($subject[$key]);
+      }
+    }
+
+    if (is_object($subject)) {
+      foreach ($keys as $key) {
+        unset($subject->{$key});
+      }
+    }
+
+    return $subject;
   }
 
   public function canPerformAction($action, $subject) {
