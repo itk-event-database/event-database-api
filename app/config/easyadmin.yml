@@ -5,7 +5,7 @@ services:
         arguments: ['@service_container', '@security.token_storage', '@security.role_hierarchy']
 
 easy_admin:
-    site_name: 'Aarhus Events'
+    site_name: '%site_name%'
 
     design:
         brand_color: '#154194'
@@ -132,6 +132,7 @@ easy_admin:
                           required: true
                       type: url
                     - property: url
+                      label: app.event.url
                       help: app.event.help.url
                       type: url
                     - property: ticketPurchaseUrl
@@ -198,6 +199,7 @@ easy_admin:
                           required: false
                       type: url
                     - property: url
+                      label: app.event.url
                       help: app.event.help.url
                       type: url
                     - property: ticketPurchaseUrl
@@ -248,6 +250,7 @@ easy_admin:
                     - property: image
                       type: image
                     - property: url
+                      label: app.event.url
                       type: url
                     - property: videoUrl
                       type: url
