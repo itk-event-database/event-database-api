@@ -61,7 +61,10 @@ class Json extends FeedReader {
    * @param array $rootPath
    * @return array
    */
-  protected function getData(array $item, array $configuration, array $rootPath = []) {
+  protected function getData(array $item = NULL, array $configuration, array $rootPath = []) {
+    if (!$item) {
+      return NULL;
+    }
     $data = [];
 
     $mapping = $configuration['mapping'];
