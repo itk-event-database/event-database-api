@@ -5,7 +5,7 @@ services:
         arguments: ['@service_container', '@security.token_storage', '@security.role_hierarchy']
 
 easy_admin:
-    site_name: 'Aarhus Events'
+    site_name: '%site_name%'
 
     design:
         brand_color: '#154194'
