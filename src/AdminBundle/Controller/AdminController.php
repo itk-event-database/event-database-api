@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends BaseAdminController {
   protected function initialize(Request $request) {
     parent::initialize($request);
-    if (!$this->request->query->has('_event_list_filter')) {
+    if ($this->request && !$this->request->query->has('_event_list_filter')) {
       $this->request->query->add(['_event_list_filter' => 'my']);
     }
   }
