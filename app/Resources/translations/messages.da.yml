@@ -110,6 +110,10 @@ action:
     show: Vis
     cancel: Annuller
     ok: OK
+    add_new:
+        occurrences: Tilføj en dato
+    add_another:
+        occurrences: Tilføj ny dato
 
 label:
     yes: ja
