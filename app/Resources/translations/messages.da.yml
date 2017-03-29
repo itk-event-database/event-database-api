@@ -48,7 +48,7 @@ app:
                 place: Vælg hvor begivenheden foregår.
                 ticketPriceRange: Angiv billetpris, fx "87 kr.", "100–200 kr." eller vælg "Gratis".
 
-            tags: Vælg et eller flere tags.
+            tags: Vælg et eller flere tags. Se <a target="taglist" href="/helper/tag/list">liste over tilladte tags</a>.
             ticketPurchaseUrl: Url til billetkøb
             url: Url til uddybende beskrivelse af begivenheden
             videoUrl: Url til video om begivenheden
@@ -268,3 +268,5 @@ Tag is used by %count% objects: >
 
 Show my events: Mine begivenheder
 Show all events: Alle begivenheder
+
+Tag list: Tags
