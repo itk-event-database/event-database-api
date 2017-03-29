@@ -28,7 +28,7 @@ app:
         tags: Tags
         customTags: Ukendte tags
         ticketPurchaseUrl: Billeturl
-        url: Url
+        url: Link til events hjemmeside
         videoUrl: Videourl
         help:
             description: Beskrivelse af begivenheden
@@ -50,7 +50,7 @@ app:
 
             tags: Vælg et eller flere tags.
             ticketPurchaseUrl: Url til billetkøb
-            url: Url med uddybende beskrivelse af begivenheden
+            url: Url til uddybende beskrivelse af begivenheden
             videoUrl: Url til video om begivenheden
             repeating_occurrences:
                 main: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.
