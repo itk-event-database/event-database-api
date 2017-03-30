@@ -12,13 +12,6 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdmin
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends BaseAdminController {
-  protected function initialize(Request $request) {
-    parent::initialize($request);
-    if ($this->request && !$this->request->query->has('_event_list_filter')) {
-      $this->request->query->add(['_event_list_filter' => 'my']);
-    }
-  }
-
   protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null) {
     $this->limitByUser($dqlFilter, $entityClass, 'entity');
     return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
@@ -67,6 +60,8 @@ class AdminController extends BaseAdminController {
         // @TODO: Use EditVoter to get editable events.
         return NULL;
     }
+
+    return NULL;
   }
 
   public function cloneEventAction() {
