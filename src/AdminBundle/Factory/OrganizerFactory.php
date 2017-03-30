@@ -39,10 +39,10 @@ class OrganizerFactory extends EntityFactory {
    */
   private function findExisting(array $data) {
     // Try to find existing organizer by
-    //   1. url
-    //   2. email
+    //   1. email
+    //   2. url
     //   3. name
-    $keys = ['url', 'email', 'name'];
+    $keys = ['email', 'url', 'name'];
     $repository = $this->em->getRepository(Organizer::class);
 
     foreach ($keys as $key) {
