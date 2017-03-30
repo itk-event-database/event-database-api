@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 class GroupRepository extends EntityRepository {
+
   /**
    * Find groups by id or name.
    *
@@ -27,4 +28,5 @@ class GroupRepository extends EntityRepository {
       ->setParameter('ids', $ids)
       ->getResult();
   }
+
 }

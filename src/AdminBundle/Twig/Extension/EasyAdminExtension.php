@@ -101,11 +101,12 @@ class EasyAdminExtension extends \Twig_Extension {
   public function canPerformAction($action, $subject) {
     $token = $this->tokenStorage->getToken();
     if (!$token) {
-      return false;
+      return FALSE;
     }
     if ($subject instanceof Event) {
       return $this->canPerformActionOnEvent($action, $subject, $token);
-    } elseif ($subject instanceof User) {
+    }
+    elseif ($subject instanceof User) {
       return $this->canPerformActionOnUser($action, $subject, $token);
     }
 
@@ -118,11 +119,13 @@ class EasyAdminExtension extends \Twig_Extension {
       case 'edit':
         $action = EditVoter::UPDATE;
         break;
+
       case 'delete':
         $action = EditVoter::REMOVE;
         break;
+
       case 'show':
-        return true;
+        return TRUE;
     }
 
     return $this->voter->vote($token, $event, [$action]) == VoterInterface::ACCESS_GRANTED;
@@ -135,7 +138,7 @@ class EasyAdminExtension extends \Twig_Extension {
         return $this->userManager->canEdit($user, $token);
     }
 
-    return true;
+    return TRUE;
   }
 
   public function canDelete($entity) {
@@ -166,4 +169,5 @@ class EasyAdminExtension extends \Twig_Extension {
     }
     return NULL;
   }
+
 }

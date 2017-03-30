@@ -85,4 +85,5 @@ class EasyAdminSubscriber implements EventSubscriberInterface {
       $this->tagManager->saveTagging($entity);
     }
   }
+
 }

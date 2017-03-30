@@ -39,7 +39,7 @@ class AccessSubscriber implements EventSubscriberInterface {
     $entity = $event->getArgument('entity');
     $class = $entity['class'];
     if (isset(self::$requiredRoles[$class])) {
-        $this->requireRole(self::$requiredRoles[$class]);
+      $this->requireRole(self::$requiredRoles[$class]);
     }
   }
 
@@ -87,4 +87,5 @@ class AccessSubscriber implements EventSubscriberInterface {
 
     return FALSE;
   }
+
 }

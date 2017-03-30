@@ -1,6 +1,7 @@
 <?php
 
 namespace AdminBundle\Service;
+
 /**
  *
  */
@@ -25,7 +26,7 @@ class RolesHelper {
 
     foreach ($this->roleHierarchy as $role => $roles) {
       $allRoles[$role] = $role;
-      array_walk_recursive($roles, function($role) use (&$allRoles) {
+      array_walk_recursive($roles, function ($role) use (&$allRoles) {
           $allRoles[$role] = $role;
       });
     }

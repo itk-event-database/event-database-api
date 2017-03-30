@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Controller;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -29,7 +28,7 @@ class EditorController extends Controller {
    *
    * @Template()
    */
-  public function configAction(Request $request ) {
+  public function configAction(Request $request) {
     $em = $this->getDoctrine()->getManager();
 
     $tags = $em->getRepository('AppBundle:Tag')->findAll();
@@ -39,8 +38,8 @@ class EditorController extends Controller {
       'tags' => $tags,
       'baseUrl' => $baseUrl
     );
-    $response = $this->render('AdminBundle:Editor:config.js.twig',$params);
-    $response->headers->set('Content-Type','text/javascript');
+    $response = $this->render('AdminBundle:Editor:config.js.twig', $params);
+    $response->headers->set('Content-Type', 'text/javascript');
     return $response;
   }
 

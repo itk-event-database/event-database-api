@@ -58,22 +58,22 @@ class TagManager extends BaseTagManager {
     }
   }
 
-/**
+  /**
    *
    */
   public function loadTags(array $names = NULL) {
     $builder = $this->em->createQueryBuilder();
     $builder
-        ->select('t')
-        ->from($this->tagClass, 't');
+      ->select('t')
+      ->from($this->tagClass, 't');
 
     if ($names) {
       $builder->where($builder->expr()->in('t.name', $names));
     }
 
     $tags = $builder
-        ->getQuery()
-        ->getResult();
+      ->getQuery()
+      ->getResult();
 
     return $tags;
   }
@@ -92,10 +92,10 @@ class TagManager extends BaseTagManager {
     // Delete relations to entities.
     $builder = $this->em->createQueryBuilder();
     $builder
-        ->delete($this->taggingClass, 't')
-        ->where($builder->expr()->eq('t.tag', $tag->getId()))
-        ->getQuery()
-        ->execute();
+      ->delete($this->taggingClass, 't')
+      ->where($builder->expr()->eq('t.tag', $tag->getId()))
+      ->getQuery()
+      ->execute();
     ;
 
     // Delete tag.

@@ -28,7 +28,7 @@ class ItemNormalizer extends AbstractItemNormalizer {
    */
   private $tagManager;
 
-  public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager) {
+  public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = NULL, NameConverterInterface $nameConverter = NULL, TagManager $tagManager) {
     parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
     $this->tagManager = $tagManager;
   }
@@ -63,9 +63,9 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data['category'] = 'Byliv';
     $data['category_id'] = 64237;
 
-    $eventStartTime = null;
-    $eventEndTime = null;
-    $location = null;
+    $eventStartTime = NULL;
+    $eventEndTime = NULL;
+    $location = NULL;
     foreach ($event->getOccurrences() as $index => $occurrence) {
       $startTime = $occurrence->getStartDate();
       $endTime = $occurrence->getEndDate();
@@ -74,10 +74,10 @@ class ItemNormalizer extends AbstractItemNormalizer {
         $endTime->add(new \DateInterval('PT1H'));
       }
 
-      if ($eventStartTime === null || $startTime < $eventStartTime) {
+      if ($eventStartTime === NULL || $startTime < $eventStartTime) {
         $eventStartTime = $startTime;
       }
-      if ($eventEndTime === null || $endTime > $eventEndTime) {
+      if ($eventEndTime === NULL || $endTime > $eventEndTime) {
         $eventEndTime = $endTime;
       }
 
@@ -107,8 +107,8 @@ class ItemNormalizer extends AbstractItemNormalizer {
       }
       $location['details'][$occurrence->getId()] = [
         'date' => $date,
-				'time_start' => $startTime ? $startTime->format('H:i') : '',
-				'time_end' => $endTime ? $endTime->format('H:i') : '',
+        'time_start' => $startTime ? $startTime->format('H:i') : '',
+        'time_end' => $endTime ? $endTime->format('H:i') : '',
       ];
     }
     $data['start_time'] = $eventStartTime ? $eventStartTime->format(\DateTime::RFC2822) : '';
@@ -135,7 +135,7 @@ class ItemNormalizer extends AbstractItemNormalizer {
    * {@inheritdoc}
    */
   public function supportsDenormalization($data, $type, $format = NULL) {
-    return false;
+    return FALSE;
   }
 
   /**

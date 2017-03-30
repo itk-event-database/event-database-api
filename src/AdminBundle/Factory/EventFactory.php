@@ -119,6 +119,7 @@ class EventFactory extends EntityFactory {
             }
             $entity->setOccurrences($occurrences);
             return;
+
           case 'organizer':
             $organizer = $this->organizerFactory->get($value);
             $entity->setOrganizer($organizer);

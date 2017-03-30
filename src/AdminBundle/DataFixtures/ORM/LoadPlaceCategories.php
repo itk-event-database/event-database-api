@@ -10,12 +10,10 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
-class LoadPlaceCategories extends LoadData
-{
+class LoadPlaceCategories extends LoadData {
   protected $order = 7;
 
-  public function load(ObjectManager $manager)
-  {
+  public function load(ObjectManager $manager) {
     $yaml = $this->loadFixture('places.yml');
     $config_places = Yaml::parse($yaml);
 
@@ -26,7 +24,7 @@ class LoadPlaceCategories extends LoadData
 
     $places_count = count($config_places['data']);
 
-    echo 'Adding '. count($config_categories['data']). ' categories to ' . $places_count . ' places', PHP_EOL;
+    echo 'Adding ' . count($config_categories['data']) . ' categories to ' . $places_count . ' places', PHP_EOL;
 
     foreach ($config_categories['data'] as $name => $configuration) {
       $categories[$configuration['id']] = $tagManager->loadOrCreateTag($configuration['name']);
@@ -38,7 +36,7 @@ class LoadPlaceCategories extends LoadData
     foreach ($config_places['data'] as $name => $configuration) {
       $place = $repository->findOneById($configuration['place_id']);
 
-      if($place) {
+      if ($place) {
         foreach ($configuration['category_ids'] as $category_id) {
           $tagManager->addTag($categories[$category_id], $place);
         }
@@ -46,13 +44,13 @@ class LoadPlaceCategories extends LoadData
 
       $tagManager->saveTagging($place);
 
-      if($loop % 100 == 0) {
-        echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
+      if ($loop % 100 == 0) {
+        echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
       }
 
       $loop++;
     }
-    echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
+    echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
     echo 'Done adding tags to places', PHP_EOL;
 
   }

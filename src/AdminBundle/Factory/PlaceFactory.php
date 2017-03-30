@@ -8,6 +8,7 @@ use AppBundle\Entity\Place;
  *
  */
 class PlaceFactory extends EntityFactory {
+
   /**
    * @param array $data
    * @return \AppBundle\Entity\Place|object
@@ -55,4 +56,5 @@ class PlaceFactory extends EntityFactory {
 
     return NULL;
   }
+
 }

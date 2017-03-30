@@ -65,8 +65,8 @@ class TagFilter extends AbstractFilter {
         $alias = 'o';
         $valueParameter = $queryNameGenerator->generateParameterName($property);
         $queryBuilder
-                ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
-                ->setParameter($valueParameter, $ids);
+          ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
+          ->setParameter($valueParameter, $ids);
       }
     }
   }

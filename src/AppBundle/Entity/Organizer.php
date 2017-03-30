@@ -33,8 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   }
  * )
  */
-class Organizer extends Entity implements Blameable
-{
+class Organizer extends Entity implements Blameable {
   use TimestampableEntity;
   use BlameableEntity;
   use SoftDeleteableEntity;
@@ -89,52 +88,45 @@ class Organizer extends Entity implements Blameable
    *
    * @return int
    */
-  public function getId()
-  {
+  public function getId() {
     return $this->id;
   }
 
-  public function setName($name)
-  {
+  public function setName($name) {
     $this->name = $name;
 
     return $this;
   }
 
-  public function getName()
-  {
+  public function getName() {
     return $this->name;
   }
 
   /**
    * @return string
    */
-  public function getEmail()
-  {
+  public function getEmail() {
     return $this->email;
   }
 
   /**
    * @param string $email
    */
-  public function setEmail($email)
-  {
+  public function setEmail($email) {
     $this->email = $email;
   }
 
   /**
    * @return string
    */
-  public function getUrl()
-  {
+  public function getUrl() {
     return $this->url;
   }
 
   /**
    * @param string $url
    */
-  public function setUrl($url)
-  {
+  public function setUrl($url) {
     $this->url = $url;
   }
 
@@ -145,4 +137,5 @@ class Organizer extends Entity implements Blameable
   public function __toString() {
     return $this->getName();
   }
+
 }

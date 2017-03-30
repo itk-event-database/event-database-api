@@ -116,7 +116,7 @@ class UnknownTagController extends Controller {
    */
   public function newAction() {
     $tag = new UnknownTag();
-    $form   = $this->createCreateForm($tag);
+    $form = $this->createCreateForm($tag);
 
     return [
       'tag' => $tag,
@@ -252,9 +252,9 @@ class UnknownTagController extends Controller {
    */
   private function createDeleteForm(UnknownTag $tag) {
     return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_unknown_tag_delete', ['id' => $tag->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+      ->setAction($this->generateUrl('admin_unknown_tag_delete', ['id' => $tag->getId()]))
+      ->setMethod('DELETE')
+      ->getForm();
   }
 
 }

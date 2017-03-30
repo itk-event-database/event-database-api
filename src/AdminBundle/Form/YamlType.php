@@ -14,8 +14,8 @@ use Symfony\Component\Yaml\Yaml;
 /**
  *
  */
-class YamlType extends AbstractType implements DataTransformerInterface
-{
+class YamlType extends AbstractType implements DataTransformerInterface {
+
   public function getParent() {
     return TextareaType::class;
   }
@@ -24,7 +24,7 @@ class YamlType extends AbstractType implements DataTransformerInterface
     parent::configureOptions($resolver);
 
     $resolver->setDefaults([
-      'schema' => null,
+      'schema' => NULL,
     ]);
   }
 
@@ -36,7 +36,8 @@ class YamlType extends AbstractType implements DataTransformerInterface
     // @TODO: Use schema to validate YAML.
     try {
       return Yaml::parse($value);
-    } catch (\Exception $ex) {
+    }
+    catch (\Exception $ex) {
       throw new TransformationFailedException($ex->getMessage());
     }
   }

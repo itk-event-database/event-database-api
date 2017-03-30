@@ -2,6 +2,8 @@
 
 namespace AdminBundle\DataFixtures\ORM;
 
+use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use AppBundle\Entity\Place;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -10,12 +12,10 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
-class LoadPlaces extends LoadData
-{
+class LoadPlaces extends LoadData {
   protected $order = 6;
 
-  public function load(ObjectManager $manager)
-  {
+  public function load(ObjectManager $manager) {
     $yaml = $this->loadFixture('places.yml');
     $config = Yaml::parse($yaml);
 
@@ -27,7 +27,7 @@ class LoadPlaces extends LoadData
     $places_count = count($config['data']);
     $loop = 0;
 
-    echo 'Places loaded (' . $places_count .'):', PHP_EOL;
+    echo 'Places loaded (' . $places_count . '):', PHP_EOL;
 
     foreach ($config['data'] as $name => $configuration) {
       $name = trim($configuration['name']);
@@ -36,48 +36,48 @@ class LoadPlaces extends LoadData
 
       $place = $repository->findOneById($configuration['place_id']);
 
-      if(!$place) {
+      if (!$place) {
         $place = new Place();
       }
 
       $place->setCreatedBy($user);
       $place->setUpdatedBy($user);
 
-      if(!empty($name)) {
+      if (!empty($name)) {
         $place->setName($name);
       }
-      if(!empty($configuration['adress'])) {
+      if (!empty($configuration['adress'])) {
         $place->setStreetAddress($configuration['adress']);
       }
-      if(!empty($configuration['postcode'])) {
+      if (!empty($configuration['postcode'])) {
         $place->setPostalCode($configuration['postcode']);
       }
-      if(!empty($city)) {
+      if (!empty($city)) {
         $place->setAddressLocality($city);
       }
-      if(!empty($configuration['description'])) {
+      if (!empty($configuration['description'])) {
         $place->setDescription($configuration['description']);
       }
-      if(!empty($configuration['promopic'])) {
+      if (!empty($configuration['promopic'])) {
         $place->setImage($configuration['promopic']);
       }
       $place->setLangcode("DA");
-      if(!empty($configuration['longitude'])) {
+      if (!empty($configuration['longitude'])) {
         $place->setLongitude($configuration['longitude']);
       }
-      if(!empty($configuration['latitude'])) {
+      if (!empty($configuration['latitude'])) {
         $place->setLatitude($configuration['latitude']);
       }
-      if(!empty($configuration['website'])) {
+      if (!empty($configuration['website'])) {
         $place->setUrl($configuration['website']);
       }
-      if(!empty($configuration['phone'])) {
+      if (!empty($configuration['phone'])) {
         $place->setTelephone($configuration['phone']);
       }
-      if(!empty($configuration['logo'])) {
+      if (!empty($configuration['logo'])) {
         $place->setLogo($configuration['logo']);
       }
-      if(!empty($configuration['email'])) {
+      if (!empty($configuration['email'])) {
         $place->setEmail($configuration['email']);
       }
 
@@ -87,20 +87,20 @@ class LoadPlaces extends LoadData
 
       $em = $this->container->get('doctrine')->getManager();
       $metadata = $em->getClassMetaData(get_class($place));
-      $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-      $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
+      $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+      $metadata->setIdGenerator(new AssignedGenerator());
 
       $manager->persist($place);
 
-      if($loop % 100 == 0) {
-        echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
+      if ($loop % 100 == 0) {
+        echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
       }
 
       $loop++;
 
     }
 
-    echo 'Completed '. $loop. ' / ' . $places_count . ' places', PHP_EOL;
+    echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
     echo 'Flushing to DB...', PHP_EOL;
 
     $manager->flush();

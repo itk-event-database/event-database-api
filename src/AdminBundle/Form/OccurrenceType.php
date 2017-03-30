@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  */
 class OccurrenceType extends AbstractType {
+
   /**
    * @param FormBuilderInterface $builder
    * @param array $options

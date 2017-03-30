@@ -1,6 +1,7 @@
 <?php
 
 namespace AdminBundle\Service\FeedReader;
+
 /**
  *
  */
@@ -103,7 +104,7 @@ class Xml extends FeedReader {
               $data[$key] = $this->getData($items, $spec);
             }
             else {
-              $data[$key] = array_map(function($item) use ($spec) {
+              $data[$key] = array_map(function ($item) use ($spec) {
                 return $this->getData($item, $spec);
               }, $items);
             }

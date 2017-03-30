@@ -63,7 +63,7 @@ class UploadAction {
 
     foreach ($request->files as $file) {
       $path = $this->container->getParameter('admin.uploads_path');
-      $filename = uniqid($file->getBaseName()).'.'.$file->guessExtension();
+      $filename = uniqid($file->getBaseName()) . '.' . $file->guessExtension();
       $file->move($path, $filename);
       $data['file_url'] = $this->baseUrlResolver->__invoke(HttpUri::createFromString($this->uploadsUrl . '/' . $filename))->__toString();
     }

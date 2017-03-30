@@ -107,7 +107,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer {
   public function denormalize($data, $class, $format = NULL, array $context = []) {
     // Avoid issues with proxies if we populated the object.
     if (isset($data['@id']) && !isset($context['object_to_populate'])) {
-      $context['object_to_populate'] = $this->iriConverter->getItemFromIri($data['@id'], ['fetch_data' => true]);
+      $context['object_to_populate'] = $this->iriConverter->getItemFromIri($data['@id'], ['fetch_data' => TRUE]);
     }
 
     return parent::denormalize($data, $class, $format, $context);

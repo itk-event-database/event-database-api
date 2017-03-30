@@ -9,13 +9,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ReadFeedsCommand extends FeedCommand {
+
   protected function configure() {
     parent::configure();
     $this
-        ->setName('events:feeds:read')
-        ->setDescription('Read event feeds')
-        ->addOption('name', NULL, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'The name of the feed')
-        ->addOption('id', NULL, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'The id of the feed');
+      ->setName('events:feeds:read')
+      ->setDescription('Read event feeds')
+      ->addOption('name', NULL, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'The name of the feed')
+      ->addOption('id', NULL, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'The id of the feed');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
@@ -48,7 +49,8 @@ class ReadFeedsCommand extends FeedCommand {
         $feed->setLastRead(new \DateTime());
         $em->persist($feed);
         $em->flush();
-      } catch (\Throwable $t) {
+      }
+      catch (\Throwable $t) {
         $this->writeln('-- Error -----------------------------------------------------------------------');
         $this->writeln(sprintf('%s (feed #%d)', $t->getMessage(), $feed->getId()));
         if ($input->getOption('verbose')) {

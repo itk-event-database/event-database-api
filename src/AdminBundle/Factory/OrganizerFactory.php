@@ -9,6 +9,7 @@ use AppBundle\Entity\User;
  *
  */
 class OrganizerFactory extends EntityFactory {
+
   /**
    * @param array $data
    * @return \AppBundle\Entity\Organizer|object
@@ -56,4 +57,5 @@ class OrganizerFactory extends EntityFactory {
 
     return NULL;
   }
+
 }

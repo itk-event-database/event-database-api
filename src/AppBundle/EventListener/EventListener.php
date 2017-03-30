@@ -33,7 +33,7 @@ class EventListener extends EditListener {
       if ($this->container->has('description_normalizer')) {
         $description = $object->getDescription();
         $description = $this->container->get('description_normalizer')
-                ->normalize($description);
+          ->normalize($description);
         $object->setDescription($description);
       }
     }
@@ -81,7 +81,6 @@ class EventListener extends EditListener {
     }
   }
 
-
   public function preRemove(LifecycleEventArgs $args) {
     parent::preRemove($args);
     $object = $args->getObject();
@@ -89,4 +88,5 @@ class EventListener extends EditListener {
       $object->getOccurrences()->clear();
     }
   }
+
 }

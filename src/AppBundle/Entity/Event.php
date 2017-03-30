@@ -57,7 +57,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @Assert\Type(type="boolean")
    * @ApiProperty(iri="http://schema.org/Boolean")
    */
-  private $isPublished = true;
+  private $isPublished = TRUE;
 
   /**
    * @var ArrayCollection
@@ -266,6 +266,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
   public function setEventUrl($eventUrl) {
     $this->eventUrl = $eventUrl;
   }
+
   /**
    * @return string
    */
@@ -385,12 +386,12 @@ class Event extends Thing implements CustomTaggable, Blameable {
   }
 
   public function __clone() {
-    $this->setId(null);
-    $this->setIsPublished(false);
+    $this->setId(NULL);
+    $this->setIsPublished(FALSE);
     $self = $this;
     $this->occurrences = $this->getOccurrences()->map(function ($occurrence) use ($self) {
       $clone = clone $occurrence;
-      $clone->setId(null);
+      $clone->setId(NULL);
       $clone->setEvent($self);
       return $clone;
     });
@@ -414,4 +415,5 @@ class Event extends Thing implements CustomTaggable, Blameable {
   public function __toString() {
     return $this->getName();
   }
+
 }

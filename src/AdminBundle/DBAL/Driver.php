@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * @TODO: Missing description.
@@ -13,10 +14,12 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver as BaseDriver;
  * @package AppBundle\DBAL
  */
 class Driver extends BaseDriver {
+
   /**
    * {@inheritdoc}
    */
   public function getDatabasePlatform() {
     return new Platform();
   }
+
 }

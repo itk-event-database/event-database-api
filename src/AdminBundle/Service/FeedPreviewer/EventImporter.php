@@ -8,9 +8,9 @@ use AdminBundle\Service\FeedReader\EventImporter as BaseEventImporter;
  *
  */
 class EventImporter extends BaseEventImporter {
+
   public function __construct() {
   }
-
 
   /**
    * @param array $data

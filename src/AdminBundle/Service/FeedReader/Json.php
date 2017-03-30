@@ -97,7 +97,7 @@ class Json extends FeedReader {
               $data[$key] = $this->getData($items, $spec, $rootPath);
             }
             else {
-              $data[$key] = array_map(function($item) use ($spec, $rootPath) {
+              $data[$key] = array_map(function ($item) use ($spec, $rootPath) {
                 return $this->getData($item, $spec, $rootPath);
               }, $items);
             }
@@ -110,14 +110,14 @@ class Json extends FeedReader {
         $value = $this->getValue($item, $path);
         if ($value !== NULL) {
           if (isset($spec['split'])) {
-            $limit = isset($spec['limit']) ? $spec['limit'] : null;
+            $limit = isset($spec['limit']) ? $spec['limit'] : NULL;
             $values = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, $limit, PREG_SPLIT_NO_EMPTY);
             // @TODO: Generalize this and move into parent class.
             if (isset($spec['trim'])) {
               $values = array_map('trim', $values);
             }
             if (isset($spec['index'])) {
-              $values = isset($values[$spec['index']]) ? $values[$spec['index']] : null;
+              $values = isset($values[$spec['index']]) ? $values[$spec['index']] : NULL;
             }
             $data[$key] = $values;
           }

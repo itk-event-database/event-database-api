@@ -191,8 +191,9 @@ class FeedReader implements Controller {
     if ($event) {
       $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
       $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
-    } else {
-      $this->writeln(sprintf('Cannot import event: id: %s; feed: %s', var_export($data['id'], true), $this->feed->getName()));
+    }
+    else {
+      $this->writeln(sprintf('Cannot import event: id: %s; feed: %s', var_export($data['id'], TRUE), $this->feed->getName()));
     }
   }
 
