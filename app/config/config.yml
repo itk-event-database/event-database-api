@@ -135,6 +135,9 @@ fos_user:
     user_class: AppBundle\Entity\User
     group:
         group_class: AppBundle\Entity\Group
+    from_email:
+        address:        '%from_email_address%'
+        sender_name:    '%from_email_name%'
 
 lexik_jwt_authentication:
     private_key_path: "%jwt_private_key_path%"

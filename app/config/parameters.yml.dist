@@ -38,3 +38,6 @@ parameters:
 
     github_url: https://github.com/itk-event-database
     editor_url: http://editor.event-database-api.vm
+
+    from_email_address: noreply@example.com
+    from_email_name: Event Database
