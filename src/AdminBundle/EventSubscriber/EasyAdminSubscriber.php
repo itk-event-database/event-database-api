@@ -23,10 +23,26 @@ class EasyAdminSubscriber implements EventSubscriberInterface {
 
   public static function getSubscribedEvents() {
     return [
+      EasyAdminEvents::POST_INITIALIZE => ['addQueryParameters'],
       EasyAdminEvents::PRE_PERSIST => ['setSlug'],
       EasyAdminEvents::POST_PERSIST => [['saveTags'], ['postPersist']],
       EasyAdminEvents::POST_UPDATE => [['saveTags'], ['postUpdate']],
     ];
+  }
+
+  public function addQueryParameters(GenericEvent $event) {
+    $request = $event->getArgument('request');
+    if ($request) {
+      $action = $request->get('action');
+      $entity = $event->getArgument('entity');
+      if (isset($entity[$action]['params'])) {
+        foreach ($entity[$action]['params'] as $name => $value) {
+          if (!$request->query->has($name)) {
+            $request->query->add([$name => $value]);
+          }
+        }
+      }
+    }
   }
 
   public function postPersist(GenericEvent $event) {

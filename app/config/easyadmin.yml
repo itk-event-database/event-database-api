@@ -70,6 +70,10 @@ easy_admin:
                     - edit
                     - clone
                 title: Events
+                params:
+                    # name: default value
+                    _event_list_filter: my
+                    _event_list_stuff: ~
                 fields:
                     - property: name
                       label: app.event.name
