@@ -12,7 +12,8 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdmin
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends BaseAdminController {
-  protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null) {
+
+  protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = NULL, $dqlFilter = NULL) {
     $this->limitByUser($dqlFilter, $entityClass, 'entity');
     return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
   }
@@ -27,12 +28,13 @@ class AdminController extends BaseAdminController {
     return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
   }
 
-  private function limitByUser(string &$dqlFilter = null, string $entityClass, string $alias) {
+  private function limitByUser(string &$dqlFilter = NULL, string $entityClass, string $alias) {
     $limitByUserFilter = $this->getLimitByUserFilter($entityClass, $alias);
     if ($limitByUserFilter) {
       if ($dqlFilter) {
         $dqlFilter .= ' and ' . $limitByUserFilter;
-      } else {
+      }
+      else {
         $dqlFilter = $limitByUserFilter;
       }
     }
@@ -50,12 +52,14 @@ class AdminController extends BaseAdminController {
     switch ($filter) {
       case 'all':
         return NULL;
+
       case 'mine':
       case 'my':
-      if ($user) {
+        if ($user) {
           return $alias . '.createdBy = ' . $user->getId();
         }
         break;
+
       case 'editable':
         // @TODO: Use EditVoter to get editable events.
         return NULL;
@@ -107,16 +111,17 @@ class AdminController extends BaseAdminController {
   }
 
   // @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/fosuserbundle-integration.md
+
   public function createNewUserEntity() {
     return $this->get('fos_user.user_manager')->createUser();
   }
 
   public function prePersistUserEntity($user) {
-    $this->get('fos_user.user_manager')->updateUser($user, false);
+    $this->get('fos_user.user_manager')->updateUser($user, FALSE);
   }
 
   public function preUpdateUserEntity($user) {
-    $this->get('fos_user.user_manager')->updateUser($user, false);
+    $this->get('fos_user.user_manager')->updateUser($user, FALSE);
   }
 
   public function prePersistEventEntity(Event $event) {
@@ -135,12 +140,12 @@ class AdminController extends BaseAdminController {
       $repeatingOccurrences = $event->getRepeatingOccurrences();
       if ($repeatingOccurrences) {
         /** @var Place $place */
-        $place = isset($repeatingOccurrences['place']) ? $repeatingOccurrences['place'] : null;
-        $ticketPriceRange = isset($repeatingOccurrences['ticket_price_range']) ? $repeatingOccurrences['ticket_price_range'] : null;
+        $place = isset($repeatingOccurrences['place']) ? $repeatingOccurrences['place'] : NULL;
+        $ticketPriceRange = isset($repeatingOccurrences['ticket_price_range']) ? $repeatingOccurrences['ticket_price_range'] : NULL;
         /** @var \DateTime $startDay */
-        $startDay = isset($repeatingOccurrences['start_day']) ? clone $repeatingOccurrences['start_day'] : null;
+        $startDay = isset($repeatingOccurrences['start_day']) ? clone $repeatingOccurrences['start_day'] : NULL;
         /** @var \DateTime $endDay */
-        $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : null;
+        $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : NULL;
 
         if ($place && $startDay && $endDay && $startDay <= $endDay) {
           $occurrences = new ArrayCollection();
@@ -176,4 +181,5 @@ class AdminController extends BaseAdminController {
       }
     }
   }
+
 }

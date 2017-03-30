@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository {
+
   /**
    * Find users by id or username.
    *
@@ -18,4 +19,5 @@ class UserRepository extends EntityRepository {
       ->setParameter('ids', $ids)
       ->getResult();
   }
+
 }

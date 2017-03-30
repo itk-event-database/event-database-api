@@ -65,7 +65,7 @@ class Feed {
    *
    * @ORM\Column(type="boolean")
    */
-  private $enabled = false;
+  private $enabled = FALSE;
 
   /**
    * Get id.
@@ -225,8 +225,7 @@ class Feed {
     return isset($this->configuration['dateFormat']) ? $this->configuration['dateFormat'] : NULL;
   }
 
-  public function __toString()
-  {
+  public function __toString() {
     return $this->getName();
   }
 

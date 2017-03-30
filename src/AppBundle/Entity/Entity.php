@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+
 /**
  *
  */

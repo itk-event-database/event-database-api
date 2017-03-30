@@ -31,7 +31,7 @@ class FeedPreviewer extends FeedReader {
   public function __construct(ValueConverter $valueConverter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
     $this->eventImporter = new EventImporter();
     parent::__construct($valueConverter, $this->eventImporter, $configuration, $logger, $authenticator, $blameableListener);
-    $this->authenticator = null;
+    $this->authenticator = NULL;
   }
 
   /**
@@ -39,7 +39,7 @@ class FeedPreviewer extends FeedReader {
    */
   public function read(Feed $feed, User $user = NULL) {
     $this->events = [];
-    parent::read($feed, null);
+    parent::read($feed, NULL);
   }
 
   public function getEvents() {

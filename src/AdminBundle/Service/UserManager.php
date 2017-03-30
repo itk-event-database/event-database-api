@@ -45,4 +45,5 @@ class UserManager {
 
     return FALSE;
   }
+
 }

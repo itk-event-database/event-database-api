@@ -36,9 +36,9 @@ class ConfigManager extends BaseConfigManager {
 
     if ($propertyPath == 'design.menu') {
       $config = self::array_filter_recursive($config, function ($item) {
-        $roles = isset($item['roles']) ? $item['roles'] : (isset($item['role']) ? $item['role'] : null);
+        $roles = isset($item['roles']) ? $item['roles'] : (isset($item['role']) ? $item['role'] : NULL);
         if (!$roles) {
-          return true;
+          return TRUE;
         }
         if (!is_array($roles)) {
           $roles = [$roles];
@@ -46,12 +46,14 @@ class ConfigManager extends BaseConfigManager {
 
         $token = $this->tokenStorage->getToken();
         if (!$token) {
-          return false;
+          return FALSE;
         }
 
         $userRoles = $this->roleHierarchy->getReachableRoles($token->getRoles());
 
-        return array_intersect($roles, array_map(function (RoleInterface $role) { return $role->getRole(); }, $userRoles));
+        return array_intersect($roles, array_map(function (RoleInterface $role) {
+          return $role->getRole();
+        }, $userRoles));
       });
     }
 
@@ -61,16 +63,17 @@ class ConfigManager extends BaseConfigManager {
   private function hasRole(TokenInterface $token, array $roleNames) {
     $roles = $token->getRoles();
 
-//    foreach ($this->roleHierarchy->getReachableRoles($token->getRoles()) as $role) {
-//      if ($roleName === $role->getRole()) {
-//        return TRUE;
-//      }
-//    }
+    //    foreach ($this->roleHierarchy->getReachableRoles($token->getRoles()) as $role) {
+    //      if ($roleName === $role->getRole()) {
+    //        return TRUE;
+    //      }
+    //    }
 
     return FALSE;
   }
 
   // @see http://php.net/manual/en/function.array-filter.php#87581
+
   private static function array_filter_recursive(array $input, callable $callback) {
     foreach ($input as &$value) {
       if (is_array($value)) {
@@ -80,4 +83,5 @@ class ConfigManager extends BaseConfigManager {
 
     return array_filter($input, $callback);
   }
+
 }

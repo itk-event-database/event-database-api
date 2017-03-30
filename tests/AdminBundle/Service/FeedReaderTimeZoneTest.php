@@ -21,7 +21,6 @@ class FeedReaderTimeZoneTest extends ContainerTestCase implements Controller {
 
   private $events = [];
 
-
   public function testReadFeed() {
     $feedConfiguration = $this->readFixture('feed.config.yml');
 
@@ -245,4 +244,5 @@ class FeedReaderTimeZoneTest extends ContainerTestCase implements Controller {
     'WET',
     'Zulu',
   ];
+
 }

@@ -113,7 +113,7 @@ class TagController extends Controller {
    */
   public function newAction() {
     $tag = new Tag();
-    $form   = $this->createCreateForm($tag);
+    $form = $this->createCreateForm($tag);
 
     return [
       'tag' => $tag,
@@ -249,9 +249,9 @@ class TagController extends Controller {
    */
   private function createDeleteForm(Tag $tag) {
     return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_tag_delete', ['id' => $tag->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+      ->setAction($this->generateUrl('admin_tag_delete', ['id' => $tag->getId()]))
+      ->setMethod('DELETE')
+      ->getForm();
   }
 
 }

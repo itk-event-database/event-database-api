@@ -18,6 +18,7 @@ use AppBundle\Entity\Tag;
  * @Route("/helper")
  */
 class HelperController extends Controller {
+
   /**
    * Lists all Tag entities.
    *
@@ -34,4 +35,5 @@ class HelperController extends Controller {
       'tags' => $tags,
     ];
   }
+
 }

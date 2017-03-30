@@ -3,9 +3,10 @@
 namespace AdminBundle\Service;
 
 class DanishZipCode {
+
   public function getCity($zipCode) {
     $cities = $this->getCities();
-    return isset($cities[$zipCode]) ? $cities[$zipCode] : null;
+    return isset($cities[$zipCode]) ? $cities[$zipCode] : NULL;
   }
 
   private function getCities() {
@@ -13,14 +14,14 @@ class DanishZipCode {
   }
 
   private function getZipCodes() {
-    if (self::$zipCodes === null) {
+    if (self::$zipCodes === NULL) {
       self::$zipCodes = array_flip($this->getCities());
     }
 
     return self::$zipCodes;
   }
 
-  private static $zipCodes = null;
+  private static $zipCodes = NULL;
 
   // http://www.postnord.dk/da/Privat/Kundeservice/postnummerkort/Sider/postnummerkort.aspx
   // http://www.postnord.dk/da/Documents/Lister/postnummerfil-excel.xls
@@ -1468,4 +1469,5 @@ class DanishZipCode {
     '960'  => 'Hov',
     '970'  => 'Sumba',
   ];
+
 }

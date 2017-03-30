@@ -254,7 +254,6 @@ abstract class Thing extends Entity {
     return $this->updatedBy;
   }
 
-
   /**
    * @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/upload-files-and-images.md
    */
@@ -281,7 +280,7 @@ abstract class Thing extends Entity {
     return $this->imagePath;
   }
 
-  public function setImageFile(File $image = null) {
+  public function setImageFile(File $image = NULL) {
     $this->imageFile = $image;
 
     // VERY IMPORTANT:
@@ -295,4 +294,5 @@ abstract class Thing extends Entity {
   public function getImageFile() {
     return $this->imageFile;
   }
+
 }

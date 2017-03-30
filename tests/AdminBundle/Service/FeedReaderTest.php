@@ -147,7 +147,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
     $this->assertEquals([
       'name' => 'Place 3',
       'postal_code' => 1234,
-      'address_locality' => null,
+      'address_locality' => NULL,
     ], $occurrence['place']);
   }
 
@@ -221,7 +221,7 @@ class FeedReaderTest extends ContainerTestCase implements Controller {
     $this->assertEquals([
       'name' => 'Place 3',
       'postal_code' => 1234,
-      'address_locality' => null,
+      'address_locality' => NULL,
     ], $occurrence['place']);
   }
 

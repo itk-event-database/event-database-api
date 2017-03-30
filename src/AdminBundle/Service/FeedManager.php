@@ -82,4 +82,5 @@ class FeedManager {
     $data = $this->getEvents();
 
   }
+
 }

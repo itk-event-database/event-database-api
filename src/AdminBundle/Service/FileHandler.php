@@ -83,7 +83,7 @@ class FileHandler {
       $file = new File($path);
       $extension = $file->guessExtension();
       if ($extension) {
-        $filesystem->rename($path, $path . '.' . $extension, true);
+        $filesystem->rename($path, $path . '.' . $extension, TRUE);
         $filename .= '.' . $extension;
       }
     }

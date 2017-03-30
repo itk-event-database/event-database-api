@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Controller;
 
-
 use AdminBundle\Entity\Feed;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -99,7 +98,7 @@ class FeedController extends Controller {
    */
   public function newAction() {
     $feed = new Feed();
-    $form   = $this->createCreateForm($feed);
+    $form = $this->createCreateForm($feed);
 
     return [
       'feed' => $feed,
@@ -232,9 +231,9 @@ class FeedController extends Controller {
    */
   private function createDeleteForm(Feed $feed) {
     return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_feed_delete', ['id' => $feed->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+      ->setAction($this->generateUrl('admin_feed_delete', ['id' => $feed->getId()]))
+      ->setMethod('DELETE')
+      ->getForm();
   }
 
   /**
@@ -298,6 +297,7 @@ class FeedController extends Controller {
             $this->addFlash('info', $message);
           }
           break;
+
         case 'disable':
           if ($manager->disable($feed)) {
             $translator = $this->container->get('translator');
@@ -306,7 +306,8 @@ class FeedController extends Controller {
           }
           break;
       }
-    } elseif ($request->getMethod() === 'GET') {
+    }
+    elseif ($request->getMethod() === 'GET') {
     }
 
     if ($redirect) {
@@ -319,4 +320,5 @@ class FeedController extends Controller {
       'entity' => 'Feed',
     ));
   }
+
 }

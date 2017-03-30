@@ -29,9 +29,11 @@ class IntegrityManager {
   public function canDelete($entity) {
     if ($entity instanceof Organizer) {
       return $this->canDeleteOrganizer($entity);
-    } elseif ($entity instanceof Place) {
+    }
+    elseif ($entity instanceof Place) {
       return $this->canDeletePlace($entity);
-    } elseif ($entity instanceof Tag) {
+    }
+    elseif ($entity instanceof Tag) {
       return $this->canDeleteTag($entity);
     }
 
@@ -45,7 +47,7 @@ class IntegrityManager {
       ->from(Event::class, 'e')
       ->where('e.organizer = :organizer')
       ->setParameter('organizer', $organizer);
-    $count = (int)$queryBuilder->getQuery()->getSingleScalarResult();
+    $count = (int) $queryBuilder->getQuery()->getSingleScalarResult();
 
     if ($count === 0) {
       return TRUE;
@@ -64,7 +66,7 @@ class IntegrityManager {
       ->from(Occurrence::class, 'e')
       ->where('e.place = :place')
       ->setParameter('place', $place);
-    $count = (int)$queryBuilder->getQuery()->getSingleScalarResult();
+    $count = (int) $queryBuilder->getQuery()->getSingleScalarResult();
 
     if ($count === 0) {
       return TRUE;
@@ -83,7 +85,7 @@ class IntegrityManager {
       ->from(Tagging::class, 'e')
       ->where('e.tag = :tag')
       ->setParameter('tag', $tag);
-    $count = (int)$queryBuilder->getQuery()->getSingleScalarResult();
+    $count = (int) $queryBuilder->getQuery()->getSingleScalarResult();
 
     if ($count === 0) {
       return TRUE;
@@ -94,4 +96,5 @@ class IntegrityManager {
       'arguments' => ['%count%' => $count],
     ];
   }
+
 }

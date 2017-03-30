@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Controller;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -229,9 +228,9 @@ class UserController extends Controller {
    */
   private function createDeleteForm(User $user) {
     return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_user_delete', ['id' => $user->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
+      ->setAction($this->generateUrl('admin_user_delete', ['id' => $user->getId()]))
+      ->setMethod('DELETE')
+      ->getForm();
   }
 
 }

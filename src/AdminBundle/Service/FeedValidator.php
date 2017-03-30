@@ -9,6 +9,7 @@ use AppBundle\Entity\User;
  *
  */
 class FeedValidator extends FeedPreviewer {
+
   /**
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
@@ -131,4 +132,5 @@ class FeedValidator extends FeedPreviewer {
       }
     }
   }
+
 }

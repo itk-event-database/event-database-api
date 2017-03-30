@@ -152,4 +152,5 @@ class EditVoter extends Voter {
 
     return $this->roleHierarchy->getReachableRoles($roles);
   }
+
 }

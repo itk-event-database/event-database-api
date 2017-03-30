@@ -131,4 +131,5 @@ abstract class EntityFactory {
 
     return NULL;
   }
+
 }
