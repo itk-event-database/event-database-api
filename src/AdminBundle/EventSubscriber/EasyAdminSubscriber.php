@@ -33,7 +33,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface {
   public function addQueryParameters(GenericEvent $event) {
     $request = $event->getArgument('request');
     if ($request) {
-      $action = $request->get('action');
+      $action = $request->get('action', 'list');
       $entity = $event->getArgument('entity');
       if (isset($entity[$action]['params'])) {
         foreach ($entity[$action]['params'] as $name => $value) {
