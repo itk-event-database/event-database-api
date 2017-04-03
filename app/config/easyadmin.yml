@@ -114,6 +114,7 @@ easy_admin:
                     - property: organizer
                       help: app.event.help.organizer
                       type_options:
+                          placeholder: ''
                           required: true
                     - property: isPublished
                       help: app.event.help.isPublished
