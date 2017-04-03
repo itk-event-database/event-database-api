@@ -3,27 +3,29 @@
 namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Place;
-use AppBundle\Entity\User;
 
 /**
  *
  */
 class PlaceFactory extends EntityFactory {
-  protected $user;
-
-  /**
-   * @param \AppBundle\Entity\User $user
-   */
-  public function setUser(User $user) {
-    $this->user = $user;
-  }
 
   /**
    * @param array $data
    * @return \AppBundle\Entity\Place|object
    */
   public function get(array $data) {
-    $entity = $this->getEntity($data);
+    $entity = $this->findExisting($data);
+    if (!$entity) {
+      $entity = $this->create($data);
+    }
+
+    return $entity;
+  }
+
+  private function create(array $data) {
+    $entity = new Place();
+    $user = $this->getUser();
+    $entity->setCreatedBy($user);
     $this->setValues($entity, $data);
     $this->persist($entity);
     $this->flush();
@@ -35,37 +37,24 @@ class PlaceFactory extends EntityFactory {
    * @param array $data
    * @return \AppBundle\Entity\Place|object
    */
-  private function getEntity(array $data) {
-    $name = $data['name'];
-    $user = $this->getUser();
-    $query = [
-      'createdBy' => $user,
-      'name' => $name,
-    ];
-    $place = $this->em->getRepository('AppBundle:Place')->findOneBy($query);
-    if ($place === NULL) {
-      $place = new Place();
-      // We need to explicitly set createdBy to make the findByOne query above
-      // work. (Caching issue?)
-      $place
-        ->setCreatedBy($user)
-        ->setUpdatedBy($user);
+  private function findExisting(array $data) {
+    // Try to find existing place by
+    //   1. email
+    //   2. url
+    //   3. name
+    $keys = ['email', 'url', 'name'];
+    $repository = $this->em->getRepository(Place::class);
+
+    foreach ($keys as $key) {
+      if (isset($data[$key])) {
+        $place = $repository->findOneBy([$key => $data[$key]]);
+        if ($place) {
+          return $place;
+        }
+      }
     }
 
-    return $place;
-  }
-
-  /**
-   *
-   */
-  private function getUser() {
-    if ($this->user) {
-      return $this->user;
-    }
-
-    $token = $this->container->get('security.token_storage')->getToken();
-
-    return $token ? $token->getUser() : NULL;
+    return NULL;
   }
 
 }

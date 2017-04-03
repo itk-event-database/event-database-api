@@ -2,34 +2,70 @@
 
 namespace AdminBundle\Controller;
 
-use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Group;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Blameable\Blameable;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends BaseAdminController {
+
+  protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = NULL, $dqlFilter = NULL) {
+    $this->limitByUser($dqlFilter, $entityClass, 'entity');
+    return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+  }
+
   protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = NULL, $sortDirection = NULL, $dqlFilter = NULL) {
     // Use only list fields in search query.
     $this->entity['search']['fields'] = array_filter($this->entity['search']['fields'], function ($key) {
       return isset($this->entity['list']['fields'][$key]);
     }, ARRAY_FILTER_USE_KEY);
 
+    $this->limitByUser($dqlFilter, $entityClass, 'entity');
     return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
   }
 
-  public function previewFeedAction() {
-    $id = $this->request->query->get('id');
-    $feed = $this->em->getRepository('AdminBundle:Feed')->find($id);
+  private function limitByUser(string &$dqlFilter = NULL, string $entityClass, string $alias) {
+    $limitByUserFilter = $this->getLimitByUserFilter($entityClass, $alias);
+    if ($limitByUserFilter) {
+      if ($dqlFilter) {
+        $dqlFilter .= ' and ' . $limitByUserFilter;
+      }
+      else {
+        $dqlFilter = $limitByUserFilter;
+      }
+    }
+  }
 
-    $previewer = $this->get('feed_previewer');
-    $previewer->read($feed);
-    $events = $previewer->getEvents();
+  private function getLimitByUserFilter(string $entityClass, string $alias) {
+    // instanceof does not work with string as first operand.
+    if (!is_subclass_of($entityClass, Blameable::class)) {
+      return NULL;
+    }
 
-    return new JsonResponse($events);
+    $token = $this->get('security.token_storage')->getToken();
+    $user = $token ? $token->getUser() : NULL;
+    $filter = $this->request->get('_event_list_filter');
+    switch ($filter) {
+      case 'all':
+        return NULL;
+
+      case 'mine':
+      case 'my':
+        if ($user) {
+          return $alias . '.createdBy = ' . $user->getId();
+        }
+        break;
+
+      case 'editable':
+        // @TODO: Use EditVoter to get editable events.
+        return NULL;
+    }
+
+    return NULL;
   }
 
   public function cloneEventAction() {
@@ -65,6 +101,7 @@ class AdminController extends BaseAdminController {
   public function createNewEventEntity() {
     $event = new Event();
 
+    $event->setLangcode('da');
     $event->setOccurrences(new ArrayCollection([new Occurrence()]));
 
     return $event;
@@ -75,16 +112,17 @@ class AdminController extends BaseAdminController {
   }
 
   // @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/fosuserbundle-integration.md
+
   public function createNewUserEntity() {
     return $this->get('fos_user.user_manager')->createUser();
   }
 
   public function prePersistUserEntity($user) {
-    $this->get('fos_user.user_manager')->updateUser($user, false);
+    $this->get('fos_user.user_manager')->updateUser($user, FALSE);
   }
 
   public function preUpdateUserEntity($user) {
-    $this->get('fos_user.user_manager')->updateUser($user, false);
+    $this->get('fos_user.user_manager')->updateUser($user, FALSE);
   }
 
   public function prePersistEventEntity(Event $event) {
@@ -103,11 +141,12 @@ class AdminController extends BaseAdminController {
       $repeatingOccurrences = $event->getRepeatingOccurrences();
       if ($repeatingOccurrences) {
         /** @var Place $place */
-        $place = isset($repeatingOccurrences['place']) ? $repeatingOccurrences['place'] : null;
+        $place = isset($repeatingOccurrences['place']) ? $repeatingOccurrences['place'] : NULL;
+        $ticketPriceRange = isset($repeatingOccurrences['ticket_price_range']) ? $repeatingOccurrences['ticket_price_range'] : NULL;
         /** @var \DateTime $startDay */
-        $startDay = isset($repeatingOccurrences['start_day']) ? clone $repeatingOccurrences['start_day'] : null;
+        $startDay = isset($repeatingOccurrences['start_day']) ? clone $repeatingOccurrences['start_day'] : NULL;
         /** @var \DateTime $endDay */
-        $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : null;
+        $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : NULL;
 
         if ($place && $startDay && $endDay && $startDay <= $endDay) {
           $occurrences = new ArrayCollection();
@@ -125,6 +164,7 @@ class AdminController extends BaseAdminController {
               $occurrence->getStartDate()->setTime($startTime->format('H'), $startTime->format('i'));
               $occurrence->setEndDate(clone $startDay);
               $occurrence->getEndDate()->setTime($endTime->format('H'), $endTime->format('i'));
+              $occurrence->setTicketPriceRange($ticketPriceRange);
               $occurrences[] = $occurrence;
             }
 
@@ -142,4 +182,5 @@ class AdminController extends BaseAdminController {
       }
     }
   }
+
 }

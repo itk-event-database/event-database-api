@@ -23,7 +23,7 @@ class LoadTestUsers extends LoadData {
         $user = new User();
       }
       $user->setUsername($username)
-        ->setEnabled(true)
+        ->setEnabled(TRUE)
         ->setPlainPassword($data['password'])
         ->setEmail($data['email'])
         ->setRoles(array($data['role']));
@@ -32,4 +32,5 @@ class LoadTestUsers extends LoadData {
       $manager->flush();
     }
   }
+
 }

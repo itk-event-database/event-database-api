@@ -52,7 +52,7 @@ abstract class FeedReader {
    * @param $data
    * @return
    */
-  public abstract function read($data);
+  abstract public function read($data);
 
   /**
    * @param $value
@@ -104,17 +104,18 @@ abstract class FeedReader {
     }
 
     if (isset($spec['type'])) {
-      $value = null;
+      $value = NULL;
       switch ($spec['type']) {
         case 'map':
           $value = $this->getMapValue($spec, $item);
           break;
+
         case 'service':
           $value = $this->getServiceValue($spec, $item);
           break;
       }
 
-      if ($value === null && isset($spec['default'])) {
+      if ($value === NULL && isset($spec['default'])) {
         $value = $spec['default'];
       }
 
@@ -125,10 +126,10 @@ abstract class FeedReader {
   private function getMapValue(array $spec, array $item) {
     if (isset($spec['map'], $spec['key'])) {
       $key = $this->expandValue($spec['key'], $item, []);
-      return isset($spec['map'][$key]) ? $spec['map'][$key] : null;
+      return isset($spec['map'][$key]) ? $spec['map'][$key] : NULL;
     }
 
-    return null;
+    return NULL;
   }
 
   private function getServiceValue(array $spec, array $item) {
@@ -147,14 +148,15 @@ abstract class FeedReader {
               return $this->expandValue($argument, $item, []);
             }, $arguments);
             return call_user_func_array([$service, $methodName], $arguments);
-          } catch (\Exception $ex) {
+          }
+          catch (\Exception $ex) {
             throw $ex;
           }
         }
       }
     }
 
-    return null;
+    return NULL;
   }
 
   /**

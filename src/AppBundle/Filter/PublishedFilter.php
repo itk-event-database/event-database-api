@@ -21,7 +21,7 @@ class PublishedFilter extends AbstractFilter {
     $properties = $request->query->all();
 
     if (!array_key_exists($this->property, $properties)) {
-      $properties[$this->property] = true;
+      $properties[$this->property] = TRUE;
     }
 
     return $properties;

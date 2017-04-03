@@ -5,12 +5,13 @@ services:
         arguments: ['@service_container', '@security.token_storage', '@security.role_hierarchy']
 
 easy_admin:
-    site_name: 'Aarhus Events'
+    site_name: '%site_name%'
 
     design:
         brand_color: '#154194'
         color_scheme: 'light'
-        form_theme: 'horizontal'
+        form_theme: 'easy_admin/form/bootstrap_3_horizontal_layout.html.twig'
+
         assets:
             css:
                 - 'assets/easyadmin.css'
@@ -24,12 +25,9 @@ easy_admin:
             - entity: 'Place'
               icon: 'map-marker'
               roles: [ROLE_PLACE_EDITOR]
-            - entity: 'Group'
-              icon: 'users'
-              roles: [ROLE_USER_EDITOR]
-            - entity: 'User'
-              icon: 'user'
-              roles: [ROLE_USER_EDITOR]
+            - entity: 'Organizer'
+              icon: 'map-marker'
+              roles: [ROLE_ORGANIZER_EDITOR]
             - entity: 'Tag'
               icon: 'tags'
               roles: [ROLE_TAG_EDITOR]
@@ -39,6 +37,9 @@ easy_admin:
             - entity: 'Feed'
               icon: 'cloud-download'
               roles: [ROLE_FEED_EDITOR]
+            - entity: 'User'
+              icon: 'user'
+              roles: [ROLE_USER_EDITOR]
 
             - label: app.menu.api_docs
               icon: 'book'
@@ -69,9 +70,14 @@ easy_admin:
                     - edit
                     - clone
                 title: Events
+                params:
+                    # name: default value
+                    _event_list_filter: my
                 fields:
                     - property: name
                       label: app.event.name
+                    - property: organizer
+                      label: app.event.organizer
                     - property: isPublished
                       type: boolean
                       template: yes_no.html.twig
@@ -88,43 +94,13 @@ easy_admin:
                       template: places.html.twig
                     - property: excerpt
                       label: Excerpt
-            form:
+            new:
                 fields:
                     - property: name
                       label: app.event.name
                       help: app.event.help.name
                       type_options:
                           required: true
-                    - property: isPublished
-                      help: app.event.help.isPublished
-                    - property: langcode
-                      label: app.event.langcode
-                      help: app.event.help.langcode
-                      type: choice
-                      type_options:
-                          choices:
-                              '': ''
-                              Danish: da
-                              English: en
-                              German: de
-                          required: true
-                    - property: imageFile
-                      help: app.event.help.imageFile
-                      type: vich_image
-                      type_options:
-                          required: true
-                      type: url
-                    - property: url
-                      help: app.event.help.url
-                      type: url
-                    - property: videoUrl
-                      help: app.event.help.videoUrl
-                    - property: ticketPurchaseUrl
-                      help: app.event.help.ticketPurchaseUrl
-                    - property: eventUrl
-                      help: app.event.help.eventUrl
-                      label: app.event.eventUrl
-                      type: url
                     - property: excerpt
                       help: app.event.help.excerpt
                       type_options:
@@ -135,6 +111,31 @@ easy_admin:
                       type: ckeditor
                       type_options:
                           required: true
+                    - property: organizer
+                      help: app.event.help.organizer
+                      type_options:
+                          placeholder: ''
+                          required: true
+                    - property: isPublished
+                      help: app.event.help.isPublished
+                    - property: imageFile
+                      help: app.event.help.imageFile
+                      type: vich_image
+                      type_options:
+                          required: true
+                      type: url
+                    - property: url
+                      label: app.event.url
+                      help: app.event.help.url
+                      type: url
+                    - property: ticketPurchaseUrl
+                      help: app.event.help.ticketPurchaseUrl
+                    - property: eventUrl
+                      help: app.event.help.eventUrl
+                      label: app.event.eventUrl
+                      type: url
+                    - property: videoUrl
+                      help: app.event.help.videoUrl
                     - property: tags
                       help: app.event.help.tags
                       type: easyadmin_autocomplete
@@ -143,14 +144,69 @@ easy_admin:
                           multiple: true
                           class: AppBundle\Entity\Tag
                     - property: occurrences
-                      help: app.event.help.occurrences
+                      help: app.event.help.occurrences.collection
                       type: collection
                       type_options:
                         entry_type: AdminBundle\Form\OccurrenceType
                         by_reference: false
                         required: true
                       embedded: true
-
+            edit:
+                fields:
+                    - property: name
+                      label: app.event.name
+                      help: app.event.help.name
+                      type_options:
+                          required: true
+                    - property: excerpt
+                      help: app.event.help.excerpt
+                      type_options:
+                          required: true
+                    - property: description
+                      help: app.event.help.description
+                      label: app.event.description
+                      type: ckeditor
+                      type_options:
+                          required: true
+                    - property: organizer
+                      help: app.event.help.organizer
+                      type_options:
+                          required: true
+                    - property: isPublished
+                      help: app.event.help.isPublished
+                    - property: imageFile
+                      help: app.event.help.imageFile
+                      type: vich_image
+                      type_options:
+                          required: false
+                      type: url
+                    - property: url
+                      label: app.event.url
+                      help: app.event.help.url
+                      type: url
+                    - property: ticketPurchaseUrl
+                      help: app.event.help.ticketPurchaseUrl
+                    - property: eventUrl
+                      help: app.event.help.eventUrl
+                      label: app.event.eventUrl
+                      type: url
+                    - property: videoUrl
+                      help: app.event.help.videoUrl
+                    - property: tags
+                      help: app.event.help.tags
+                      type: easyadmin_autocomplete
+                      type_options:
+                          required: true
+                          multiple: true
+                          class: AppBundle\Entity\Tag
+                    - property: occurrences
+                      help: app.event.help.occurrences.collection
+                      type: collection
+                      type_options:
+                        entry_type: AdminBundle\Form\OccurrenceType
+                        by_reference: false
+                        required: true
+                      embedded: true
                     - type: group
                       css_class: repeating-occurrences
                       label: Repeating occurrences
@@ -163,17 +219,12 @@ easy_admin:
                       type_options:
                           required: false
 
-            edit:
-                fields:
-                    - property: imageFile
-                      type: vich_image
-                      type_options:
-                          required: false
-
             show:
                 fields:
                     - property: name
                       label: app.event.name
+                    - property: organizer
+                      label: app.event.organizer
                     - property: isPublished
                       label: app.event.isPublished
                     - property: langcode
@@ -181,13 +232,14 @@ easy_admin:
                     - property: image
                       type: image
                     - property: url
+                      label: app.event.url
                       type: url
                     - property: videoUrl
                       type: url
-                    - property: ticketPurchaseUrl
-                      type: url
                     - property: eventUrl
                       label: app.event.eventUrl
+                      type: url
+                    - property: ticketPurchaseUrl
                       type: url
                     - property: excerpt
                       label: app.event.excerpt
@@ -197,6 +249,8 @@ easy_admin:
                     - property: tags
                       label: app.event.tags
                       template: tags.html.twig
+                    - property: customTags
+                      label: app.event.customTags
                     - property: occurrences
                       label: app.event.occurrences
                       template: occurrences.html.twig
@@ -227,6 +281,9 @@ easy_admin:
         Place:
             label: app.menu.places
             class: AppBundle\Entity\Place
+            search:
+                fields:
+                    - name
             list:
                 title: Places
                 fields:
@@ -251,6 +308,35 @@ easy_admin:
                     - property: latitude
                       label: app.place.lat_lng
                       template: lat_lng.html.twig
+                    - property: occurrences
+                      label: app.place.occurrences
+
+            show:
+                title: Places
+                fields:
+                    - property: name
+                      label: app.place.name
+                    - property: street_address
+                      label: app.place.street_address
+                    - property: postal_code
+                      label: app.place.postal_code
+                    - property: address_locality
+                      label: app.place.address_locality
+                    - property: address_region
+                      label: app.place.address_region
+                    - property: address_country
+                      label: app.place.address_country
+                    - property: telephone
+                      label: app.place.telephone
+                    - property: email
+                      label: app.place.email
+                    - property: url
+                      label: app.place.url
+                    - property: latitude
+                      label: app.place.lat_lng
+                      template: lat_lng.html.twig
+                    - property: occurrences
+                      label: app.place.occurrences
 
             form:
                 fields:
@@ -283,6 +369,9 @@ easy_admin:
                     - property: email
                       label: app.place.email
                       type: email
+                    - property: url
+                      label: app.place.url
+                      type: url
                     - property: telephone
                       label: app.place.telephone
                     - property: latitude
@@ -307,34 +396,43 @@ easy_admin:
                       label: app.place.disability_access
                       help: app.place.help.disability_access
 
-        Group:
-            label: app.menu.groups
-            class: AppBundle\Entity\Group
-            disabled_actions: ['show']
+        Organizer:
+            label: app.menu.organizer
+            class: AppBundle\Entity\Organizer
             list:
                 fields:
                     - property: name
-                    - property: roles
-                      template: roles.html.twig
-                    - property: users
-                      # template: users.html.twig
+                      label: app.organizer.name
+                    - property: email
+                      label: app.organizer.email
+                    - property: url
+                      label: app.organizer.url
+                    - property: events
+                      label: app.organizer.events
+            show:
+                fields:
+                    - property: name
+                      label: app.organizer.name
+                    - property: email
+                      label: app.organizer.email
+                    - property: url
+                      label: app.organizer.url
+                    - property: events
+                      label: app.organizer.events
+                      # template: events.html.twig
             form:
                 fields:
                     - property: name
-                    - property: roles
-                      type: choice
+                      label: app.organizer.name
+                      help: app.organizer.help.name
                       type_options:
-                          multiple: true
-                          expanded: true
-                          choices:
-                              ROLE_API_READ: ROLE_API_READ
-                              ROLE_API_WRITE: ROLE_API_WRITE
-                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
-                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
-                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
-                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
-                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
-                              ROLE_ADMIN: ROLE_ADMIN
+                          required: true
+                    - property: email
+                      label: app.organizer.email
+                      type: email
+                    - property: url
+                      label: app.organizer.url
+                      type: url
 
         User:
             label: app.menu.users
@@ -346,12 +444,36 @@ easy_admin:
                     - property: email
                     - property: roles
                       template: roles.html.twig
-                    - property: groups
-                      template: groups.html.twig
                     - property: enabled
                       type: boolean
                       template: yes_no.html.twig
                     - lastLogin
+            new:
+                fields:
+                    - enabled
+                    - username
+                    - property: email
+                      type: email
+                    - property: roles
+                      type: choice
+                      type_options:
+                          multiple: true
+                          expanded: true
+                          choices: &role_list
+                              ROLE_API_WRITE: ROLE_API_WRITE
+                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_EVENT_ADMIN: ROLE_EVENT_ADMIN
+                              ROLE_ORGANIZER_EDITOR: ROLE_ORGANIZER_EDITOR
+                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
+                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
+                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
+                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
+                    - property: plainPassword
+                      type_options:
+                          required: true
+                      type: text
+                      type_options:
+                          required: false
             edit:
                 fields:
                     - property: enabled
@@ -364,44 +486,9 @@ easy_admin:
                           multiple: true
                           expanded: true
                           choices:
-                              ROLE_API_READ: ROLE_API_READ
-                              ROLE_API_WRITE: ROLE_API_WRITE
-                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
-                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
-                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
-                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
-                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
-                              ROLE_ADMIN: ROLE_ADMIN
-                    - groups
+                              <<: *role_list
                     - property: plainPassword
                       help: app.user.help.plainPassword
-                      type: text
-                      type_options:
-                          required: false
-            new:
-                fields:
-                    - enabled
-                    - username
-                    - property: email
-                      type: email
-                    - property: roles
-                      type: choice
-                      type_options:
-                          multiple: true
-                          expanded: true
-                          choices:
-                              ROLE_API_READ: ROLE_API_READ
-                              ROLE_API_WRITE: ROLE_API_WRITE
-                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
-                              ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
-                              ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
-                              ROLE_USER_EDITOR: ROLE_USER_EDITOR
-                              ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
-                              ROLE_ADMIN: ROLE_ADMIN
-                    - groups
-                    - property: plainPassword
-                      type_options:
-                          required: true
                       type: text
                       type_options:
                           required: false
@@ -438,12 +525,19 @@ easy_admin:
                 actions:
                     - show
                     - edit
-                    - preview
                 fields:
                     - property: name
                     - property: user
                     - property: url
                       type: url
+                    - property: enabled
+                      type: boolean
+                      template: yes_no.html.twig
+                    - property: lastRead
+            show:
+                fields:
+                    - property: name
+                    - property: user
                     - property: lastRead
 
             form:

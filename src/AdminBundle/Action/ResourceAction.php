@@ -52,7 +52,8 @@ class ResourceAction {
     try {
       $path = $this->container->get('kernel')->locateResource($path);
       $content = file_get_contents($path);
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       throw new BadRequestHttpException('Path does not exist: ' . $path);
     }
 

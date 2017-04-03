@@ -1,6 +1,7 @@
 <?php
 
 namespace AdminBundle\Service\FeedReader;
+
 /**
  *
  */

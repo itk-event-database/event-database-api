@@ -1,0 +1,181 @@
+Feature: Events
+  In order to manage events
+  As a client software developer
+  I need to be able to retrieve, create, update and delete events trough the API.
+
+  Background:
+    Given the following users exist:
+      | username   | password | roles          |
+      | api-read   | apipass  | ROLE_API_READ  |
+      | api-write  | apipass  | ROLE_API_WRITE |
+      | api-write2 | apipass  | ROLE_API_WRITE |
+
+    Given the following tags exist:
+      | name   |
+      | apple  |
+      | banana |
+      | citrus |
+
+    And the following tags are unknown:
+      | name   | tag    |
+      | æble   | apple  |
+      | banan  | banana |
+      | citron | citrus |
+
+  @createSchema
+  # Scenario: Check tags exist
+  #   When I add "Accept" header equal to "application/ld+json"
+  #   And I send a "GET" request to "/api/tags"
+  #   Then the response status code should be 200
+  #   And the JSON node "hydra:member" should have 3 elements
+  #   And the JSON node "hydra:member[0].@id" should be equal to "/api/tags/1"
+  #   And the JSON node "hydra:member[0].name" should be equal to "apple"
+  #   And the JSON node "hydra:member[1].@id" should be equal to "/api/tags/2"
+  #   And the JSON node "hydra:member[1].name" should be equal to "banana"
+  #   And the JSON node "hydra:member[2].@id" should be equal to "/api/tags/3"
+  #   And the JSON node "hydra:member[2].name" should be equal to "citrus"
+
+  Scenario: Events with tags
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A tagged event",
+      "tags": [ "apple", "Banana" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "name" should be equal to "A tagged event"
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "apple"
+    And the JSON node "tags[1]" should be equal to "banana"
+
+    When I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "Another tagged event",
+      "tags": [ "banana", "CITRUS" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "name" should be equal to "Another tagged event"
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "banana"
+    And the JSON node "tags[1]" should be equal to "citrus"
+
+  Scenario: Events with unknown tags
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A tagged event",
+      "tags": [ "æble" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "tags" should have 1 element
+    And the JSON node "tags[0]" should be equal to "apple"
+
+    When I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A tagged event",
+      "tags": [ "æble", "banan" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "apple"
+    And the JSON node "tags[1]" should be equal to "banana"
+
+    When I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A tagged event",
+      "tags": [ "æble", "apple" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "tags" should have 1 element
+    And the JSON node "tags[0]" should be equal to "apple"
+
+  Scenario: Events with unknown unmapped tags
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A tagged event",
+      "tags": [ "hat og briller", "hest" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "tags" should have 0 elements
+    And the JSON node "customTags" should have 2 elements
+    And the JSON node "customTags[0]" should be equal to "hat og briller"
+    And the JSON node "customTags[1]" should be equal to "hest"
+
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "A tagged event",
+      "tags": [ "hat og briller", "hest", "banan" ],
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+    }
+    """
+    Then the response status code should be 201
+    And the JSON node "tags" should have 1 element
+    And the JSON node "tags[0]" should be equal to "banana"
+    And the JSON node "customTags" should have 3 elements
+    And the JSON node "customTags[0]" should be equal to "hat og briller"
+    And the JSON node "customTags[1]" should be equal to "hest"
+    And the JSON node "customTags[2]" should be equal to "banan"
+
+  Scenario: Read tags
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/events/1"
+    Then the response status code should be 200
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "@id" should be equal to "/api/events/1"
+    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags[0]" should be equal to "apple"
+    And the JSON node "tags[1]" should be equal to "banana"
+
+  Scenario: Filter by tags
+    When I authenticate as "api-read"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=apple"
+    Then the JSON node "hydra:member" should have 4 element
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
+
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=banana"
+    And the JSON node "hydra:member" should have 4 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/events/2"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/events/4"
+
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=citrus"
+    And the JSON node "hydra:member" should have 1 element
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
+
+  @dropSchema
+  Scenario: Drop schema

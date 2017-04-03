@@ -3,6 +3,7 @@
 namespace AdminBundle\EventSubscriber;
 
 use AdminBundle\Entity\Feed;
+use AdminBundle\Service\UserManager;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Group;
 use AppBundle\Entity\Tag;
@@ -19,10 +20,12 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 class AccessSubscriber implements EventSubscriberInterface {
   private $tokenStorage;
   private $roleHierarchy;
+  private $userManager;
 
-  public function __construct(TokenStorageInterface $tokenStorage, RoleHierarchyInterface $roleHierarchy) {
+  public function __construct(TokenStorageInterface $tokenStorage, RoleHierarchyInterface $roleHierarchy, UserManager $userManager) {
     $this->tokenStorage = $tokenStorage;
     $this->roleHierarchy = $roleHierarchy;
+    $this->userManager = $userManager;
   }
 
   public static function getSubscribedEvents() {
@@ -36,7 +39,7 @@ class AccessSubscriber implements EventSubscriberInterface {
     $entity = $event->getArgument('entity');
     $class = $entity['class'];
     if (isset(self::$requiredRoles[$class])) {
-        $this->requireRole(self::$requiredRoles[$class]);
+      $this->requireRole(self::$requiredRoles[$class]);
     }
   }
 
@@ -46,12 +49,22 @@ class AccessSubscriber implements EventSubscriberInterface {
     if (isset(self::$requiredRoles[$class])) {
       $this->requireRole(self::$requiredRoles[$class]);
     }
+
+    $request = $event->getArgument('request');
+    $easyadmin = $request->attributes->get('easyadmin');
+    $entity = $easyadmin['item'];
+
+    if ($entity instanceof User) {
+      if (!$this->userManager->canEdit($entity, $this->tokenStorage->getToken())) {
+        throw new AccessDeniedHttpException('Cannot edit user');
+      }
+    }
   }
 
   private static $requiredRoles = [
     Event::class => 'ROLE_EVENT_EDITOR',
     Place::class => 'ROLE_PLACE_EDITOR',
-    Group::class => 'ROLE_GROUP_EDITOR',
+    Group::class => 'ROLE_USER_EDITOR',
     User::class => 'ROLE_USER_EDITOR',
     Tag::class => 'ROLE_TAG_EDITOR',
     UnknownTag::class => 'ROLE_TAG_EDITOR',
@@ -74,4 +87,5 @@ class AccessSubscriber implements EventSubscriberInterface {
 
     return FALSE;
   }
+
 }

@@ -6,6 +6,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticationSuccessListener {
+
   /**
    * @param AuthenticationSuccessEvent $event
    */
@@ -22,4 +23,5 @@ class AuthenticationSuccessListener {
     ];
     $event->setData($data);
   }
+
 }

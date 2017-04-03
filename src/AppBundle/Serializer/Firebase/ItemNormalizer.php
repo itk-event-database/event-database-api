@@ -29,7 +29,7 @@ class ItemNormalizer extends AbstractItemNormalizer {
    */
   private $tagManager;
 
-  public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager) {
+  public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = NULL, NameConverterInterface $nameConverter = NULL, TagManager $tagManager) {
     parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
     $this->tagManager = $tagManager;
   }
@@ -67,12 +67,12 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data['id'] = $event->getId();
     $data['occurrences'] = $event->getOccurrences() ? $event->getOccurrences()->map(function ($item) {
       return $item->getId();
-    })->toArray() : null;
+    })->toArray() : NULL;
     $data['ticketPurchaseUrl'] = $event->getTicketPurchaseUrl();
     $data['excerpt'] = $event->getExcerpt();
     $data['tags'] = $event->getTags() ? $event->getTags()->map(function ($item) {
       return $item->getId();
-    })->toArray() : null;
+    })->toArray() : NULL;
     $data['description'] = $event->getDescription();
     $data['image'] = $event->getImage();
     $data['name'] = $event->getName();
@@ -87,10 +87,10 @@ class ItemNormalizer extends AbstractItemNormalizer {
     $data = [];
 
     $data['id'] = $occurrence->getId();
-    $data['event_id'] = $occurrence->getEvent() ? $occurrence->getEvent()->getId() : null;
-    $data['place_id'] = $occurrence->getPlace() ? $occurrence->getPlace()->getId() : null;
-    $data['startDate'] = $occurrence->getStartDate() ? $occurrence->getStartDate()->format('c') : null;
-    $data['endDate'] = $occurrence->getEndDate() ? $occurrence->getEndDate()->format('c') : null;
+    $data['event_id'] = $occurrence->getEvent() ? $occurrence->getEvent()->getId() : NULL;
+    $data['place_id'] = $occurrence->getPlace() ? $occurrence->getPlace()->getId() : NULL;
+    $data['startDate'] = $occurrence->getStartDate() ? $occurrence->getStartDate()->format('c') : NULL;
+    $data['endDate'] = $occurrence->getEndDate() ? $occurrence->getEndDate()->format('c') : NULL;
     $data['ticketPriceRange'] = $occurrence->getTicketPriceRange();
     $data['eventStatusText'] = $occurrence->getEventStatusText();
 
@@ -130,7 +130,7 @@ class ItemNormalizer extends AbstractItemNormalizer {
    * {@inheritdoc}
    */
   public function supportsDenormalization($data, $type, $format = NULL) {
-    return false;
+    return FALSE;
   }
 
   /**

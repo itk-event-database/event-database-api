@@ -44,7 +44,7 @@ class RepeatingOccurrencesType extends AbstractType {
       ->add('end_day', DateType::class, [
         'placeholder' => ['year' => 'form.type.occurrence.datetime.placeholder.year', 'month' => 'form.type.occurrence.datetime.placeholder.month', 'day' => 'form.type.occurrence.datetime.placeholder.day'],
       ])
-      ;
+      ->add('ticket_price_range', PriceRangeType::class);
 
     for ($day = 1; $day <= 7; $day++) {
       $builder
@@ -91,7 +91,8 @@ class RepeatingOccurrencesType extends AbstractType {
             $parent->remove('occurrences');
             $this->validateRepeatingOccurrences($event);
           }
-        } else {
+        }
+        else {
           // We don't want to update repeating occurrences data when not creating repeating occurrences.
           $parent->remove($form->getName());
         }
@@ -110,10 +111,14 @@ class RepeatingOccurrencesType extends AbstractType {
     }
     $endDay = $form->get('end_day');
     if (!$endDay->getData()) {
-      $endDay->addError(new FormError('Please specify a end day'));
+      $endDay->addError(new FormError('Please specify an end day'));
     }
     if ($startDay->getData() && $endDay->getData() && $endDay->getData() < $startDay->getData()) {
       $endDay->addError(new FormError('End day must be after start day'));
+    }
+    $ticketPriceRange = $form->get('ticket_price_range');
+    if ($ticketPriceRange->getData() === NULL) {
+      $ticketPriceRange->addError(new FormError('Please specify ticket price'));
     }
 
     $numberOfTimeIntervals = 0;
@@ -123,11 +128,14 @@ class RepeatingOccurrencesType extends AbstractType {
 
       if ($startTime->getData() && !$endTime->getData()) {
         $endTime->addError(new FormError('Please specify an end time'));
-      } elseif (!$startTime->getData() && $endTime->getData()) {
+      }
+      elseif (!$startTime->getData() && $endTime->getData()) {
         $startTime->addError(new FormError('Please specify a start time'));
-      } elseif ($startTime->getData() && $endTime->getData() && $endTime->getData() <= $startTime->getData()) {
+      }
+      elseif ($startTime->getData() && $endTime->getData() && $endTime->getData() <= $startTime->getData()) {
         $endTime->addError(new FormError('End time must be after start time'));
-      } else {
+      }
+      elseif ($startTime->getData() && $endTime->getData()) {
         $numberOfTimeIntervals++;
       }
     }

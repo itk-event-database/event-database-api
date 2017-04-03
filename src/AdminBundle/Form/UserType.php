@@ -31,15 +31,15 @@ class UserType extends AbstractType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-            ->add('enabled')
-            ->add('username')
-            ->add('password')
-            ->add('email')
-            ->add('roles', ChoiceType::class, [
-              'choices' => $this->rolesHelper->getRoles(),
-              'expanded' => TRUE,
-              'multiple' => TRUE,
-            ]);
+      ->add('enabled')
+      ->add('username')
+      ->add('password')
+      ->add('email')
+      ->add('roles', ChoiceType::class, [
+        'choices' => $this->rolesHelper->getRoles(),
+        'expanded' => TRUE,
+        'multiple' => TRUE,
+      ]);
   }
 
   /**

@@ -19,11 +19,11 @@ class FeedType extends AbstractType {
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
     $builder
-          ->add('name')
-          ->add('configuration', TextType::class);
+      ->add('name')
+      ->add('configuration', TextType::class);
 
     $builder->get('configuration')
-            ->addModelTransformer(new CallbackTransformer(
+      ->addModelTransformer(new CallbackTransformer(
               function ($configuration) {
                   // Transform the array to a string.
                 return is_array($configuration) ? json_encode($configuration) : '';
@@ -32,7 +32,7 @@ class FeedType extends AbstractType {
                   // Transform the string back to an array.
                 return json_decode($configuration, TRUE);
               }
-          ));
+            ));
   }
 
   /**

@@ -1,0 +1,136 @@
+{% extends '@EasyAdmin/form/bootstrap_3_horizontal_layout.html.twig' %}
+
+{# Add subform help hack #}
+{% block form_row -%}
+  {% spaceless %}
+    {% set _field_type = easyadmin.field.fieldType|default('default') %}
+    <div class="form-group {% if (not compound or force_error|default(false)) and not valid %}has-error{% endif %} field-{{ block_prefixes|slice(-2)|first }}">
+      {% set _field_label = easyadmin.field['label']|default(null) %}
+      {{ form_label(form, _field_label, { translation_domain: easyadmin.entity.translation_domain }) }}
+      <div class="{{ block('form_group_class') }}">
+        {{ form_widget(form) }}
+
+        {% if _field_type in ['datetime', 'date', 'time', 'birthday'] and easyadmin.field.nullable|default(false) %}
+          <div class="nullable-control">
+            <label>
+              <input type="checkbox" {% if data is null %}checked="checked"{% endif %}>
+              {{ 'label.nullable_field'|trans({}, 'EasyAdminBundle')}}
+            </label>
+          </div>
+        {% endif %}
+
+        {{ form_errors(form) }}
+
+        {% if easyadmin.field.help|default('') != '' %}
+          <span class="help-block"><i class="fa fa-info-circle"></i> {{ easyadmin.field.help|trans(domain = easyadmin.entity.translation_domain)|raw }}</span>
+        {% else %}
+          {% set help = get_field_help(_context) %}
+          {% if help %}
+            <span class="help-block"><i class="fa fa-info-circle"></i> {{ help|raw }}</span>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  {% endspaceless %}
+{%- endblock %}
+
+
+{# Add translation of error messages #}
+{% block form_errors %}
+  {% set error_count = errors|length %}
+  {% if error_count >= 1 %}
+    <div class="error-block">
+      <span class="label label-danger">{{ 'errors'|transchoice(error_count, {}, 'EasyAdminBundle') }}</span>
+      {% if error_count == 1 %}
+        {{ errors|first.message | trans }}
+      {% else %}
+        <ul>
+          {% for error in errors %}
+            <li>{{ error.message | trans }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endblock %}
+
+{# Custom widget #}
+{%- block adminbundle_pricerange_widget -%}
+  <div class="row">
+    <div class="price-wrapper col-sm-6">
+      {{ block('form_widget_simple') }}
+    </div>
+    <div class="col-sm-6">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" {{ value == '0' ? ' checked="checked"' : '' }} id="{{ id }}-toggle"/> {{ 'Is free' | trans }}
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <script>(function($) {
+     $(document).ready(function() {
+       var price = $('#' + {{ id | json_encode | raw }}),
+           isFree = $('#' + {{ (id ~ '-toggle') | json_encode | raw }}),
+           update = function() {
+             if (isFree.prop('checked')) {
+               isFree.prop('original-price', price.val());
+               price.val(0);
+               price.closest('.price-wrapper').hide();
+             } else {
+               price.val(isFree.prop('original-price'));
+               price.closest('.price-wrapper').show();
+             }
+           };
+
+       isFree.prop('original-price', price.val());
+       isFree.on('change', update);
+       update();
+     })
+   }(jQuery))</script>
+{%- endblock -%}
+
+{# Make translations of "action.add_new_item" and "action.add_another_item" depend on context #}
+{% block collection_row %}
+  {{ block('form_row') }}
+
+  {% if allow_add|default(false) %}
+    {% set js_add_item %}
+    $(function() {
+    if (event.preventDefault) event.preventDefault(); else event.returnValue = false;
+
+    var collection = $('#{{ id }}');
+    // Use a counter to avoid having the same index more than once
+    var numItems = collection.data('count') || collection.children('div.form-group').length;
+
+    collection.prev('.collection-empty').remove();
+
+    var newItem = collection.attr('data-prototype')
+    .replace(/\>__name__label__\</g, '>' + numItems + '<')
+    .replace(/_{{ name }}___name__/g, '_{{ name }}_' + numItems)
+    .replace(/{{ name }}\]\[__name__\]/g, '{{ name }}][' + numItems + ']')
+    ;
+
+    // Increment the counter and store it in the collection
+    collection.data('count', ++numItems);
+
+    collection.append(newItem).trigger('easyadmin.collection.item-added');
+    });
+        {% endset %}
+
+        <div class="text-right field-collection-action">
+          <a href="#" onclick="{{ js_add_item|raw }}" class="text-primary">
+            <i class="fa fa-plus-square"></i>
+            {# Compute label for translation #}
+            {% set label = 'action.add_' ~ (form|length == 0 ? 'new' : 'another') ~ '.' ~ name %}
+            {# Check if translation of label exists #}
+            {% if label|trans != label %}
+              {{ label|trans }}
+            {% else %}
+              {{ (form|length == 0 ? 'action.add_new_item' : 'action.add_another_item')|trans({}, 'EasyAdminBundle') }}
+            {% endif %}
+          </a>
+        </div>
+  {% endif %}
+{% endblock collection_row %}

@@ -38,10 +38,11 @@ class UploadsSubscriber implements EventSubscriber {
       if ($object->getImageFile()) {
         $file = $object->getImageFile();
 
-        $imageUrl = trim($this->configuration['base_url'], '/'). '/'
+        $imageUrl = trim($this->configuration['base_url'], '/') . '/'
           . $this->configuration['files']['url'] . $file->getFilename();
         $object->setImage($imageUrl);
       }
     }
   }
+
 }

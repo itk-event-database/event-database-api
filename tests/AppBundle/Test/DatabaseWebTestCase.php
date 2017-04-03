@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DatabaseWebTestCase extends WebTestCase  {
+class DatabaseWebTestCase extends WebTestCase {
   /**
    * @var EntityManagerInterface
    */
@@ -15,9 +15,9 @@ class DatabaseWebTestCase extends WebTestCase  {
   public static function setUpBeforeClass() {
     parent::setUpBeforeClass();
 
-//    $kernel = static::createKernel();
-//    $kernel->boot();
-//    $em = $kernel->getContainer()->get('doctrine')->getManager();
+    //    $kernel = static::createKernel();
+    //    $kernel->boot();
+    //    $em = $kernel->getContainer()->get('doctrine')->getManager();
     static::bootKernel();
     static::$em = static::$kernel->getContainer()->get('doctrine')->getManager();
     $schemaTool = new SchemaTool(static::$em);
@@ -39,4 +39,5 @@ class DatabaseWebTestCase extends WebTestCase  {
     $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
     $purger->purge();
   }
+
 }

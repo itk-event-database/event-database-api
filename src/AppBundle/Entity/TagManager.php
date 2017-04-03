@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use AdminBundle\Service\TagNormalizerInterface;
 use Doctrine\ORM\EntityManager;
+use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager as BaseTagManager;
 use FPN\TagBundle\Util\SlugifierInterface;
 
@@ -42,22 +43,37 @@ class TagManager extends BaseTagManager {
     return parent::loadOrCreateTags($names);
   }
 
+  public function setTags(array $tagsNames, Taggable $taggable) {
+    $tags = $this->loadOrCreateTags($tagsNames);
+    $this->replaceTags($tags, $taggable);
+
+    // Store all tags as custom tags on object.
+    if ($taggable instanceof CustomTaggable) {
+      $customTags = array_diff($tagsNames, array_map(function ($tag) {
+        return $tag->getName();
+      }, $tags));
+      if ($customTags) {
+        $taggable->setCustomTags($customTags);
+      }
+    }
+  }
+
   /**
    *
    */
   public function loadTags(array $names = NULL) {
     $builder = $this->em->createQueryBuilder();
     $builder
-        ->select('t')
-        ->from($this->tagClass, 't');
+      ->select('t')
+      ->from($this->tagClass, 't');
 
     if ($names) {
       $builder->where($builder->expr()->in('t.name', $names));
     }
 
     $tags = $builder
-        ->getQuery()
-        ->getResult();
+      ->getQuery()
+      ->getResult();
 
     return $tags;
   }
@@ -76,10 +92,10 @@ class TagManager extends BaseTagManager {
     // Delete relations to entities.
     $builder = $this->em->createQueryBuilder();
     $builder
-        ->delete($this->taggingClass, 't')
-        ->where($builder->expr()->eq('t.tag', $tag->getId()))
-        ->getQuery()
-        ->execute();
+      ->delete($this->taggingClass, 't')
+      ->where($builder->expr()->eq('t.tag', $tag->getId()))
+      ->getQuery()
+      ->execute();
     ;
 
     // Delete tag.

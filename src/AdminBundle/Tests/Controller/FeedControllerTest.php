@@ -14,7 +14,7 @@ class FeedControllerTest extends DatabaseWebTestCase {
   /**
    * @var \Symfony\Bundle\FrameworkBundle\Client
    */
-  private $client = null;
+  private $client = NULL;
 
   public function setUp() {
     $this->client = static::createClient();
@@ -51,7 +51,7 @@ class FeedControllerTest extends DatabaseWebTestCase {
 
     $form = $crawler->selectButton('Save')->form([
       'feed[name]' => 'Test (updated)',
-     ]);
+    ]);
     $this->client->submit($form);
     $crawler = $this->client->followRedirect();
 
@@ -92,11 +92,12 @@ class FeedControllerTest extends DatabaseWebTestCase {
     static::$em->persist($user);
     static::$em->flush($user);
 
-    $token = new UsernamePasswordToken($user, null, $firewall, ['ROLE_SUPER_ADMIN']);
-    $session->set('_security_'.$firewall, serialize($token));
+    $token = new UsernamePasswordToken($user, NULL, $firewall, ['ROLE_SUPER_ADMIN']);
+    $session->set('_security_' . $firewall, serialize($token));
     $session->save();
 
     $cookie = new Cookie($session->getName(), $session->getId());
     $this->client->getCookieJar()->set($cookie);
   }
+
 }

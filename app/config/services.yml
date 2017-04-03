@@ -41,6 +41,10 @@ services:
         parent: entity_factory
         class: AdminBundle\Factory\PlaceFactory
 
+    organizer_factory:
+        parent: entity_factory
+        class: AdminBundle\Factory\OrganizerFactory
+
     occurrence_factory:
         parent: entity_factory
         class: AdminBundle\Factory\OccurrenceFactory
@@ -51,6 +55,7 @@ services:
         parent: entity_factory
         class: AdminBundle\Factory\EventFactory
         calls:
+            - [setOrganizerFactory, ["@organizer_factory"]]
             - [setOccurrenceFactory, ["@occurrence_factory"]]
 
     # Filters
@@ -148,7 +153,7 @@ services:
     security.access.edit_voter:
         class:      AppBundle\Security\Authorization\Voter\EditVoter
         public:     false
-        arguments: [ "@?security.role_hierarchy" ]
+        arguments: [ "@security.role_hierarchy" ]
         tags:
             - { name: security.voter }
 
@@ -182,6 +187,7 @@ services:
         arguments:
             - "@event_factory"
             - "@place_factory"
+            - "@organizer_factory"
             - "@file_handler"
 
     feed_reader:
@@ -208,6 +214,15 @@ services:
             - "@logger"
             - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
+
+    feed_validator:
+        class: AdminBundle\Service\FeedValidator
+        parent: feed_previewer
+
+    feed_manager:
+        class: AdminBundle\Service\FeedManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
 
     twig_extension:
         class: AdminBundle\Twig\Extension\TwigExtension
@@ -241,6 +256,7 @@ services:
             - "@api_platform.property_accessor"
             - "@?api_platform.name_converter"
             - "@tag_manager"
+            - "@organizer_factory"
             - "@place_factory"
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
@@ -307,12 +323,25 @@ services:
 
         tags: [ { name: serializer.normalizer, priority: 10 } ]
 
+    app.integrity_manager:
+        public: false
+        class: AdminBundle\Service\IntegrityManager
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    app.user_manager:
+        public: false
+        class: AdminBundle\Service\UserManager
+        arguments: [ "@security.role_hierarchy" ]
 
     app.twig_extension_easy_admin:
         class: AdminBundle\Twig\Extension\EasyAdminExtension
         arguments:
             - '@security.token_storage'
             - '@security.access.edit_voter'
+            - '@translator'
+            - '@app.integrity_manager'
+            - '@app.user_manager'
         tags:
             - { name: "twig.extension" }
 
@@ -354,7 +383,6 @@ services:
 
     app.form.type.occurrence:
         class: AdminBundle\Form\OccurrenceType
-        arguments: ["@translator.default"]
         tags:
             - { name: form.type, alias: occurrence }
 

@@ -27,6 +27,7 @@ parameters:
     jwt_key_pass_phrase:  'test'                                     # ssh key pass phrase
     jwt_token_ttl:        86400
 
+    site_name: Event Database
     site_title: Event Database Admin
 
     admin.base_url: http://event-database-api.vm
@@ -37,3 +38,6 @@ parameters:
 
     github_url: https://github.com/itk-event-database
     editor_url: http://editor.event-database-api.vm
+
+    from_email_address: noreply@example.com
+    from_email_name: Event Database

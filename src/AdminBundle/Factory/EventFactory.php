@@ -17,6 +17,11 @@ class EventFactory extends EntityFactory {
   protected $feed;
 
   /**
+   * @var OrganizerFactory
+   */
+  protected $organizerFactory;
+
+  /**
    * @var OccurrenceFactory
    */
   protected $occurrenceFactory;
@@ -29,6 +34,10 @@ class EventFactory extends EntityFactory {
     if ($this->valueConverter) {
       $this->valueConverter->setFeed($feed);
     }
+  }
+
+  public function setOrganizerFactory(OrganizerFactory $organizerFactory) {
+    $this->organizerFactory = $organizerFactory;
   }
 
   /**
@@ -66,6 +75,14 @@ class EventFactory extends EntityFactory {
       return NULL;
     }
 
+    // An event may have been (soft) deleted. We want to reuse it.
+    $hasSoftdeleteable = FALSE;
+    $filters = $this->em->getFilters();
+    if ($filters->has('softdeleteable')) {
+      $hasSoftdeleteable = TRUE;
+      $filters->disable('softdeleteable');
+    }
+
     $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
       'feed' => $feed,
       'feedEventId' => $feedEventId,
@@ -74,6 +91,11 @@ class EventFactory extends EntityFactory {
     if ($event === NULL) {
       $event = new Event();
       $event->setFeedEventId($id);
+    }
+
+    if ($hasSoftdeleteable) {
+      $event->setDeletedAt(NULL);
+      $filters->enable('softdeleteable');
     }
 
     return $event;
@@ -96,6 +118,11 @@ class EventFactory extends EntityFactory {
               $occurrences->add($occurrence);
             }
             $entity->setOccurrences($occurrences);
+            return;
+
+          case 'organizer':
+            $organizer = $this->organizerFactory->get($value);
+            $entity->setOrganizer($organizer);
             return;
         }
       }

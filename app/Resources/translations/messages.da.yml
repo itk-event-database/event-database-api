@@ -2,6 +2,7 @@ app:
     menu:
         events: Begivenheder
         places: Steder
+        organizer: Arrangører
         groups: Grupper
         users: Brugere
         tags: Tags
@@ -23,25 +24,40 @@ app:
         langcode: Sprog
         name: Titel
         occurrences: Dato og tid
+        organizer: Arrangør
         tags: Tags
+        customTags: Ukendte tags
         ticketPurchaseUrl: Billeturl
-        url: Url
+        url: Link til events hjemmeside
         videoUrl: Videourl
         help:
             description: Beskrivelse af begivenheden
             eventUrl: Eventurl, fx til Facebook-event
             excerpt: Kort beskrivelse af begivenheden
             image: Upload et billede
-            imageFile: Upload et billede
+            imageFile: Upload et billede. Billedet bør være minimum 1000px bredt.
             isPublished: Angiv om begivenheden skal vises
             langcode: Vælg sprog
             name: Begivenhedens titel. Undgå titler med kun store bogstaver.
-            occurrences: Angiv dato, tid og sted for begivenheden. Brug "Tilføj et element" hvis begivenheden afholdes mere end én gang.
-            tags: Vælg et eller flere tags.
+            occurrences:
+                # Main help for collection
+                collection: Angiv dato, tid og sted for begivenheden. Brug "Tilføj et element" hvis begivenheden afholdes mere end én gang.
+                # For each item
+                startDate: Angiv starttidspunkt.
+                endDate: Angiv sluttidspunkt. Skal være senere end starttidspunktet.
+                place: Vælg hvor begivenheden foregår.
+                ticketPriceRange: Angiv billetpris, fx "87 kr.", "100–200 kr." eller vælg "Gratis".
+
+            tags: Vælg et eller flere tags. Se <a target="taglist" href="/helper/tag/list">liste over tilladte tags</a>.
             ticketPurchaseUrl: Url til billetkøb
-            url: Url med uddybende beskrivelse af begivenheden
+            url: Url til uddybende beskrivelse af begivenheden
             videoUrl: Url til video om begivenheden
-            repeating_occurrences: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.
+            repeating_occurrences:
+                main: Hvis en begivenhed afholdes gentagne gange kan du angive sted, start- og slutdato og tidsrum for hver ugedag.
+                place: Vælg hvor begivenheden foregår.
+                start_day: Dag hvor begivenheden starter
+                end_day: Dag hvor begivenheden slutter
+            organizer: Vælg arrangør
 
     place:
         address: Adresse
@@ -58,6 +74,7 @@ app:
         latitude: Længdegrad
         longitude: Breddegrad
         name: Navn
+        occurrences: Begivenheder
         postal_code: Postnr.
         street_address: Adresse
         telephone: Telefonnr.
@@ -68,9 +85,19 @@ app:
             imageFile: Upload et billede
             disability_access: Beskriv adgangsmuligheder for handicappede
 
+    organizer:
+        email: E-mail
+        name: Navn
+        url: Url
+        events: Begivenheder
+        help:
+            name: Arrangørens navn
+
     user:
         help:
             plainPassword: Indtast kodeord hvis brugeren skal have et nyt kodeord.
+
+# app.event.help.occurrences.place: Vælg hvor begivenheden foregår
 
 action:
     delete: Slet
@@ -82,6 +109,11 @@ action:
     new: Tilføj %entity_name%
     show: Vis
     cancel: Annuller
+    ok: OK
+    add_new:
+        occurrences: Tilføj en dato
+    add_another:
+        occurrences: Tilføj ny dato
 
 label:
     yes: ja
@@ -109,6 +141,8 @@ ROLE_USER: Bruger
 ROLE_API_READ: API-læseadgang
 ROLE_API_WRITE: API-skriveadgang
 ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_EVENT_ADMIN: Begivenhedsadministrator
+ROLE_ORGANIZER_EDITOR: Arrangørredaktør
 ROLE_PLACE_EDITOR: Stedredaktør
 ROLE_TAG_EDITOR: Tagredaktør
 ROLE_USER_EDITOR: Brugerredaktør
@@ -200,3 +234,43 @@ form.type.occurrence.datetime.placeholder.minute: mm
 
 
 Please confirm creation of repeating occurrences: Bekræft venligt at du vil oprette gentagne forekomster.
+
+Name: Navn
+Configuration: Konfiguration
+Close: Luk
+Disable feed: Deaktiver feed
+Enable feed: Aktiver feed
+feed.disable.confirm.message: Bekræft at du vil deaktivere feedet %feed_name%. Alle begivenheder fra feedet vil blive slettet.
+feed.enable.confirm.message: Bekræft at du vil aktivere feedet %feed_name%.
+
+
+Organizer: Arrangør
+Is free: Gratis
+Message: Besked
+Ticket price range: Billetpris
+
+
+Please select a place: Vælg venligt et sted
+Please specify a start day: Angiv venligt startdato
+Please specify an end day: Angiv venligt slutdato
+Please specify ticket price: Angiv venligt billetpris
+Please specify at least one time interval: Angiv venligt start- og sluttidspunkt for én eller flere dage
+
+'Cannot delete %type% %name%': '"%name%" kan ikke slettes.'
+
+Organizer is used by %count% events: >
+    Arrangøren bruges af én begivenhed.
+    | Arrangøren bruges af %count% begivenheder.
+
+Place is used by %count% occurrences: >
+    Stedet bruges af én begivenhed
+    | Stedet bruges af %count% begivenheder
+
+Tag is used by %count% objects: >
+    Tagget bruges på ét element
+    | Tagget bruges af %count% elementer
+
+Show my events: Mine begivenheder
+Show all events: Alle begivenheder
+
+Tag list: Tags

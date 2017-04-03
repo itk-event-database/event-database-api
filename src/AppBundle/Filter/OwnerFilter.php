@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *
  */
 class OwnerFilter extends AbstractFilter {
+
   /**
    * @param ManagerRegistry $managerRegistry
    * @param RequestStack $requestStack
@@ -35,8 +36,8 @@ class OwnerFilter extends AbstractFilter {
       return;
     }
 
-    $ids = preg_split('/\s*,\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
-    $users = null;
+    $ids = preg_split('/\s*,\s*/', $value, NULL, PREG_SPLIT_NO_EMPTY);
+    $users = NULL;
     if ($property === 'user') {
       $users = $this->managerRegistry->getRepository('AppBundle:User')->findByIds($ids);
     }
@@ -78,4 +79,5 @@ class OwnerFilter extends AbstractFilter {
       ],
     ];
   }
+
 }

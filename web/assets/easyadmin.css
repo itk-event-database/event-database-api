@@ -16,3 +16,5 @@
   content: '\f0d8'; }
 .easyadmin form[name=event] .repeating-occurrences.expanded .box-body {
   display: block; }
+.easyadmin .event-list-filter > .nav-tabs {
+  margin: 0 0 1em 0; }

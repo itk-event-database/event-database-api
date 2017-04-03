@@ -1,6 +1,7 @@
 <?php
 
 namespace AdminBundle\Service\FeedReader;
+
 /**
  *
  */
@@ -37,6 +38,9 @@ class Xml extends FeedReader {
    * @throws \Exception
    */
   private function getItems(\SimpleXMLElement $el, $path, $failOnError = FALSE) {
+    if (!$path) {
+      return NULL;
+    }
     $nodes = $el->xpath($path);
     if ($nodes === FALSE) {
       if ($failOnError) {
@@ -100,7 +104,7 @@ class Xml extends FeedReader {
               $data[$key] = $this->getData($items, $spec);
             }
             else {
-              $data[$key] = array_map(function($item) use ($spec) {
+              $data[$key] = array_map(function ($item) use ($spec) {
                 return $this->getData($item, $spec);
               }, $items);
             }

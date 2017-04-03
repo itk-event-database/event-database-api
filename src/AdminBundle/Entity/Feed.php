@@ -61,6 +61,13 @@ class Feed {
   private $lastRead;
 
   /**
+   * @var bool
+   *
+   * @ORM\Column(type="boolean")
+   */
+  private $enabled = FALSE;
+
+  /**
    * Get id.
    *
    * @return integer
@@ -157,6 +164,14 @@ class Feed {
     return $this->lastRead;
   }
 
+  public function setEnabled($enabled) {
+    $this->enabled = $enabled;
+  }
+
+  public function getEnabled() {
+    return $this->enabled;
+  }
+
   /**
    *
    */
@@ -210,8 +225,7 @@ class Feed {
     return isset($this->configuration['dateFormat']) ? $this->configuration['dateFormat'] : NULL;
   }
 
-  public function __toString()
-  {
+  public function __toString() {
     return $this->getName();
   }
 

@@ -1,0 +1,27 @@
+<div id="modal-delete" class="modal fade">
+	<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>{{ 'Cannot delete %type% %name%' |trans({'%type%': get_entity_type(entity)|lower|trans, '%name%': entity.name}) }}</h4>
+
+				{% set info = get_cannot_delete_info(entity) %}
+				<p>
+					{% if info.arguments %}
+						{% if info.arguments['%count%'] is defined %}
+							{{ info.message | trans | transchoice(info.arguments['%count%'], info.arguments) }}
+						{% else %}
+							{{ info.message | trans(info.arguments) }}
+						{% endif %}
+					{% else %}
+						{{ info.message }}
+					{% endif %}
+				</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn">
+          {{ 'action.ok'|trans }}
+        </button>
+      </div>
+    </div>
+	</div>
+</div>

@@ -1,0 +1,25 @@
+{% extends 'AdminBundle::clean.html.twig' %}
+
+{% block title -%}
+	{{ 'Tag list' | trans }}
+{% endblock -%}
+
+{% block body -%}
+  <h1>{{ 'Tag list' | trans }}</h1>
+
+  <div class="tag-list">
+    {% if tags %}
+      <ol>
+        {% for tag in tags %}
+          <li><span class="x-btn x-btn-default">{{ tag.name }}</span></li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <div class="alert alert-info">{{ 'No tags defined' | trans }}</div>
+    {% endif %}
+  </div>
+
+  <script>
+    console.debug(window);
+  </script>
+{% endblock %}

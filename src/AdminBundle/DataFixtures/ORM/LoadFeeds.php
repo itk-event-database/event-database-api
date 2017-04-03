@@ -31,6 +31,7 @@ class LoadFeeds extends LoadData {
       }
       $feed
         ->setCreatedBy($user)
+        ->setUser($user)
         ->setName($name)
         ->setConfiguration($configuration);
 

@@ -11,6 +11,7 @@ use Doctrine\ORM\QueryBuilder;
  *
  */
 class DateFilter extends BaseDateFilter {
+
   protected function extractProperties(Request $request): array {
     $properties = parent::extractProperties($request);
 
@@ -28,8 +29,7 @@ class DateFilter extends BaseDateFilter {
    *
    * {@inheritdoc}
    */
-  protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
-  {
+  protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = NULL) {
     // Expect $values to be an array having the period as keys and the date value as values
     if (
       !is_array($values) ||
@@ -48,7 +48,7 @@ class DateFilter extends BaseDateFilter {
     }
 
     // This is the only change compared to parent::filterProperty.
-    $nullManagement = null;
+    $nullManagement = NULL;
     if (is_string($this->properties[$property])) {
       $nullManagement = $this->properties[$property];
     }
