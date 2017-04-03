@@ -117,17 +117,6 @@ easy_admin:
                           required: true
                     - property: isPublished
                       help: app.event.help.isPublished
-                    - property: langcode
-                      label: app.event.langcode
-                      help: app.event.help.langcode
-                      type: choice
-                      type_options:
-                          choices:
-                              '': ''
-                              Danish: da
-                              English: en
-                              German: de
-                          required: true
                     - property: imageFile
                       help: app.event.help.imageFile
                       type: vich_image
@@ -184,17 +173,6 @@ easy_admin:
                           required: true
                     - property: isPublished
                       help: app.event.help.isPublished
-                    - property: langcode
-                      label: app.event.langcode
-                      help: app.event.help.langcode
-                      type: choice
-                      type_options:
-                          choices:
-                              '': ''
-                              Danish: da
-                              English: en
-                              German: de
-                          required: true
                     - property: imageFile
                       help: app.event.help.imageFile
                       type: vich_image

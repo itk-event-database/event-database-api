@@ -101,6 +101,7 @@ class AdminController extends BaseAdminController {
   public function createNewEventEntity() {
     $event = new Event();
 
+    $event->setLangcode('da');
     $event->setOccurrences(new ArrayCollection([new Occurrence()]));
 
     return $event;
