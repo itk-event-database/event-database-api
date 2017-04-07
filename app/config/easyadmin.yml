@@ -465,6 +465,7 @@ easy_admin:
                               ROLE_EVENT_ADMIN: ROLE_EVENT_ADMIN
                               ROLE_ORGANIZER_EDITOR: ROLE_ORGANIZER_EDITOR
                               ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
+                              ROLE_PLACE_ADMIN: ROLE_PLACE_ADMIN
                               ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
                               ROLE_USER_EDITOR: ROLE_USER_EDITOR
                               ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
