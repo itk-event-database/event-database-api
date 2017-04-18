@@ -3,12 +3,13 @@
 namespace AppBundle\Security\Authorization\Voter;
 
 use AppBundle\Entity\Event;
+use AppBundle\Entity\Place;
+use AppBundle\Entity\User;
 use Gedmo\Blameable\Blameable;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
-use AppBundle\Entity\User;
 
 /**
  *
@@ -89,6 +90,14 @@ class EditVoter extends Voter {
       }
       if ($this->hasRole($userRoles, 'ROLE_EVENT_ADMIN')) {
         // ROLE_EVENT_ADMIN can edit all events.
+        return TRUE;
+      }
+    }
+    // Hack!
+    if ($entity instanceof Place) {
+      $userRoles = $this->getUserRoles($user);
+      if ($this->hasRole($userRoles, 'ROLE_PLACE_ADMIN')) {
+        // ROLE_PLACE_ADMIN can edit all places.
         return TRUE;
       }
     }
