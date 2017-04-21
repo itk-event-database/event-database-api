@@ -65,7 +65,8 @@ class TagManager extends BaseTagManager {
     $builder = $this->em->createQueryBuilder();
     $builder
       ->select('t')
-      ->from($this->tagClass, 't');
+      ->from($this->tagClass, 't')
+      ->orderBy('t.name');
 
     if ($names) {
       $builder->where($builder->expr()->in('t.name', $names));
