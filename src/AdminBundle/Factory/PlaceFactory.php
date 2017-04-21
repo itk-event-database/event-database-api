@@ -46,7 +46,7 @@ class PlaceFactory extends EntityFactory {
     $repository = $this->em->getRepository(Place::class);
 
     foreach ($keys as $key) {
-      if (isset($data[$key])) {
+      if (!empty($data[$key])) {
         $place = $repository->findOneBy([$key => $data[$key]]);
         if ($place) {
           return $place;
