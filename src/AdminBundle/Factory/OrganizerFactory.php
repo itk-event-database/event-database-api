@@ -47,7 +47,7 @@ class OrganizerFactory extends EntityFactory {
     $repository = $this->em->getRepository(Organizer::class);
 
     foreach ($keys as $key) {
-      if (isset($data[$key])) {
+      if (!empty($data[$key])) {
         $organizer = $repository->findOneBy([$key => $data[$key]]);
         if ($organizer) {
           return $organizer;
