@@ -270,8 +270,6 @@ easy_admin:
                 fields:
                     - property: startDate
                       help: app.help.occurrence.startDate
-                      type_options:
-                          hest: xxx
                     - property: endDate
                       help: app.help.occurrence.endDate
                     - property: place
