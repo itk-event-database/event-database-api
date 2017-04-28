@@ -1,5 +1,12 @@
 {% extends 'easy_admin/list.html.twig' %}
 
+{# Handle our custom list filter parameter #}
+{% if app.request.query.has('_event_list_filter') %}
+  {% set _request_parameters = _request_parameters|default({})|merge({
+    _event_list_filter: app.request.query.get('_event_list_filter')
+  }) %}
+{% endif %}
+
 {% block content_header %}
   <div class="event-list-filter">
     {% set filter_name = '_event_list_filter' %}
