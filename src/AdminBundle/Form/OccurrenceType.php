@@ -31,10 +31,14 @@ class OccurrenceType extends AbstractType {
       ->add('startDate', DateTimeType::class, [
         'placeholder' => $placeholder,
         'required' => TRUE,
+        'model_timezone' => 'GMT',
+        'view_timezone' => $options['view_timezone'],
       ])
       ->add('endDate', DateTimeType::class, [
         'placeholder' => $placeholder,
         'required' => TRUE,
+        'model_timezone' => 'GMT',
+        'view_timezone' => $options['view_timezone'],
       ])
       ->add('place', EasyAdminAutocompleteType::class, [
         'class' => Place::class,
@@ -64,7 +68,8 @@ class OccurrenceType extends AbstractType {
    */
   public function configureOptions(OptionsResolver $resolver) {
     $resolver->setDefaults([
-          'data_class' => 'AppBundle\Entity\Occurrence'
+      'data_class' => 'AppBundle\Entity\Occurrence',
+      'view_timezone' => 'GMT',
     ]);
   }
 

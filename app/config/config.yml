@@ -71,6 +71,8 @@ twig:
         editor_url: "%editor_url%"
         site_title: "%site_title%"
         kernelRootDir: "%kernel.root_dir%"
+    date:
+        timezone: "%view_timezone%"
 
 # Doctrine Configuration
 doctrine:

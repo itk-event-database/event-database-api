@@ -41,3 +41,5 @@ parameters:
 
     from_email_address: noreply@example.com
     from_email_name: Event Database
+
+    view_timezone: GMT
