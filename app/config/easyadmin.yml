@@ -204,6 +204,8 @@ easy_admin:
                       type: collection
                       type_options:
                         entry_type: AdminBundle\Form\OccurrenceType
+                        entry_options:
+                            view_timezone: "%view_timezone%"
                         by_reference: false
                         required: true
                       embedded: true
