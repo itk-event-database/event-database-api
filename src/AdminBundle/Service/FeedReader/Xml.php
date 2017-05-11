@@ -65,7 +65,7 @@ class Xml extends FeedReader {
    */
   private function getValue(\SimpleXMLElement $el, $path, $failOnError = FALSE) {
     $values = $this->getItems($el, $path, $failOnError);
-    return (count($values) > 0) ? (string) $values[0] : NULL;
+    return (count($values) > 0) ? trim((string) $values[0]) : NULL;
   }
 
   /**
