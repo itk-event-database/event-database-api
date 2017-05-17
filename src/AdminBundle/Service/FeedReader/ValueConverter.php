@@ -76,6 +76,9 @@ class ValueConverter {
         $date = $format
               ? \DateTime::createFromFormat($format, $value, $timeZone)
               : new \DateTime($value, $timeZone);
+
+        // Convert to UTC.
+        $date->setTimezone(new \DateTimeZone('UTC'));
       }
       catch (\Exception $e) {
       }
