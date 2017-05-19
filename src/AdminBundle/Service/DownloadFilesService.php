@@ -72,7 +72,10 @@ class DownloadFilesService {
           if ($value) {
             $newValue = $this->fileHandler->download($value);
             $this->write("\t" . $field . ': ');
-            if ($newValue == $value) {
+            if (!$newValue) {
+              $this->write("\t" . '(not downloaded)');
+            }
+            elseif ($newValue == $value) {
               $this->write("\t" . '(no change)');
             }
             else {
