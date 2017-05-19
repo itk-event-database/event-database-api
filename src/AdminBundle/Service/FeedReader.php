@@ -149,6 +149,14 @@ class FeedReader implements Controller {
     $method = isset($configuration['method']) ? $configuration['method'] : 'GET';
     $options = isset($configuration['options']) ? $configuration['options'] : [];
 
+    // Pretend to be a real browser.
+    if (!isset($configuration['headers'])) {
+      $configuration['headers'] = [];
+    }
+    if (!isset($configuration['headers']['user-agent'])) {
+      $configuration['headers']['user-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36';
+    }
+
     $res = $client->request($method, $feedUrl, $options);
     if ($res->getStatusCode() !== 200) {
       return NULL;

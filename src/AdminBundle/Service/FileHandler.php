@@ -56,7 +56,11 @@ class FileHandler {
       $content = $client->get($url, [
         'on_stats' => function (TransferStats $stats) use (&$actualUrl) {
           $actualUrl = $stats->getEffectiveUri();
-        }
+        },
+        // Pretend to be a real browser.
+        'headers' => [
+          'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+        ],
       ])->getBody()->getContents();
     }
     catch (ClientException $ex) {
