@@ -71,7 +71,7 @@ An occurrence must provide the following data.
 | endtime     | datetime\* | Yes      | The start time of the occurrence (event). Must be after "starttime". |
 | place       | place      | Yes‡     | ‡ See [Note on place](#note-on-place). |
 
-\* a "datetime" must be a string representation of a time and date. We strongly recommend using [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), e.g. "2017-03-16T17:00:00+00:00". Using other formats can be handled, but not as precisely as ISO 8601.
+\* a "datetime" must be a string representation of a time and date. We use [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), e.g. "2017-03-16T17:00:00+00:00". If there is no timezone registered we will "guess" that the timezone is copenhagen-time, which is a guess and therefore we prefer using ISO8601. 
 
 #### Note on place
 
