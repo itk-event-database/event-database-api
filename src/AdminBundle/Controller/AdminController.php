@@ -148,6 +148,10 @@ class AdminController extends BaseAdminController {
         /** @var \DateTime $endDay */
         $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : NULL;
 
+        $timeZone = new \DateTimeZone($this->getParameter('view_timezone'));
+        $startDay->setTimezone($timeZone);
+        $endDay->setTimezone($startDay->getTimeZone());
+
         if ($place && $startDay && $endDay && $startDay <= $endDay) {
           $occurrences = new ArrayCollection();
 
@@ -162,8 +166,10 @@ class AdminController extends BaseAdminController {
               $occurrence->setPlace($place);
               $occurrence->setStartDate(clone $startDay);
               $occurrence->getStartDate()->setTime($startTime->format('H'), $startTime->format('i'));
+              $occurrence->getStartDate()->setTimeZone(new \DateTimeZone('UTC'));
               $occurrence->setEndDate(clone $startDay);
               $occurrence->getEndDate()->setTime($endTime->format('H'), $endTime->format('i'));
+              $occurrence->getEndDate()->setTimeZone(new \DateTimeZone('UTC'));
               $occurrence->setTicketPriceRange($ticketPriceRange);
               $occurrences[] = $occurrence;
             }
