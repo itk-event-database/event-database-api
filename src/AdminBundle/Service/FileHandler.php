@@ -73,7 +73,7 @@ class FileHandler {
     }
 
     $filename = md5($actualUrl);
-    $info = pathinfo($actualUrl);
+    $info = pathinfo(HttpUri::createFromString($url)->getPath());
     if (!empty($info['extension'])) {
       $filename .= '.' . $info['extension'];
     }
