@@ -220,6 +220,7 @@ easy_admin:
                       type: AdminBundle\Form\RepeatingOccurrencesType
                       type_options:
                           required: false
+                          view_timezone: "%view_timezone%"
 
             show:
                 fields:

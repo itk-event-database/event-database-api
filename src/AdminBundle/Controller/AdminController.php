@@ -148,6 +148,13 @@ class AdminController extends BaseAdminController {
         /** @var \DateTime $endDay */
         $endDay = isset($repeatingOccurrences['end_day']) ? clone $repeatingOccurrences['end_day'] : NULL;
 
+        // $startDay is a UTC time and we convert it to the view timezone.
+        $viewTimeZone = new \DateTimeZone($this->getParameter('view_timezone'));
+        $startDay->setTimezone($viewTimeZone);
+        $endDay->setTimezone($startDay->getTimeZone());
+
+        $utc = new \DateTimeZone('UTC');
+
         if ($place && $startDay && $endDay && $startDay <= $endDay) {
           $occurrences = new ArrayCollection();
 
@@ -165,6 +172,9 @@ class AdminController extends BaseAdminController {
               $occurrence->setEndDate(clone $startDay);
               $occurrence->getEndDate()->setTime($endTime->format('H'), $endTime->format('i'));
               $occurrence->setTicketPriceRange($ticketPriceRange);
+              // We store UTC dates in the database.
+              $occurrence->getStartDate()->setTimeZone($utc);
+              $occurrence->getEndDate()->setTimeZone($utc);
               $occurrences[] = $occurrence;
             }
 
