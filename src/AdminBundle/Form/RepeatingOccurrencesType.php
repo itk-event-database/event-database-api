@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  *
@@ -40,9 +41,13 @@ class RepeatingOccurrencesType extends AbstractType {
       ])
       ->add('start_day', DateType::class, [
         'placeholder' => ['year' => 'form.type.occurrence.datetime.placeholder.year', 'month' => 'form.type.occurrence.datetime.placeholder.month', 'day' => 'form.type.occurrence.datetime.placeholder.day'],
+        'model_timezone' => 'UTC',
+        'view_timezone' => $options['view_timezone'],
       ])
       ->add('end_day', DateType::class, [
         'placeholder' => ['year' => 'form.type.occurrence.datetime.placeholder.year', 'month' => 'form.type.occurrence.datetime.placeholder.month', 'day' => 'form.type.occurrence.datetime.placeholder.day'],
+        'model_timezone' => 'UTC',
+        'view_timezone' => $options['view_timezone'],
       ])
       ->add('ticket_price_range', PriceRangeType::class);
 
@@ -142,6 +147,15 @@ class RepeatingOccurrencesType extends AbstractType {
     if ($numberOfTimeIntervals === 0) {
       $form->get('message')->addError(new FormError('Please specify at least one time interval'));
     }
+  }
+
+  /**
+   * @param OptionsResolverInterface $resolver
+   */
+  public function configureOptions(OptionsResolver $resolver) {
+    $resolver->setDefaults([
+      'view_timezone' => 'GMT',
+    ]);
   }
 
   /**
