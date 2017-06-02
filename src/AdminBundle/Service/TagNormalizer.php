@@ -33,6 +33,7 @@ class TagNormalizer implements TagNormalizerInterface {
    * @return array
    */
   public function normalize(array $names) {
+    $names = array_map('trim', $names);
     $tagManager = $this->getTagManager();
     $tags = $tagManager->loadTags($names);
 
