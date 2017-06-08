@@ -11,6 +11,8 @@ runtime:
     extensions:
         - redis
         - apcu
+    sizing_hints:
+        request_memory: 124
 
 build:
   flavor: none
