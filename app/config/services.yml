@@ -96,9 +96,9 @@ services:
     resource.event.search_date_filter:
         parent:    "app_bundle.doctrine.orm.date_filter"
         arguments:
-            - occurrences.startDate:
+            - occurrences.startDate: ~
+              occurrences.endDate:
                 default: { after: now }
-              occurrences.endDate: ~
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
     resource.event.search_tag_filter:
