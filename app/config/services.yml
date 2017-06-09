@@ -154,9 +154,11 @@ services:
     resource.occurrence.search_date_filter:
         parent:    "app_bundle.doctrine.orm.date_filter"
         arguments:
-            - startDate:
-                default: { after: now }
-              endDate: ~
+            - startDate: ~
+              endDate:
+                default:
+                  after: now,
+              null_management: include_null_after
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
