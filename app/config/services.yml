@@ -69,9 +69,17 @@ services:
         arguments:  [ "@doctrine", "@request_stack", "@tag_manager" ]
         public:     false
 
+    app_bundle.doctrine.orm.order_filter:
+        class:      AppBundle\Filter\OrderFilter
+        arguments:  [ "@doctrine", "@request_stack", "%api_platform.collection.order_parameter_name%", "@?logger" ]
+        public:     false
+
     resource.event.order_filter:
-        parent:    "api_platform.doctrine.orm.order_filter"
-        arguments: [ { occurrences.startDate: ~, occurrences.endDate: ~ } ]
+        parent:    "app_bundle.doctrine.orm.order_filter"
+        arguments:
+            - occurrences.startDate:
+                default: ASC
+            - occurrences.endDate:
         tags:      [ { name: 'api_platform.filter', id: 'event.order' } ]
 
     resource.event.search_filter:
@@ -129,8 +137,11 @@ services:
         tags:      [ { name: 'api_platform.filter', id: 'place.search.tag' } ]
 
     resource.occurrence.order_filter:
-        parent:    "api_platform.doctrine.orm.order_filter"
-        arguments: [ { startDate: ~, endDate: ~ } ]
+        parent:    "app_bundle.doctrine.orm.order_filter"
+        arguments:
+            - startDate:
+                    default: ASC
+            - endDate: ~
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
 
     resource.occurrence.search_filter:
