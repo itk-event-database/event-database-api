@@ -10,6 +10,7 @@ use AppBundle\Entity\User;
 use Gedmo\Blameable\BlameableListener;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -47,6 +48,11 @@ class FeedReader implements Controller {
   protected $blameableListener;
 
   /**
+   * @var ManagerRegistry
+   */
+  protected $managerRegistry;
+
+  /**
    * @var Feed
    */
   protected $feed;
@@ -64,13 +70,14 @@ class FeedReader implements Controller {
    * @param \AdminBundle\Service\AuthenticatorService $authenticator
    * @param \Gedmo\Blameable\BlameableListener $blameableListener
    */
-  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
+  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry) {
     $this->valueConverter = $valueConverter;
     $this->eventImporter = $eventImporter;
     $this->configuration = $configuration;
     $this->logger = $logger;
     $this->authenticator = $authenticator;
     $this->blameableListener = $blameableListener;
+    $this->managerRegistry = $managerRegistry;
   }
 
   /**
@@ -116,7 +123,17 @@ class FeedReader implements Controller {
     if (!$content) {
       return;
     }
-    $reader->read($content);
+
+    $connection = $this->managerRegistry->getConnection();
+    $connection->beginTransaction();
+    try {
+      $reader->read($content);
+      $connection->commit();
+    }
+    catch (\Throwable $t) {
+      $connection->rollBack();
+      throw $t;
+    }
   }
 
   /**

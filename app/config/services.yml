@@ -106,7 +106,9 @@ services:
         arguments:
             - occurrences.startDate: ~
               occurrences.endDate:
-                default: { after: now }
+                default:
+                    after: now,
+                null_management: include_null_after
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
     resource.event.search_tag_filter:
@@ -213,6 +215,7 @@ services:
             - "@logger"
             - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
+            - "@doctrine"
 
     feed_previewer:
         class: AdminBundle\Service\FeedPreviewer
