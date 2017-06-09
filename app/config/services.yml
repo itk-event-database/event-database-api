@@ -213,6 +213,7 @@ services:
             - "@logger"
             - "@authenticator"
             - "@stof_doctrine_extensions.listener.blameable"
+            - "@doctrine"
 
     feed_previewer:
         class: AdminBundle\Service\FeedPreviewer
