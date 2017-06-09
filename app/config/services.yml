@@ -158,7 +158,7 @@ services:
               endDate:
                 default:
                   after: now,
-              null_management: include_null_after
+                null_management: include_null_after
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
