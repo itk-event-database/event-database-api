@@ -8,6 +8,7 @@ use AdminBundle\Service\FeedReader\ValueConverter;
 use AppBundle\Entity\User;
 use Gedmo\Blameable\BlameableListener;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 
 /**
  *
@@ -28,9 +29,9 @@ class FeedPreviewer extends FeedReader {
    * @param \AdminBundle\Service\AuthenticatorService $authenticator
    * @param \Gedmo\Blameable\BlameableListener $blameableListener
    */
-  public function __construct(ValueConverter $valueConverter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener) {
+  public function __construct(ValueConverter $valueConverter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry) {
     $this->eventImporter = new EventImporter();
-    parent::__construct($valueConverter, $this->eventImporter, $configuration, $logger, $authenticator, $blameableListener);
+    parent::__construct($valueConverter, $this->eventImporter, $configuration, $logger, $authenticator, $blameableListener, $managerRegistry);
     $this->authenticator = NULL;
   }
 
