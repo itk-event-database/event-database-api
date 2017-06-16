@@ -1,0 +1,24 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+{% block item_actions %}
+  {# Add filtering of show actions (cf. http://symfony.com/doc/current/bundles/EasyAdminBundle/tutorials/tips-and-tricks.html#defining-dynamic-actions-per-item) #}
+  {% set _show_actions = easyadmin_get_actions_for_show_item(_entity_config.name) %}
+  {% set _request_parameters = { entity: _entity_config.name, referer: app.request.query.get('referer') } %}
+
+  {% set filtered_actions = {} %}
+  {% for action_name, action_config in _show_actions %}
+    {% if action_name == 'list' or can_perform_action(action_name, entity) %}
+      {% set filtered_actions = filtered_actions|merge([action_config]) %}
+    {% endif %}
+  {% endfor %}
+
+  {% set _show_actions = filtered_actions %}
+
+  {{ include('@EasyAdmin/default/includes/_actions.html.twig', {
+    actions: _show_actions,
+    request_parameters: _request_parameters,
+    translation_domain: _entity_config.translation_domain,
+    trans_parameters: _trans_parameters,
+    item_id: _entity_id
+  }, with_context = false) }}
+{% endblock %}
