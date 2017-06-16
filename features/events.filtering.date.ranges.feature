@@ -65,7 +65,7 @@ Feature: Events
     And the JSON node "@id" should be equal to "/api/events/5"
 
   Scenario: Get events
-    When I send a "GET" request to "/api/events?occurrences.startDate[after]=1600-01-01"
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=1600-01-01&occurrences.endDate[after]=1600-01-01"
     And the JSON node "hydra:member" should have 5 elements
 
   Scenario: Get events

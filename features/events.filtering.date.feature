@@ -50,12 +50,12 @@ Feature: Events
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
 
   Scenario: Get past events
-    When I send a "GET" request to "/api/events?occurrences.startDate[before]=2050-01-01"
+    When I send a "GET" request to "/api/events?occurrences.startDate[before]=2050-01-01&occurrences.endDate[after]=@0"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
 
   Scenario: Get all events
-    When I send a "GET" request to "/api/events?occurrences.startDate[after]=1900-01-01"
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=1900-01-01&occurrences.endDate[after]=1900-01-01"
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/events/2"
