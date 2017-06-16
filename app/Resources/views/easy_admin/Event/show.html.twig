@@ -1,0 +1,34 @@
+{% extends 'easy_admin/show.html.twig' %}
+
+{% block main %}
+  {# Show info when event is read from a feed #}
+  {% if entity.feed|default(false) and entity.feedEventId|default(false) %}
+    {% set feed = entity.feed %}
+    <div class="alert alert-info event-feed-info">
+      <p>
+        {{ 'This event is read from a feed and cannot be edited.' | trans }}
+
+        {% if is_granted('ROLE_FEED_EDITOR') %}
+          <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#event-feed-info" aria-expanded="false" aria-controls="event-feed-info">
+            {{ 'More info' | trans }}
+          </button>
+        {% endif %}
+      </p>
+
+      <div class="collapse" id="event-feed-info">
+        <dl class="">
+          <dt>{{ 'Feed' | trans }}</dt>
+          <dd>
+            <a href="{{ path('easyadmin', {'entity': 'Feed', 'action': 'show', 'id': feed.id}) }}">{{ feed.name  }}</a>
+          </dd>
+          <dt>{{ 'Feed event id' | trans }}</dt>
+          <dd>
+            <a href="{{ feed.url }}#{{ entity.feedEventId }}">{{ entity.feedEventId }}</a>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  {% endif %}
+
+  {{ parent() }}
+{% endblock %}
