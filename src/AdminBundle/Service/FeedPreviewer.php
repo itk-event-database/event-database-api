@@ -38,9 +38,9 @@ class FeedPreviewer extends FeedReader {
   /**
    * @param \AdminBundle\Entity\Feed $feed
    */
-  public function read(Feed $feed, User $user = NULL) {
+  public function read(Feed $feed, User $user = NULL, bool $cleanUpEvents = FALSE) {
     $this->events = [];
-    parent::read($feed, NULL);
+    parent::read($feed, NULL, FALSE);
   }
 
   public function getEvents() {

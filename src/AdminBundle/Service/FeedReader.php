@@ -94,7 +94,7 @@ class FeedReader implements Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @param \AppBundle\Entity\User $user
    */
-  public function read(Feed $feed, User $user = NULL) {
+  public function read(Feed $feed, User $user = NULL, bool $cleanUpEvents = FALSE) {
     $this->feed = $feed;
     if (!$user) {
       $user = $this->feed->getUser();
@@ -127,12 +127,53 @@ class FeedReader implements Controller {
     $connection = $this->managerRegistry->getConnection();
     $connection->beginTransaction();
     try {
+      if ($cleanUpEvents) {
+        $this->cleanUpEvents($feed);
+      }
       $reader->read($content);
       $connection->commit();
     }
     catch (\Throwable $t) {
       $connection->rollBack();
       throw $t;
+    }
+  }
+
+  const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
+  const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
+
+  /**
+   * Remove some events before reading feed.
+   *
+   * This is done to detected deleted events in the feed, i.e. events that have previously been read, but are no longer in the feed.
+   *
+   * @param \AdminBundle\Entity\Feed $feed
+   */
+  private function cleanUpEvents(Feed $feed) {
+    $strategy = self::FEED_CLEAN_UP_FUTURE;
+    $queries = [];
+
+    switch ($strategy) {
+      case self::FEED_CLEAN_UP_FUTURE:
+        // @see https://stackoverflow.com/a/14302701
+        $queries[] = 'delete from occurrence where event_id in (select e.id from event e join (select * from occurrence) o on o.event_id = e.id where e.feed_id = :feed_id and o.end_date >= :now)';
+        $queries[] = 'update event e join occurrence o on o.event_id = e.id set deleted_at = :now where e.feed_id = :feed_id and o.end_date >= :now';
+        break;
+      case self::FEED_CLEAN_UP_ALL:
+        // ":now = :now" is added by lazy programmer that will always set parameter "now" when executing the query.
+        $queries[] = 'delete from occurrence where event_id in (select id from event where deleted_at is null and :now = :now and feed_id = :feed_id)';
+        $queries[] = 'update event set deleted_at = :now where deleted_at is null and feed_id = :feed_id';
+        break;
+    }
+
+    if ($queries) {
+      foreach ($queries as $query) {
+        $stmt = $this->managerRegistry->getConnection()->prepare($query);
+        $stmt->execute([
+          'feed_id' => $feed->getId(),
+          'now' => (new \DateTime())->format('Y-m-d H:i:s'),
+        ]);
+      }
     }
   }
 
