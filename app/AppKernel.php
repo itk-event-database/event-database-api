@@ -25,7 +25,6 @@ class AppKernel extends Kernel
       new FPN\TagBundle\FPNTagBundle(),
       new ResqueBundle\Resque\ResqueBundle(),
       new Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle(),
-      new FOS\RestBundle\FOSRestBundle(),
 
       new AppBundle\AppBundle(),
       new AdminBundle\AdminBundle(),

@@ -158,15 +158,3 @@ fpn_tag:
     model:
         tag_class:     AppBundle\Entity\Tag
         tagging_class: AppBundle\Entity\Tagging
-
-fos_rest:
-    routing_loader:
-        default_format: json
-        include_format: true
-    param_fetcher_listener: force
-    view:
-        view_response_listener: force
-        formats:
-            json: true
-            xml: true
-    format_listener: true
