@@ -44,7 +44,7 @@ class ReadFeedsCommand extends FeedCommand {
       $this->writeln(str_repeat('-', 80));
 
       try {
-        $reader->read($feed);
+        $reader->read($feed, null, true);
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $feed->setLastRead(new \DateTime());
         $em->persist($feed);
