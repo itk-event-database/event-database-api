@@ -6,6 +6,7 @@ use AdminBundle\Entity\Feed;
 use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Service\FeedReader\EventImporter;
 use AdminBundle\Service\FeedReader\ValueConverter;
+use AppBundle\Entity\Event;
 use AppBundle\Entity\User;
 use Gedmo\Blameable\BlameableListener;
 use GuzzleHttp\Client;
@@ -130,10 +131,14 @@ class FeedReader implements Controller {
     $connection = $this->managerRegistry->getConnection();
     $connection->beginTransaction();
     try {
+      $this->cleanUpEvents = NULL;
       if ($cleanUpEvents) {
-        $this->cleanUpEvents($feed);
+        $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed, FeedManager::FEED_CLEAN_UP_FUTURE);
       }
       $reader->read($content);
+      if ($this->cleanUpEvents !== NULL) {
+        $this->feedManager->cleanUpEvents($feed, $this->cleanUpEvents);
+      }
       $connection->commit();
     }
     catch (\Throwable $t) {
@@ -143,16 +148,12 @@ class FeedReader implements Controller {
   }
 
   /**
-   * Remove some events before reading feed.
-   *
-   * This is done to detected deleted events in the feed, i.e. events that have previously been read, but are no longer in the feed.
-   *
-   * @param \AdminBundle\Entity\Feed $feed
+   * @var array|null
    */
-  private function cleanUpEvents(Feed $feed) {
-    if ($this->feedManager !== NULL) {
-      $this->feedManager->cleanUpEvents($feed, FeedManager::FEED_CLEAN_UP_FUTURE);
-    }
+  private $cleanUpEvents;
+
+  private function keepEvent(Event $event) {
+    unset($this->cleanUpEvents[$event->getId()]);
   }
 
   /**
@@ -235,6 +236,7 @@ class FeedReader implements Controller {
     if ($event) {
       $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
       $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
+      $this->keepEvent($event);
     }
     else {
       $this->writeln(sprintf('Cannot import event: id: %s; feed: %s', var_export($data['id'], TRUE), $this->feed->getName()));
