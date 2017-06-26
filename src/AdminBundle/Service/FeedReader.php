@@ -133,7 +133,7 @@ class FeedReader implements Controller {
     try {
       $this->cleanUpEvents = NULL;
       if ($cleanUpEvents) {
-        $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed, FeedManager::FEED_CLEAN_UP_FUTURE);
+        $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed);
       }
       $reader->read($content);
       if ($this->cleanUpEvents !== NULL) {

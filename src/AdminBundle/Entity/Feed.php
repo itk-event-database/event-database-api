@@ -23,6 +23,10 @@ class Feed {
   use BlameableEntity;
   use SoftDeleteableEntity;
 
+  const FEED_CLEAN_UP_NONE = 'FEED_CLEAN_UP_NONE';
+  const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
+  const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
+
   /**
    * @var integer
    *
@@ -66,6 +70,13 @@ class Feed {
    * @ORM\Column(type="boolean")
    */
   private $enabled = FALSE;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(type="string", length=255)
+   */
+  private $cleanUpStrategy = self::FEED_CLEAN_UP_NONE;
 
   /**
    * Get id.
@@ -140,6 +151,16 @@ class Feed {
    */
   public function getConfiguration() {
     return $this->configuration;
+  }
+
+  public function setCleanUpStrategy(string $cleanUpStrategy) {
+    $this->cleanUpStrategy = $cleanUpStrategy;
+
+    return $this;
+  }
+
+  public function getCleanUpStrategy() {
+    return $this->cleanUpStrategy;
   }
 
   /**

@@ -62,9 +62,6 @@ class FeedManager {
     $query->execute();
   }
 
-  const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
-  const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
-
   /**
    * Get events (indexed by id).
    *
@@ -72,12 +69,14 @@ class FeedManager {
    * @param string $strategy
    * @return array|null
    */
-  public function getCleanUpEvents(Feed $feed, string $strategy) {
+  public function getCleanUpEvents(Feed $feed) {
+    // @TODO: Get the clean up strategy from the feed.
+    $strategy = $feed->getCleanUpStrategy();
     $connection = $this->em->getConnection();
     $eventIds = NULL;
 
     switch ($strategy) {
-      case self::FEED_CLEAN_UP_FUTURE:
+      case Feed::FEED_CLEAN_UP_FUTURE:
         // Get all feed events from with future occurrences …
         $sql = 'select e.id from event e join occurrence o on o.event_id = e.id where e.feed_id = :feed_id and o.end_date >= :now';
         // … plus events with no occurrences.
@@ -91,7 +90,7 @@ class FeedManager {
           return (int)$row['id'];
         }, $stmt->fetchAll());
         break;
-      case self::FEED_CLEAN_UP_ALL:
+      case Feed::FEED_CLEAN_UP_ALL:
         // Get all feed events.
         $sql = 'select e.id from event e where e.feed_id = :feed_id';
         $stmt = $connection->prepare($sql);

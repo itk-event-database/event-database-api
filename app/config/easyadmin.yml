@@ -552,6 +552,13 @@ easy_admin:
                       type: AdminBundle\Form\YamlType
                       type_options:
                           schema: "%kernel.root_dir%/../src/AdminBundle/Resources/public/schema/feed.schema.json"
+                    - property: cleanUpStrategy
+                      type: choice
+                      type_options:
+                          choices:
+                              FEED_CLEAN_UP_NONE: FEED_CLEAN_UP_NONE
+                              FEED_CLEAN_UP_FUTURE: FEED_CLEAN_UP_FUTURE
+                              FEED_CLEAN_UP_ALL: FEED_CLEAN_UP_ALL
 
 vich_uploader:
     db_driver: orm
