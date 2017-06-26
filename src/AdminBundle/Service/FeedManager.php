@@ -65,46 +65,79 @@ class FeedManager {
   const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
   const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
 
-  public function cleanUpEvents(Feed $feed, $strategy) {
+  /**
+   * Get events (indexed by id).
+   *
+   * @param \AdminBundle\Entity\Feed $feed
+   * @param string $strategy
+   * @return array|null
+   */
+  public function getCleanUpEvents(Feed $feed, string $strategy) {
+    $connection = $this->em->getConnection();
+    $eventIds = NULL;
+
     switch ($strategy) {
       case self::FEED_CLEAN_UP_FUTURE:
-        // @see https://stackoverflow.com/a/14302701
-        $queries[] = 'delete from occurrence where event_id in (select e.id from event e join (select * from occurrence) o on o.event_id = e.id where e.feed_id = :feed_id and o.end_date >= :now)';
-        // (Soft-)delete events.
-        $queries[] = 'update event e join occurrence o on o.event_id = e.id set deleted_at = :now where e.feed_id = :feed_id and o.end_date >= :now';
-        foreach ($queries as $query) {
-          $stmt = $this->em->getConnection()->prepare($query);
-          $stmt->execute([
-            'feed_id' => $feed->getId(),
-            'now' => (new \DateTime())->format('Y-m-d H:i:s'),
-          ]);
-        }
+        // Get all feed events from with future occurrences …
+        $sql = 'select e.id from event e join occurrence o on o.event_id = e.id where e.feed_id = :feed_id and o.end_date >= :now';
+        // … plus events with no occurrences.
+        $sql .= ' union select e.id from event e where e.feed_id = :feed_id and e.id not in (select event_id from occurrence)';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute([
+          'feed_id' => $feed->getId(),
+          'now' => (new \DateTime())->format('Y-m-d H:i:s'),
+        ]);
+        $eventIds = array_map(function ($row) {
+          return (int)$row['id'];
+        }, $stmt->fetchAll());
         break;
       case self::FEED_CLEAN_UP_ALL:
-        $this->removeEvents($feed);
+        // Get all feed events.
+        $sql = 'select e.id from event e where e.feed_id = :feed_id';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute([
+          'feed_id' => $feed->getId(),
+        ]);
+        $eventIds = array_map(function ($row) {
+          return (int)$row['id'];
+        }, $stmt->fetchAll());
         break;
     }
+
+    return $eventIds ? array_combine($eventIds, $eventIds) : NULL;
   }
 
   /**
-   * @param Feed $feed
+   * Clean up (i.e. delete) some events.
    *
-   * Get data from a feed.
-   *
-   * @return array
+   * @param \AdminBundle\Entity\Feed $feed
+   * @param array|NULL $eventIds
+   *   A result of calling getEventIds
    */
-  public function getEvents(Feed $feed) {
+  public function cleanUpEvents(Feed $feed, array $eventIds = NULL) {
+    if ($eventIds) {
+      $repository = $this->em->getRepository(Event::class);
+      $events = $repository->findBy(['id' => array_keys($eventIds)]);
 
-  }
+      // Note: We bypass all voters and stuff when deleting feed events.
+      // Delete occurrences.
+      $qb = $this->em->createQueryBuilder();
+      $query = $qb->delete(Occurrence::class, 'e')
+        ->where('e.event in (:events)')
+        ->setParameter('events', $events)
+          ->getQuery();
+      $query->execute();
 
-  /**
-   * @param Feed $feed
-   *
-   * Validate data in a feed.
-   */
-  public function validate(Feed $feed) {
-    $data = $this->getEvents();
-
+      // (Soft-)delete events.
+      $qb = $this->em->createQueryBuilder();
+      $query = $qb->update(Event::class, 'e')
+        ->set('e.deletedAt', ':deletedAt')
+        ->where('e.id in (:events)')
+        ->setParameter('events', $events)
+        ->setParameter('deletedAt', new \DateTime(), Type::DATETIME)
+        ->getQuery();
+      $query->execute();
+    }
   }
 
 }
