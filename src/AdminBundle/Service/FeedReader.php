@@ -69,8 +69,10 @@ class FeedReader implements Controller {
    * @param \Psr\Log\LoggerInterface $logger
    * @param \AdminBundle\Service\AuthenticatorService $authenticator
    * @param \Gedmo\Blameable\BlameableListener $blameableListener
+   * @param \Symfony\Bridge\Doctrine\ManagerRegistry $managerRegistry
+   * @param \AdminBundle\Service\FeedManager $feedManager
    */
-  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry) {
+  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry, FeedManager $feedManager = NULL) {
     $this->valueConverter = $valueConverter;
     $this->eventImporter = $eventImporter;
     $this->configuration = $configuration;
@@ -78,6 +80,7 @@ class FeedReader implements Controller {
     $this->authenticator = $authenticator;
     $this->blameableListener = $blameableListener;
     $this->managerRegistry = $managerRegistry;
+    $this->feedManager = $feedManager;
   }
 
   /**
@@ -139,9 +142,6 @@ class FeedReader implements Controller {
     }
   }
 
-  const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
-  const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
-
   /**
    * Remove some events before reading feed.
    *
@@ -150,30 +150,8 @@ class FeedReader implements Controller {
    * @param \AdminBundle\Entity\Feed $feed
    */
   private function cleanUpEvents(Feed $feed) {
-    $strategy = self::FEED_CLEAN_UP_FUTURE;
-    $queries = [];
-
-    switch ($strategy) {
-      case self::FEED_CLEAN_UP_FUTURE:
-        // @see https://stackoverflow.com/a/14302701
-        $queries[] = 'delete from occurrence where event_id in (select e.id from event e join (select * from occurrence) o on o.event_id = e.id where e.feed_id = :feed_id and o.end_date >= :now)';
-        $queries[] = 'update event e join occurrence o on o.event_id = e.id set deleted_at = :now where e.feed_id = :feed_id and o.end_date >= :now';
-        break;
-      case self::FEED_CLEAN_UP_ALL:
-        // ":now = :now" is added by lazy programmer that will always set parameter "now" when executing the query.
-        $queries[] = 'delete from occurrence where event_id in (select id from event where deleted_at is null and :now = :now and feed_id = :feed_id)';
-        $queries[] = 'update event set deleted_at = :now where deleted_at is null and feed_id = :feed_id';
-        break;
-    }
-
-    if ($queries) {
-      foreach ($queries as $query) {
-        $stmt = $this->managerRegistry->getConnection()->prepare($query);
-        $stmt->execute([
-          'feed_id' => $feed->getId(),
-          'now' => (new \DateTime())->format('Y-m-d H:i:s'),
-        ]);
-      }
+    if ($this->feedManager !== NULL) {
+      $this->feedManager->cleanUpEvents($feed, FeedManager::FEED_CLEAN_UP_FUTURE);
     }
   }
 
