@@ -62,6 +62,30 @@ class FeedManager {
     $query->execute();
   }
 
+  const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
+  const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
+
+  public function cleanUpEvents(Feed $feed, $strategy) {
+    switch ($strategy) {
+      case self::FEED_CLEAN_UP_FUTURE:
+        // @see https://stackoverflow.com/a/14302701
+        $queries[] = 'delete from occurrence where event_id in (select e.id from event e join (select * from occurrence) o on o.event_id = e.id where e.feed_id = :feed_id and o.end_date >= :now)';
+        // (Soft-)delete events.
+        $queries[] = 'update event e join occurrence o on o.event_id = e.id set deleted_at = :now where e.feed_id = :feed_id and o.end_date >= :now';
+        foreach ($queries as $query) {
+          $stmt = $this->em->getConnection()->prepare($query);
+          $stmt->execute([
+            'feed_id' => $feed->getId(),
+            'now' => (new \DateTime())->format('Y-m-d H:i:s'),
+          ]);
+        }
+        break;
+      case self::FEED_CLEAN_UP_ALL:
+        $this->removeEvents($feed);
+        break;
+    }
+  }
+
   /**
    * @param Feed $feed
    *
