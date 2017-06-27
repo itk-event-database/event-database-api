@@ -43,6 +43,7 @@ class FirebaseController extends Controller {
     while ($row = $stmt->fetch()) {
       $data[] = [
         'id' => (int) $row['id'],
+        'organizerId' => (int) $row['organizer_id'],
         'occurrences' => $eventOccurrences[$row['id']],
         'ticketPurchaseUrl' => $row['ticket_purchase_url'],
         'excerpt' => $row['excerpt'],
@@ -64,6 +65,44 @@ class FirebaseController extends Controller {
    */
   public function eventsDeletedAction() {
     $sql = 'select * from event where deleted_at is not null';
+    $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
+    $stmt->execute();
+    $data = [];
+    while ($row = $stmt->fetch()) {
+      $data[] = [
+        'id' => (int) $row['id'],
+        'deletedAt' => $this->formatDateTime($row['deleted_at']),
+      ];
+    }
+
+    return $this->createResponse($data);
+  }
+
+  /**
+   * @Route("/api/firebase/organizers")
+   */
+  public function organizersAction() {
+    $sql = 'select * from organizer where deleted_at is null';
+    $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
+    $stmt->execute();
+    $data = [];
+    while ($row = $stmt->fetch()) {
+      $data[] = [
+        'id' => (int) $row['id'],
+        'name' => $row['name'],
+        'email' => $row['email'],
+        'url' => $row['url'],
+      ];
+    }
+
+    return $this->createResponse($data);
+  }
+
+  /**
+   * @Route("/api/firebase/organizers/deleted")
+   */
+  public function organizersDeletedAction() {
+    $sql = 'select * from organizer where deleted_at is not null';
     $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
     $stmt->execute();
     $data = [];

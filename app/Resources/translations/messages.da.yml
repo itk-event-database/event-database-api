@@ -238,6 +238,10 @@ Please confirm creation of repeating occurrences: Bekræft venligt at du vil opr
 
 Name: Navn
 Configuration: Konfiguration
+Clean up strategy: Oprydning i events
+FEED_CLEAN_UP_NONE: Ingen
+FEED_CLEAN_UP_FUTURE: Fremtidige events
+FEED_CLEAN_UP_ALL: Alle events
 Close: Luk
 Disable feed: Deaktiver feed
 Enable feed: Aktiver feed

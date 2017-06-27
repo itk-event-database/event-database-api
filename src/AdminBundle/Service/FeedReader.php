@@ -6,6 +6,7 @@ use AdminBundle\Entity\Feed;
 use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Service\FeedReader\EventImporter;
 use AdminBundle\Service\FeedReader\ValueConverter;
+use AppBundle\Entity\Event;
 use AppBundle\Entity\User;
 use Gedmo\Blameable\BlameableListener;
 use GuzzleHttp\Client;
@@ -69,8 +70,10 @@ class FeedReader implements Controller {
    * @param \Psr\Log\LoggerInterface $logger
    * @param \AdminBundle\Service\AuthenticatorService $authenticator
    * @param \Gedmo\Blameable\BlameableListener $blameableListener
+   * @param \Symfony\Bridge\Doctrine\ManagerRegistry $managerRegistry
+   * @param \AdminBundle\Service\FeedManager $feedManager
    */
-  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry) {
+  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry, FeedManager $feedManager = NULL) {
     $this->valueConverter = $valueConverter;
     $this->eventImporter = $eventImporter;
     $this->configuration = $configuration;
@@ -78,6 +81,7 @@ class FeedReader implements Controller {
     $this->authenticator = $authenticator;
     $this->blameableListener = $blameableListener;
     $this->managerRegistry = $managerRegistry;
+    $this->feedManager = $feedManager;
   }
 
   /**
@@ -94,7 +98,7 @@ class FeedReader implements Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @param \AppBundle\Entity\User $user
    */
-  public function read(Feed $feed, User $user = NULL) {
+  public function read(Feed $feed, User $user = NULL, bool $cleanUpEvents = FALSE) {
     $this->feed = $feed;
     if (!$user) {
       $user = $this->feed->getUser();
@@ -127,13 +131,29 @@ class FeedReader implements Controller {
     $connection = $this->managerRegistry->getConnection();
     $connection->beginTransaction();
     try {
+      $this->cleanUpEvents = NULL;
+      if ($cleanUpEvents) {
+        $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed);
+      }
       $reader->read($content);
+      if ($this->cleanUpEvents !== NULL) {
+        $this->feedManager->cleanUpEvents($feed, $this->cleanUpEvents);
+      }
       $connection->commit();
     }
     catch (\Throwable $t) {
       $connection->rollBack();
       throw $t;
     }
+  }
+
+  /**
+   * @var array|null
+   */
+  private $cleanUpEvents;
+
+  private function keepEvent(Event $event) {
+    unset($this->cleanUpEvents[$event->getId()]);
   }
 
   /**
@@ -216,6 +236,7 @@ class FeedReader implements Controller {
     if ($event) {
       $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
       $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
+      $this->keepEvent($event);
     }
     else {
       $this->writeln(sprintf('Cannot import event: id: %s; feed: %s', var_export($data['id'], TRUE), $this->feed->getName()));

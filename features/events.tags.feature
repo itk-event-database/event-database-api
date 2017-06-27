@@ -126,16 +126,16 @@ Feature: Events
     When I authenticate as "api-read"
     And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=apple"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&occurrences.endDate[after]=@0&tags=apple"
     Then the JSON node "hydra:member" should have 4 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
 
-    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=banana"
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&occurrences.endDate[after]=@0&tags=banana"
     And the JSON node "hydra:member" should have 3 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/events/2"
 
-    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&tags=citrus"
+    When I send a "GET" request to "/api/events?occurrences.startDate[after]=@0&occurrences.endDate[after]=@0&tags=citrus"
     And the JSON node "hydra:member" should have 1 element
     And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
 

@@ -261,4 +261,36 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
   private function removeAuthenticationHeader() {
     $this->request->setHttpHeader('Authorization', '');
   }
+
+  /**
+   * @Then the SQL query :sql should return :count element(s)
+   */
+  public function theSqlQueryShouldReturnElements($sql, $count) {
+    $stmt = $this->manager->getConnection()->prepare($sql);
+    $stmt->execute();
+    $items = $stmt->fetchAll();
+
+    $this->assertEquals($count, count($items));
+  }
+
+  /**
+   * @Then print result of :sql
+   */
+  public function printResultOfSql($sql) {
+    $stmt = $this->manager->getConnection()->prepare($sql);
+    $stmt->execute();
+    $items = $stmt->fetchAll();
+
+    $rows = [];
+    foreach ($items as $index => $item) {
+      if ($index === 0) {
+        $rows[$index+1] = array_keys($item);
+      }
+      $rows[$index+2] = array_values($item);
+    }
+
+    $table = new TableNode($rows);
+    echo $table->getTableAsString();
+  }
+
 }

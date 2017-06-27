@@ -83,20 +83,18 @@ class EditVoter extends Voter {
   private function canEdit(Blameable $entity, User $user) {
     // Hack!
     if ($entity instanceof Event) {
-      $userRoles = $this->getUserRoles($user);
       if ($entity->getFeed()) {
         // Events from feed can only be edited by owner.
         return $entity->getCreatedBy()->getId() === $user->getId();
       }
-      if ($this->hasRole($userRoles, 'ROLE_EVENT_ADMIN')) {
+      if ($this->hasRole($user, 'ROLE_EVENT_ADMIN')) {
         // ROLE_EVENT_ADMIN can edit all events.
         return TRUE;
       }
     }
     // Hack!
     if ($entity instanceof Place) {
-      $userRoles = $this->getUserRoles($user);
-      if ($this->hasRole($userRoles, 'ROLE_PLACE_ADMIN')) {
+      if ($this->hasRole($user, 'ROLE_PLACE_ADMIN')) {
         // ROLE_PLACE_ADMIN can edit all places.
         return TRUE;
       }
@@ -138,13 +136,21 @@ class EditVoter extends Voter {
    *
    */
   private function canRemove(Blameable $entity, User $user) {
+    if ($entity instanceof Event) {
+      if ($entity->getFeed()) {
+        // Events from feed can only be deleted by owner or event administrator.
+        return $this->hasRole($user, 'ROLE_EVENT_ADMIN') || $entity->getCreatedBy()->getId() === $user->getId();
+      }
+    }
+
     return $this->canEdit($entity, $user);
   }
 
   /**
    *
    */
-  private function hasRole(array $roles, $roleName) {
+  private function hasRole(User $user, $roleName) {
+    $roles = $this->getUserRoles($user);
     return array_filter($roles, function (Role $role) use ($roleName) {
       return $role->getRole() === $roleName;
     });
