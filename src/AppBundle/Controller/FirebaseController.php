@@ -43,7 +43,7 @@ class FirebaseController extends Controller {
     while ($row = $stmt->fetch()) {
       $data[] = [
         'id' => (int) $row['id'],
-        'organizerId' => (int) $row['organizer_id'],
+        'organizer_id' => (int) $row['organizer_id'],
         'occurrences' => $eventOccurrences[$row['id']],
         'ticketPurchaseUrl' => $row['ticket_purchase_url'],
         'excerpt' => $row['excerpt'],
