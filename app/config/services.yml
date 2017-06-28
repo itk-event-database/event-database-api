@@ -79,7 +79,8 @@ services:
         arguments:
             - occurrences.startDate:
                 default: ASC
-            - occurrences.endDate:
+              occurrences.endDate: ~
+              updatedAt: ~
         tags:      [ { name: 'api_platform.filter', id: 'event.order' } ]
 
     resource.event.search_filter:
@@ -109,6 +110,7 @@ services:
                 default:
                     after: now,
                 null_management: include_null_after
+              updatedAt: ~
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
 
     resource.event.search_tag_filter:
