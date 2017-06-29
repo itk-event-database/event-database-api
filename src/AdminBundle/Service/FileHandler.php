@@ -115,6 +115,18 @@ class FileHandler {
     return $localUrl == $externalUrl;
   }
 
+  public function getLocalPath(string $url) {
+    return realpath($this->filesPath . '/' . basename($url));
+  }
+
+  public function getBaseUrl() {
+    return $this->baseUrlResolver->__invoke(HttpUri::createFromString());
+  }
+
+  public function getBaseDirectory() {
+    return $this->filesPath;
+  }
+
   /**
    * @param string $type
    * @param string $message

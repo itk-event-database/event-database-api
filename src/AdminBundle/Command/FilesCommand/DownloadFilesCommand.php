@@ -1,18 +1,12 @@
 <?php
 
-namespace AdminBundle\Command;
+namespace AdminBundle\Command\FilesCommand;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DownloadFilesCommand extends ContainerAwareCommand {
-  /**
-   * @var OutputInterface
-   */
-  private $output;
-
+class DownloadFilesCommand extends FilesCommand {
   protected function configure() {
     $this
       ->setName('events:files:download')
@@ -23,8 +17,6 @@ class DownloadFilesCommand extends ContainerAwareCommand {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    $this->output = $output;
-
     $className = $input->getArgument('className');
     $ids = preg_split('/\s*,\s*/', $input->getArgument('ids'), NULL, PREG_SPLIT_NO_EMPTY);
     $fields = preg_split('/\s*,\s*/', $input->getArgument('fields'), NULL, PREG_SPLIT_NO_EMPTY);
