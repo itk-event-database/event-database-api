@@ -5,12 +5,12 @@ namespace AdminBundle\Service;
 /**
  *
  */
-interface TagNormalizerInterface {
+interface TagNormalizerInterface
+{
 
   /**
    * @param array $names
    * @return
    */
-  public function normalize(array $names);
-
+    public function normalize(array $names);
 }

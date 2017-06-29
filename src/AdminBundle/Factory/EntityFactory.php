@@ -14,31 +14,32 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  *
  */
-abstract class EntityFactory {
+abstract class EntityFactory
+{
   /**
    * @var ContainerInterface
    */
-  protected $container;
+    protected $container;
 
   /**
    * @var EntityManagerInterface
    */
-  protected $em;
+    protected $em;
 
   /**
    * @var ValueConverter
    */
-  protected $valueConverter;
+    protected $valueConverter;
 
   /**
    * @var TagManager
    */
-  protected $tagManager;
+    protected $tagManager;
 
   /**
    * @var \Symfony\Component\PropertyAccess\PropertyAccessor
    */
-  protected $accessor;
+    protected $accessor;
 
   /**
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -46,90 +47,96 @@ abstract class EntityFactory {
    * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
    * @param \FPN\TagBundle\Entity\TagManager $tagManager
    */
-  public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = NULL) {
-    $this->container = $container;
-    $this->em = $em;
-    $this->valueConverter = $valueConverter;
-    $this->tagManager = $tagManager;
-    $this->accessor = PropertyAccess::createPropertyAccessor();
-  }
+    public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = null)
+    {
+        $this->container = $container;
+        $this->em = $em;
+        $this->valueConverter = $valueConverter;
+        $this->tagManager = $tagManager;
+        $this->accessor = PropertyAccess::createPropertyAccessor();
+    }
 
   /**
    * @param $entity
    */
-  protected function persist($entity) {
-    $this->em->persist($entity);
-  }
+    protected function persist($entity)
+    {
+        $this->em->persist($entity);
+    }
 
   /**
    *
    */
-  protected function flush() {
-    $this->em->flush();
-  }
+    protected function flush()
+    {
+        $this->em->flush();
+    }
 
   /**
    * @param \AppBundle\Entity\Entity $entity
    * @param array $values
    * @return $this
    */
-  protected function setValues(Entity $entity, array $values) {
-    foreach ($values as $key => $value) {
-      if ($this->valueConverter) {
-        $value = $this->valueConverter->convert($value, $key);
-      }
-      $this->setValue($entity, $key, $value);
-    }
+    protected function setValues(Entity $entity, array $values)
+    {
+        foreach ($values as $key => $value) {
+            if ($this->valueConverter) {
+                $value = $this->valueConverter->convert($value, $key);
+            }
+            $this->setValue($entity, $key, $value);
+        }
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * @param \AppBundle\Entity\Entity $entity
    * @param $key
    * @param $value
    */
-  protected function setValue(Entity $entity, $key, $value) {
-    switch ($key) {
-      case 'id':
-        return;
+    protected function setValue(Entity $entity, $key, $value)
+    {
+        switch ($key) {
+            case 'id':
+                return;
 
-      case 'tags':
-        if ($entity instanceof Taggable && $this->tagManager) {
-          $tags = $this->tagManager->setTags($value, $entity);
+            case 'tags':
+                if ($entity instanceof Taggable && $this->tagManager) {
+                    $tags = $this->tagManager->setTags($value, $entity);
+                }
+                return;
         }
-        return;
+
+        if ($this->accessor->isWritable($entity, $key)) {
+            $this->accessor->setValue($entity, $key, $value);
+        }
     }
 
-    if ($this->accessor->isWritable($entity, $key)) {
-      $this->accessor->setValue($entity, $key, $value);
-    }
-  }
-
-  protected $user;
+    protected $user;
 
   /**
    * @param \AppBundle\Entity\User $user
    */
-  public function setUser(User $user) {
-    $this->user = $user;
-  }
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
 
   /**
    *
    */
-  protected function getUser() {
-    if ($this->user) {
-      return $this->user;
+    protected function getUser()
+    {
+        if ($this->user) {
+            return $this->user;
+        }
+
+        if ($this->container->has('security.token_storage')) {
+            $token = $this->container->get('security.token_storage')->getToken();
+
+            return $token ? $token->getUser() : null;
+        }
+
+        return null;
     }
-
-    if ($this->container->has('security.token_storage')) {
-      $token = $this->container->get('security.token_storage')->getToken();
-
-      return $token ? $token->getUser() : NULL;
-    }
-
-    return NULL;
-  }
-
 }

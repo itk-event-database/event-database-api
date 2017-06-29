@@ -13,26 +13,27 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  *
  */
-class UploadAction {
+class UploadAction
+{
   /**
    * @var Router
    */
-  private $router;
+    private $router;
 
   /**
    * @var ContainerInterface
    */
-  private $container;
+    private $container;
 
   /**
    * @var Resolve
    */
-  private $baseUrlResolver;
+    private $baseUrlResolver;
 
   /**
    * @var string
    */
-  private $uploadsUrl;
+    private $uploadsUrl;
 
   /**
    * Constructor.
@@ -42,13 +43,14 @@ class UploadAction {
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The container.
    */
-  public function __construct(Router $router, ContainerInterface $container) {
-    $this->router = $router;
-    $this->container = $container;
+    public function __construct(Router $router, ContainerInterface $container)
+    {
+        $this->router = $router;
+        $this->container = $container;
 
-    $this->baseUrlResolver = new Resolve(HttpUri::createFromString($this->container->getParameter('admin.base_url')));
-    $this->uploadsUrl = rtrim($this->container->getParameter('admin.uploads_url'), '/');
-  }
+        $this->baseUrlResolver = new Resolve(HttpUri::createFromString($this->container->getParameter('admin.base_url')));
+        $this->uploadsUrl = rtrim($this->container->getParameter('admin.uploads_url'), '/');
+    }
 
   /**
    * @Route("/api/upload", name="api_upload", methods={"POST"})
@@ -58,17 +60,17 @@ class UploadAction {
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    */
-  public function __invoke(Request $request) {
-    $data = [];
+    public function __invoke(Request $request)
+    {
+        $data = [];
 
-    foreach ($request->files as $file) {
-      $path = $this->container->getParameter('admin.uploads_path');
-      $filename = uniqid($file->getBaseName()) . '.' . $file->guessExtension();
-      $file->move($path, $filename);
-      $data['file_url'] = $this->baseUrlResolver->__invoke(HttpUri::createFromString($this->uploadsUrl . '/' . $filename))->__toString();
+        foreach ($request->files as $file) {
+            $path = $this->container->getParameter('admin.uploads_path');
+            $filename = uniqid($file->getBaseName()) . '.' . $file->guessExtension();
+            $file->move($path, $filename);
+            $data['file_url'] = $this->baseUrlResolver->__invoke(HttpUri::createFromString($this->uploadsUrl . '/' . $filename))->__toString();
+        }
+
+        return new JsonResponse($data);
     }
-
-    return new JsonResponse($data);
-  }
-
 }

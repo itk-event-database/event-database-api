@@ -13,16 +13,17 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  *
  */
-class ResourceAction {
+class ResourceAction
+{
   /**
    * @var Router
    */
-  private $router;
+    private $router;
 
   /**
    * @var ContainerInterface
    */
-  private $container;
+    private $container;
 
   /**
    * Constructor.
@@ -32,10 +33,11 @@ class ResourceAction {
    * @param \Twig_Environment $twig
    *   The TWIG environment.
    */
-  public function __construct(Router $router, ContainerInterface $container) {
-    $this->router = $router;
-    $this->container = $container;
-  }
+    public function __construct(Router $router, ContainerInterface $container)
+    {
+        $this->router = $router;
+        $this->container = $container;
+    }
 
   /**
    * @Route("/resource/", name="resource")
@@ -45,31 +47,30 @@ class ResourceAction {
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    */
-  public function __invoke(Request $request) {
-    $content = NULL;
+    public function __invoke(Request $request)
+    {
+        $content = null;
 
-    $path = $request->get('path');
-    try {
-      $path = $this->container->get('kernel')->locateResource($path);
-      $content = file_get_contents($path);
-    }
-    catch (\Exception $e) {
-      throw new BadRequestHttpException('Path does not exist: ' . $path);
-    }
-
-    $info = pathinfo($path);
-
-    switch ($info['extension']) {
-      case 'js':
-      case 'json':
-        $json = $this->container->get('serializer')->decode($content, 'json');
-        $response = new JsonResponse($json);
-        $jsonp = $request->get('jsonp');
-        if ($jsonp) {
-          $response->setCallback($jsonp);
+        $path = $request->get('path');
+        try {
+            $path = $this->container->get('kernel')->locateResource($path);
+            $content = file_get_contents($path);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException('Path does not exist: ' . $path);
         }
-        return $response;
-    }
-  }
 
+        $info = pathinfo($path);
+
+        switch ($info['extension']) {
+            case 'js':
+            case 'json':
+                $json = $this->container->get('serializer')->decode($content, 'json');
+                $response = new JsonResponse($json);
+                $jsonp = $request->get('jsonp');
+                if ($jsonp) {
+                    $response->setCallback($jsonp);
+                }
+                return $response;
+        }
+    }
 }

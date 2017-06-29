@@ -13,13 +13,14 @@ use Doctrine\DBAL\Driver\PDOMySql\Driver as BaseDriver;
  * Class Driver
  * @package AppBundle\DBAL
  */
-class Driver extends BaseDriver {
+class Driver extends BaseDriver
+{
 
   /**
    * {@inheritdoc}
    */
-  public function getDatabasePlatform() {
-    return new Platform();
-  }
-
+    public function getDatabasePlatform()
+    {
+        return new Platform();
+    }
 }

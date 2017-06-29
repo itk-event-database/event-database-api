@@ -8,29 +8,30 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use AppBundle\Entity\User;
 use Symfony\Component\Yaml\Yaml;
 
-class LoadTestUsers extends LoadData {
-  protected $order = 4;
+class LoadTestUsers extends LoadData
+{
+    protected $order = 4;
 
-  public function load(ObjectManager $manager) {
-    $yaml = $this->loadFixture('test_users.yml');
-    $config = Yaml::parse($yaml);
+    public function load(ObjectManager $manager)
+    {
+        $yaml = $this->loadFixture('test_users.yml');
+        $config = Yaml::parse($yaml);
 
-    $repository = $this->container->get('doctrine')->getRepository('AppBundle:User');
+        $repository = $this->container->get('doctrine')->getRepository('AppBundle:User');
 
-    foreach ($config as $username => $data) {
-      $user = $repository->findOneByUsername($username);
-      if (!$user) {
-        $user = new User();
-      }
-      $user->setUsername($username)
-        ->setEnabled(TRUE)
-        ->setPlainPassword($data['password'])
-        ->setEmail($data['email'])
-        ->setRoles(array($data['role']));
+        foreach ($config as $username => $data) {
+            $user = $repository->findOneByUsername($username);
+            if (!$user) {
+                $user = new User();
+            }
+            $user->setUsername($username)
+            ->setEnabled(true)
+            ->setPlainPassword($data['password'])
+            ->setEmail($data['email'])
+            ->setRoles(array($data['role']));
 
-      $manager->persist($user);
-      $manager->flush();
+            $manager->persist($user);
+            $manager->flush();
+        }
     }
-  }
-
 }

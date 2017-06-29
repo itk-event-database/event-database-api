@@ -17,7 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @Route("/editor")
  * @Security("has_role('ROLE_EVENT_EDITOR')")
  */
-class EditorController extends Controller {
+class EditorController extends Controller
+{
 
   /**
    * Lists all Feed entities.
@@ -28,19 +29,19 @@ class EditorController extends Controller {
    *
    * @Template()
    */
-  public function configAction(Request $request) {
-    $em = $this->getDoctrine()->getManager();
+    public function configAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
 
-    $tags = $em->getRepository('AppBundle:Tag')->findAll();
-    $baseUrl = $this->generateUrl('editor_config_js');
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $baseUrl = $this->generateUrl('editor_config_js');
 
-    $params = array(
-      'tags' => $tags,
-      'baseUrl' => $baseUrl
-    );
-    $response = $this->render('AdminBundle:Editor:config.js.twig', $params);
-    $response->headers->set('Content-Type', 'text/javascript');
-    return $response;
-  }
-
+        $params = array(
+        'tags' => $tags,
+        'baseUrl' => $baseUrl
+        );
+        $response = $this->render('AdminBundle:Editor:config.js.twig', $params);
+        $response->headers->set('Content-Type', 'text/javascript');
+        return $response;
+    }
 }

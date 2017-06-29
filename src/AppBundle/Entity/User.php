@@ -12,13 +12,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
-class User extends BaseUser {
+class User extends BaseUser
+{
   /**
    * @ORM\Id
    * @ORM\Column(type="integer")
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  protected $id;
+    protected $id;
 
   /**
    * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group", inversedBy="users")
@@ -27,41 +28,40 @@ class User extends BaseUser {
    *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
    * )
    */
-  protected $groups;
+    protected $groups;
 
   /**
    * @var string The username of the author.
    *
    * @Groups({"user_read", "user_write"})
    */
-  protected $username;
+    protected $username;
 
   /**
    * @var string The email of the user.
    *
    * @Groups({"user_read", "user_write"})
    */
-  protected $email;
+    protected $email;
 
   /**
    * @var string Plain password. Used for model validation. Must not be persisted.
    *
    * @Groups({"user_write"})
    */
-  protected $plainPassword;
+    protected $plainPassword;
 
   /**
    * @var boolean Shows that the user is enabled
    *
    * @Groups({"user_read", "user_write"})
    */
-  protected $enabled;
+    protected $enabled;
 
   /**
    * @var array Array, role(s) of the user
    *
    * @Groups({"user_read", "user_write"})
    */
-  protected $roles;
-
+    protected $roles;
 }

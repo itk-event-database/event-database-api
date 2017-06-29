@@ -17,7 +17,8 @@ use AppBundle\Entity\Tag;
  *
  * @Route("/helper")
  */
-class HelperController extends Controller {
+class HelperController extends Controller
+{
 
   /**
    * Lists all Tag entities.
@@ -27,13 +28,13 @@ class HelperController extends Controller {
    * @Method("GET")
    * @Template()
    */
-  public function tagListAction() {
-    $tagManager = $this->get('tag_manager');
-    $tags = $tagManager->loadTags();
+    public function tagListAction()
+    {
+        $tagManager = $this->get('tag_manager');
+        $tags = $tagManager->loadTags();
 
-    return [
-      'tags' => $tags,
-    ];
-  }
-
+        return [
+        'tags' => $tags,
+        ];
+    }
 }

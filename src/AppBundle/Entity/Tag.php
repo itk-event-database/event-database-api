@@ -28,7 +28,8 @@ use Doctrine\ORM\Mapping as ORM;
  *   }
  * )
  */
-class Tag extends BaseTag {
+class Tag extends BaseTag
+{
   /**
    * @var integer $id
    *
@@ -36,18 +37,17 @@ class Tag extends BaseTag {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  protected $id;
+    protected $id;
 
   /**
    * @var string
    * @Groups({"read"})
    */
-  protected $name;
+    protected $name;
 
   /**
    * @var Tagging
    * @ORM\OneToMany(targetEntity="Tagging", mappedBy="tag", fetch="EAGER")
    **/
-  protected $tagging;
-
+    protected $tagging;
 }

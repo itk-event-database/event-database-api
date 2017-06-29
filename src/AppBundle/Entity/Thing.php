@@ -18,7 +18,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ ApiResource(iri="http://schema.org/Thing")
  * @Vich\Uploadable
  */
-abstract class Thing extends Entity {
+abstract class Thing extends Entity
+{
   /**
    * @var string A short description of the item.
    *
@@ -27,7 +28,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="https://schema.org/description")
    */
-  private $description;
+    private $description;
 
   /**
    * @var string
@@ -37,7 +38,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/image")
    */
-  private $image;
+    private $image;
 
   /**
    * @var string
@@ -46,7 +47,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/image")
    */
-  private $originalImage;
+    private $originalImage;
 
   /**
    * @var string The name of the item.
@@ -56,7 +57,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="https://schema.org/name")
    */
-  private $name;
+    private $name;
 
   /**
    * @var string The URI of the item.
@@ -66,7 +67,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
    */
-  private $url;
+    private $url;
 
   /**
    * @var string The video (Youtube/Vimeo/etc.) URI of the item.
@@ -76,7 +77,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
    */
-  private $videoUrl;
+    private $videoUrl;
 
   /**
    * @var string The language code of the item.
@@ -86,7 +87,7 @@ abstract class Thing extends Entity {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/langcode")
    */
-  private $langcode;
+    private $langcode;
 
   /**
    * Sets description.
@@ -95,20 +96,22 @@ abstract class Thing extends Entity {
    *
    * @return $this
    */
-  public function setDescription($description) {
-    $this->description = $description;
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets description.
    *
    * @return string
    */
-  public function getDescription() {
-    return $this->description;
-  }
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
   /**
    * Sets image.
@@ -117,20 +120,22 @@ abstract class Thing extends Entity {
    *
    * @return $this
    */
-  public function setImage($image) {
-    $this->image = $image;
+    public function setImage($image)
+    {
+        $this->image = $image;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets image.
    *
    * @return string
    */
-  public function getImage() {
-    return $this->image;
-  }
+    public function getImage()
+    {
+        return $this->image;
+    }
 
   /**
    * Sets originalImage.
@@ -139,20 +144,22 @@ abstract class Thing extends Entity {
    *
    * @return $this
    */
-  public function setOriginalImage($originalImage) {
-    $this->originalImage = $originalImage;
+    public function setOriginalImage($originalImage)
+    {
+        $this->originalImage = $originalImage;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets originalImage.
    *
    * @return string
    */
-  public function getOriginalImage() {
-    return $this->originalImage;
-  }
+    public function getOriginalImage()
+    {
+        return $this->originalImage;
+    }
 
   /**
    * Sets name.
@@ -161,20 +168,22 @@ abstract class Thing extends Entity {
    *
    * @return $this
    */
-  public function setName($name) {
-    $this->name = $name;
+    public function setName($name)
+    {
+        $this->name = $name;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets name.
    *
    * @return string
    */
-  public function getName() {
-    return $this->name;
-  }
+    public function getName()
+    {
+        return $this->name;
+    }
 
   /**
    * Sets url.
@@ -183,20 +192,22 @@ abstract class Thing extends Entity {
    *
    * @return $this
    */
-  public function setUrl($url) {
-    $this->url = $url;
+    public function setUrl($url)
+    {
+        $this->url = $url;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets url.
    *
    * @return string
    */
-  public function getUrl() {
-    return $this->url;
-  }
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
   /**
    * Sets langcode.
@@ -205,54 +216,62 @@ abstract class Thing extends Entity {
    *
    * @return $this
    */
-  public function setLangcode($langcode) {
-    $this->langcode = $langcode;
+    public function setLangcode($langcode)
+    {
+        $this->langcode = $langcode;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets langcode.
    *
    * @return string
    */
-  public function getLangcode() {
-    return $this->langcode;
-  }
+    public function getLangcode()
+    {
+        return $this->langcode;
+    }
 
   /**
    * Gets videoURL.
    *
    * @return string
    */
-  public function getVideoUrl() {
-    return $this->videoUrl;
-  }
+    public function getVideoUrl()
+    {
+        return $this->videoUrl;
+    }
 
   /**
    * Sets videoURL.
    *
    * @param string $videoUrl
    */
-  public function setVideoUrl($videoUrl) {
-    $this->videoUrl = $videoUrl;
-  }
+    public function setVideoUrl($videoUrl)
+    {
+        $this->videoUrl = $videoUrl;
+    }
 
-  public function getCreatedAt() {
-    return $this->createdAt;
-  }
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 
-  public function getUpdatedAt() {
-    return $this->updatedAt;
-  }
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 
-  public function getCreatedBy() {
-    return $this->createdBy;
-  }
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
 
-  public function getUpdatedBy() {
-    return $this->updatedBy;
-  }
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
 
   /**
    * @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/upload-files-and-images.md
@@ -264,35 +283,38 @@ abstract class Thing extends Entity {
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    */
-  private $imagePath;
+    private $imagePath;
 
   /**
    * @Vich\UploadableField(mapping="thing_images", fileNameProperty="imagePath")
    * @var File
    */
-  private $imageFile;
+    private $imageFile;
 
-  public function setImagePath($imagePath) {
-    $this->imagePath = $imagePath;
-  }
-
-  public function getImagePath() {
-    return $this->imagePath;
-  }
-
-  public function setImageFile(File $image = NULL) {
-    $this->imageFile = $image;
-
-    // VERY IMPORTANT:
-    // It is required that at least one field changes if you are using Doctrine,
-    // otherwise the event listeners won't be called and the file is lost
-    if ($image) {
-      $this->originalImage = 'upload://' . $image->getFilename();
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
     }
-  }
 
-  public function getImageFile() {
-    return $this->imageFile;
-  }
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
 
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            $this->originalImage = 'upload://' . $image->getFilename();
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
 }
