@@ -81,6 +81,10 @@ class DownloadFilesService {
             else {
               $this->write("\t" . $value . ' → ' . $newValue);
               $accessor->setValue($entity, $field, $newValue);
+              $originalValueField = 'original_' . $field;
+              if ($accessor->isWritable($entity, $originalValueField)) {
+                $accessor->setValue($entity, $originalValueField, $value);
+              }
             }
           }
         }
