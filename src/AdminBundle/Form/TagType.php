@@ -11,31 +11,34 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 /**
  *
  */
-class TagType extends AbstractType {
+class TagType extends AbstractType
+{
 
   /**
    * @param FormBuilderInterface $builder
    * @param array $options
    */
-  public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder
-      ->add('name');
-  }
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+        ->add('name');
+    }
 
   /**
    * @param OptionsResolverInterface $resolver
    */
-  public function setDefaultOptions(OptionsResolverInterface $resolver) {
-    $resolver->setDefaults([
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults([
           'data_class' => 'AppBundle\Entity\Tag'
-      ]);
-  }
+        ]);
+    }
 
   /**
    * @return string
    */
-  public function getName() {
-    return 'adminbundle_tag';
-  }
-
+    public function getName()
+    {
+        return 'adminbundle_tag';
+    }
 }

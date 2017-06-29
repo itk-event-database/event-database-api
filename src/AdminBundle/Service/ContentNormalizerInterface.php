@@ -5,7 +5,8 @@ namespace AdminBundle\Service;
 /**
  *
  */
-interface ContentNormalizerInterface {
+interface ContentNormalizerInterface
+{
 
   /**
    * Normalize html content.
@@ -16,6 +17,5 @@ interface ContentNormalizerInterface {
    * @return string
    *   Normalized and cleaned html.
    */
-  public function normalize($content);
-
+    public function normalize($content);
 }

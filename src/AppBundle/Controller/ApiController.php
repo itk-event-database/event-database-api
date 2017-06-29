@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ApiController extends Controller {
+class ApiController extends Controller
+{
   /**
    * @Route("/api/events/deleted.{_format}",
    *   name="api_events_deleted",
@@ -16,20 +17,21 @@ class ApiController extends Controller {
    *   }
    * )
    */
-  public function eventsDeletedAction() {
-    $sql = 'select * from event where deleted_at is not null';
-    $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
-    $stmt->execute();
-    $data = [];
-    while ($row = $stmt->fetch()) {
-      $data[] = [
-        'id' => (int) $row['id'],
-        'deletedAt' => $this->formatDateTime($row['deleted_at']),
-      ];
-    }
+    public function eventsDeletedAction()
+    {
+        $sql = 'select * from event where deleted_at is not null';
+        $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+        $data = [];
+        while ($row = $stmt->fetch()) {
+            $data[] = [
+            'id' => (int) $row['id'],
+            'deletedAt' => $this->formatDateTime($row['deleted_at']),
+            ];
+        }
 
-    return $this->createResponse($data);
-  }
+        return $this->createResponse($data);
+    }
 
   /**
    * @Route(
@@ -41,20 +43,21 @@ class ApiController extends Controller {
    *   }
    * )
    */
-  public function placesDeletedAction() {
-    $sql = 'select * from place where deleted_at is not null';
-    $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
-    $stmt->execute();
-    $data = [];
-    while ($row = $stmt->fetch()) {
-      $data[] = [
-        'id' => (int) $row['id'],
-        'deletedAt' => $this->formatDateTime($row['deleted_at']),
-      ];
-    }
+    public function placesDeletedAction()
+    {
+        $sql = 'select * from place where deleted_at is not null';
+        $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+        $data = [];
+        while ($row = $stmt->fetch()) {
+            $data[] = [
+            'id' => (int) $row['id'],
+            'deletedAt' => $this->formatDateTime($row['deleted_at']),
+            ];
+        }
 
-    return $this->createResponse($data);
-  }
+        return $this->createResponse($data);
+    }
 
   /**
    * @Route(
@@ -66,26 +69,29 @@ class ApiController extends Controller {
    *   }
    * )
    */
-  public function organizersDeletedAction() {
-    $sql = 'select * from organizer where deleted_at is not null';
-    $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
-    $stmt->execute();
-    $data = [];
-    while ($row = $stmt->fetch()) {
-      $data[] = [
-        'id' => (int) $row['id'],
-        'deletedAt' => $this->formatDateTime($row['deleted_at']),
-      ];
+    public function organizersDeletedAction()
+    {
+        $sql = 'select * from organizer where deleted_at is not null';
+        $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+        $data = [];
+        while ($row = $stmt->fetch()) {
+            $data[] = [
+            'id' => (int) $row['id'],
+            'deletedAt' => $this->formatDateTime($row['deleted_at']),
+            ];
+        }
+
+        return $this->createResponse($data);
     }
 
-    return $this->createResponse($data);
-  }
+    private function createResponse($data, $format = 'json')
+    {
+        return new JsonResponse($data);
+    }
 
-  private function createResponse($data, $format = 'json') {
-    return new JsonResponse($data);
-  }
-
-  private function formatDateTime(string $time = NULL) {
-    return $time ? \DateTime::createFromFormat('Y-m-d H:i:s', $time, new \DateTimeZone('UTC'))->format(\DateTime::W3C) : NULL;
-  }
+    private function formatDateTime(string $time = null)
+    {
+        return $time ? \DateTime::createFromFormat('Y-m-d H:i:s', $time, new \DateTimeZone('UTC'))->format(\DateTime::W3C) : null;
+    }
 }

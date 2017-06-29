@@ -5,50 +5,53 @@ namespace AdminBundle\Service;
 /**
  *
  */
-class ContentNormalizer implements ContentNormalizerInterface {
+class ContentNormalizer implements ContentNormalizerInterface
+{
   /**
    * @var \HTMLPurifier
    */
-  private $purifier;
+    private $purifier;
 
   /**
    * @var array
    */
-  private $configuration;
+    private $configuration;
 
   /**
    * @param \HTMLPurifier $purifier
    * @param array $configuration
    */
-  public function __construct(\HTMLPurifier $purifier, array $configuration = NULL) {
-    $this->purifier = $purifier;
-    $this->configuration = $configuration;
-  }
+    public function __construct(\HTMLPurifier $purifier, array $configuration = null)
+    {
+        $this->purifier = $purifier;
+        $this->configuration = $configuration;
+    }
 
   /**
    * @param string $content
    * @return string
    */
-  public function normalize($content) {
-    if (empty($content)) {
-      return $content;
+    public function normalize($content)
+    {
+        if (empty($content)) {
+            return $content;
+        }
+
+        $content = $this->purifier->purify($content);
+
+        if (isset($this->configuration['strip_tags'])) {
+            $content = strip_tags($content);
+        }
+
+        if (isset($this->configuration['max_length'])) {
+            $length = intval($this->configuration['max_length']);
+            if ($length > 0) {
+                $content = $this->truncate($content, $length, true);
+            }
+        }
+
+        return $content;
     }
-
-    $content = $this->purifier->purify($content);
-
-    if (isset($this->configuration['strip_tags'])) {
-      $content = strip_tags($content);
-    }
-
-    if (isset($this->configuration['max_length'])) {
-      $length = intval($this->configuration['max_length']);
-      if ($length > 0) {
-        $content = $this->truncate($content, $length, TRUE);
-      }
-    }
-
-    return $content;
-  }
 
   /**
    * Truncate a text.
@@ -62,19 +65,19 @@ class ContentNormalizer implements ContentNormalizerInterface {
    *
    * @return string
    */
-  private function truncate($value, $length, $preserve = FALSE, $separator = '…') {
-    $charset = 'UTF8';
-    if (mb_strlen($value, $charset) > $length) {
-      if ($preserve) {
-        // If breakpoint is on the last word, return the value without separator.
-        if (FALSE === ($breakpoint = mb_strpos($value, ' ', $length, $charset))) {
-          return $value;
+    private function truncate($value, $length, $preserve = false, $separator = '…')
+    {
+        $charset = 'UTF8';
+        if (mb_strlen($value, $charset) > $length) {
+            if ($preserve) {
+                // If breakpoint is on the last word, return the value without separator.
+                if (false === ($breakpoint = mb_strpos($value, ' ', $length, $charset))) {
+                    return $value;
+                }
+                $length = $breakpoint;
+            }
+            return rtrim(mb_substr($value, 0, $length, $charset)) . $separator;
         }
-        $length = $breakpoint;
-      }
-      return rtrim(mb_substr($value, 0, $length, $charset)) . $separator;
+        return $value;
     }
-    return $value;
-  }
-
 }

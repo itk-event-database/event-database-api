@@ -17,56 +17,57 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class FeedReader implements Controller {
+class FeedReader implements Controller
+{
   /**
    * @var ValueConverter
    */
-  protected $valueConverter;
+    protected $valueConverter;
 
   /**
    * @var EventImporter
    */
-  protected $eventImporter;
+    protected $eventImporter;
 
   /**
    * @var array
    */
-  protected $configuration;
+    protected $configuration;
 
   /**
    * @var LoggerInterface
    */
-  protected $logger;
+    protected $logger;
 
   /**
    * @var AuthenticatorService
    */
-  protected $authenticator;
+    protected $authenticator;
 
   /**
    * @var BlameableListener
    */
-  protected $blameableListener;
+    protected $blameableListener;
 
   /**
    * @var ManagerRegistry
    */
-  protected $managerRegistry;
+    protected $managerRegistry;
 
   /**
    * @var Feed
    */
-  protected $feed;
+    protected $feed;
 
   /**
    * @var array
    */
-  protected $feedEventIds;
+    protected $feedEventIds;
 
   /**
    * @var OutputInterface
    */
-  protected $output;
+    protected $output;
 
   /**
    * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
@@ -78,201 +79,208 @@ class FeedReader implements Controller {
    * @param \Symfony\Bridge\Doctrine\ManagerRegistry $managerRegistry
    * @param \AdminBundle\Service\FeedManager $feedManager
    */
-  public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry, FeedManager $feedManager = NULL) {
-    $this->valueConverter = $valueConverter;
-    $this->eventImporter = $eventImporter;
-    $this->configuration = $configuration;
-    $this->logger = $logger;
-    $this->authenticator = $authenticator;
-    $this->blameableListener = $blameableListener;
-    $this->managerRegistry = $managerRegistry;
-    $this->feedManager = $feedManager;
-  }
+    public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry, FeedManager $feedManager = null)
+    {
+        $this->valueConverter = $valueConverter;
+        $this->eventImporter = $eventImporter;
+        $this->configuration = $configuration;
+        $this->logger = $logger;
+        $this->authenticator = $authenticator;
+        $this->blameableListener = $blameableListener;
+        $this->managerRegistry = $managerRegistry;
+        $this->feedManager = $feedManager;
+    }
 
   /**
    * @param \Symfony\Component\Console\Output\OutputInterface $output
    * @return $this
    */
-  public function setOutput(OutputInterface $output) {
-    $this->output = $output;
+    public function setOutput(OutputInterface $output)
+    {
+        $this->output = $output;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * @param \AdminBundle\Entity\Feed $feed
    * @param \AppBundle\Entity\User $user
    */
-  public function read(Feed $feed, User $user = NULL, bool $cleanUpEvents = FALSE) {
-    $this->feed = $feed;
-    $this->feedEventIds = [];
-    if (!$user) {
-      $user = $this->feed->getUser();
-    }
-    if (!$user) {
-      throw new \Exception('No user on feed.');
-    }
-    if ($this->authenticator) {
-      $this->authenticator->authenticate($user);
-    }
-    $this->eventImporter
-      ->setFeed($feed)
-      ->setUser($user)
-      ->setLogger($this->logger);
-    $this->valueConverter->setFeed($feed);
+    public function read(Feed $feed, User $user = null, bool $cleanUpEvents = false)
+    {
+        $this->feed = $feed;
+        $this->feedEventIds = [];
+        if (!$user) {
+            $user = $this->feed->getUser();
+        }
+        if (!$user) {
+            throw new \Exception('No user on feed.');
+        }
+        if ($this->authenticator) {
+            $this->authenticator->authenticate($user);
+        }
+        $this->eventImporter
+        ->setFeed($feed)
+        ->setUser($user)
+        ->setLogger($this->logger);
+        $this->valueConverter->setFeed($feed);
 
-    if ($user) {
-      // Tell Blameable which user is creating entities.
-      if ($this->blameableListener) {
-        $this->blameableListener->setUserValue($user);
-      }
-    }
+        if ($user) {
+            // Tell Blameable which user is creating entities.
+            if ($this->blameableListener) {
+                $this->blameableListener->setUserValue($user);
+            }
+        }
 
-    $reader = $this->getReader();
-    $content = $this->getContent();
-    if (!$content) {
-      return;
-    }
+        $reader = $this->getReader();
+        $content = $this->getContent();
+        if (!$content) {
+            return;
+        }
 
-    $connection = $this->managerRegistry->getConnection();
-    $connection->beginTransaction();
-    try {
-      $this->cleanUpEvents = NULL;
-      if ($cleanUpEvents) {
-        $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed);
-      }
-      $reader->read($content);
-      if ($this->cleanUpEvents !== NULL) {
-        $this->feedManager->cleanUpEvents($feed, $this->cleanUpEvents);
-      }
-      $connection->commit();
+        $connection = $this->managerRegistry->getConnection();
+        $connection->beginTransaction();
+        try {
+            $this->cleanUpEvents = null;
+            if ($cleanUpEvents) {
+                $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed);
+            }
+            $reader->read($content);
+            if ($this->cleanUpEvents !== null) {
+                $this->feedManager->cleanUpEvents($feed, $this->cleanUpEvents);
+            }
+            $connection->commit();
+        } catch (\Throwable $t) {
+            $connection->rollBack();
+            throw $t;
+        }
     }
-    catch (\Throwable $t) {
-      $connection->rollBack();
-      throw $t;
-    }
-  }
 
   /**
    * @var array|null
    */
-  private $cleanUpEvents;
+    private $cleanUpEvents;
 
-  private function keepEvent(Event $event) {
-    unset($this->cleanUpEvents[$event->getId()]);
-  }
+    private function keepEvent(Event $event)
+    {
+        unset($this->cleanUpEvents[$event->getId()]);
+    }
 
   /**
    *
    */
-  private function getReader() {
-    $readers = isset($this->configuration['readers']) ? $this->configuration['readers'] : [];
-    $type = $this->feed->getType();
+    private function getReader()
+    {
+        $readers = isset($this->configuration['readers']) ? $this->configuration['readers'] : [];
+        $type = $this->feed->getType();
 
-    if (!isset($readers[$type])) {
-      throw new \Exception('Unknown feed type: ' . $type);
+        if (!isset($readers[$type])) {
+            throw new \Exception('Unknown feed type: ' . $type);
+        }
+
+        $reader = $readers[$type];
+        $reader
+        ->setController($this)
+        ->setFeed($this->feed);
+
+        return $reader;
     }
-
-    $reader = $readers[$type];
-    $reader
-      ->setController($this)
-      ->setFeed($this->feed);
-
-    return $reader;
-  }
 
   /**
    *
    */
-  protected function getContent() {
-    $client = new Client();
-    $feedUrl = $this->processUrl($this->feed->getUrl());
+    protected function getContent()
+    {
+        $client = new Client();
+        $feedUrl = $this->processUrl($this->feed->getUrl());
 
-    $configuration = $this->feed->getConfiguration();
-    $method = isset($configuration['method']) ? $configuration['method'] : 'GET';
-    $options = isset($configuration['options']) ? $configuration['options'] : [];
+        $configuration = $this->feed->getConfiguration();
+        $method = isset($configuration['method']) ? $configuration['method'] : 'GET';
+        $options = isset($configuration['options']) ? $configuration['options'] : [];
 
-    // Pretend to be a real browser.
-    if (!isset($options['headers'])) {
-      $options['headers'] = [];
+        // Pretend to be a real browser.
+        if (!isset($options['headers'])) {
+            $options['headers'] = [];
+        }
+        if (!isset($options['headers']['user-agent'])) {
+            $options['headers']['user-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36';
+        }
+
+        $res = $client->request($method, $feedUrl, $options);
+        if ($res->getStatusCode() !== 200) {
+            return null;
+        }
+
+        $content = $res->getBody();
+        // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
+        $bom = pack('H*', 'EFBBBF');
+        $content = preg_replace("/^$bom/", '', $content);
+
+        $type = $this->feed->getType();
+        switch ($type) {
+            case 'json':
+                $content = json_decode($content, true);
+                break;
+
+            case 'xml':
+                $content = new \SimpleXmlElement($content);
+                break;
+        }
+
+        return $content;
     }
-    if (!isset($options['headers']['user-agent'])) {
-      $options['headers']['user-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36';
-    }
-
-    $res = $client->request($method, $feedUrl, $options);
-    if ($res->getStatusCode() !== 200) {
-      return NULL;
-    }
-
-    $content = $res->getBody();
-    // http://stackoverflow.com/questions/10290849/how-to-remove-multiple-utf-8-bom-sequences-before-doctype
-    $bom = pack('H*', 'EFBBBF');
-    $content = preg_replace("/^$bom/", '', $content);
-
-    $type = $this->feed->getType();
-    switch ($type) {
-      case 'json':
-        $content = json_decode($content, TRUE);
-        break;
-
-      case 'xml':
-        $content = new \SimpleXmlElement($content);
-        break;
-    }
-
-    return $content;
-  }
 
   /**
    * @param $url
    * @return
    */
-  private function processUrl($url) {
-    return $url;
-  }
+    private function processUrl($url)
+    {
+        return $url;
+    }
 
   /**
    * @param array $data
    */
-  public function createEvent(array $data) {
-    if (isset($data['id'])) {
-      $eventId = $data['id'];
-      if (isset($this->feedEventIds[$eventId])) {
-        $status = 'duplicated';
-        $this->writeln(sprintf('%s (#%d): Event %s: %s', $this->feed->getName(), $this->feed->getId(), $status, $eventId));
-        return;
-      }
-      $this->feedEventIds[$eventId] = $eventId;
+    public function createEvent(array $data)
+    {
+        if (isset($data['id'])) {
+            $eventId = $data['id'];
+            if (isset($this->feedEventIds[$eventId])) {
+                $status = 'duplicated';
+                $this->writeln(sprintf('%s (#%d): Event %s: %s', $this->feed->getName(), $this->feed->getId(), $status, $eventId));
+                return;
+            }
+            $this->feedEventIds[$eventId] = $eventId;
+        }
+        $event = $this->eventImporter->import($data);
+        if ($event) {
+            $status = $event->getSkipImport() ? 'not changed' : ($event->getUpdatedAt() > $event->getCreatedAt() ? 'updated' : 'created');
+            $this->writeln(sprintf('%s (#%d): Event %s: %s (%s)', $this->feed->getName(), $this->feed->getId(), $status, $event->getName(), $event->getFeedEventId()));
+            $this->keepEvent($event);
+        } else {
+            $this->writeln(sprintf('%s (#%d): Cannot import event: %s', $this->feed->getName(), $this->feed->getId(), $data['id']));
+        }
     }
-    $event = $this->eventImporter->import($data);
-    if ($event) {
-      $status = $event->getSkipImport() ? 'not changed' : ($event->getUpdatedAt() > $event->getCreatedAt() ? 'updated' : 'created');
-      $this->writeln(sprintf('%s (#%d): Event %s: %s (%s)', $this->feed->getName(), $this->feed->getId(), $status, $event->getName(), $event->getFeedEventId()));
-      $this->keepEvent($event);
-    }
-    else {
-      $this->writeln(sprintf('%s (#%d): Cannot import event: %s', $this->feed->getName(), $this->feed->getId(), $data['id']));
-    }
-  }
 
   /**
    * @param $value
    * @param $name
    * @return \DateTime|null|string
    */
-  public function convertValue($value, $name) {
-    return $this->valueConverter->convert($value, $name);
-  }
+    public function convertValue($value, $name)
+    {
+        return $this->valueConverter->convert($value, $name);
+    }
 
   /**
    * @param $messages
    * @param int $options
    */
-  public function writeln($messages, $options = 0) {
-    if ($this->output) {
-      $this->output->writeln($messages, $options);
+    public function writeln($messages, $options = 0)
+    {
+        if ($this->output) {
+            $this->output->writeln($messages, $options);
+        }
     }
-  }
-
 }

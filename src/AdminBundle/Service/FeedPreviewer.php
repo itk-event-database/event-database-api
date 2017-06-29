@@ -13,13 +13,14 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 /**
  *
  */
-class FeedPreviewer extends FeedReader {
+class FeedPreviewer extends FeedReader
+{
   /**
    * @var \AdminBundle\Service\FeedPreviewer\EventImporter
    */
-  protected $eventImporter;
+    protected $eventImporter;
 
-  protected $events = [];
+    protected $events = [];
 
   /**
    * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
@@ -29,36 +30,39 @@ class FeedPreviewer extends FeedReader {
    * @param \AdminBundle\Service\AuthenticatorService $authenticator
    * @param \Gedmo\Blameable\BlameableListener $blameableListener
    */
-  public function __construct(ValueConverter $valueConverter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry) {
-    $this->eventImporter = new EventImporter();
-    parent::__construct($valueConverter, $this->eventImporter, $configuration, $logger, $authenticator, $blameableListener, $managerRegistry);
-    $this->authenticator = NULL;
-  }
+    public function __construct(ValueConverter $valueConverter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry)
+    {
+        $this->eventImporter = new EventImporter();
+        parent::__construct($valueConverter, $this->eventImporter, $configuration, $logger, $authenticator, $blameableListener, $managerRegistry);
+        $this->authenticator = null;
+    }
 
   /**
    * @param \AdminBundle\Entity\Feed $feed
    */
-  public function read(Feed $feed, User $user = NULL, bool $cleanUpEvents = FALSE) {
-    $this->events = [];
-    parent::read($feed, NULL, FALSE);
-  }
+    public function read(Feed $feed, User $user = null, bool $cleanUpEvents = false)
+    {
+        $this->events = [];
+        parent::read($feed, null, false);
+    }
 
-  public function getEvents() {
-    return $this->events;
-  }
+    public function getEvents()
+    {
+        return $this->events;
+    }
 
   /**
    * @param array $data
    */
-  public function createEvent(array $data) {
-    $data['feed'] = $this->feed;
-    $data['feed_event_id'] = $data['id'];
-    $event = $this->eventImporter->import($data);
+    public function createEvent(array $data)
+    {
+        $data['feed'] = $this->feed;
+        $data['feed_event_id'] = $data['id'];
+        $event = $this->eventImporter->import($data);
 
-    unset($event['feed']);
-    unset($event['feed_event_id']);
+        unset($event['feed']);
+        unset($event['feed_event_id']);
 
-    $this->events[] = $event;
-  }
-
+        $this->events[] = $event;
+    }
 }

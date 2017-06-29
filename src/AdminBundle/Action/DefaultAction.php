@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  *
  */
-class DefaultAction {
-  private $router;
-  private $twig;
+class DefaultAction
+{
+    private $router;
+    private $twig;
 
   /**
    * Constructor.
@@ -22,10 +23,11 @@ class DefaultAction {
    * @param \Twig_Environment $twig
    *   The TWIG environment.
    */
-  public function __construct(Router $router, \Twig_Environment $twig) {
-    $this->router = $router;
-    $this->twig = $twig;
-  }
+    public function __construct(Router $router, \Twig_Environment $twig)
+    {
+        $this->router = $router;
+        $this->twig = $twig;
+    }
 
   /**
    * @Route("/", name="default")
@@ -35,8 +37,8 @@ class DefaultAction {
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return \Symfony\Component\HttpFoundation\Response
    */
-  public function __invoke(Request $request) {
-    return new Response($this->twig->render('AdminBundle:Default:index.html.twig'));
-  }
-
+    public function __invoke(Request $request)
+    {
+        return new Response($this->twig->render('AdminBundle:Default:index.html.twig'));
+    }
 }

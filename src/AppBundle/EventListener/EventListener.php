@@ -13,80 +13,86 @@ use AppBundle\Entity\Event;
 /**
  *
  */
-class EventListener extends EditListener {
+class EventListener extends EditListener
+{
   /**
    * @var TagManager
    */
-  protected $tagManager;
+    protected $tagManager;
 
-  public function __construct(ContainerInterface $container) {
-    parent::__construct($container);
-    $this->tagManager = $this->container->get('tag_manager');
-  }
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+        $this->tagManager = $this->container->get('tag_manager');
+    }
 
   /**
    *
    */
-  public function prePersist(LifecycleEventArgs $args) {
-    $object = $args->getObject();
-    if ($object instanceof Thing) {
-      if ($this->container->has('description_normalizer')) {
-        $description = $object->getDescription();
-        $description = $this->container->get('description_normalizer')
-          ->normalize($description);
-        $object->setDescription($description);
-      }
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof Thing) {
+            if ($this->container->has('description_normalizer')) {
+                $description = $object->getDescription();
+                $description = $this->container->get('description_normalizer')
+                ->normalize($description);
+                $object->setDescription($description);
+            }
+        }
+        if ($object instanceof Event) {
+            if ($this->container->has('excerpt_normalizer')) {
+                $excerpt = $object->getExcerpt() ?: $object->getDescription();
+                $excerpt = $this->container->get('excerpt_normalizer')->normalize($excerpt);
+                $object->setExcerpt($excerpt);
+            }
+        }
     }
-    if ($object instanceof Event) {
-      if ($this->container->has('excerpt_normalizer')) {
-        $excerpt = $object->getExcerpt() ?: $object->getDescription();
-        $excerpt = $this->container->get('excerpt_normalizer')->normalize($excerpt);
-        $object->setExcerpt($excerpt);
-      }
-    }
-  }
 
   /**
    *
    */
-  public function postPersist(LifecycleEventArgs $args) {
-    $object = $args->getObject();
-    if ($object instanceof Taggable) {
-      $this->tagManager->saveTagging($object);
+    public function postPersist(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof Taggable) {
+            $this->tagManager->saveTagging($object);
+        }
+
+        if ($object instanceof Thing) {
+            $job = new DownloadFilesJob();
+            $job->args = [
+            'className' => get_class($object),
+            'id' => $object->getId(),
+            'fields' => ['image'],
+            ];
+
+            $this->container->get('resque')->enqueue($job);
+        }
     }
 
-    if ($object instanceof Thing) {
-      $job = new DownloadFilesJob();
-      $job->args = [
-        'className' => get_class($object),
-        'id' => $object->getId(),
-        'fields' => ['image'],
-      ];
-
-      $this->container->get('resque')->enqueue($job);
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $this->postPersist($args);
     }
-  }
-
-  public function postUpdate(LifecycleEventArgs $args) {
-    $this->postPersist($args);
-  }
 
   /**
    *
    */
-  public function postLoad(LifecycleEventArgs $args) {
-    $object = $args->getObject();
-    if ($object instanceof Taggable) {
-      $this->tagManager->loadTagging($object);
+    public function postLoad(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof Taggable) {
+            $this->tagManager->loadTagging($object);
+        }
     }
-  }
 
-  public function preRemove(LifecycleEventArgs $args) {
-    parent::preRemove($args);
-    $object = $args->getObject();
-    if ($object instanceof Event) {
-      $object->getOccurrences()->clear();
+    public function preRemove(LifecycleEventArgs $args)
+    {
+        parent::preRemove($args);
+        $object = $args->getObject();
+        if ($object instanceof Event) {
+            $object->getOccurrences()->clear();
+        }
     }
-  }
-
 }

@@ -34,10 +34,11 @@ use DoctrineExtensions\Taggable\Taggable;
  *   }
  * )
  */
-class Place extends Thing implements Taggable, Blameable {
-  use TimestampableEntity;
-  use BlameableEntity;
-  use SoftDeleteableEntity;
+class Place extends Thing implements Taggable, Blameable
+{
+    use TimestampableEntity;
+    use BlameableEntity;
+    use SoftDeleteableEntity;
 
   /**
    * @var int
@@ -46,14 +47,14 @@ class Place extends Thing implements Taggable, Blameable {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  private $id;
+    private $id;
 
   /**
    * @var Feed
    *
    * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
    */
-  private $feed;
+    private $feed;
 
   /**
    * @var string The telephone number.
@@ -62,7 +63,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
-  private $telephone;
+    private $telephone;
 
   /**
    * @var string The email address.
@@ -73,7 +74,7 @@ class Place extends Thing implements Taggable, Blameable {
    * )
    * @ORM\Column(nullable=true)
    */
-  private $email;
+    private $email;
 
   /**
    * @var string The logo of the item.
@@ -83,7 +84,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/image")
    */
-  private $logo;
+    private $logo;
 
   /**
    * @var boolean Does the place have disability access?
@@ -91,7 +92,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ORM\Column(type="boolean", nullable=true)
    */
-  private $disabilityAccess;
+    private $disabilityAccess;
 
   /**
    * @var string The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
@@ -100,7 +101,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
-  private $addressCountry;
+    private $addressCountry;
 
   /**
    * @var string The locality. For example, Mountain View.
@@ -109,7 +110,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
-  private $addressLocality;
+    private $addressLocality;
 
   /**
    * @var string The region. For example, CA.
@@ -118,7 +119,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
-  private $addressRegion;
+    private $addressRegion;
 
   /**
    * @var string The postal code. For example, 94043.
@@ -127,7 +128,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
-  private $postalCode;
+    private $postalCode;
 
   /**
    * @var string The street address. For example, 1600 Amphitheatre Pkwy.
@@ -136,7 +137,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column(nullable=true)
    */
-  private $streetAddress;
+    private $streetAddress;
 
   /**
    * @var number The latitude of the location
@@ -144,7 +145,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Groups({"place_read", "occurrence_read", "place_write"})
    * @ORM\Column(nullable=true, type="float")
    */
-  private $latitude;
+    private $latitude;
 
   /**
    * @var number The longitude of the location
@@ -152,7 +153,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @Groups({"place_read", "occurrence_read", "place_write"})
    * @ORM\Column(nullable=true, type="float")
    */
-  private $longitude;
+    private $longitude;
 
   /**
    * @var ArrayCollection
@@ -160,7 +161,7 @@ class Place extends Thing implements Taggable, Blameable {
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="place")
    * @Groups({"place_read"})
    */
-  private $occurrences;
+    private $occurrences;
 
   /**
    * Sets id.
@@ -169,30 +170,34 @@ class Place extends Thing implements Taggable, Blameable {
    *
    * @return $this
    */
-  public function setId($id) {
-    $this->id = $id;
+    public function setId($id)
+    {
+        $this->id = $id;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets id.
    *
    * @return int
    */
-  public function getId() {
-    return $this->id;
-  }
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  public function setFeed($feed) {
-    $this->feed = $feed;
+    public function setFeed($feed)
+    {
+        $this->feed = $feed;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function getFeed() {
-    return $this->feed;
-  }
+    public function getFeed()
+    {
+        return $this->feed;
+    }
 
   /**
    * Sets addressCountry.
@@ -200,20 +205,22 @@ class Place extends Thing implements Taggable, Blameable {
    * @param  string $addressCountry
    * @return $this
    */
-  public function setAddressCountry($addressCountry) {
-    $this->addressCountry = $addressCountry;
+    public function setAddressCountry($addressCountry)
+    {
+        $this->addressCountry = $addressCountry;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets addressCountry.
    *
    * @return string
    */
-  public function getAddressCountry() {
-    return $this->addressCountry;
-  }
+    public function getAddressCountry()
+    {
+        return $this->addressCountry;
+    }
 
   /**
    * Sets addressLocality.
@@ -221,20 +228,22 @@ class Place extends Thing implements Taggable, Blameable {
    * @param  string $addressLocality
    * @return $this
    */
-  public function setAddressLocality($addressLocality) {
-    $this->addressLocality = $addressLocality;
+    public function setAddressLocality($addressLocality)
+    {
+        $this->addressLocality = $addressLocality;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets addressLocality.
    *
    * @return string
    */
-  public function getAddressLocality() {
-    return $this->addressLocality;
-  }
+    public function getAddressLocality()
+    {
+        return $this->addressLocality;
+    }
 
   /**
    * Sets addressRegion.
@@ -242,20 +251,22 @@ class Place extends Thing implements Taggable, Blameable {
    * @param  string $addressRegion
    * @return $this
    */
-  public function setAddressRegion($addressRegion) {
-    $this->addressRegion = $addressRegion;
+    public function setAddressRegion($addressRegion)
+    {
+        $this->addressRegion = $addressRegion;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets addressRegion.
    *
    * @return string
    */
-  public function getAddressRegion() {
-    return $this->addressRegion;
-  }
+    public function getAddressRegion()
+    {
+        return $this->addressRegion;
+    }
 
   /**
    * Sets postalCode.
@@ -263,20 +274,22 @@ class Place extends Thing implements Taggable, Blameable {
    * @param  string $postalCode
    * @return $this
    */
-  public function setPostalCode($postalCode) {
-    $this->postalCode = $postalCode;
+    public function setPostalCode($postalCode)
+    {
+        $this->postalCode = $postalCode;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets postalCode.
    *
    * @return string
    */
-  public function getPostalCode() {
-    return $this->postalCode;
-  }
+    public function getPostalCode()
+    {
+        return $this->postalCode;
+    }
 
   /**
    * Sets streetAddress.
@@ -284,20 +297,22 @@ class Place extends Thing implements Taggable, Blameable {
    * @param  string $streetAddress
    * @return $this
    */
-  public function setStreetAddress($streetAddress) {
-    $this->streetAddress = $streetAddress;
+    public function setStreetAddress($streetAddress)
+    {
+        $this->streetAddress = $streetAddress;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets streetAddress.
    *
    * @return string
    */
-  public function getStreetAddress() {
-    return $this->streetAddress;
-  }
+    public function getStreetAddress()
+    {
+        return $this->streetAddress;
+    }
 
   /**
    * Sets logo.
@@ -306,20 +321,22 @@ class Place extends Thing implements Taggable, Blameable {
    *
    * @return $this
    */
-  public function setLogo($logo) {
-    $this->logo = $logo;
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets logo.
    *
    * @return string
    */
-  public function getLogo() {
-    return $this->logo;
-  }
+    public function getLogo()
+    {
+        return $this->logo;
+    }
 
   /**
    * Sets occurrences.
@@ -328,90 +345,102 @@ class Place extends Thing implements Taggable, Blameable {
    *
    * @return $this
    */
-  public function setOccurrences(ArrayCollection $occurrences) {
-    $this->occurrences = $occurrences;
+    public function setOccurrences(ArrayCollection $occurrences)
+    {
+        $this->occurrences = $occurrences;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets occurrences.
    *
    * @return ArrayCollection
    */
-  public function getOccurrences() {
-    return $this->occurrences;
-  }
+    public function getOccurrences()
+    {
+        return $this->occurrences;
+    }
 
   /**
    * @return string
    */
-  public function getTelephone() {
-    return $this->telephone;
-  }
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
 
   /**
    * @param string $telephone
    */
-  public function setTelephone($telephone) {
-    $this->telephone = $telephone;
-  }
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+    }
 
   /**
    * @return boolean
    */
-  public function isDisabilityAccess() {
-    return $this->disabilityAccess;
-  }
+    public function isDisabilityAccess()
+    {
+        return $this->disabilityAccess;
+    }
 
   /**
    * @param boolean $disabilityAccess
    */
-  public function setDisabilityAccess($disabilityAccess) {
-    $this->disabilityAccess = $disabilityAccess;
-  }
+    public function setDisabilityAccess($disabilityAccess)
+    {
+        $this->disabilityAccess = $disabilityAccess;
+    }
 
   /**
    * @return number
    */
-  public function getLatitude() {
-    return $this->latitude;
-  }
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
 
   /**
    * @param number $latitude
    */
-  public function setLatitude($latitude) {
-    $this->latitude = $latitude;
-  }
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
 
   /**
    * @return number
    */
-  public function getLongitude() {
-    return $this->longitude;
-  }
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
 
   /**
    * @param number $longitude
    */
-  public function setLongitude($longitude) {
-    $this->longitude = $longitude;
-  }
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
 
   /**
    * @return string
    */
-  public function getEmail() {
-    return $this->email;
-  }
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
   /**
    * @param string $email
    */
-  public function setEmail($email) {
-    $this->email = $email;
-  }
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
   /**
    * @var ArrayCollection
@@ -419,51 +448,55 @@ class Place extends Thing implements Taggable, Blameable {
    * @Groups({"event_read", "event_write"})
    * @ ORM\Column(type="array", nullable=true)
    */
-  private $tags;
+    private $tags;
 
   /**
    * Returns the unique taggable resource type
    *
    * @return string
    */
-  public function getTaggableType() {
-    return 'place';
-  }
+    public function getTaggableType()
+    {
+        return 'place';
+    }
 
   /**
    * Returns the unique taggable resource identifier
    *
    * @return string
    */
-  public function getTaggableId() {
-    return $this->getId();
-  }
+    public function getTaggableId()
+    {
+        return $this->getId();
+    }
 
   // Method stub needed to make CustomItemNormalizer work. If no setter is
   // defined, tags will not be processed during normalization.
 
-  public function setTags($tags) {
-  }
+    public function setTags($tags)
+    {
+    }
 
   /**
    * Returns the collection of tags for this Taggable entity
    *
    * @return Doctrine\Common\Collections\Collection
    */
-  public function getTags() {
-    $this->tags = $this->tags ?: new ArrayCollection();
-    return $this->tags;
-  }
+    public function getTags()
+    {
+        $this->tags = $this->tags ?: new ArrayCollection();
+        return $this->tags;
+    }
 
-  public function __toString() {
-    $values = [
-      $this->getName(),
-      $this->getStreetAddress(),
-      $this->getPostalCode() . ' ' . $this->getAddressLocality(),
-      $this->getAddressCountry(),
-    ];
+    public function __toString()
+    {
+        $values = [
+        $this->getName(),
+        $this->getStreetAddress(),
+        $this->getPostalCode() . ' ' . $this->getAddressLocality(),
+        $this->getAddressCountry(),
+        ];
 
-    return implode(', ', array_filter(array_map('trim', $values)));
-  }
-
+        return implode(', ', array_filter(array_map('trim', $values)));
+    }
 }

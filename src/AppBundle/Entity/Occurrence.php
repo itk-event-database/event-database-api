@@ -27,7 +27,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   }
  * )
  */
-class Occurrence extends Entity {
+class Occurrence extends Entity
+{
   /**
    * @var int
    *
@@ -35,34 +36,34 @@ class Occurrence extends Entity {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  private $id;
+    private $id;
 
   /**
    * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences")
    * @Groups({"occurrence_read", "event_read", "event_write"})
    */
-  protected $event;
+    protected $event;
 
   /**
    * @var \DateTime
    * @ORM\Column(type="datetime", nullable=true)
    * @Groups({"occurrence_read", "event_read", "event_write"})
    */
-  protected $startDate;
+    protected $startDate;
 
   /**
    * @var \DateTime
    * @ORM\Column(type="datetime", nullable=true)
    * @Groups({"occurrence_read", "event_read", "event_write"})
    */
-  protected $endDate;
+    protected $endDate;
 
   /**
    * @var Place
    * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences")
    * @Groups({"occurrence_read", "event_read", "event_write"})
    */
-  protected $place;
+    protected $place;
 
   /**
    * @var string The range of prices for tickets.
@@ -71,7 +72,7 @@ class Occurrence extends Entity {
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    */
-  private $ticketPriceRange;
+    private $ticketPriceRange;
 
   /**
    * @var string The status of the event
@@ -80,7 +81,7 @@ class Occurrence extends Entity {
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="string")
    */
-  private $eventStatusText;
+    private $eventStatusText;
 
   /**
    * @var integer The status code of the event
@@ -98,7 +99,7 @@ class Occurrence extends Entity {
    * @ORM\Column(nullable=true)
    * @Assert\Type(type="integer")
    */
-  private $eventSalesStatus;
+    private $eventSalesStatus;
 
   /**
    * Sets id.
@@ -107,36 +108,40 @@ class Occurrence extends Entity {
    *
    * @return $this
    */
-  public function setId($id) {
-    $this->id = $id;
+    public function setId($id)
+    {
+        $this->id = $id;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets id.
    *
    * @return int
    */
-  public function getId() {
-    return $this->id;
-  }
+    public function getId()
+    {
+        return $this->id;
+    }
 
   /**
    *
    */
-  public function setEvent(Event $event = NULL) {
-    $this->event = $event;
+    public function setEvent(Event $event = null)
+    {
+        $this->event = $event;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    *
    */
-  public function getEvent() {
-    return $this->event;
-  }
+    public function getEvent()
+    {
+        return $this->event;
+    }
 
   /**
    * Sets startDate.
@@ -145,20 +150,22 @@ class Occurrence extends Entity {
    *
    * @return $this
    */
-  public function setStartDate(\DateTime $startDate = NULL) {
-    $this->startDate = $startDate;
+    public function setStartDate(\DateTime $startDate = null)
+    {
+        $this->startDate = $startDate;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets startDate.
    *
    * @return \DateTime
    */
-  public function getStartDate() {
-    return $this->startDate;
-  }
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
 
   /**
    * Sets endDate.
@@ -167,36 +174,40 @@ class Occurrence extends Entity {
    *
    * @return $this
    */
-  public function setEndDate(\DateTime $endDate = NULL) {
-    $this->endDate = $endDate;
+    public function setEndDate(\DateTime $endDate = null)
+    {
+        $this->endDate = $endDate;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets endDate.
    *
    * @return \DateTime
    */
-  public function getEndDate() {
-    return $this->endDate;
-  }
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
 
   /**
    *
    */
-  public function setPlace($place) {
-    $this->place = $place;
+    public function setPlace($place)
+    {
+        $this->place = $place;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    *
    */
-  public function getPlace() {
-    return $this->place;
-  }
+    public function getPlace()
+    {
+        return $this->place;
+    }
 
   /**
    * Sets venue.
@@ -205,53 +216,59 @@ class Occurrence extends Entity {
    *
    * @return $this
    */
-  public function setVenue($venue) {
-    $this->venue = $venue;
+    public function setVenue($venue)
+    {
+        $this->venue = $venue;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets venue.
    *
    * @return string
    */
-  public function getVenue() {
-    return $this->venue;
-  }
+    public function getVenue()
+    {
+        return $this->venue;
+    }
 
   /**
    * @return string
    */
-  public function getTicketPriceRange() {
-    return $this->ticketPriceRange;
-  }
+    public function getTicketPriceRange()
+    {
+        return $this->ticketPriceRange;
+    }
 
   /**
    * @param string $ticketPriceRange
    */
-  public function setTicketPriceRange($ticketPriceRange) {
-    $this->ticketPriceRange = $ticketPriceRange;
-  }
+    public function setTicketPriceRange($ticketPriceRange)
+    {
+        $this->ticketPriceRange = $ticketPriceRange;
+    }
 
   /**
    * @return string
    */
-  public function getEventStatusText() {
-    return $this->eventStatusText;
-  }
+    public function getEventStatusText()
+    {
+        return $this->eventStatusText;
+    }
 
   /**
    * @param string $eventStatusText
    */
-  public function setEventStatusText($eventStatusText) {
-    $this->eventStatusText = $eventStatusText;
-  }
+    public function setEventStatusText($eventStatusText)
+    {
+        $this->eventStatusText = $eventStatusText;
+    }
 
-  public function __toString() {
-    $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
-    $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
-    return $start . ' - ' . $end . ($this->getPlace() ? ' @ ' . $this->getPlace()->getName() : '');
-  }
-
+    public function __toString()
+    {
+        $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
+        $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
+        return $start . ' - ' . $end . ($this->getPlace() ? ' @ ' . $this->getPlace()->getName() : '');
+    }
 }

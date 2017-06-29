@@ -10,16 +10,18 @@ use Doctrine\ORM\QueryBuilder;
 /**
  *
  */
-class OrderFilter extends BaseOrderFilter {
-  protected function extractProperties(Request $request): array {
-    $properties = parent::extractProperties($request);
+class OrderFilter extends BaseOrderFilter
+{
+    protected function extractProperties(Request $request): array
+    {
+        $properties = parent::extractProperties($request);
 
-    foreach ($this->properties as $property => $config) {
-      if (!array_key_exists($property, $properties) && isset($config['default'])) {
-        $properties[$property] = $config['default'];
-      }
+        foreach ($this->properties as $property => $config) {
+            if (!array_key_exists($property, $properties) && isset($config['default'])) {
+                $properties[$property] = $config['default'];
+            }
+        }
+
+        return $properties;
     }
-
-    return $properties;
-  }
 }

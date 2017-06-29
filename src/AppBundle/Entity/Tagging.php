@@ -19,7 +19,8 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *   itemOperations={},
  * )
  */
-class Tagging extends BaseTagging {
+class Tagging extends BaseTagging
+{
   /**
    * @var integer $id
    *
@@ -27,12 +28,11 @@ class Tagging extends BaseTagging {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  protected $id;
+    protected $id;
 
   /**
    * @ORM\ManyToOne(targetEntity="Tag", inversedBy="tagging")
    * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
    **/
-  protected $tag;
-
+    protected $tag;
 }
