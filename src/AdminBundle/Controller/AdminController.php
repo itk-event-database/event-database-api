@@ -142,6 +142,9 @@ class AdminController extends BaseAdminController {
       if ($repeatingOccurrences) {
         /** @var Place $place */
         $place = isset($repeatingOccurrences['place']) ? $repeatingOccurrences['place'] : NULL;
+        if (!$place instanceof Place) {
+          $place = $this->em->getRepository(Place::class)->find($place);
+        }
         $ticketPriceRange = isset($repeatingOccurrences['ticket_price_range']) ? $repeatingOccurrences['ticket_price_range'] : NULL;
         /** @var \DateTime $startDay */
         $startDay = isset($repeatingOccurrences['start_day']) ? clone $repeatingOccurrences['start_day'] : NULL;
