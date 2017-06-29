@@ -8,6 +8,7 @@ use JavierEguiluz\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -102,6 +103,16 @@ class RepeatingOccurrencesType extends AbstractType {
           $parent->remove($form->getName());
         }
       });
+
+    $builder->get('place')->addModelTransformer(new CallbackTransformer(
+      function ($place = NULL) {
+        // The input value has already been converted to a Place in the PRE_SET_DATA event.
+        return $place;
+      },
+      function (Place $place = NULL) {
+        // We want to only store the place id in the database (serialized).
+        return $place instanceof Place ? $place->getId() : 0;
+      }));
   }
 
   private function validateRepeatingOccurrences(FormEvent $event) {
