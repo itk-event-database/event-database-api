@@ -35,10 +35,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   }
  * )
  */
-class Event extends Thing implements CustomTaggable, Blameable {
-  use TimestampableEntity;
-  use BlameableEntity;
-  use SoftDeleteableEntity;
+class Event extends Thing implements CustomTaggable, Blameable
+{
+    use TimestampableEntity;
+    use BlameableEntity;
+    use SoftDeleteableEntity;
+
+  /**
+   * @var \DateTime
+   * @Gedmo\Timestampable(on="update")
+   * @ORM\Column(type="datetime")
+   * @Groups({"event_read"})
+   */
+    protected $updatedAt;
 
   /**
    * @var int
@@ -47,7 +56,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  private $id;
+    private $id;
 
   /**
    * @var boolean
@@ -57,7 +66,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @Assert\Type(type="boolean")
    * @ApiProperty(iri="http://schema.org/Boolean")
    */
-  private $isPublished = TRUE;
+    private $isPublished = true;
 
   /**
    * @var ArrayCollection
@@ -67,7 +76,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
    * @Assert\Count(min=1, minMessage="You must specify at least one occurrence", groups={"event_write"})
    */
-  private $occurrences;
+    private $occurrences;
 
   /**
    * @var string The URI for ticket purchase
@@ -77,7 +86,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
    */
-  private $ticketPurchaseUrl;
+    private $ticketPurchaseUrl;
 
   /**
    * @var string The URI for (Facebook) event.
@@ -87,7 +96,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @Assert\Type(type="string")
    * @ApiProperty(iri="http://schema.org/url")
    */
-  private $eventUrl;
+    private $eventUrl;
 
   /**
    * @var string Excerpt, i.e. short description, without any markup
@@ -100,35 +109,42 @@ class Event extends Thing implements CustomTaggable, Blameable {
    *      maxMessage = "The excerpt cannot be longer than {{ limit }} characters"
    * )
    */
-  private $excerpt;
+    private $excerpt;
 
   /**
    * @var Organizer
    * @ORM\ManyToOne(targetEntity="Organizer", inversedBy="events")
    * @Groups({"event_read", "event_write"})
    */
-  protected $organizer;
+    protected $organizer;
 
   /**
    * @var Event
    *
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event")
    */
-  private $master;
+    private $master;
 
   /**
    * @var Feed
    *
    * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
    */
-  private $feed;
+    private $feed;
 
   /**
    * @var string
    *
    * @ORM\Column(type="string", length=255, nullable=true)
    */
-  private $feedEventId;
+    private $feedEventId;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(type="string", length=255, nullable=true)
+   */
+    private $feedEventHash;
 
   /**
    * Sets id.
@@ -137,20 +153,22 @@ class Event extends Thing implements CustomTaggable, Blameable {
    *
    * @return $this
    */
-  public function setId($id) {
-    $this->id = $id;
+    public function setId($id)
+    {
+        $this->id = $id;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets id.
    *
    * @return int
    */
-  public function getId() {
-    return $this->id;
-  }
+    public function getId()
+    {
+        return $this->id;
+    }
 
   /**
    * Sets isPublished.
@@ -159,135 +177,169 @@ class Event extends Thing implements CustomTaggable, Blameable {
    *
    * @return $this
    */
-  public function setIsPublished($isPublished) {
-    $this->isPublished = $isPublished;
+    public function setIsPublished($isPublished)
+    {
+        $this->isPublished = $isPublished;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets isPublished.
    *
    * @return int
    */
-  public function getIsPublished() {
-    return $this->isPublished;
-  }
+    public function getIsPublished()
+    {
+        return $this->isPublished;
+    }
 
   /**
    *
    */
-  public function setOccurrences($occurrences) {
-    // Remove (and implicitly delete) occurrences that will be orphaned after
-    // setting (new) occurrences.
-    $keepIds = [];
-    foreach ($occurrences as $occurrence) {
-      $keepIds[] = $occurrence->getId();
+    public function setOccurrences($occurrences)
+    {
+        // Remove (and implicitly delete) occurrences that will be orphaned after
+        // setting (new) occurrences.
+        $keepIds = [];
+        foreach ($occurrences as $occurrence) {
+            $keepIds[] = $occurrence->getId();
+        }
+
+        foreach ($this->occurrences as $occurrence) {
+            if (!in_array($occurrence->getId(), $keepIds)) {
+                $this->occurrences->removeElement($occurrence);
+            }
+        }
+
+        $this->occurrences = $occurrences;
+
+        foreach ($this->occurrences as $occurrence) {
+            $occurrence->setEvent($this);
+        }
+
+        return $this;
     }
-
-    foreach ($this->occurrences as $occurrence) {
-      if (!in_array($occurrence->getId(), $keepIds)) {
-        $this->occurrences->removeElement($occurrence);
-      }
-    }
-
-    $this->occurrences = $occurrences;
-
-    foreach ($this->occurrences as $occurrence) {
-      $occurrence->setEvent($this);
-    }
-
-    return $this;
-  }
 
   /**
    * @return ArrayCollection
    */
-  public function getOccurrences() {
-    return $this->occurrences;
-  }
+    public function getOccurrences()
+    {
+        return $this->occurrences;
+    }
 
   /**
    *
    */
-  public function setFeed($feed) {
-    $this->feed = $feed;
+    public function setFeed($feed)
+    {
+        $this->feed = $feed;
 
-    return $this;
-  }
-
-  /**
-   *
-   */
-  public function getFeed() {
-    return $this->feed;
-  }
+        return $this;
+    }
 
   /**
    *
    */
-  public function setFeedEventId($feedEventId) {
-    $this->feedEventId = $feedEventId;
-
-    return $this;
-  }
+    public function getFeed()
+    {
+        return $this->feed;
+    }
 
   /**
    *
    */
-  public function getFeedEventId() {
-    return $this->feedEventId;
-  }
+    public function setFeedEventId($feedEventId)
+    {
+        $this->feedEventId = $feedEventId;
+
+        return $this;
+    }
+
+  /**
+   *
+   */
+    public function getFeedEventId()
+    {
+        return $this->feedEventId;
+    }
+
+  /**
+   *
+   */
+    public function setFeedEventHash($feedEventHash)
+    {
+        $this->feedEventHash = $feedEventHash;
+
+        return $this;
+    }
+
+  /**
+   *
+   */
+    public function getFeedEventHash()
+    {
+        return $this->feedEventHash;
+    }
 
   /**
    * @return mixed
    */
-  public function getTicketPurchaseUrl() {
-    return $this->ticketPurchaseUrl;
-  }
+    public function getTicketPurchaseUrl()
+    {
+        return $this->ticketPurchaseUrl;
+    }
 
   /**
    * @param mixed $ticketPurchaseUrl
    */
-  public function setTicketPurchaseUrl($ticketPurchaseUrl) {
-    $this->ticketPurchaseUrl = $ticketPurchaseUrl;
-  }
+    public function setTicketPurchaseUrl($ticketPurchaseUrl)
+    {
+        $this->ticketPurchaseUrl = $ticketPurchaseUrl;
+    }
 
   /**
    * @return string|null
    */
-  public function getEventUrl() {
-    return $this->eventUrl;
-  }
+    public function getEventUrl()
+    {
+        return $this->eventUrl;
+    }
 
   /**
    * @param string $eventUrl
    */
-  public function setEventUrl($eventUrl) {
-    $this->eventUrl = $eventUrl;
-  }
+    public function setEventUrl($eventUrl)
+    {
+        $this->eventUrl = $eventUrl;
+    }
 
   /**
    * @return string
    */
-  public function getExcerpt() {
-    return $this->excerpt;
-  }
+    public function getExcerpt()
+    {
+        return $this->excerpt;
+    }
 
   /**
    * @param string $excerpt
    */
-  public function setExcerpt($excerpt) {
-    $this->excerpt = $excerpt;
-  }
+    public function setExcerpt($excerpt)
+    {
+        $this->excerpt = $excerpt;
+    }
 
-  public function setOrganizer(Organizer $organizer = NULL) {
-    $this->organizer = $organizer;
-  }
+    public function setOrganizer(Organizer $organizer = null)
+    {
+        $this->organizer = $organizer;
+    }
 
-  public function getOrganizer() {
-    return $this->organizer;
-  }
+    public function getOrganizer()
+    {
+        return $this->organizer;
+    }
 
   /**
    * Sets master.
@@ -296,27 +348,30 @@ class Event extends Thing implements CustomTaggable, Blameable {
    *
    * @return $this
    */
-  public function setMaster($master) {
-    $this->master = $master;
+    public function setMaster($master)
+    {
+        $this->master = $master;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Gets master.
    *
    * @return string
    */
-  public function getMaster() {
-    return $this->master;
-  }
+    public function getMaster()
+    {
+        return $this->master;
+    }
 
   /**
    *
    */
-  public function __construct() {
-    $this->occurrences = new ArrayCollection();
-  }
+    public function __construct()
+    {
+        $this->occurrences = new ArrayCollection();
+    }
 
   /**
    * @var ArrayCollection
@@ -324,7 +379,7 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @Groups({"event_read", "occurrence_read", "event_write"})
    * @ ORM\Column(type="array", nullable=true)
    */
-  private $tags;
+    private $tags;
 
   /**
    * @var ArrayCollection
@@ -332,88 +387,97 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @Groups({"event_read"})
    * @ORM\Column(type="array", nullable=true)
    */
-  private $customTags;
+    private $customTags;
 
   /**
    * Returns the unique taggable resource type.
    *
    * @return string
    */
-  public function getTaggableType() {
-    return 'event';
-  }
+    public function getTaggableType()
+    {
+        return 'event';
+    }
 
   /**
    * Returns the unique taggable resource identifier.
    *
    * @return string
    */
-  public function getTaggableId() {
-    return $this->getId();
-  }
+    public function getTaggableId()
+    {
+        return $this->getId();
+    }
 
   /**
    * Method stub needed to make CustomItemNormalizer work. If no setter is
    * defined, tags will not be processed during normalization.
    */
-  public function setTags($tags) {
-  }
+    public function setTags($tags)
+    {
+    }
 
   /**
    * Returns the collection of tags for this Taggable entity.
    *
    * @return ArrayCollection
    */
-  public function getTags() {
-    $this->tags = $this->tags ?: new ArrayCollection();
-    return $this->tags;
-  }
+    public function getTags()
+    {
+        $this->tags = $this->tags ?: new ArrayCollection();
+        return $this->tags;
+    }
 
-  public function setCustomTags(array $customTags) {
-    $this->customTags = $customTags;
+    public function setCustomTags(array $customTags)
+    {
+        $this->customTags = $customTags;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Returns the collection of tags for this Taggable entity.
    *
    * @return ArrayCollection
    */
-  public function getCustomTags() {
-    $this->customTags = $this->customTags ?: new ArrayCollection();
-    return $this->customTags;
-  }
+    public function getCustomTags()
+    {
+        $this->customTags = $this->customTags ?: new ArrayCollection();
+        return $this->customTags;
+    }
 
-  public function __clone() {
-    $this->setId(NULL);
-    $this->setIsPublished(FALSE);
-    $self = $this;
-    $this->occurrences = $this->getOccurrences()->map(function ($occurrence) use ($self) {
-      $clone = clone $occurrence;
-      $clone->setId(NULL);
-      $clone->setEvent($self);
-      return $clone;
-    });
-  }
+    public function __clone()
+    {
+        $this->setId(null);
+        $this->setIsPublished(false);
+        $self = $this;
+        $this->occurrences = $this->getOccurrences()->map(function ($occurrence) use ($self) {
+            $clone = clone $occurrence;
+            $clone->setId(null);
+            $clone->setEvent($self);
+            return $clone;
+        });
+    }
 
   /**
    * @var array
    *
    * @ORM\Column(type="array")
    */
-  private $repeatingOccurrences = [];
+    private $repeatingOccurrences = [];
 
-  public function setRepeatingOccurrences(array $repeatingOccurrences) {
-    $this->repeatingOccurrences = $repeatingOccurrences;
-  }
+    public function setRepeatingOccurrences(array $repeatingOccurrences)
+    {
+        $this->repeatingOccurrences = $repeatingOccurrences;
+    }
 
-  public function getRepeatingOccurrences() {
-    return $this->repeatingOccurrences;
-  }
+    public function getRepeatingOccurrences()
+    {
+        return $this->repeatingOccurrences;
+    }
 
-  public function __toString() {
-    return $this->getName();
-  }
-
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

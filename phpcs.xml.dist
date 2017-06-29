@@ -13,17 +13,5 @@
  <!-- Check only php files -->
  <arg name="extensions" value="php"/>
 
- <rule ref="Drupal">
-	 <!-- Don't complain about comments – or lack of them … -->
-	 <exclude name="Drupal.Commenting"/>
-	 <!-- <exclude name="Drupal.Commenting.DocComment"/> -->
-	 <!-- <exclude name="Drupal.Commenting.DocCommentStar"/> -->
-	 <!-- <exclude name="Drupal.Commenting.FileComment"/> -->
-	 <!-- <exclude name="Drupal.Commenting.FunctionComment"/> -->
-	 <!-- <exclude name="Drupal.Commenting.HookComment"/> -->
-	 <!-- <exclude name="Drupal.Commenting.InlineComment"/> -->
-	 <!-- <exclude name="Drupal.Commenting.PostStatementComment"/> -->
-
-	 <exclude name="Drupal.Array.Array.LongLineDeclaration"/>
- </rule>
+ <rule ref="PSR2"/>
 </ruleset>

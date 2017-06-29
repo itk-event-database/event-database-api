@@ -14,18 +14,20 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 /**
  *
  */
-class EditVoter extends Voter {
-  const UPDATE = 'update';
-  const REMOVE = 'remove';
+class EditVoter extends Voter
+{
+    const UPDATE = 'update';
+    const REMOVE = 'remove';
 
-  private $roleHierarchy;
+    private $roleHierarchy;
 
   /**
    *
    */
-  public function __construct(RoleHierarchyInterface $roleHierarchy) {
-    $this->roleHierarchy = $roleHierarchy;
-  }
+    public function __construct(RoleHierarchyInterface $roleHierarchy)
+    {
+        $this->roleHierarchy = $roleHierarchy;
+    }
 
   /**
    * Determines if the attribute and subject are supported by this voter.
@@ -37,14 +39,15 @@ class EditVoter extends Voter {
    *
    * @return bool True if the attribute and subject are supported, false otherwise
    */
-  protected function supports($attribute, $subject) {
-    // If the attribute isn't one we support, return false.
-    if (!in_array($attribute, [self::UPDATE, self::REMOVE])) {
-      return FALSE;
-    }
+    protected function supports($attribute, $subject)
+    {
+        // If the attribute isn't one we support, return false.
+        if (!in_array($attribute, [self::UPDATE, self::REMOVE])) {
+            return false;
+        }
 
-    return TRUE;
-  }
+        return true;
+    }
 
   /**
    * Perform a single access check operation on a given attribute, subject and token.
@@ -55,117 +58,123 @@ class EditVoter extends Voter {
    *
    * @return bool
    */
-  protected function voteOnAttribute($attribute, $subject, TokenInterface $token) {
-    $user = $token->getUser();
-    if (!$user instanceof User) {
-      // The user must be logged in; if not, deny access.
-      return FALSE;
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    {
+        $user = $token->getUser();
+        if (!$user instanceof User) {
+            // The user must be logged in; if not, deny access.
+            return false;
+        }
+
+        if (!$subject instanceof Blameable) {
+            return false;
+        }
+
+        switch ($attribute) {
+            case self::UPDATE:
+                return $this->canUpdate($subject, $user);
+
+            case self::REMOVE:
+                return $this->canRemove($subject, $user);
+        }
+
+        throw new \LogicException('This code should not be reached!');
     }
-
-    if (!$subject instanceof Blameable) {
-      return FALSE;
-    }
-
-    switch ($attribute) {
-      case self::UPDATE:
-        return $this->canUpdate($subject, $user);
-
-      case self::REMOVE:
-        return $this->canRemove($subject, $user);
-    }
-
-    throw new \LogicException('This code should not be reached!');
-  }
 
   /**
    * Check if a user can edit a Blameable entity.
    */
-  private function canEdit(Blameable $entity, User $user) {
-    // Hack!
-    if ($entity instanceof Event) {
-      if ($entity->getFeed()) {
-        // Events from feed can only be edited by owner.
-        return $entity->getCreatedBy()->getId() === $user->getId();
-      }
-      if ($this->hasRole($user, 'ROLE_EVENT_ADMIN')) {
-        // ROLE_EVENT_ADMIN can edit all events.
-        return TRUE;
-      }
-    }
-    // Hack!
-    if ($entity instanceof Place) {
-      if ($this->hasRole($user, 'ROLE_PLACE_ADMIN')) {
-        // ROLE_PLACE_ADMIN can edit all places.
-        return TRUE;
-      }
-    }
+    private function canEdit(Blameable $entity, User $user)
+    {
+        // Hack!
+        if ($entity instanceof Event) {
+            if ($entity->getFeed()) {
+                // Events from feed can only be edited by owner.
+                return $entity->getCreatedBy()->getId() === $user->getId();
+            }
+            if ($this->hasRole($user, 'ROLE_EVENT_ADMIN')) {
+                // ROLE_EVENT_ADMIN can edit all events.
+                return true;
+            }
+        }
+        // Hack!
+        if ($entity instanceof Place) {
+            if ($this->hasRole($user, 'ROLE_PLACE_ADMIN')) {
+                // ROLE_PLACE_ADMIN can edit all places.
+                return true;
+            }
+        }
 
-    $createdByUser = $entity->getCreatedBy();
-    if (!$createdByUser) {
-      return FALSE;
-    }
+        $createdByUser = $entity->getCreatedBy();
+        if (!$createdByUser) {
+            return false;
+        }
 
-    if ($user->getId() === $createdByUser->getId()) {
-      return TRUE;
-    }
+        if ($user->getId() === $createdByUser->getId()) {
+            return true;
+        }
 
-    // Check user's groups.
-    $groups = $user->getGroups();
-    $createdByGroups = $createdByUser->getGroups();
-    if (!$groups || !$createdByGroups) {
-      return FALSE;
-    }
+        // Check user's groups.
+        $groups = $user->getGroups();
+        $createdByGroups = $createdByUser->getGroups();
+        if (!$groups || !$createdByGroups) {
+            return false;
+        }
 
-    foreach ($groups as $group) {
-      if ($createdByGroups->contains($group)) {
-        return TRUE;
-      }
-    }
+        foreach ($groups as $group) {
+            if ($createdByGroups->contains($group)) {
+                return true;
+            }
+        }
 
-    return FALSE;
-  }
+        return false;
+    }
 
   /**
    *
    */
-  private function canUpdate(Blameable $entity, User $user) {
-    return $this->canEdit($entity, $user);
-  }
-
-  /**
-   *
-   */
-  private function canRemove(Blameable $entity, User $user) {
-    if ($entity instanceof Event) {
-      if ($entity->getFeed()) {
-        // Events from feed can only be deleted by owner or event administrator.
-        return $this->hasRole($user, 'ROLE_EVENT_ADMIN') || $entity->getCreatedBy()->getId() === $user->getId();
-      }
+    private function canUpdate(Blameable $entity, User $user)
+    {
+        return $this->canEdit($entity, $user);
     }
 
-    return $this->canEdit($entity, $user);
-  }
+  /**
+   *
+   */
+    private function canRemove(Blameable $entity, User $user)
+    {
+        if ($entity instanceof Event) {
+            if ($entity->getFeed()) {
+                // Events from feed can only be deleted by owner or event administrator.
+                return $this->hasRole($user, 'ROLE_EVENT_ADMIN') || $entity->getCreatedBy()->getId() === $user->getId();
+            }
+        }
+
+        return $this->canEdit($entity, $user);
+    }
 
   /**
    *
    */
-  private function hasRole(User $user, $roleName) {
-    $roles = $this->getUserRoles($user);
-    return array_filter($roles, function (Role $role) use ($roleName) {
-      return $role->getRole() === $roleName;
-    });
-  }
+    private function hasRole(User $user, $roleName)
+    {
+        $roles = $this->getUserRoles($user);
+        return array_filter($roles, function (Role $role) use ($roleName) {
+            return $role->getRole() === $roleName;
+        });
+    }
 
-  private function getTokenRoles(TokenInterface $token) {
-    return $this->roleHierarchy->getReachableRoles($token->getRoles());
-  }
+    private function getTokenRoles(TokenInterface $token)
+    {
+        return $this->roleHierarchy->getReachableRoles($token->getRoles());
+    }
 
-  private function getUserRoles(User $user) {
-    $roles = array_map(function ($name) {
-      return new Role($name);
-    }, $user->getRoles());
+    private function getUserRoles(User $user)
+    {
+        $roles = array_map(function ($name) {
+            return new Role($name);
+        }, $user->getRoles());
 
-    return $this->roleHierarchy->getReachableRoles($roles);
-  }
-
+        return $this->roleHierarchy->getReachableRoles($roles);
+    }
 }

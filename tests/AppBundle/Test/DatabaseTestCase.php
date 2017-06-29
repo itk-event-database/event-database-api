@@ -5,67 +5,73 @@ namespace Tests\AppBundle\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 
-class DatabaseTestCase extends ContainerTestCase {
+class DatabaseTestCase extends ContainerTestCase
+{
   /**
    * @var \Doctrine\ORM\EntityManager
    */
-  protected $em;
+    protected $em;
 
   /**
    * {@inheritDoc}
    */
-  protected function setUp() {
-    parent::setUp();
+    protected function setUp()
+    {
+        parent::setUp();
 
-    $this->em = $this->container->get('doctrine')->getManager();
+        $this->em = $this->container->get('doctrine')->getManager();
 
-    self::runCommand('doctrine:database:create', ['--quiet' => TRUE]);
-    self::runCommand('doctrine:schema:create', ['--quiet' => TRUE]);
-    self::runCommand('doctrine:schema:update', ['--quiet' => TRUE, '--force' => TRUE]);
-  }
+        self::runCommand('doctrine:database:create', ['--quiet' => true]);
+        self::runCommand('doctrine:schema:create', ['--quiet' => true]);
+        self::runCommand('doctrine:schema:update', ['--quiet' => true, '--force' => true]);
+    }
 
   /**
    * {@inheritDoc}
    */
-  protected function tearDown() {
-    parent::tearDown();
+    protected function tearDown()
+    {
+        parent::tearDown();
 
-    $this->em->close();
-    $this->em = NULL; // avoid memory leaks
+        $this->em->close();
+        $this->em = null; // avoid memory leaks
 
-    self::runCommand('doctrine:database:drop', ['--quiet' => TRUE, '--force' => TRUE]);
-  }
-
-  protected static function runCommand($command, array $args = []) {
-    $args['command'] = $command;
-    $result = self::getApplication()->run(new ArrayInput($args));
-
-    if ($result !== 0) {
-      throw new \Exception('Command ' . $command . ' failed');
-    }
-  }
-
-  private static $application;
-
-  private static function getApplication() {
-    if (self::$application === NULL) {
-      self::$application = new Application(self::$kernel);
-      self::$application->setAutoExit(FALSE);
+        self::runCommand('doctrine:database:drop', ['--quiet' => true, '--force' => true]);
     }
 
-    return self::$application;
-  }
+    protected static function runCommand($command, array $args = [])
+    {
+        $args['command'] = $command;
+        $result = self::getApplication()->run(new ArrayInput($args));
 
-  protected function persist($entity) {
-    $this->em->persist($entity);
+        if ($result !== 0) {
+            throw new \Exception('Command ' . $command . ' failed');
+        }
+    }
 
-    return $this;
-  }
+    private static $application;
 
-  protected function flush() {
-    $this->em->flush();
+    private static function getApplication()
+    {
+        if (self::$application === null) {
+            self::$application = new Application(self::$kernel);
+            self::$application->setAutoExit(false);
+        }
 
-    return $this;
-  }
+        return self::$application;
+    }
 
+    protected function persist($entity)
+    {
+        $this->em->persist($entity);
+
+        return $this;
+    }
+
+    protected function flush()
+    {
+        $this->em->flush();
+
+        return $this;
+    }
 }

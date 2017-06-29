@@ -33,10 +33,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   }
  * )
  */
-class Organizer extends Entity implements Blameable {
-  use TimestampableEntity;
-  use BlameableEntity;
-  use SoftDeleteableEntity;
+class Organizer extends Entity implements Blameable
+{
+    use TimestampableEntity;
+    use BlameableEntity;
+    use SoftDeleteableEntity;
 
   /**
    * @var int
@@ -45,7 +46,7 @@ class Organizer extends Entity implements Blameable {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  private $id;
+    private $id;
 
   /**
    * @var string The name.
@@ -54,7 +55,7 @@ class Organizer extends Entity implements Blameable {
    * @Assert\Type(type="string")
    * @ORM\Column()
    */
-  private $name;
+    private $name;
 
   /**
    * @var string The email address.
@@ -65,7 +66,7 @@ class Organizer extends Entity implements Blameable {
    * )
    * @ORM\Column()
    */
-  private $email;
+    private $email;
 
   /**
    * @var string The url address.
@@ -73,7 +74,7 @@ class Organizer extends Entity implements Blameable {
    * @Groups({"organizer_read", "event_read", "event_write"})
    * @ORM\Column()
    */
-  private $url;
+    private $url;
 
   /**
    * @var ArrayCollection
@@ -81,61 +82,69 @@ class Organizer extends Entity implements Blameable {
    * @ORM\OneToMany(targetEntity="Event", mappedBy="organizer")
    * @Groups({"organizer_read"})
    */
-  private $events;
+    private $events;
 
   /**
    * Gets id.
    *
    * @return int
    */
-  public function getId() {
-    return $this->id;
-  }
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  public function setName($name) {
-    $this->name = $name;
+    public function setName($name)
+    {
+        $this->name = $name;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function getName() {
-    return $this->name;
-  }
+    public function getName()
+    {
+        return $this->name;
+    }
 
   /**
    * @return string
    */
-  public function getEmail() {
-    return $this->email;
-  }
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
   /**
    * @param string $email
    */
-  public function setEmail($email) {
-    $this->email = $email;
-  }
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
   /**
    * @return string
    */
-  public function getUrl() {
-    return $this->url;
-  }
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
   /**
    * @param string $url
    */
-  public function setUrl($url) {
-    $this->url = $url;
-  }
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
 
-  public function getEvents() {
-    return $this->events;
-  }
+    public function getEvents()
+    {
+        return $this->events;
+    }
 
-  public function __toString() {
-    return $this->getName();
-  }
-
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

@@ -4,51 +4,54 @@ namespace Tests\AppBundle\Test;
 
 use Symfony\Component\Yaml\Yaml;
 
-class ContainerTestCase extends BaseTestCase {
+class ContainerTestCase extends BaseTestCase
+{
   /**
    * @var \Symfony\Component\DependencyInjection\Container
    */
-  protected $container;
+    protected $container;
 
   /**
    * {@inheritDoc}
    */
-  protected function setUp() {
-    parent::setUp();
+    protected function setUp()
+    {
+        parent::setUp();
 
-    self::bootKernel();
-    $this->container = static::$kernel->getContainer();
-  }
+        self::bootKernel();
+        $this->container = static::$kernel->getContainer();
+    }
 
   /**
    * Read a fixture file and convert the content into soemthing useful.
    */
-  protected function readFixture($filename, $type = NULL) {
-    $path = $this->getFixturePath($filename);
-    $content = file_get_contents($path);
-    $info = pathinfo($path);
+    protected function readFixture($filename, $type = null)
+    {
+        $path = $this->getFixturePath($filename);
+        $content = file_get_contents($path);
+        $info = pathinfo($path);
 
-    if ($type === NULL) {
-      $type = $info['extension'];
+        if ($type === null) {
+            $type = $info['extension'];
+        }
+
+        switch ($type) {
+            case 'yml':
+            case 'yaml':
+                $content = YAML::parse($content);
+                break;
+
+            case 'json':
+                $content = json_decode($content, true);
+                break;
+
+            case 'xml':
+                $content = new \SimpleXmlElement($content);
+                break;
+        }
+
+        return $content;
     }
-
-    switch ($type) {
-      case 'yml':
-      case 'yaml':
-        $content = YAML::parse($content);
-        break;
-
-      case 'json':
-        $content = json_decode($content, TRUE);
-        break;
-
-      case 'xml':
-        $content = new \SimpleXmlElement($content);
-        break;
-    }
-
-    return $content;
-  }
 
   /**
    * Get fixture path from filename and current test class name.
@@ -58,14 +61,14 @@ class ContainerTestCase extends BaseTestCase {
    * AdminBundle\Service\FeedReaderTest (tests/AdminBundle/Service/FeedReaderTest.php) ⟼
    * tests/fixtures/AdminBundle/Service/FeedReaderTest/)
    */
-  protected function getFixturePath(string $filename = '') {
-    $filepath = $this->container->get('kernel')->getRootDir() . '/../tests/fixtures/' . str_replace('\\', '/', get_class($this)) . '/' . $filename;
+    protected function getFixturePath(string $filename = '')
+    {
+        $filepath = $this->container->get('kernel')->getRootDir() . '/../tests/fixtures/' . str_replace('\\', '/', get_class($this)) . '/' . $filename;
 
-    if (!file_exists($filepath)) {
-      throw new \Exception('Fixture ' . $filename . ' (' . $filepath . ') not found.');
+        if (!file_exists($filepath)) {
+            throw new \Exception('Fixture ' . $filename . ' (' . $filepath . ') not found.');
+        }
+
+        return $filepath;
     }
-
-    return $filepath;
-  }
-
 }

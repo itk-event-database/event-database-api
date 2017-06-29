@@ -14,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity()
  */
-class UnknownTag extends BaseTag {
+class UnknownTag extends BaseTag
+{
   /**
    * @var integer $id
    *
@@ -22,28 +23,29 @@ class UnknownTag extends BaseTag {
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
    */
-  protected $id;
+    protected $id;
 
   /**
    * @var Tag
    * @ORM\ManyToOne(targetEntity="Tag")
    */
-  protected $tag;
+    protected $tag;
 
   /**
    *
    */
-  public function setTag(Tag $tag = NULL) {
-    $this->tag = $tag;
+    public function setTag(Tag $tag = null)
+    {
+        $this->tag = $tag;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    *
    */
-  public function getTag() {
-    return $this->tag;
-  }
-
+    public function getTag()
+    {
+        return $this->tag;
+    }
 }

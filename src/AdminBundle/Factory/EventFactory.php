@@ -10,125 +10,144 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *
  */
-class EventFactory extends EntityFactory {
+class EventFactory extends EntityFactory
+{
   /**
    * @var Feed
    */
-  protected $feed;
+    protected $feed;
 
   /**
    * @var OrganizerFactory
    */
-  protected $organizerFactory;
+    protected $organizerFactory;
 
   /**
    * @var OccurrenceFactory
    */
-  protected $occurrenceFactory;
+    protected $occurrenceFactory;
 
   /**
    * @param \AdminBundle\Entity\Feed $feed
    */
-  public function setFeed(Feed $feed) {
-    $this->feed = $feed;
-    if ($this->valueConverter) {
-      $this->valueConverter->setFeed($feed);
+    public function setFeed(Feed $feed)
+    {
+        $this->feed = $feed;
+        if ($this->valueConverter) {
+            $this->valueConverter->setFeed($feed);
+        }
     }
-  }
 
-  public function setOrganizerFactory(OrganizerFactory $organizerFactory) {
-    $this->organizerFactory = $organizerFactory;
-  }
+    public function setOrganizerFactory(OrganizerFactory $organizerFactory)
+    {
+        $this->organizerFactory = $organizerFactory;
+    }
 
   /**
    * @param \AdminBundle\Factory\OccurrenceFactory $occurrenceFactory
    */
-  public function setOccurrenceFactory(OccurrenceFactory $occurrenceFactory) {
-    $this->occurrenceFactory = $occurrenceFactory;
-  }
+    public function setOccurrenceFactory(OccurrenceFactory $occurrenceFactory)
+    {
+        $this->occurrenceFactory = $occurrenceFactory;
+    }
 
   /**
    * @param array $data
    * @return \AppBundle\Entity\Event|object
    */
-  public function get(array $data) {
-    $entity = $this->getEntity($data);
-    if ($entity) {
-      $this->setValues($entity, $data);
-      $this->persist($entity);
-      $this->flush();
-    }
+    public function get(array $data)
+    {
+        $entity = $this->getEntity($data);
+        if ($entity && !$entity->getSkipImport()) {
+            $this->setValues($entity, $data);
+            $this->persist($entity);
+            $this->flush();
+        }
 
-    return $entity;
-  }
+        return $entity;
+    }
 
   /**
    * @param array $data
    * @return \AppBundle\Entity\Event|object
    */
-  private function getEntity(array $data) {
-    $feed = isset($data['feed']) ? $data['feed'] : NULL;
-    $feedEventId = isset($data['feed_event_id']) ? $data['feed_event_id'] : NULL;
-    $id = isset($data['id']) ? $data['id'] : uniqid();
+    private function getEntity(array $data)
+    {
+        $feedEventId = isset($data['id']) ? $data['id'] : null;
 
-    if (!$feedEventId) {
-      return NULL;
+        if (!$this->feed || !$feedEventId) {
+            return null;
+        }
+
+        // An event may have been (soft) deleted. We want to reuse it.
+        $hasSoftdeleteable = false;
+        $filters = $this->em->getFilters();
+        if ($filters->has('softdeleteable')) {
+            $hasSoftdeleteable = true;
+            $filters->disable('softdeleteable');
+        }
+
+        $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
+        'feed' => $this->feed,
+        'feedEventId' => $feedEventId,
+        ]);
+
+        if ($hasSoftdeleteable) {
+            $filters->enable('softdeleteable');
+        }
+
+        if ($event === null) {
+            $event = new Event();
+            $event->setFeed($this->feed);
+            $event->setFeedEventId($feedEventId);
+        }
+
+        $hash = $this->getEventHash($data);
+
+        // Skip importing the event, if it has not changed and has not been deleted.
+        if ($hash === $event->getFeedEventHash() && $event->getDeletedAt() === null) {
+            $event->setSkipImport(true);
+        }
+
+        $event->setFeedEventHash($hash)
+        ->setDeletedAt(null);
+
+        return $event;
     }
 
-    // An event may have been (soft) deleted. We want to reuse it.
-    $hasSoftdeleteable = FALSE;
-    $filters = $this->em->getFilters();
-    if ($filters->has('softdeleteable')) {
-      $hasSoftdeleteable = TRUE;
-      $filters->disable('softdeleteable');
+    private function getEventHash(array $data)
+    {
+        return md5(json_encode($data));
     }
-
-    $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
-      'feed' => $feed,
-      'feedEventId' => $feedEventId,
-    ]);
-
-    if ($event === NULL) {
-      $event = new Event();
-      $event->setFeedEventId($id);
-    }
-
-    if ($hasSoftdeleteable) {
-      $event->setDeletedAt(NULL);
-      $filters->enable('softdeleteable');
-    }
-
-    return $event;
-  }
 
   /**
    * @param \AppBundle\Entity\Entity $entity
    * @param $key
    * @param $value
    */
-  protected function setValue(Entity $entity, $key, $value) {
-    if ($entity instanceof Event) {
-      if ($this->accessor->isWritable($entity, $key)) {
-        switch ($key) {
-          case 'occurrences':
-            $occurrences = new ArrayCollection();
-            foreach ($value as $item) {
-              $item['event'] = $entity;
-              $occurrence = $this->occurrenceFactory->get($item);
-              $occurrences->add($occurrence);
+    protected function setValue(Entity $entity, $key, $value)
+    {
+        if ($entity instanceof Event) {
+            if ($this->accessor->isWritable($entity, $key)) {
+                switch ($key) {
+                    case 'occurrences':
+                        $occurrences = new ArrayCollection();
+                        foreach ($value as $item) {
+                            $item['event'] = $entity;
+                            $occurrence = $this->occurrenceFactory->get($item);
+                            $occurrences->add($occurrence);
+                        }
+                        $entity->setOccurrences($occurrences);
+                        return;
+
+                    case 'organizer':
+                        $organizer = $this->organizerFactory->get($value);
+                        $entity->setOrganizer($organizer);
+                        return;
+                }
             }
-            $entity->setOccurrences($occurrences);
-            return;
-
-          case 'organizer':
-            $organizer = $this->organizerFactory->get($value);
-            $entity->setOrganizer($organizer);
-            return;
         }
-      }
+
+        parent::setValue($entity, $key, $value);
     }
-
-    parent::setValue($entity, $key, $value);
-  }
-
 }

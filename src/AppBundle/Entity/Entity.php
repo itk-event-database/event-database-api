@@ -5,5 +5,19 @@ namespace AppBundle\Entity;
 /**
  *
  */
-abstract class Entity {
+abstract class Entity
+{
+    private $skipImport = false;
+
+    public function setSkipImport($skipImport)
+    {
+        $this->skipImport = $skipImport;
+
+        return $this;
+    }
+
+    public function getSkipImport()
+    {
+        return $this->skipImport;
+    }
 }

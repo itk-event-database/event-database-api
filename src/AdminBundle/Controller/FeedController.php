@@ -17,7 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
  * @Route("/admin/feed")
  * @Security("has_role('ROLE_FEED_EDITOR')")
  */
-class FeedController extends Controller {
+class FeedController extends Controller
+{
 
   /**
    * Lists all Feed entities.
@@ -28,15 +29,16 @@ class FeedController extends Controller {
    *
    * @Template()
    */
-  public function indexAction() {
-    $em = $this->getDoctrine()->getManager();
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
 
-    $feeds = $em->getRepository('AdminBundle:Feed')->findAll();
+        $feeds = $em->getRepository('AdminBundle:Feed')->findAll();
 
-    return [
-      'feeds' => $feeds,
-    ];
-  }
+        return [
+        'feeds' => $feeds,
+        ];
+    }
 
   /**
    * Creates a new Feed entity.
@@ -49,26 +51,27 @@ class FeedController extends Controller {
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
    */
-  public function createAction(Request $request) {
-    $feed = new Feed();
-    $form = $this->createCreateForm($feed);
-    $form->handleRequest($request);
+    public function createAction(Request $request)
+    {
+        $feed = new Feed();
+        $form = $this->createCreateForm($feed);
+        $form->handleRequest($request);
 
-    if ($form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($feed);
-      $em->flush();
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($feed);
+            $em->flush();
 
-      $this->addFlash('success', 'Feed ' . $feed->getName() . ' created');
+            $this->addFlash('success', 'Feed ' . $feed->getName() . ' created');
 
-      return $this->redirectToRoute('admin_feed_show', ['id' => $feed->getId()]);
+            return $this->redirectToRoute('admin_feed_show', ['id' => $feed->getId()]);
+        }
+
+        return [
+        'feed' => $feed,
+        'form'   => $form->createView(),
+        ];
     }
-
-    return [
-      'feed' => $feed,
-      'form'   => $form->createView(),
-    ];
-  }
 
   /**
    * Creates a form to create a Feed entity.
@@ -78,14 +81,15 @@ class FeedController extends Controller {
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createCreateForm(Feed $feed) {
-    $form = $this->createForm('AdminBundle\Form\FeedType', $feed, [
-      'action' => $this->generateUrl('admin_feed_create'),
-      'method' => 'POST',
-    ]);
+    private function createCreateForm(Feed $feed)
+    {
+        $form = $this->createForm('AdminBundle\Form\FeedType', $feed, [
+        'action' => $this->generateUrl('admin_feed_create'),
+        'method' => 'POST',
+        ]);
 
-    return $form;
-  }
+        return $form;
+    }
 
   /**
    * Displays a form to create a new Feed entity.
@@ -96,15 +100,16 @@ class FeedController extends Controller {
    *
    * @Template()
    */
-  public function newAction() {
-    $feed = new Feed();
-    $form = $this->createCreateForm($feed);
+    public function newAction()
+    {
+        $feed = new Feed();
+        $form = $this->createCreateForm($feed);
 
-    return [
-      'feed' => $feed,
-      'form'   => $form->createView(),
-    ];
-  }
+        return [
+        'feed' => $feed,
+        'form'   => $form->createView(),
+        ];
+    }
 
   /**
    * Finds and displays a Feed entity.
@@ -117,14 +122,15 @@ class FeedController extends Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
    */
-  public function showAction(Feed $feed) {
-    $deleteForm = $this->createDeleteForm($feed);
+    public function showAction(Feed $feed)
+    {
+        $deleteForm = $this->createDeleteForm($feed);
 
-    return [
-      'feed'      => $feed,
-      'delete_form' => $deleteForm->createView(),
-    ];
-  }
+        return [
+        'feed'      => $feed,
+        'delete_form' => $deleteForm->createView(),
+        ];
+    }
 
   /**
    * Displays a form to edit an existing Feed entity.
@@ -137,16 +143,17 @@ class FeedController extends Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
    */
-  public function editAction(Feed $feed) {
-    $editForm = $this->createEditForm($feed);
-    $deleteForm = $this->createDeleteForm($feed);
+    public function editAction(Feed $feed)
+    {
+        $editForm = $this->createEditForm($feed);
+        $deleteForm = $this->createDeleteForm($feed);
 
-    return [
-      'feed'      => $feed,
-      'form'   => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    ];
-  }
+        return [
+        'feed'      => $feed,
+        'form'   => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ];
+    }
 
   /**
    * Creates a form to edit a Feed entity.
@@ -156,14 +163,15 @@ class FeedController extends Controller {
    * @internal param \AdminBundle\Entity\Feed $entity The entity*   The entity
    *
    */
-  private function createEditForm(Feed $feed) {
-    $form = $this->createForm('AdminBundle\Form\FeedType', $feed, [
-      'action' => $this->generateUrl('admin_feed_update', ['id' => $feed->getId()]),
-      'method' => 'PUT',
-    ]);
+    private function createEditForm(Feed $feed)
+    {
+        $form = $this->createForm('AdminBundle\Form\FeedType', $feed, [
+        'action' => $this->generateUrl('admin_feed_update', ['id' => $feed->getId()]),
+        'method' => 'PUT',
+        ]);
 
-    return $form;
-  }
+        return $form;
+    }
 
   /**
    * Edits an existing Feed entity.
@@ -177,26 +185,27 @@ class FeedController extends Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
    */
-  public function updateAction(Request $request, Feed $feed) {
-    $deleteForm = $this->createDeleteForm($feed);
-    $editForm = $this->createEditForm($feed);
-    $editForm->handleRequest($request);
+    public function updateAction(Request $request, Feed $feed)
+    {
+        $deleteForm = $this->createDeleteForm($feed);
+        $editForm = $this->createEditForm($feed);
+        $editForm->handleRequest($request);
 
-    if ($editForm->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->flush();
+        if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
-      $this->addFlash('success', 'Feed ' . $feed->getName() . ' updated');
+            $this->addFlash('success', 'Feed ' . $feed->getName() . ' updated');
 
-      return $this->redirectToRoute('admin_feed_edit', ['id' => $feed->getId()]);
+            return $this->redirectToRoute('admin_feed_edit', ['id' => $feed->getId()]);
+        }
+
+        return [
+        'feed'      => $feed,
+        'form'   => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ];
     }
-
-    return [
-      'feed'      => $feed,
-      'form'   => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    ];
-  }
 
   /**
    * Deletes a Feed entity.
@@ -208,18 +217,19 @@ class FeedController extends Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @return \Symfony\Component\HttpFoundation\RedirectResponse
    */
-  public function deleteAction(Request $request, Feed $feed) {
-    $form = $this->createDeleteForm($feed);
-    $form->handleRequest($request);
+    public function deleteAction(Request $request, Feed $feed)
+    {
+        $form = $this->createDeleteForm($feed);
+        $form->handleRequest($request);
 
-    if ($form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->remove($feed);
-      $em->flush();
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($feed);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('admin_feed');
     }
-
-    return $this->redirectToRoute('admin_feed');
-  }
 
   /**
    * Creates a form to delete a Feed entity by id.
@@ -229,12 +239,13 @@ class FeedController extends Controller {
    * @internal param mixed $id The entity id*   The entity id
    *
    */
-  private function createDeleteForm(Feed $feed) {
-    return $this->createFormBuilder()
-      ->setAction($this->generateUrl('admin_feed_delete', ['id' => $feed->getId()]))
-      ->setMethod('DELETE')
-      ->getForm();
-  }
+    private function createDeleteForm(Feed $feed)
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl('admin_feed_delete', ['id' => $feed->getId()]))
+        ->setMethod('DELETE')
+        ->getForm();
+    }
 
   /**
    * @Route("/{id}/preview", name="admin_feed_preview")
@@ -244,13 +255,14 @@ class FeedController extends Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
    */
-  public function previewAction(Feed $feed) {
-    $previewer = $this->get('feed_previewer');
-    $previewer->read($feed);
-    $events = $previewer->getEvents();
+    public function previewAction(Feed $feed)
+    {
+        $previewer = $this->get('feed_previewer');
+        $previewer->read($feed);
+        $events = $previewer->getEvents();
 
-    return new JsonResponse($events);
-  }
+        return new JsonResponse($events);
+    }
 
   /**
    * Validate feed data.
@@ -263,17 +275,18 @@ class FeedController extends Controller {
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
    */
-  public function validateAction(Feed $feed) {
-    $validator = $this->get('feed_validator');
-    $errors = $validator->validate($feed);
-    $events = $validator->getEvents();
+    public function validateAction(Feed $feed)
+    {
+        $validator = $this->get('feed_validator');
+        $errors = $validator->validate($feed);
+        $events = $validator->getEvents();
 
-    return [
-      'feed' => $feed,
-      'events' => $events,
-      'errors' => $errors,
-    ];
-  }
+        return [
+        'feed' => $feed,
+        'events' => $events,
+        'errors' => $errors,
+        ];
+    }
 
   /**
    * @Route("/{id}/easyadmin", name="admin_feed_easyadmin_edit")
@@ -282,43 +295,42 @@ class FeedController extends Controller {
    *
    * @Security("has_role('ROLE_FEED_EDITOR')")
    */
-  public function easyadminEditAction(Request $request, Feed $feed) {
-    $action = $request->get('action');
-    $redirect = $request->get('redirect');
+    public function easyadminEditAction(Request $request, Feed $feed)
+    {
+        $action = $request->get('action');
+        $redirect = $request->get('redirect');
 
-    $manager = $this->get('feed_manager');
+        $manager = $this->get('feed_manager');
 
-    if ($request->getMethod() === 'POST') {
-      switch ($action) {
-        case 'enable':
-          if ($manager->enable($feed)) {
-            $translator = $this->container->get('translator');
-            $message = $translator->trans('Feed %feed_name% enabled', ['%feed_name%' => $feed->getName()]);
-            $this->addFlash('info', $message);
-          }
-          break;
+        if ($request->getMethod() === 'POST') {
+            switch ($action) {
+                case 'enable':
+                    if ($manager->enable($feed)) {
+                        $translator = $this->container->get('translator');
+                        $message = $translator->trans('Feed %feed_name% enabled', ['%feed_name%' => $feed->getName()]);
+                        $this->addFlash('info', $message);
+                    }
+                    break;
 
-        case 'disable':
-          if ($manager->disable($feed)) {
-            $translator = $this->container->get('translator');
-            $message = $translator->trans('Feed %feed_name% disabled', ['%feed_name%' => $feed->getName()]);
-            $this->addFlash('info', $message);
-          }
-          break;
-      }
+                case 'disable':
+                    if ($manager->disable($feed)) {
+                        $translator = $this->container->get('translator');
+                        $message = $translator->trans('Feed %feed_name% disabled', ['%feed_name%' => $feed->getName()]);
+                        $this->addFlash('info', $message);
+                    }
+                    break;
+            }
+        } elseif ($request->getMethod() === 'GET') {
+        }
+
+        if ($redirect) {
+            return $this->redirect($redirect);
+        }
+
+        return $this->redirectToRoute('easyadmin', array(
+        'action' => 'edit',
+        'id' => $feed->getId(),
+        'entity' => 'Feed',
+        ));
     }
-    elseif ($request->getMethod() === 'GET') {
-    }
-
-    if ($redirect) {
-      return $this->redirect($redirect);
-    }
-
-    return $this->redirectToRoute('easyadmin', array(
-      'action' => 'edit',
-      'id' => $feed->getId(),
-      'entity' => 'Feed',
-    ));
-  }
-
 }

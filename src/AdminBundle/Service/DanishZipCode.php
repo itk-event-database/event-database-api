@@ -2,30 +2,34 @@
 
 namespace AdminBundle\Service;
 
-class DanishZipCode {
+class DanishZipCode
+{
 
-  public function getCity($zipCode) {
-    $cities = $this->getCities();
-    return isset($cities[$zipCode]) ? $cities[$zipCode] : NULL;
-  }
-
-  private function getCities() {
-    return self::$cities;
-  }
-
-  private function getZipCodes() {
-    if (self::$zipCodes === NULL) {
-      self::$zipCodes = array_flip($this->getCities());
+    public function getCity($zipCode)
+    {
+        $cities = $this->getCities();
+        return isset($cities[$zipCode]) ? $cities[$zipCode] : null;
     }
 
-    return self::$zipCodes;
-  }
+    private function getCities()
+    {
+        return self::$cities;
+    }
 
-  private static $zipCodes = NULL;
+    private function getZipCodes()
+    {
+        if (self::$zipCodes === null) {
+            self::$zipCodes = array_flip($this->getCities());
+        }
+
+        return self::$zipCodes;
+    }
+
+    private static $zipCodes = null;
 
   // http://www.postnord.dk/da/Privat/Kundeservice/postnummerkort/Sider/postnummerkort.aspx
   // http://www.postnord.dk/da/Documents/Lister/postnummerfil-excel.xls
-  private static $cities = [
+    private static $cities = [
     '0555' => 'Scanning',
     '0800' => 'Høje Taastrup',
     '0877' => 'København C',
@@ -1468,6 +1472,5 @@ class DanishZipCode {
     '950'  => 'Porkeri',
     '960'  => 'Hov',
     '970'  => 'Sumba',
-  ];
-
+    ];
 }

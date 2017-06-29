@@ -18,22 +18,24 @@ use AppBundle\Entity\UnknownTag;
  * @Route("/admin/unknown_tag")
  * @Security("has_role('ROLE_TAG_EDITOR')")
  */
-class UnknownTagController extends Controller {
+class UnknownTagController extends Controller
+{
   /**
    * @var TagManager
    */
-  private $tagManager;
+    private $tagManager;
 
   /**
    *
    */
-  private function getTagManager() {
-    if ($this->tagManager === NULL) {
-      $this->tagManager = $this->get('unknown_tag_manager');
-    }
+    private function getTagManager()
+    {
+        if ($this->tagManager === null) {
+            $this->tagManager = $this->get('unknown_tag_manager');
+        }
 
-    return $this->tagManager;
-  }
+        return $this->tagManager;
+    }
 
   /**
    * Lists all UnknownTag entities.
@@ -44,13 +46,14 @@ class UnknownTagController extends Controller {
    *
    * @Template()
    */
-  public function indexAction() {
-    $tags = $this->getTagManager()->loadTags();
+    public function indexAction()
+    {
+        $tags = $this->getTagManager()->loadTags();
 
-    return [
-      'tags' => $tags,
-    ];
-  }
+        return [
+        'tags' => $tags,
+        ];
+    }
 
   /**
    * Creates a new UnknownTag entity.
@@ -63,30 +66,31 @@ class UnknownTagController extends Controller {
    * @param \Symfony\Component\HttpFoundation\Request $request
    * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
    */
-  public function createAction(Request $request) {
-    $newTag = new UnknownTag();
-    $form = $this->createCreateForm($newTag);
-    $form->handleRequest($request);
+    public function createAction(Request $request)
+    {
+        $newTag = new UnknownTag();
+        $form = $this->createCreateForm($newTag);
+        $form->handleRequest($request);
 
-    if ($form->isValid()) {
-      $tags = $this->getTagManager()->loadOrCreateTags([$newTag->getName()]);
-      if ($tags) {
-        $tag = $tags[0];
-        $tag->setTag($newTag->getTag());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($tag);
-        $em->flush();
+        if ($form->isValid()) {
+            $tags = $this->getTagManager()->loadOrCreateTags([$newTag->getName()]);
+            if ($tags) {
+                $tag = $tags[0];
+                $tag->setTag($newTag->getTag());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($tag);
+                $em->flush();
 
-        $this->addFlash('success', 'UnknownTag ' . $tag->getName() . ' created');
-        return $this->redirectToRoute('admin_unknown_tag_show', ['id' => $tag->getId()]);
-      }
+                $this->addFlash('success', 'UnknownTag ' . $tag->getName() . ' created');
+                return $this->redirectToRoute('admin_unknown_tag_show', ['id' => $tag->getId()]);
+            }
+        }
+
+        return [
+        'tag' => $newTag,
+        'form' => $form->createView(),
+        ];
     }
-
-    return [
-      'tag' => $newTag,
-      'form' => $form->createView(),
-    ];
-  }
 
   /**
    * Creates a form to create a UnknownTag entity.
@@ -96,14 +100,15 @@ class UnknownTagController extends Controller {
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createCreateForm(UnknownTag $tag) {
-    $form = $this->createForm('AdminBundle\Form\UnknownTagType', $tag, [
-      'action' => $this->generateUrl('admin_unknown_tag_create'),
-      'method' => 'POST',
-    ]);
+    private function createCreateForm(UnknownTag $tag)
+    {
+        $form = $this->createForm('AdminBundle\Form\UnknownTagType', $tag, [
+        'action' => $this->generateUrl('admin_unknown_tag_create'),
+        'method' => 'POST',
+        ]);
 
-    return $form;
-  }
+        return $form;
+    }
 
   /**
    * Displays a form to create a new UnknownTag entity.
@@ -114,15 +119,16 @@ class UnknownTagController extends Controller {
    *
    * @Template()
    */
-  public function newAction() {
-    $tag = new UnknownTag();
-    $form = $this->createCreateForm($tag);
+    public function newAction()
+    {
+        $tag = new UnknownTag();
+        $form = $this->createCreateForm($tag);
 
-    return [
-      'tag' => $tag,
-      'form'   => $form->createView(),
-    ];
-  }
+        return [
+        'tag' => $tag,
+        'form'   => $form->createView(),
+        ];
+    }
 
   /**
    * Finds and displays a UnknownTag entity.
@@ -135,14 +141,15 @@ class UnknownTagController extends Controller {
    * @param \AppBundle\Entity\UnknownTag $tag
    * @return array
    */
-  public function showAction(UnknownTag $tag) {
-    $deleteForm = $this->createDeleteForm($tag);
+    public function showAction(UnknownTag $tag)
+    {
+        $deleteForm = $this->createDeleteForm($tag);
 
-    return [
-      'tag' => $tag,
-      'delete_form' => $deleteForm->createView(),
-    ];
-  }
+        return [
+        'tag' => $tag,
+        'delete_form' => $deleteForm->createView(),
+        ];
+    }
 
   /**
    * Displays a form to edit an existing UnknownTag entity.
@@ -155,16 +162,17 @@ class UnknownTagController extends Controller {
    * @param \AppBundle\Entity\UnknownTag $tag
    * @return array
    */
-  public function editAction(UnknownTag $tag) {
-    $editForm = $this->createEditForm($tag);
-    $deleteForm = $this->createDeleteForm($tag);
+    public function editAction(UnknownTag $tag)
+    {
+        $editForm = $this->createEditForm($tag);
+        $deleteForm = $this->createDeleteForm($tag);
 
-    return [
-      'tag'      => $tag,
-      'edit_form'   => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    ];
-  }
+        return [
+        'tag'      => $tag,
+        'edit_form'   => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ];
+    }
 
   /**
    * Creates a form to edit a UnknownTag entity.
@@ -174,14 +182,15 @@ class UnknownTagController extends Controller {
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createEditForm(UnknownTag $tag) {
-    $form = $this->createForm('AdminBundle\Form\UnknownTagType', $tag, [
-      'action' => $this->generateUrl('admin_unknown_tag_update', ['id' => $tag->getId()]),
-      'method' => 'PUT',
-    ]);
+    private function createEditForm(UnknownTag $tag)
+    {
+        $form = $this->createForm('AdminBundle\Form\UnknownTagType', $tag, [
+        'action' => $this->generateUrl('admin_unknown_tag_update', ['id' => $tag->getId()]),
+        'method' => 'PUT',
+        ]);
 
-    return $form;
-  }
+        return $form;
+    }
 
   /**
    * Edits an existing UnknownTag entity.
@@ -195,26 +204,27 @@ class UnknownTagController extends Controller {
    * @param \AppBundle\Entity\UnknownTag $tag
    * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
    */
-  public function updateAction(Request $request, UnknownTag $tag) {
-    $deleteForm = $this->createDeleteForm($tag);
-    $editForm = $this->createEditForm($tag);
-    $editForm->handleRequest($request);
+    public function updateAction(Request $request, UnknownTag $tag)
+    {
+        $deleteForm = $this->createDeleteForm($tag);
+        $editForm = $this->createEditForm($tag);
+        $editForm->handleRequest($request);
 
-    if ($editForm->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->flush();
+        if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
 
-      $this->addFlash('success', 'UnknownTag ' . $tag->getName() . ' updated');
+            $this->addFlash('success', 'UnknownTag ' . $tag->getName() . ' updated');
 
-      return $this->redirectToRoute('admin_unknown_tag');
+            return $this->redirectToRoute('admin_unknown_tag');
+        }
+
+        return [
+        'tag'      => $tag,
+        'edit_form'   => $editForm->createView(),
+        'delete_form' => $deleteForm->createView(),
+        ];
     }
-
-    return [
-      'tag'      => $tag,
-      'edit_form'   => $editForm->createView(),
-      'delete_form' => $deleteForm->createView(),
-    ];
-  }
 
   /**
    * Deletes a UnknownTag entity.
@@ -226,21 +236,21 @@ class UnknownTagController extends Controller {
    * @param \AppBundle\Entity\UnknownTag $tag
    * @return \Symfony\Component\HttpFoundation\RedirectResponse
    */
-  public function deleteAction(Request $request, UnknownTag $tag) {
-    $form = $this->createDeleteForm($tag);
-    $form->handleRequest($request);
+    public function deleteAction(Request $request, UnknownTag $tag)
+    {
+        $form = $this->createDeleteForm($tag);
+        $form->handleRequest($request);
 
-    if ($form->isValid()) {
-      if ($this->getTagManager()->deleteTag($tag)) {
-        $this->addFlash('success', 'UnknownTag ' . $tag->getName() . ' deleted');
-      }
-      else {
-        $this->addFlash('error', 'Error deleting tag ' . $tag->getName());
-      }
+        if ($form->isValid()) {
+            if ($this->getTagManager()->deleteTag($tag)) {
+                $this->addFlash('success', 'UnknownTag ' . $tag->getName() . ' deleted');
+            } else {
+                $this->addFlash('error', 'Error deleting tag ' . $tag->getName());
+            }
+        }
+
+        return $this->redirectToRoute('admin_unknown_tag');
     }
-
-    return $this->redirectToRoute('admin_unknown_tag');
-  }
 
   /**
    * Creates a form to delete a UnknownTag entity.
@@ -250,11 +260,11 @@ class UnknownTagController extends Controller {
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createDeleteForm(UnknownTag $tag) {
-    return $this->createFormBuilder()
-      ->setAction($this->generateUrl('admin_unknown_tag_delete', ['id' => $tag->getId()]))
-      ->setMethod('DELETE')
-      ->getForm();
-  }
-
+    private function createDeleteForm(UnknownTag $tag)
+    {
+        return $this->createFormBuilder()
+        ->setAction($this->generateUrl('admin_unknown_tag_delete', ['id' => $tag->getId()]))
+        ->setMethod('DELETE')
+        ->getForm();
+    }
 }

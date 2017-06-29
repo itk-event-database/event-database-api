@@ -13,14 +13,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-trait BlameableEntity {
+trait BlameableEntity
+{
   /**
    * @var User
    * @Gedmo\Blameable(on="create")
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    * @ORM\JoinColumn(referencedColumnName="id")
    */
-  protected $createdBy;
+    protected $createdBy;
 
   /**
    * @var User
@@ -28,7 +29,7 @@ trait BlameableEntity {
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    * @ORM\JoinColumn(referencedColumnName="id")
    */
-  protected $updatedBy;
+    protected $updatedBy;
 
   /**
    * Sets createdBy.
@@ -37,20 +38,22 @@ trait BlameableEntity {
    *
    * @return $this
    */
-  public function setCreatedBy(User $createdBy) {
-    $this->createdBy = $createdBy;
+    public function setCreatedBy(User $createdBy)
+    {
+        $this->createdBy = $createdBy;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Returns createdBy.
    *
    * @return User
    */
-  public function getCreatedBy() {
-    return $this->createdBy;
-  }
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
 
   /**
    * Sets updatedBy.
@@ -59,19 +62,20 @@ trait BlameableEntity {
    *
    * @return $this
    */
-  public function setUpdatedBy(User $updatedBy) {
-    $this->updatedBy = $updatedBy;
+    public function setUpdatedBy(User $updatedBy)
+    {
+        $this->updatedBy = $updatedBy;
 
-    return $this;
-  }
+        return $this;
+    }
 
   /**
    * Returns updatedBy.
    *
    * @return User
    */
-  public function getUpdatedBy() {
-    return $this->updatedBy;
-  }
-
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
 }

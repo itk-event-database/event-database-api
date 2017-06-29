@@ -9,21 +9,24 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 /**
  *
  */
-class PriceRangeType extends AbstractType {
+class PriceRangeType extends AbstractType
+{
 
-  public function getParent() {
-    return TextType::class;
-  }
+    public function getParent()
+    {
+        return TextType::class;
+    }
 
   /**
    * @return string
    */
-  public function getName() {
-    return 'adminbundle_pricerange';
-  }
+    public function getName()
+    {
+        return 'adminbundle_pricerange';
+    }
 
-  public function getBlockPrefix() {
-    return $this->getName();
-  }
-
+    public function getBlockPrefix()
+    {
+        return $this->getName();
+    }
 }
