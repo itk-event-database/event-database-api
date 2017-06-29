@@ -59,6 +59,11 @@ class FeedReader implements Controller {
   protected $feed;
 
   /**
+   * @var array
+   */
+  protected $feedEventIds;
+
+  /**
    * @var OutputInterface
    */
   protected $output;
@@ -100,6 +105,7 @@ class FeedReader implements Controller {
    */
   public function read(Feed $feed, User $user = NULL, bool $cleanUpEvents = FALSE) {
     $this->feed = $feed;
+    $this->feedEventIds = [];
     if (!$user) {
       $user = $this->feed->getUser();
     }
@@ -230,16 +236,23 @@ class FeedReader implements Controller {
    * @param array $data
    */
   public function createEvent(array $data) {
-    $data['feed'] = $this->feed;
-    $data['feed_event_id'] = $data['id'];
+    if (isset($data['id'])) {
+      $eventId = $data['id'];
+      if (isset($this->feedEventIds[$eventId])) {
+        $status = 'duplicated';
+        $this->writeln(sprintf('%s (#%d): Event %s: %s', $this->feed->getName(), $this->feed->getId(), $status, $eventId));
+        return;
+      }
+      $this->feedEventIds[$eventId] = $eventId;
+    }
     $event = $this->eventImporter->import($data);
     if ($event) {
-      $status = ($event->getUpdatedAt() > $event->getCreatedAt()) ? 'updated' : 'created';
-      $this->writeln(sprintf('% 8d %s: Event %s: %s (%s)', $this->feed->getId(), $this->feed->getName(), $status, $event->getName(), $event->getFeedEventId()));
+      $status = $event->getSkipImport() ? 'not changed' : ($event->getUpdatedAt() > $event->getCreatedAt() ? 'updated' : 'created');
+      $this->writeln(sprintf('%s (#%d): Event %s: %s (%s)', $this->feed->getName(), $this->feed->getId(), $status, $event->getName(), $event->getFeedEventId()));
       $this->keepEvent($event);
     }
     else {
-      $this->writeln(sprintf('Cannot import event: id: %s; feed: %s', var_export($data['id'], TRUE), $this->feed->getName()));
+      $this->writeln(sprintf('%s (#%d): Cannot import event: %s', $this->feed->getName(), $this->feed->getId(), $data['id']));
     }
   }
 

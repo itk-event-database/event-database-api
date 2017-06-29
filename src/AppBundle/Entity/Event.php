@@ -41,6 +41,14 @@ class Event extends Thing implements CustomTaggable, Blameable {
   use SoftDeleteableEntity;
 
   /**
+   * @var \DateTime
+   * @Gedmo\Timestampable(on="update")
+   * @ORM\Column(type="datetime")
+   * @Groups({"event_read"})
+   */
+  protected $updatedAt;
+
+  /**
    * @var int
    *
    * @ORM\Column(type="integer")
@@ -129,6 +137,13 @@ class Event extends Thing implements CustomTaggable, Blameable {
    * @ORM\Column(type="string", length=255, nullable=true)
    */
   private $feedEventId;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(type="string", length=255, nullable=true)
+   */
+  private $feedEventHash;
 
   /**
    * Sets id.
@@ -237,6 +252,22 @@ class Event extends Thing implements CustomTaggable, Blameable {
    */
   public function getFeedEventId() {
     return $this->feedEventId;
+  }
+
+  /**
+   *
+   */
+  public function setFeedEventHash($feedEventHash) {
+    $this->feedEventHash = $feedEventHash;
+
+    return $this;
+  }
+
+  /**
+   *
+   */
+  public function getFeedEventHash() {
+    return $this->feedEventHash;
   }
 
   /**

@@ -53,7 +53,7 @@ class EventFactory extends EntityFactory {
    */
   public function get(array $data) {
     $entity = $this->getEntity($data);
-    if ($entity) {
+    if ($entity && !$entity->getSkipImport()) {
       $this->setValues($entity, $data);
       $this->persist($entity);
       $this->flush();
@@ -67,11 +67,9 @@ class EventFactory extends EntityFactory {
    * @return \AppBundle\Entity\Event|object
    */
   private function getEntity(array $data) {
-    $feed = isset($data['feed']) ? $data['feed'] : NULL;
-    $feedEventId = isset($data['feed_event_id']) ? $data['feed_event_id'] : NULL;
-    $id = isset($data['id']) ? $data['id'] : uniqid();
+    $feedEventId = isset($data['id']) ? $data['id'] : NULL;
 
-    if (!$feedEventId) {
+    if (!$this->feed || !$feedEventId) {
       return NULL;
     }
 
@@ -84,21 +82,35 @@ class EventFactory extends EntityFactory {
     }
 
     $event = $this->em->getRepository('AppBundle:Event')->findOneBy([
-      'feed' => $feed,
+      'feed' => $this->feed,
       'feedEventId' => $feedEventId,
     ]);
 
-    if ($event === NULL) {
-      $event = new Event();
-      $event->setFeedEventId($id);
-    }
-
     if ($hasSoftdeleteable) {
-      $event->setDeletedAt(NULL);
       $filters->enable('softdeleteable');
     }
 
+    if ($event === NULL) {
+      $event = new Event();
+      $event->setFeed($this->feed);
+      $event->setFeedEventId($feedEventId);
+    }
+
+    $hash = $this->getEventHash($data);
+
+    // Skip importing the event, if it has not changed and has not been deleted.
+    if ($hash === $event->getFeedEventHash() && $event->getDeletedAt() === null) {
+      $event->setSkipImport(TRUE);
+    }
+
+    $event->setFeedEventHash($hash)
+      ->setDeletedAt(NULL);
+
     return $event;
+  }
+
+  private function getEventHash(array $data) {
+    return md5(json_encode($data));
   }
 
   /**
