@@ -44,7 +44,9 @@ class EventImporter
     public function setFeed(Feed $feed)
     {
         $this->feed = $feed;
-        $this->eventFactory->setFeed($feed);
+        if ($this->eventFactory) {
+            $this->eventFactory->setFeed($feed);
+        }
 
         return $this;
     }
