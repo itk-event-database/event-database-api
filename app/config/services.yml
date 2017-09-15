@@ -85,7 +85,13 @@ services:
 
     resource.event.search_filter:
         parent:    "api_platform.doctrine.orm.search_filter"
-        arguments: [ { name: "partial", description: "partial", langcode: "exact", occurrences.place.name: "partial", occurrences.place.id: "exact" } ]
+        arguments:
+            - name: "partial"
+              description: "partial"
+              langcode: "exact"
+              occurrences.place.name: "partial"
+              occurrences.place.id: "exact"
+              organizer.id: "exact"
         tags:      [ { name: 'api_platform.filter', id: 'event.search' } ]
 
     resource.event.search_owner_filter:
