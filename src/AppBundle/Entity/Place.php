@@ -142,7 +142,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var number The latitude of the location
    *
-   * @Groups({"place_read", "occurrence_read", "place_write"})
+   * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
    * @ORM\Column(nullable=true, type="float")
    */
     private $latitude;
@@ -150,7 +150,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var number The longitude of the location
    *
-   * @Groups({"place_read", "occurrence_read", "place_write"})
+   * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
    * @ORM\Column(nullable=true, type="float")
    */
     private $longitude;
