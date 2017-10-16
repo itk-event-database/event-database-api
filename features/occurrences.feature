@@ -110,6 +110,16 @@ Feature: Occurrences
     When I send a "GET" request to "/api/occurrences?startDate[after]=@0&event.name=Another event"
     And the JSON node "hydra:member" should have 0 elements
 
+  Scenario: Filter by created by
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy=2"
+    And the JSON node "hydra:member" should have 2 elements
+
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy[]=2&event.createdBy[]=87"
+    And the JSON node "hydra:member" should have 2 elements
+
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy=87"
+    And the JSON node "hydra:member" should have 0 elements
+
   Scenario: Delete event
     When I authenticate as "api-write"
     And I send a "DELETE" request to "/api/events/1"

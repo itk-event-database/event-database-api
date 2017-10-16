@@ -89,6 +89,7 @@ services:
             - name: "partial"
               description: "partial"
               langcode: "exact"
+              createdBy: "exact"
               occurrences.place.name: "partial"
               occurrences.place.id: "exact"
               organizer.id: "exact"
@@ -159,6 +160,8 @@ services:
         arguments:
             - place.name: "partial"
               event.name: "partial"
+              event.organizer.id: "exact"
+              event.createdBy: "exact"
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search' } ]
 
     resource.occurrence.search_date_filter:
