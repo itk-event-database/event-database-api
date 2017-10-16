@@ -96,6 +96,20 @@ Feature: Occurrences
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
+  Scenario: Filter by event name
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.name=Repeating+event"
+    And the JSON node "hydra:member" should have 2 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
+
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.name=eat"
+    And the JSON node "hydra:member" should have 2 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
+
+    When I send a "GET" request to "/api/occurrences?startDate[after]=@0&event.name=Another event"
+    And the JSON node "hydra:member" should have 0 elements
+
   Scenario: Delete event
     When I authenticate as "api-write"
     And I send a "DELETE" request to "/api/events/1"
