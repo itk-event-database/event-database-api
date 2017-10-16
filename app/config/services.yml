@@ -89,6 +89,7 @@ services:
             - name: "partial"
               description: "partial"
               langcode: "exact"
+              createdBy: "exact"
               occurrences.place.name: "partial"
               occurrences.place.id: "exact"
               organizer.id: "exact"
@@ -156,7 +157,11 @@ services:
 
     resource.occurrence.search_filter:
         parent:    "api_platform.doctrine.orm.search_filter"
-        arguments: [ { place.name: "partial" } ]
+        arguments:
+            - place.name: "partial"
+              event.name: "partial"
+              event.organizer.id: "exact"
+              event.createdBy: "exact"
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search' } ]
 
     resource.occurrence.search_date_filter:
