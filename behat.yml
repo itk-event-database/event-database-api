@@ -1,4 +1,6 @@
 default:
+  formatters:
+    progress: true
   calls:
     error_reporting: 16383 # E_ALL & ~E_USER_DREPRECATED
   suites:
@@ -19,3 +21,9 @@ default:
         default:
           symfony2: ~
     Behatch\Extension: ~
+circleci:
+  extensions:
+    Behat\Symfony2Extension:
+      kernel:
+        env: "circleci"
+
