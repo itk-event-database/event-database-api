@@ -11,7 +11,8 @@
 						–
 						<span class="end-time">{{ occurrence.endDate | date('Y-m-d H:i') }}</span>
 					{%- endif -%};
-					<span class="place">{{ occurrence.place.name }}</span>
+					<span class="place">{{ occurrence.place.name }}</span>{{ occurrence.room ? ' - ' }}
+					<span class="room">{{ occurrence.room }}</span>
 				</li>
 			{% endfor %}
 		</ol>

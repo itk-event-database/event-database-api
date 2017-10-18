@@ -29,85 +29,94 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Occurrence extends Entity
 {
-  /**
-   * @var int
-   *
-   * @ORM\Column(type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences")
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   */
+    /**
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences")
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     */
     protected $event;
 
-  /**
-   * @var \DateTime
-   * @ORM\Column(type="datetime", nullable=true)
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   */
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     */
     protected $startDate;
 
-  /**
-   * @var \DateTime
-   * @ORM\Column(type="datetime", nullable=true)
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   */
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     */
     protected $endDate;
 
-  /**
-   * @var Place
-   * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences")
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   */
+    /**
+     * @var Place
+     * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences")
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     */
     protected $place;
 
-  /**
-   * @var string The range of prices for tickets.
-   *
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   * @ORM\Column(nullable=true)
-   * @Assert\Type(type="string")
-   */
+    /**
+     * @var string The room the event is held in.
+     *
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     * @ORM\Column(nullable=true)
+     * @Assert\Type(type="string")
+     */
+    private $room;
+
+    /**
+     * @var string The range of prices for tickets.
+     *
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     * @ORM\Column(nullable=true)
+     * @Assert\Type(type="string")
+     */
     private $ticketPriceRange;
 
-  /**
-   * @var string The status of the event
-   *
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   * @ORM\Column(nullable=true)
-   * @Assert\Type(type="string")
-   */
+    /**
+     * @var string The status of the event
+     *
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     * @ORM\Column(nullable=true)
+     * @Assert\Type(type="string")
+     */
     private $eventStatusText;
 
-  /**
-   * @var integer The status code of the event
-   *
-   * 0: Normal
-   * 1: Few tickets left
-   * 2: Sold out
-   * 3: Cancelled
-   * 4: Not in sale
-   * 5: Waiting
-   * 6: Moved
-   * 7: Ekstra show
-   *
-   * @Groups({"occurrence_read", "event_read", "event_write"})
-   * @ORM\Column(nullable=true)
-   * @Assert\Type(type="integer")
-   */
+    /**
+     * @var integer The status code of the event
+     *
+     * 0: Normal
+     * 1: Few tickets left
+     * 2: Sold out
+     * 3: Cancelled
+     * 4: Not in sale
+     * 5: Waiting
+     * 6: Moved
+     * 7: Ekstra show
+     *
+     * @Groups({"occurrence_read", "event_read", "event_write"})
+     * @ORM\Column(nullable=true)
+     * @Assert\Type(type="integer")
+     */
     private $eventSalesStatus;
 
-  /**
-   * Sets id.
-   *
-   * @param int $id
-   *
-   * @return $this
-   */
+    /**
+     * Sets id.
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -115,19 +124,19 @@ class Occurrence extends Entity
         return $this;
     }
 
-  /**
-   * Gets id.
-   *
-   * @return int
-   */
+    /**
+     * Gets id.
+     *
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function setEvent(Event $event = null)
     {
         $this->event = $event;
@@ -135,21 +144,21 @@ class Occurrence extends Entity
         return $this;
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function getEvent()
     {
         return $this->event;
     }
 
-  /**
-   * Sets startDate.
-   *
-   * @param \DateTime $startDate
-   *
-   * @return $this
-   */
+    /**
+     * Sets startDate.
+     *
+     * @param \DateTime $startDate
+     *
+     * @return $this
+     */
     public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
@@ -157,23 +166,23 @@ class Occurrence extends Entity
         return $this;
     }
 
-  /**
-   * Gets startDate.
-   *
-   * @return \DateTime
-   */
+    /**
+     * Gets startDate.
+     *
+     * @return \DateTime
+     */
     public function getStartDate()
     {
         return $this->startDate;
     }
 
-  /**
-   * Sets endDate.
-   *
-   * @param \DateTime $endDate
-   *
-   * @return $this
-   */
+    /**
+     * Sets endDate.
+     *
+     * @param \DateTime $endDate
+     *
+     * @return $this
+     */
     public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
@@ -181,19 +190,19 @@ class Occurrence extends Entity
         return $this;
     }
 
-  /**
-   * Gets endDate.
-   *
-   * @return \DateTime
-   */
+    /**
+     * Gets endDate.
+     *
+     * @return \DateTime
+     */
     public function getEndDate()
     {
         return $this->endDate;
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function setPlace($place)
     {
         $this->place = $place;
@@ -201,65 +210,65 @@ class Occurrence extends Entity
         return $this;
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function getPlace()
     {
         return $this->place;
     }
 
-  /**
-   * Sets venue.
-   *
-   * @param string $venue
-   *
-   * @return $this
-   */
-    public function setVenue($venue)
+    /**
+     * Sets room.
+     *
+     * @param string $room
+     *
+     * @return $this
+     */
+    public function setRoom($room)
     {
-        $this->venue = $venue;
+        $this->room = $room;
 
         return $this;
     }
 
-  /**
-   * Gets venue.
-   *
-   * @return string
-   */
-    public function getVenue()
+    /**
+     * Gets room.
+     *
+     * @return string
+     */
+    public function getRoom()
     {
-        return $this->venue;
+        return $this->room;
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getTicketPriceRange()
     {
         return $this->ticketPriceRange;
     }
 
-  /**
-   * @param string $ticketPriceRange
-   */
+    /**
+     * @param string $ticketPriceRange
+     */
     public function setTicketPriceRange($ticketPriceRange)
     {
         $this->ticketPriceRange = $ticketPriceRange;
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getEventStatusText()
     {
         return $this->eventStatusText;
     }
 
-  /**
-   * @param string $eventStatusText
-   */
+    /**
+     * @param string $eventStatusText
+     */
     public function setEventStatusText($eventStatusText)
     {
         $this->eventStatusText = $eventStatusText;
@@ -268,7 +277,8 @@ class Occurrence extends Entity
     public function __toString()
     {
         $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
-        $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
-        return $start . ' - ' . $end . ($this->getPlace() ? ' @ ' . $this->getPlace()->getName() : '');
+        $end   = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
+
+        return $start.' - '.$end.($this->getPlace() ? ' @ '.$this->getPlace()->getName() : '');
     }
 }
