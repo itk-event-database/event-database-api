@@ -3,9 +3,8 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use FPN\TagBundle\Entity\Tag as BaseTag;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * AppBundle\Entity\Tag.
@@ -30,24 +29,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tag extends BaseTag
 {
-  /**
-   * @var integer $id
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
-  /**
-   * @var string
-   * @Groups({"read"})
-   */
+    /**
+     * @var string
+     * @Groups({"read"})
+     */
     protected $name;
 
-  /**
-   * @var Tagging
-   * @ORM\OneToMany(targetEntity="Tagging", mappedBy="tag", fetch="EAGER")
-   **/
+    /**
+     * @var Tagging
+     * @ORM\OneToMany(targetEntity="Tagging", mappedBy="tag", fetch="EAGER")
+     **/
     protected $tagging;
 }
