@@ -13,30 +13,22 @@ use FPN\TagBundle\Util\SlugifierInterface;
  */
 class TagManager extends BaseTagManager
 {
-  /**
-   * @var TagNormalizerInterface
-   */
+    /**
+     * @var TagNormalizerInterface
+     */
     private $tagNormalizer;
 
-  /**
-   *
-   */
-    public function __construct(EntityManager $em, $tagClass, $taggingClass, SlugifierInterface $slugifier)
-    {
-        parent::__construct($em, $tagClass, $taggingClass, $slugifier);
-    }
-
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function setTagNormalizer(TagNormalizerInterface $tagNormalizer = null)
     {
         $this->tagNormalizer = $tagNormalizer;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function loadOrCreateTags(array $names)
     {
         if ($this->tagNormalizer) {
@@ -58,54 +50,53 @@ class TagManager extends BaseTagManager
                 return $tag->getName();
             }, $tags));
             if ($customTags) {
-                  $taggable->setCustomTags($customTags);
+                $taggable->setCustomTags($customTags);
             }
         }
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function loadTags(array $names = null)
     {
         $builder = $this->em->createQueryBuilder();
         $builder
-        ->select('t')
-        ->from($this->tagClass, 't')
-        ->orderBy('t.name');
+            ->select('t')
+            ->from($this->tagClass, 't')
+            ->orderBy('t.name');
 
         if ($names) {
             $builder->where($builder->expr()->in('t.name', $names));
         }
 
         $tags = $builder
-        ->getQuery()
-        ->getResult();
+            ->getQuery()
+            ->getResult();
 
         return $tags;
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function createTag($name)
     {
         return parent::createTag($name);
     }
 
-  /**
-   *
-   */
+    /**
+     *
+     */
     public function deleteTag($tag)
     {
         // Delete relations to entities.
         $builder = $this->em->createQueryBuilder();
         $builder
-        ->delete($this->taggingClass, 't')
-        ->where($builder->expr()->eq('t.tag', $tag->getId()))
-        ->getQuery()
-        ->execute();
-        ;
+            ->delete($this->taggingClass, 't')
+            ->where($builder->expr()->eq('t.tag', $tag->getId()))
+            ->getQuery()
+            ->execute();
 
         // Delete tag.
         $this->em->remove($tag);
