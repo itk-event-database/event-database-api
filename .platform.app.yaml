@@ -68,4 +68,4 @@ crons:
     feed_reader:
         # Read feeds once every hour
         spec: '0 * * * *'
-        cmd: 'SYMFONY_ENV=prod bin/console events:feeds:read'
+        cmd: 'SYMFONY_ENV=prod bin/read-all-feeds'

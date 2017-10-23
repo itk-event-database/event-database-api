@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+
+# Read all feeds one by one to isoloate any fatal errors thrown when reading a feed.
+for id in $($dir/console events:feed:read --list | grep '^id:' | sed 's/^id: *//'); do
+    $dir/console events:feed:read --id=$id
+done
