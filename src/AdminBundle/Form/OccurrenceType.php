@@ -45,7 +45,8 @@ class OccurrenceType extends AbstractType
         ->add('place', EasyAdminAutocompleteType::class, [
         'class' => Place::class,
         'required' => true,
-        ]);
+        ])
+        ->add('room');
 
         $builder->add('ticketPriceRange', PriceRangeType::class, [
         'required' => true,
