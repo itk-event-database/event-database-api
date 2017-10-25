@@ -159,6 +159,7 @@ services:
         parent:    "api_platform.doctrine.orm.search_filter"
         arguments:
             - place.name: "partial"
+              place.id: "exact"
               event.name: "partial"
               event.organizer.id: "exact"
               event.createdBy: "exact"
