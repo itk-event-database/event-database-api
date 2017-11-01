@@ -36,7 +36,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer
     use ContextTrait;
     use JsonLdContextTrait;
 
-    const FORMAT = 'jsonld';
+    const FORMATS = ['json', 'jsonld', 'xml'];
 
     private $resourceMetadataFactory;
     private $contextBuilder;
@@ -75,7 +75,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer
    */
     public function supportsNormalization($data, $format = null)
     {
-        return self::FORMAT === $format && parent::supportsNormalization($data, $format);
+        return in_array($format, self::FORMATS) && parent::supportsNormalization($data, $format);
     }
 
   /**
@@ -103,7 +103,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer
    */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return self::FORMAT === $format && parent::supportsDenormalization($data, $type, $format);
+        return in_array($format, self::FORMATS) && parent::supportsDenormalization($data, $type, $format);
     }
 
   /**
