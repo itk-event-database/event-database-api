@@ -2,6 +2,7 @@
 
 namespace AdminBundle\Service;
 
+use AppBundle\Entity\Tag;
 use AppBundle\Entity\TagManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -36,7 +37,13 @@ class TagNormalizer implements TagNormalizerInterface
    */
     public function normalize(array $names)
     {
-        $names = array_map('trim', $names);
+        $em = $this->container->get('doctrine')->getManager();
+        $metadata = $em->getClassMetadata(Tag::class);
+        $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
+            ? (int)$metadata->fieldMappings['name']['length'] : 50;
+        $names = array_map(function ($name) use ($maxNameLength) {
+            return substr(trim($name), 0, $maxNameLength);
+        }, $names);
         $tagManager = $this->getTagManager();
         $tags = $tagManager->loadTags($names);
 
