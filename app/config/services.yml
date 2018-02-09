@@ -74,6 +74,12 @@ services:
         arguments:  [ "@doctrine", "@request_stack", "%api_platform.collection.order_parameter_name%", "@?logger" ]
         public:     false
 
+    app_bundle.doctrine.orm.published_filter:
+        class:      AppBundle\Filter\PublishedFilter
+        arguments:
+            - "@doctrine"
+            - "@request_stack"
+
     resource.event.order_filter:
         parent:    "app_bundle.doctrine.orm.order_filter"
         arguments:
@@ -103,10 +109,7 @@ services:
         tags:      [ { name: 'api_platform.filter', id: 'event.search.owner' } ]
 
     resource.event.search_published_filter:
-        class:      AppBundle\Filter\PublishedFilter
-        arguments:
-            - "@doctrine"
-            - "@request_stack"
+        parent:    "app_bundle.doctrine.orm.published_filter"
         tags:      [ { name: 'api_platform.filter', id: 'event.search.published' } ]
 
     resource.event.search_date_filter:
@@ -174,6 +177,10 @@ services:
                   after: now,
                 null_management: include_null_after
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
+
+    resource.occurrence.search_published_filter:
+        parent:    "app_bundle.doctrine.orm.published_filter"
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.published' } ]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
