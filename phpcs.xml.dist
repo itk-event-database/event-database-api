@@ -13,5 +13,5 @@
  <!-- Check only php files -->
  <arg name="extensions" value="php"/>
 
- <rule ref="PSR2"/>
+ <rule ref="vendor/squizlabs/php_codesniffer/src/Standards/PSR2"/>
 </ruleset>
