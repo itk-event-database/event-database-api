@@ -51,7 +51,8 @@
         "sebastian/diff": "^1.4",
         "javiereguiluz/easyadmin-bundle": "^1.16",
         "vich/uploader-bundle": "^1.5",
-        "egeloen/ckeditor-bundle": "^4.0"
+        "egeloen/ckeditor-bundle": "^4.0",
+        "itk-dev/database-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -65,7 +66,8 @@
         "doctrine/data-fixtures": "^1.1",
         "hautelook/alice-bundle": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
-        "phpunit/phpunit": "^5.6"
+        "phpunit/phpunit": "^5.6",
+        "squizlabs/php_codesniffer": "^3.2"
     },
     "scripts": {
         "post-install-cmd": [
@@ -74,7 +76,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+            "@install-git-hooks"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -83,6 +86,21 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ],
+        "check-coding-standards/phpcs": [
+            "vendor/bin/phpcs --standard=phpcs.xml.dist"
+        ],
+        "check-coding-standards": [
+            "@check-coding-standards/phpcs"
+        ],
+        "fix-coding-standards/phpcs": [
+            "vendor/bin/phpcbf --standard=phpcs.xml.dist"
+        ],
+        "fix-coding-standards": [
+            "@fix-coding-standards/phpcs"
+        ],
+        "install-git-hooks": [
+            "ln -sf ../../githooks/pre-commit .git/hooks"
         ]
     },
     "extra": {
