@@ -1,0 +1,14 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body %}
+    <fieldset class="changes">
+        <legend>Changes</legend>
+
+        <dl>
+            {% for change in changes %}
+                <dt>{{ change.loggedAt|date('c') }}</dt>
+                <dd><pre>{{ change.data|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></dd>
+            {% endfor %}
+        </dl>
+    </fieldset>
+{% endblock %}
