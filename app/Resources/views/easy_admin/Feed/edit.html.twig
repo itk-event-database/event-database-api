@@ -40,6 +40,10 @@
 			</button>
 			<a class="btn btn-default" href="{{ path('admin_feed_preview', {'id': entity.id}) }}">{{ 'Preview feed data' | trans }}</a>
 			<a class="btn btn-default" href="{{ path('admin_feed_validate', {'id': entity.id}) }}">{{ 'Validate feed data' | trans }}</a>
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a class="btn btn-default" href="{{ path('admin_loggable_entity', {'entityType': 'Feed', 'id': entity.id}) }}">{{ 'Show changes' | trans }}</a>
+            {% endif %}
 		</div>
 	</div>
 {% endblock %}

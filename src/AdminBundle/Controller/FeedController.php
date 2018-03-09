@@ -271,7 +271,7 @@ class FeedController extends Controller
    *
    * @Method("GET")
    *
-   * @Template()
+   * @Template("AdminBundle:Feed:validate.html.twig")
    * @param \AdminBundle\Entity\Feed $feed
    * @return array
    */
