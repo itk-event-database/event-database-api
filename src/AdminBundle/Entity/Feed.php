@@ -3,6 +3,7 @@
 namespace AdminBundle\Entity;
 
 use AppBundle\Entity\User;
+use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use AppBundle\Traits\BlameableEntity;
@@ -15,10 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  *
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @Gedmo\Loggable
  *
  * @ORM\Entity
  */
-class Feed
+class Feed implements Loggable
 {
     use TimestampableEntity;
     use BlameableEntity;
@@ -40,12 +42,17 @@ class Feed
   /**
    * @var string
    *
+   * @Gedmo\Versioned
+   *
    * @ORM\Column(type="string", length=255)
    */
     private $name;
 
   /**
    * @var User
+   *
+   * @Gedmo\Versioned
+   *
    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
    * @ORM\JoinColumn(referencedColumnName="id")
    */
@@ -53,6 +60,8 @@ class Feed
 
   /**
    * @var string
+   *
+   * @Gedmo\Versioned
    *
    * @ORM\Column(type="json_array")
    */
@@ -68,12 +77,16 @@ class Feed
   /**
    * @var bool
    *
+   * @Gedmo\Versioned
+   *
    * @ORM\Column(type="boolean")
    */
     private $enabled = false;
 
   /**
    * @var string
+   *
+   * @Gedmo\Versioned
    *
    * @ORM\Column(type="string", length=255)
    */
