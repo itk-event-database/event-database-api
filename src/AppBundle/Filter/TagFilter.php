@@ -3,7 +3,9 @@
 namespace AppBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use AppBundle\Entity\Tag;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use DoctrineExtensions\Taggable\TagManager;
@@ -16,7 +18,7 @@ use DoctrineExtensions\Taggable\Taggable;
 class TagFilter extends AbstractFilter
 {
     private $tagManager;
-    private $name;
+    private $property;
 
   /**
    * @param ManagerRegistry $managerRegistry
@@ -30,7 +32,7 @@ class TagFilter extends AbstractFilter
         parent::__construct($managerRegistry, $requestStack, null);
 
         $this->tagManager = $tagManager;
-        $this->name = $name;
+        $this->property = $name;
     }
 
   /**
@@ -51,16 +53,23 @@ class TagFilter extends AbstractFilter
 
         $ids = null;
         foreach ($this->extractProperties($request) as $property => $values) {
-            if ($property == $this->name) {
-                $tagNames = $this->tagManager->splitTagNames($values);
+            if ($property === $this->property) {
+                $intersect = true;
+                if (is_array($values)) {
+                    $tagNames = $values;
+                    $intersect = false;
+                } else {
+                    $tagNames = $this->tagManager->splitTagNames($values);
+                }
                 foreach ($tagNames as $tagName) {
-                    // $tagRepo = $this->managerRegistry->getManager()->getRepository('DoctrineExtensions\Taggable\Entity\Tag');
-                    $tagRepo = $this->managerRegistry->getManager()->getRepository('AppBundle\Entity\Tag');
+                    $tagRepo = $this->managerRegistry->getManager()->getRepository(Tag::class);
                     $tagIds = $tagRepo->getResourceIdsForTag($taggableType, $tagName);
                     if ($ids === null) {
                         $ids = $tagIds;
-                    } else {
+                    } elseif ($intersect) {
                         $ids = array_intersect($ids, $tagIds);
+                    } else {
+                        $ids = array_merge($ids, $tagIds);
                     }
                 }
 
@@ -78,12 +87,23 @@ class TagFilter extends AbstractFilter
    */
     public function getDescription(string $resourceClass) : array
     {
-        return [
-        'tags' => [
-          'property' => $this->name,
-          'type' => 'string',
-          'required' => false,
-        ]
+        $description = [];
+        $property = $this->property;
+
+        $filterParameterNames = [
+            $property,
+            $property.'[]',
         ];
+
+        foreach ($filterParameterNames as $filterParameterName) {
+            $description[$filterParameterName] = [
+                'property' => $property,
+                'type' => 'string',
+                'required' => false,
+                'strategy' => SearchFilter::STRATEGY_EXACT,
+            ];
+        }
+
+        return $description;
     }
 }
