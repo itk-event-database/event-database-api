@@ -180,7 +180,7 @@ services:
 
     resource.occurrence.search_event_tag_filter:
         parent:    "app_bundle.doctrine.orm.tag_filter"
-        arguments: [ 'event_tags' ]
+        arguments: [ 'event.tags' ]
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.event_tag' } ]
 
     resource.occurrence.search_published_filter:
