@@ -178,6 +178,11 @@ services:
                 null_management: include_null_after
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
 
+    resource.occurrence.search_event_tag_filter:
+        parent:    "app_bundle.doctrine.orm.tag_filter"
+        arguments: [ 'event.tags' ]
+        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.event_tag' } ]
+
     resource.occurrence.search_published_filter:
         parent:    "app_bundle.doctrine.orm.published_filter"
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.published' } ]
