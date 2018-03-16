@@ -55,7 +55,7 @@ class TagFilter extends AbstractFilter
 
         $ids = null;
         foreach ($this->extractProperties($request) as $property => $values) {
-            if ($property === $this->property) {
+            if (str_replace('_', '.', $property) === $this->property) {
                 $intersect = true;
                 if (is_array($values)) {
                     $tagNames = $values;
