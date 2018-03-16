@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AdminBundle\Entity\Feed;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use AppBundle\Helper\EventHelper;
 use AppBundle\Traits\BlameableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -199,6 +200,8 @@ class Event extends Thing implements CustomTaggable, Blameable
    */
     public function setOccurrences($occurrences)
     {
+        $occurrences = EventHelper::getUpdateOccurrences($this->occurrences, $occurrences);
+
         // Remove (and implicitly delete) occurrences that will be orphaned after
         // setting (new) occurrences.
         $keepIds = [];
