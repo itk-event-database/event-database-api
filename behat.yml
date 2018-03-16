@@ -6,7 +6,7 @@ default:
   suites:
     default:
       contexts:
-        - FeatureContext: { doctrine: "@doctrine" }
+        - AppBundle\Features\Context\FeatureContext: { doctrine: "@doctrine" }
         - Behat\MinkExtension\Context\MinkContext
         - Behatch\Context\RestContext
         - Behatch\Context\JsonContext
@@ -26,4 +26,3 @@ circleci:
     Behat\Symfony2Extension:
       kernel:
         env: "circleci"
-

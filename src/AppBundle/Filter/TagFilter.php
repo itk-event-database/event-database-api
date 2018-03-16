@@ -5,6 +5,8 @@ namespace AppBundle\Filter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use AppBundle\Entity\Event;
+use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -44,7 +46,7 @@ class TagFilter extends AbstractFilter
             return;
         }
 
-        $resource = new $resourceClass();
+        $resource = $resourceClass === Occurrence::class ? new Event() : new $resourceClass();
         if (!$resource instanceof Taggable) {
             return;
         }
@@ -73,11 +75,20 @@ class TagFilter extends AbstractFilter
                     }
                 }
 
-                $alias = 'o';
-                $valueParameter = $queryNameGenerator->generateParameterName($property);
-                $queryBuilder
-                ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
-                ->setParameter($valueParameter, $ids);
+                if ($resourceClass === Occurrence::class) {
+                    $alias = 'o';
+                    $valueParameter = $queryNameGenerator->generateParameterName($property);
+                    $queryBuilder
+                        ->join($alias.'.event', 'occurrence_event')
+                        ->andWhere(sprintf('occurrence_event.id IN (:%s)', $valueParameter))
+                        ->setParameter($valueParameter, $ids);
+                } else {
+                    $alias = 'o';
+                    $valueParameter = $queryNameGenerator->generateParameterName($property);
+                    $queryBuilder
+                        ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
+                        ->setParameter($valueParameter, $ids);
+                }
             }
         }
     }
