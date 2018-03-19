@@ -53,42 +53,40 @@ class TagFilter extends AbstractFilter
 
         $taggableType = $resource->getTaggableType();
 
-        $ids = null;
-        foreach ($this->extractProperties($request) as $property => $values) {
-            if (str_replace('_', '.', $property) === $this->property) {
-                $intersect = true;
-                if (is_array($values)) {
-                    $tagNames = $values;
-                    $intersect = false;
+        if (str_replace('_', '.', $property) === $this->property) {
+            $intersect = true;
+            if (is_array($value)) {
+                $tagNames = $value;
+                $intersect = false;
+            } else {
+                $tagNames = $this->tagManager->splitTagNames($value);
+            }
+            $ids = null;
+            foreach ($tagNames as $tagName) {
+                $tagRepo = $this->managerRegistry->getManager()->getRepository(Tag::class);
+                $tagIds = $tagRepo->getResourceIdsForTag($taggableType, $tagName);
+                if ($ids === null) {
+                    $ids = $tagIds;
+                } elseif ($intersect) {
+                    $ids = array_intersect($ids, $tagIds);
                 } else {
-                    $tagNames = $this->tagManager->splitTagNames($values);
+                    $ids = array_merge($ids, $tagIds);
                 }
-                foreach ($tagNames as $tagName) {
-                    $tagRepo = $this->managerRegistry->getManager()->getRepository(Tag::class);
-                    $tagIds = $tagRepo->getResourceIdsForTag($taggableType, $tagName);
-                    if ($ids === null) {
-                        $ids = $tagIds;
-                    } elseif ($intersect) {
-                        $ids = array_intersect($ids, $tagIds);
-                    } else {
-                        $ids = array_merge($ids, $tagIds);
-                    }
-                }
+            }
 
-                if ($resourceClass === Occurrence::class) {
-                    $alias = 'o';
-                    $valueParameter = $queryNameGenerator->generateParameterName($property);
-                    $queryBuilder
-                        ->join($alias.'.event', 'occurrence_event')
-                        ->andWhere(sprintf('occurrence_event.id IN (:%s)', $valueParameter))
-                        ->setParameter($valueParameter, $ids);
-                } else {
-                    $alias = 'o';
-                    $valueParameter = $queryNameGenerator->generateParameterName($property);
-                    $queryBuilder
-                        ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
-                        ->setParameter($valueParameter, $ids);
-                }
+            if ($resourceClass === Occurrence::class) {
+                $alias = 'o';
+                $valueParameter = $queryNameGenerator->generateParameterName($property);
+                $queryBuilder
+                    ->join($alias.'.event', 'occurrence_event')
+                    ->andWhere(sprintf('occurrence_event.id IN (:%s)', $valueParameter))
+                    ->setParameter($valueParameter, $ids);
+            } else {
+                $alias = 'o';
+                $valueParameter = $queryNameGenerator->generateParameterName($property);
+                $queryBuilder
+                    ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
+                    ->setParameter($valueParameter, $ids);
             }
         }
     }
