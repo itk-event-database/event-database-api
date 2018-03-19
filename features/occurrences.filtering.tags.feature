@@ -106,5 +106,12 @@ Feature: Events
     And the JSON node "hydra:member[2].@id" should be equal to "/api/occurrences/4"
     And the JSON node "hydra:member[3].@id" should be equal to "/api/occurrences/2"
 
+  Scenario: Get occurrences by event tags and name
+    When I send a "GET" request to "/api/occurrences?event.name=event&event.tags[]=a&event.tags[]=c"
+    And the JSON node "hydra:member" should have 3 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/4"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/occurrences/2"
+
   @dropSchema
   Scenario: Drop schema
