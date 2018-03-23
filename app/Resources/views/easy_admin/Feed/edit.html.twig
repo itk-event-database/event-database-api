@@ -1,9 +1,16 @@
 {% extends 'easy_admin/edit.html.twig' %}
 
+{% block main %}
+
+  {{ parent() }}
+
+  {% include "easy_admin/_includes/_blameable.html.twig" %}
+{% endblock %}
+
 {% block entity_form %}
 	{{ parent() }}
 
-	<div class="feed-actions">
+	<div class="feed-actions form-group">
 		<div class="modal" id="feed-form-modal" tabindex="-1" role="dialog" aria-labelledby="feed-form-modal-label">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">

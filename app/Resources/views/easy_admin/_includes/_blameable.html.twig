@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="field-group col-xs-12">
+    <div class="box box-default meta-box">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <p>
+              <span class="meta-label">{{ 'createdAt' | trans }}:</span> {{ entity.createdAt | date('d-m-Y, H:i') | replace({', 00:00': ''}) }}
+              <span class="meta-label">{{ 'createdBy' | trans }}:</span> {{ entity.createdBy }}
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <p>
+              <span class="meta-label">{{ 'updatedAt' | trans }}:</span> {{ entity.updatedAt | date('d-m-Y, H:i') | replace({', 00:00': ''}) }}
+              <span class="meta-label">{{ 'updatedBy' | trans }}:</span> {{ entity.updatedBy }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
