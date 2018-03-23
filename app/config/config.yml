@@ -12,10 +12,11 @@ api_platform:
 
     collection:
         pagination:
-            client_enabled: true
+            client_enabled: false
             enabled_parameter_name: pagination
             client_items_per_page: true # Disabled by default
             items_per_page_parameter_name: items_per_page
+            maximum_items_per_page: 100
 
     eager_loading:
         force_eager: false
