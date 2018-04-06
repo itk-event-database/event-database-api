@@ -229,10 +229,8 @@ Feature: Events
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/places/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/places/2"
-    And the JSON node "hydra:member[0].name" should be equal to "Place 1"
-    And the JSON node "hydra:member[1].name" should be equal to "A new place"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/places/1"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/places/2"
 
   @dropSchema
   Scenario: Drop schema
