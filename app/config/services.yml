@@ -193,7 +193,7 @@ services:
         arguments:
             - startDate:
                     default: ASC
-            - endDate: ~
+              endDate: ~
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
 
     resource.occurrence.search_filter:
