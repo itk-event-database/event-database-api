@@ -128,6 +128,19 @@ services:
         arguments: [ 'tags' ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search.tag' } ]
 
+    resource.organizer.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments:
+            - name: "partial"
+        tags:      [ { name: 'api_platform.filter', id: 'organizer.search' } ]
+
+    resource.organizer.order_filter:
+        parent:    "app_bundle.doctrine.orm.order_filter"
+        arguments:
+            - name:
+                default: ASC
+        tags:      [ { name: 'api_platform.filter', id: 'organizer.order' } ]
+
     resource.place.search_filter:
         parent:    "api_platform.doctrine.orm.search_filter"
         arguments: [ { name: "partial" } ]
