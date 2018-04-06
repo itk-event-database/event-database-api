@@ -42,6 +42,7 @@ class Organizer extends Entity implements Blameable
   /**
    * @var int
    *
+   * @Groups({"organizer_read"})
    * @ORM\Column(type="integer")
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")

@@ -43,6 +43,7 @@ class Place extends Thing implements Taggable, Blameable
   /**
    * @var int
    *
+   * @Groups({"place_read"})
    * @ORM\Column(type="integer")
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="AUTO")
