@@ -128,10 +128,41 @@ services:
         arguments: [ 'tags' ]
         tags:      [ { name: 'api_platform.filter', id: 'event.search.tag' } ]
 
+    resource.organizer.search_filter:
+        parent:    "api_platform.doctrine.orm.search_filter"
+        arguments:
+            - name: "partial"
+        tags:      [ { name: 'api_platform.filter', id: 'organizer.search' } ]
+
+    resource.organizer.order_filter:
+        parent:    "app_bundle.doctrine.orm.order_filter"
+        arguments:
+            - name:
+                default: ASC
+        tags:      [ { name: 'api_platform.filter', id: 'organizer.order' } ]
+
     resource.place.search_filter:
         parent:    "api_platform.doctrine.orm.search_filter"
-        arguments: [ { name: "partial" } ]
+        arguments:
+            - name: "partial"
+              postalCode: "exact"
         tags:      [ { name: 'api_platform.filter', id: 'place.search' } ]
+
+    resource.place.geolocation_filter:
+        class: AppBundle\Filter\GeolocationFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+            - '@?logger'
+            -
+                property: geolocation
+                alias: geolocation
+                lat: latitude # Property on entity
+                lng: longitude # Property on entity
+                radius:
+                    default: 8
+                    min: 1
+        tags: [ { name: 'api_platform.filter', id: 'place.search.geolocation' } ]
 
     resource.place.search_owner_filter:
         class:     AppBundle\Filter\OwnerFilter
@@ -150,12 +181,19 @@ services:
         arguments: [ 'tags' ]
         tags:      [ { name: 'api_platform.filter', id: 'place.search.tag' } ]
 
+    resource.place.order_filter:
+        parent:    "app_bundle.doctrine.orm.order_filter"
+        arguments:
+            - name:
+                default: ASC
+        tags:      [ { name: 'api_platform.filter', id: 'place.order' } ]
+
     resource.occurrence.order_filter:
         parent:    "app_bundle.doctrine.orm.order_filter"
         arguments:
             - startDate:
                     default: ASC
-            - endDate: ~
+              endDate: ~
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
 
     resource.occurrence.search_filter:

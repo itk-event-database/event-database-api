@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "organizer_read" } },
  *     "denormalization_context" = { "groups" = { "event_write", "organizer_write" } },
- *     "filters" = { "organizer.search", "organizer.search.tag", "organizer.search.owner" }
+ *     "filters" = { "organizer.search", "organizer.order" }
  *   }
  * )
  */

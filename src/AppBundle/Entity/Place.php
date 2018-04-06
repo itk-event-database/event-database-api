@@ -30,7 +30,7 @@ use DoctrineExtensions\Taggable\Taggable;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "place_read", "event_read", "occurrence_read" } },
  *     "denormalization_context" = { "groups" = { "event_write", "place_write" } },
- *     "filters" = { "place.search", "place.search.tag", "place.search.owner" }
+ *     "filters" = { "place.search", "place.search.tag", "place.search.geolocation", "place.search.owner", "place.order" }
  *   }
  * )
  */
