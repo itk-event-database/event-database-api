@@ -27,7 +27,10 @@ Feature: Events
     And the response should be in JSON
     And the JSON node "description" should be equal to "This is a strong <strong>word</strong>."
 
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "Another event",
@@ -39,7 +42,10 @@ Feature: Events
     And the response should be in JSON
     And the JSON node "description" should be equal to "This is a half strong <strong>word</strong>"
 
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "A script event",

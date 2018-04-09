@@ -346,6 +346,13 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
             $rows[$index + 2] = array_values($item);
         }
 
+        // TableNode cannot handle null values.
+        foreach ($rows as &$row) {
+            $row = array_map(function ($value) {
+                return $value === null ? '(null)' : $value;
+            }, $row);
+        }
+
         $table = new TableNode($rows);
         echo $table->getTableAsString();
     }

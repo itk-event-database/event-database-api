@@ -24,6 +24,9 @@ Feature: Events
     Then the response status code should be 201
     And the JSON node "@id" should be equal to "/api/events/1"
 
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/events" with body:
     """
     {
@@ -34,7 +37,10 @@ Feature: Events
     Then the response status code should be 201
     And the JSON node "@id" should be equal to "/api/events/2"
 
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "The 1900s",
@@ -44,7 +50,10 @@ Feature: Events
     Then the response status code should be 201
     And the JSON node "@id" should be equal to "/api/events/3"
 
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "The 2000s",
@@ -54,7 +63,10 @@ Feature: Events
     Then the response status code should be 201
     And the JSON node "@id" should be equal to "/api/events/4"
 
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "The 2100s",
@@ -65,11 +77,15 @@ Feature: Events
     And the JSON node "@id" should be equal to "/api/events/5"
 
   Scenario: Get events
-    When I send a "GET" request to "/api/events?occurrences.startDate[after]=1600-01-01&occurrences.endDate[after]=1600-01-01"
+    When I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/events?occurrences.startDate[after]=1600-01-01&occurrences.endDate[after]=1600-01-01"
     And the JSON node "hydra:member" should have 5 elements
 
   Scenario: Get events
-    When I send a "GET" request to "/api/events?occurrences.endDate[after]=1700-12-01&occurrences.startDate[before]=1800-02-01&order[name]=desc"
+    When I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/events?occurrences.endDate[after]=1700-12-01&occurrences.startDate[before]=1800-02-01&order[name]=desc"
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].name" should be equal to "The 1700s"
     And the JSON node "hydra:member[1].name" should be equal to "The 1800s"
