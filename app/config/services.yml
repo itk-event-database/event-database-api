@@ -118,7 +118,7 @@ services:
             - occurrences.startDate: ~
               occurrences.endDate:
                 default:
-                    after: now,
+                    after: now
                 null_management: include_null_after
               updatedAt: ~
         tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
@@ -212,7 +212,7 @@ services:
             - startDate: ~
               endDate:
                 default:
-                  after: now,
+                  after: now
                 null_management: include_null_after
         tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
 

@@ -12,18 +12,20 @@ use Doctrine\ORM\QueryBuilder;
  */
 class DateFilter extends BaseDateFilter
 {
-
-    protected function extractProperties(Request $request): array
+    /**
+     * Apply default filter values.
+     *
+     * {@inheritdoc}
+     */
+    public function apply(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null, array $context = [])
     {
-        $properties = parent::extractProperties($request);
-
         foreach ($this->properties as $property => $config) {
-            if (!array_key_exists($property, $properties) && isset($config['default'])) {
-                $properties[$property] = $config['default'];
+            if (!array_key_exists($property, $context['filters']) && isset($config['default'])) {
+                $context['filters'][$property] = $config['default'];
             }
         }
 
-        return $properties;
+        return parent::apply($queryBuilder, $queryNameGenerator, $resourceClass, $operationName, $context);
     }
 
   /**
