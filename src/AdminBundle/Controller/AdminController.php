@@ -7,9 +7,8 @@ use AppBundle\Entity\Group;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use Doctrine\Common\Collections\ArrayCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Gedmo\Blameable\Blameable;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends BaseAdminController
 {

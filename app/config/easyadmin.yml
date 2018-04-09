@@ -1,8 +1,14 @@
 services:
     # Inject our custom config manager.
     easyadmin.config.manager:
-        class: AdminBundle\Configuration\ConfigManager
-        arguments: ['@service_container', '@security.token_storage', '@security.role_hierarchy']
+        class: AdminBundle\Configuration\EasyAdminConfigManager
+        arguments:
+            - '@security.authorization_checker'
+            - '@security.token_storage'
+            - '@easyadmin.cache.manager'
+            - '@property_accessor'
+            - '%easyadmin.config%'
+            - '%kernel.debug%'
 
 easy_admin:
     site_name: '%site_name%'

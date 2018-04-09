@@ -30,7 +30,7 @@ class AppKernel extends Kernel
         new AdminBundle\AdminBundle(),
 
         // EasyAdminBundle
-        new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
+        new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
         new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         new Vich\UploaderBundle\VichUploaderBundle(),
         ];
