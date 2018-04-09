@@ -14,12 +14,13 @@ use Behatch\Context\BaseContext;
 use Behatch\HttpCall\HttpCallResultPool;
 use Behatch\HttpCall\Request;
 use Behatch\Json\Json;
+use Behatch\Json\JsonInspector;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Behatch\Json\JsonInspector;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Defines application features from the specific context.
@@ -372,9 +373,11 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
         $json = $this->getJson();
         $items = $this->inspector->evaluate($json, $node);
         $this->assertTrue(is_array($items), sprintf('The node "%s" should be an array', $node));
-        $matches = array_filter($items, function ($item) use ($propertyPath, $value) {
-            $accessor = $this->container->get('property_accessor');
 
+        // The property_accessor service caches property paths, but '@id' is not a valid cache key.
+        // Therefore we create our own property accessor.
+        $accessor = PropertyAccess::createPropertyAccessor();
+        $matches = array_filter($items, function ($item) use ($propertyPath, $value, $accessor) {
             return $accessor->isReadable($item, $propertyPath) && $accessor->getValue($item, $propertyPath) === $value;
         });
         $this->assertSame($count, count($matches));
