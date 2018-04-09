@@ -101,6 +101,7 @@ Feature: Places
 
   Scenario: Delete a place
     When I authenticate as "api-write"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "DELETE" request to "/api/places/1"
     Then the response status code should be 204
     And the response should be empty

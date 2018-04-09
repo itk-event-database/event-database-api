@@ -68,7 +68,8 @@ Feature: Occurrences
     And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/2"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&order[startDate]=desc"
+    And print last JSON response
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/1"
@@ -101,13 +102,13 @@ Feature: Occurrences
 
   Scenario: Filter by event name
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.name=Repeating+event"
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.name=eat"
     And the JSON node "hydra:member" should have 2 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
