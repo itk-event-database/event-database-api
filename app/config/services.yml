@@ -231,6 +231,9 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
+    Symfony\Component\Security\Core\Role\RoleHierarchyInterface:
+        alias: security.role_hierarchy
+
     security.access.edit_voter:
         class:      AppBundle\Security\Authorization\Voter\EditVoter
         public:     false
@@ -359,7 +362,6 @@ services:
     tag_manager:
         public: true
         class: AppBundle\Entity\TagManager
-        autowiring_types: AppBundle\Entity\TagManager
         calls:
             - [setTagNormalizer, ["@tag_normalizer"]]
         arguments:
@@ -367,6 +369,10 @@ services:
             - "%fpn_tag.entity.tag.class%"
             - "%fpn_tag.entity.tagging.class%"
             - "@fpn_tag.slugifier"
+
+    AppBundle\Entity\TagManager:
+        alias: tag_manager
+        public: true
 
     unknown_tag_manager:
         class: AppBundle\Entity\TagManager

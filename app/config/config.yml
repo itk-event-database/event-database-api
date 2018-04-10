@@ -51,8 +51,6 @@ framework:
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
-    trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         # save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
         # handler_id set to null will use default session handler from php.ini
