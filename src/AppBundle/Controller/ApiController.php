@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -8,15 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends Controller
 {
-  /**
-   * @Route("/api/events/deleted.{_format}",
-   *   name="api_events_deleted",
-   *   defaults={"_format"="json"},
-   *   requirements={
-   *     "_format": "json"
-   *   }
-   * )
-   */
+    /**
+     * @Route("/api/events/deleted.{_format}",
+     *   name="api_events_deleted",
+     *   defaults={"_format"="json"},
+     *   requirements={
+     *     "_format": "json"
+     *   }
+     * )
+     */
     public function eventsDeletedAction()
     {
         $sql = 'select * from event where deleted_at is not null';
@@ -33,16 +41,16 @@ class ApiController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route(
-   *   "/api/places/deleted.{_format}",
-   *   name="api_places_deleted",
-   *   defaults={"_format"="json"},
-   *   requirements={
-   *     "_format": "json|xml"
-   *   }
-   * )
-   */
+    /**
+     * @Route(
+     *   "/api/places/deleted.{_format}",
+     *   name="api_places_deleted",
+     *   defaults={"_format"="json"},
+     *   requirements={
+     *     "_format": "json|xml"
+     *   }
+     * )
+     */
     public function placesDeletedAction()
     {
         $sql = 'select * from place where deleted_at is not null';
@@ -59,16 +67,16 @@ class ApiController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route(
-   *   "/api/organizers/deleted.{_format}",
-   *   name="api_organizers_deleted",
-   *   defaults={"_format"="json"},
-   *   requirements={
-   *     "_format": "json|xml"
-   *   }
-   * )
-   */
+    /**
+     * @Route(
+     *   "/api/organizers/deleted.{_format}",
+     *   name="api_organizers_deleted",
+     *   defaults={"_format"="json"},
+     *   requirements={
+     *     "_format": "json|xml"
+     *   }
+     * )
+     */
     public function organizersDeletedAction()
     {
         $sql = 'select * from organizer where deleted_at is not null';

@@ -1,15 +1,18 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter as BaseOrderFilter;
 use Symfony\Component\HttpFoundation\Request;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use Doctrine\ORM\QueryBuilder;
 
-/**
- *
- */
 class OrderFilter extends BaseOrderFilter
 {
     protected function extractProperties(Request $request): array

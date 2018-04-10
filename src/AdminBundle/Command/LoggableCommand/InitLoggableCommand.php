@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\LoggableCommand;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +22,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class InitLoggableCommand extends LoggableCommand
 {
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $manager;
 
     /** @var PropertyAccessor */
@@ -48,7 +56,8 @@ class InitLoggableCommand extends LoggableCommand
                 $id = $this->accessor->getValue($entity, 'id');
                 $entries = $loggableRepository->getLogEntries($entity);
                 if (count($entries) > 0) {
-                    $this->info($class . '#'. $id . ' has changes; skipping.');
+                    $this->info($class.'#'.$id.' has changes; skipping.');
+
                     continue;
                 }
 
@@ -65,7 +74,7 @@ class InitLoggableCommand extends LoggableCommand
                 $logEntry->setVersion(1);
                 $logEntry->setData($data);
 
-                $this->info([$class . '#'. $id . ':', Yaml::dump($data)]);
+                $this->info([$class.'#'.$id.':', Yaml::dump($data)]);
 
                 $this->manager->persist($logEntry);
                 $this->manager->flush();

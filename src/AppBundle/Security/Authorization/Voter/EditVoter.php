@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Security\Authorization\Voter;
 
 use AppBundle\Entity\Event;
@@ -11,9 +19,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
-/**
- *
- */
 class EditVoter extends Voter
 {
     const UPDATE = 'update';
@@ -21,43 +26,40 @@ class EditVoter extends Voter
 
     private $roleHierarchy;
 
-  /**
-   *
-   */
     public function __construct(RoleHierarchyInterface $roleHierarchy)
     {
         $this->roleHierarchy = $roleHierarchy;
     }
 
-  /**
-   * Determines if the attribute and subject are supported by this voter.
-   *
-   * @param string $attribute
-   *   An attribute
-   * @param mixed $subject
-   *   The subject to secure, e.g. an object the user wants to access or any other PHP type
-   *
-   * @return bool True if the attribute and subject are supported, false otherwise
-   */
+    /**
+     * Determines if the attribute and subject are supported by this voter.
+     *
+     * @param string $attribute
+     *                          An attribute
+     * @param mixed  $subject
+     *                          The subject to secure, e.g. an object the user wants to access or any other PHP type
+     *
+     * @return bool True if the attribute and subject are supported, false otherwise
+     */
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false.
-        if (!in_array($attribute, [self::UPDATE, self::REMOVE])) {
+        if (!in_array($attribute, [self::UPDATE, self::REMOVE], true)) {
             return false;
         }
 
         return true;
     }
 
-  /**
-   * Perform a single access check operation on a given attribute, subject and token.
-   *
-   * @param string $attribute
-   * @param mixed $subject
-   * @param TokenInterface $token
-   *
-   * @return bool
-   */
+    /**
+     * Perform a single access check operation on a given attribute, subject and token.
+     *
+     * @param string         $attribute
+     * @param mixed          $subject
+     * @param TokenInterface $token
+     *
+     * @return bool
+     */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
@@ -73,7 +75,6 @@ class EditVoter extends Voter
         switch ($attribute) {
             case self::UPDATE:
                 return $this->canUpdate($subject, $user);
-
             case self::REMOVE:
                 return $this->canRemove($subject, $user);
         }
@@ -81,9 +82,9 @@ class EditVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-  /**
-   * Check if a user can edit a Blameable entity.
-   */
+    /**
+     * Check if a user can edit a Blameable entity.
+     */
     private function canEdit(Blameable $entity, User $user)
     {
         // Hack!
@@ -130,17 +131,11 @@ class EditVoter extends Voter
         return false;
     }
 
-  /**
-   *
-   */
     private function canUpdate(Blameable $entity, User $user)
     {
         return $this->canEdit($entity, $user);
     }
 
-  /**
-   *
-   */
     private function canRemove(Blameable $entity, User $user)
     {
         if ($entity instanceof Event) {
@@ -153,12 +148,10 @@ class EditVoter extends Voter
         return $this->canEdit($entity, $user);
     }
 
-  /**
-   *
-   */
     private function hasRole(User $user, $roleName)
     {
         $roles = $this->getUserRoles($user);
+
         return array_filter($roles, function (Role $role) use ($roleName) {
             return $role->getRole() === $roleName;
         });

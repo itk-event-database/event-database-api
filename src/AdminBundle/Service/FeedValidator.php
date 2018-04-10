@@ -1,23 +1,29 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\User;
 
-/**
- *
- */
 class FeedValidator extends FeedPreviewer
 {
-
-  /**
-   * @param \AdminBundle\Entity\Feed $feed
-   * @return array
-   */
+    /**
+     * @param \AdminBundle\Entity\Feed $feed
+     *
+     * @return array
+     */
     public function validate(Feed $feed, User $user = null)
     {
         parent::read($feed, $user);
+
         return $this->validateEvents($this->events);
     }
 

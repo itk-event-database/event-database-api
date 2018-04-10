@@ -1,23 +1,28 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Event;
 use AppBundle\Entity\TagManager;
 use AppBundle\Entity\Thing;
 use AppBundle\Job\DownloadFilesJob;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AppBundle\Entity\Event;
 
-/**
- *
- */
 class EventListener extends EditListener
 {
-  /**
-   * @var TagManager
-   */
+    /**
+     * @var TagManager
+     */
     protected $tagManager;
 
     public function __construct(ContainerInterface $container)
@@ -26,9 +31,6 @@ class EventListener extends EditListener
         $this->tagManager = $this->container->get('tag_manager');
     }
 
-  /**
-   *
-   */
     public function prePersist(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -49,9 +51,6 @@ class EventListener extends EditListener
         }
     }
 
-  /**
-   *
-   */
     public function postPersist(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -76,9 +75,6 @@ class EventListener extends EditListener
         $this->postPersist($args);
     }
 
-  /**
-   *
-   */
     public function postLoad(LifecycleEventArgs $args)
     {
         $object = $args->getObject();

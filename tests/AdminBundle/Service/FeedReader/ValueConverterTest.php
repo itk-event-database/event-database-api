@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service\FeedReader;
 
-use Tests\AppBundle\Test\BaseTestCase;
 use AdminBundle\Entity\Feed;
+use Tests\AppBundle\Test\BaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class ValueConverterTest extends BaseTestCase
 {
     private $converter;
@@ -20,9 +31,13 @@ class ValueConverterTest extends BaseTestCase
         $this->converter->setFeed($feed);
     }
 
-  /**
-   * @dataProvider convertValueProvider
-   */
+    /**
+     * @dataProvider convertValueProvider
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @param mixed $expected
+     */
     public function testConvertValue($key, $value, $expected)
     {
         $actual = $this->converter->convert($value, $key);

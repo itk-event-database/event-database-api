@@ -26,6 +26,26 @@ Install assets
 bin/console assets:install
 ```
 
+Coding standard
+---------------
+
+The [Symfony Coding Standards](https://symfony.com/doc/3.4/contributing/code/standards.html) apply.
+
+To check the code, run:
+
+```
+composer check-coding-standards
+```
+
+To apply the coding standards, run:
+
+```
+composer apply-coding-standards
+```
+
+Remember to [*run all tests after applying coding standards*](#running-tests).
+
+
 API documentation
 -----------------
 
@@ -102,11 +122,11 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
   "image": "https://dummyimage.com/600x400/000/00ffd5.png",
   "langcode": "en",
   "occurrences": [ {
-	"startDate": "2000-01-01",
-	"endDate": "2001-01-01",
-	"place": {
-	  "name": "Some place"
-	}
+    "startDate": "2000-01-01",
+    "endDate": "2001-01-01",
+    "place": {
+      "name": "Some place"
+    }
   } ]
 }
 JSON
@@ -146,7 +166,7 @@ vendor/bin/behat features/events.feature
 To run unit tests:
 
 ```
-vendor/symfony/symfony/phpunit
+vendor/bin/phpunit
 ```
 
 

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace Application\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
@@ -16,7 +24,7 @@ class Version20161002211217 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE place DROP FOREIGN KEY FK_741D53CDF5B7AF75');
         $this->addSql('DROP TABLE postal_address');
@@ -30,7 +38,7 @@ class Version20161002211217 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE postal_address (id INT AUTO_INCREMENT NOT NULL, address_country VARCHAR(255) DEFAULT NULL COLLATE utf8_unicode_ci, address_locality VARCHAR(255) DEFAULT NULL COLLATE utf8_unicode_ci, address_region VARCHAR(255) DEFAULT NULL COLLATE utf8_unicode_ci, postal_code VARCHAR(255) DEFAULT NULL COLLATE utf8_unicode_ci, post_office_box_number VARCHAR(255) DEFAULT NULL COLLATE utf8_unicode_ci, street_address VARCHAR(255) DEFAULT NULL COLLATE utf8_unicode_ci, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE place ADD address_id INT DEFAULT NULL, DROP address_country, DROP address_locality, DROP address_region, DROP postal_code, DROP street_address');

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -8,10 +16,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FirebaseController extends Controller
 {
-
-  /**
-   * @Route("/api/firebase/events")
-   */
+    /**
+     * @Route("/api/firebase/events")
+     */
     public function eventsAction()
     {
         $sql = 'select id, event_id from occurrence where end_date >= :now or end_date is null';
@@ -63,9 +70,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/events/deleted")
-   */
+    /**
+     * @Route("/api/firebase/events/deleted")
+     */
     public function eventsDeletedAction()
     {
         $sql = 'select * from event where deleted_at is not null';
@@ -82,9 +89,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/organizers")
-   */
+    /**
+     * @Route("/api/firebase/organizers")
+     */
     public function organizersAction()
     {
         $sql = 'select * from organizer where deleted_at is null';
@@ -103,9 +110,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/organizers/deleted")
-   */
+    /**
+     * @Route("/api/firebase/organizers/deleted")
+     */
     public function organizersDeletedAction()
     {
         $sql = 'select * from organizer where deleted_at is not null';
@@ -122,9 +129,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/occurrences")
-   */
+    /**
+     * @Route("/api/firebase/occurrences")
+     */
     public function occurrencesAction()
     {
         $sql = 'select * from occurrence where (end_date >= :now or end_date is null)';
@@ -148,9 +155,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/places")
-   */
+    /**
+     * @Route("/api/firebase/places")
+     */
     public function placesAction()
     {
         $sql = 'select * from place where deleted_at is null';
@@ -178,9 +185,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/places/deleted")
-   */
+    /**
+     * @Route("/api/firebase/places/deleted")
+     */
     public function placesDeletedAction()
     {
         $sql = 'select * from place where deleted_at is not null';
@@ -197,9 +204,9 @@ class FirebaseController extends Controller
         return $this->createResponse($data);
     }
 
-  /**
-   * @Route("/api/firebase/tags")
-   */
+    /**
+     * @Route("/api/firebase/tags")
+     */
     public function tagsAction()
     {
         $sql = 'select * from tag';

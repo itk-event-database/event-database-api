@@ -82,7 +82,8 @@
         "phpunit/phpunit": "^5.6",
         "sensio/generator-bundle": "^3.0",
         "squizlabs/php_codesniffer": "^3.2",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.11"
     },
     "scripts": {
         "post-install-cmd": [
@@ -102,16 +103,24 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
+        "check-coding-standards/php-cs-fixer": [
+            "php -n vendor/bin/php-cs-fixer --config=.php_cs.dist fix --dry-run"
+        ],
         "check-coding-standards/phpcs": [
             "vendor/bin/phpcs --standard=phpcs.xml.dist"
         ],
         "check-coding-standards": [
+            "@check-coding-standards/php-cs-fixer",
             "@check-coding-standards/phpcs"
+        ],
+        "apply-coding-standards/php-cs-fixer": [
+            "php -n vendor/bin/php-cs-fixer --config=.php_cs.dist fix"
         ],
         "apply-coding-standards/phpcs": [
             "vendor/bin/phpcbf --standard=phpcs.xml.dist"
         ],
         "apply-coding-standards": [
+            "@apply-coding-standards/php-cs-fixer",
             "@apply-coding-standards/phpcs"
         ],
         "install-git-hooks": [

@@ -1,15 +1,19 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter as BaseDateFilter;
-use Symfony\Component\HttpFoundation\Request;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use Doctrine\ORM\QueryBuilder;
 
-/**
- *
- */
 class DateFilter extends BaseDateFilter
 {
     /**
@@ -28,11 +32,11 @@ class DateFilter extends BaseDateFilter
         return parent::apply($queryBuilder, $queryNameGenerator, $resourceClass, $operationName, $context);
     }
 
-  /**
-   * We override this function to allow more parameters on properties (default value).
-   *
-   * {@inheritdoc}
-   */
+    /**
+     * We override this function to allow more parameters on properties (default value).
+     *
+     * {@inheritdoc}
+     */
     protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
         // Expect $values to be an array having the period as keys and the date value as values

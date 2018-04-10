@@ -1,17 +1,22 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service\FeedReader;
 
-/**
- *
- */
 class Xml extends FeedReader
 {
-
-  /**
-   * @param $data
-   * @throws \Exception
-   */
+    /**
+     * @param $data
+     *
+     * @throws \Exception
+     */
     public function read($data)
     {
         if (!$data instanceof \SimpleXMLElement) {
@@ -32,51 +37,54 @@ class Xml extends FeedReader
         }
     }
 
-  /**
-   * @param \SimpleXMLElement $el
-   * @param $path
-   * @param bool $failOnError
-   * @return null|\SimpleXMLElement[]
-   * @throws \Exception
-   */
+    /**
+     * @param \SimpleXMLElement $el
+     * @param $path
+     * @param bool $failOnError
+     *
+     * @throws \Exception
+     *
+     * @return null|\SimpleXMLElement[]
+     */
     private function getItems(\SimpleXMLElement $el, $path, $failOnError = false)
     {
         if (!$path) {
             return null;
         }
         $nodes = $el->xpath($path);
-        if ($nodes === false) {
+        if (false === $nodes) {
             if ($failOnError) {
-                throw new \Exception('Invalid path: ' . $path);
-            } else {
-                return null;
+                throw new \Exception('Invalid path: '.$path);
             }
+
+            return null;
         }
 
         return $nodes;
     }
 
-  /**
-   * Get a single value from xpath.
-   *
-   * @param \SimpleXMLElement $el
-   * @param $path
-   * @param bool $failOnError
-   *
-   * @return null|string
-   */
+    /**
+     * Get a single value from xpath.
+     *
+     * @param \SimpleXMLElement $el
+     * @param $path
+     * @param bool $failOnError
+     *
+     * @return null|string
+     */
     private function getValue(\SimpleXMLElement $el, $path, $failOnError = false)
     {
         $values = $this->getItems($el, $path, $failOnError);
+
         return (count($values) > 0) ? trim((string) $values[0]) : null;
     }
 
-  /**
-   * @param \SimpleXMLElement $item
-   * @param array $configuration
-   *
-   * @return array
-   */
+    /**
+     * @param \SimpleXMLElement $item
+     * @param array             $configuration
+     *
+     * @return array
+     */
     private function getData(\SimpleXMLElement $item, array $configuration)
     {
         $data = [];
@@ -87,13 +95,13 @@ class Xml extends FeedReader
             if (!is_array($spec)) {
                 $path = $spec;
                 $value = $this->getValue($item, $path);
-                if ($value !== null) {
+                if (null !== $value) {
                     $data[$key] = $this->convertValue($value, $key);
                 }
             } elseif (isset($spec['mapping'])) {
                 $type = isset($spec['type']) ? $spec['type'] : 'list';
                 $path = isset($spec['path']) ? $spec['path'] : null;
-                if ($type === 'object') {
+                if ('object' === $type) {
                     $item = $path ? $this->getItems($item, $path) : $item;
                     if (is_array($item)) {
                         $item = array_shift($item);
@@ -102,7 +110,7 @@ class Xml extends FeedReader
                 } else {
                     $items = $path ? $this->getItems($item, $path) : [$item];
                     if ($items) {
-                        if ($type === 'object') {
+                        if ('object' === $type) {
                             $data[$key] = $this->getData($items, $spec);
                         } else {
                             $data[$key] = array_map(function ($item) use ($spec) {
@@ -114,9 +122,9 @@ class Xml extends FeedReader
             } elseif (isset($spec['path'])) {
                 $path = $spec['path'];
                 $value = $this->getValue($item, $path);
-                if ($value !== null) {
+                if (null !== $value) {
                     if (isset($spec['split'])) {
-                        $data[$key] = preg_split('/\s*' . preg_quote($spec['split'], '/') . '\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
+                        $data[$key] = preg_split('/\s*'.preg_quote($spec['split'], '/').'\s*/', $value, null, PREG_SPLIT_NO_EMPTY);
                     } else {
                         $data[$key] = $this->convertValue($value, $key);
                     }

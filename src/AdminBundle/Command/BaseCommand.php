@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -18,7 +26,7 @@ abstract class BaseCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $this->verbose = !!$input->getOption('verbose');
+        $this->verbose = (bool) $input->getOption('verbose');
     }
 
     protected function writeln($messages)
@@ -40,7 +48,7 @@ abstract class BaseCommand extends ContainerAwareCommand
                 $messages = [$messages];
             }
             $messages = array_map(function ($message) {
-                return '<info>' . $message . '</info>';
+                return '<info>'.$message.'</info>';
             }, $messages);
             $this->write($messages, $newline);
         }
@@ -53,7 +61,7 @@ abstract class BaseCommand extends ContainerAwareCommand
                 $messages = [$messages];
             }
             $messages = array_map(function ($message) {
-                return '<error>' . $message . '</error>';
+                return '<error>'.$message.'</error>';
             }, $messages);
             $this->write($messages, $newline);
         }

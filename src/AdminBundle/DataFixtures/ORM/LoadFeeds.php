@@ -1,21 +1,26 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\DataFixtures\ORM;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use AdminBundle\Entity\Feed;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- *
- */
 class LoadFeeds extends LoadData
 {
     protected $order = 3;
 
-  /**
-   * @param \Doctrine\Common\Persistence\ObjectManager $manager
-   */
+    /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $yaml = $this->loadFixture('feeds.yml');

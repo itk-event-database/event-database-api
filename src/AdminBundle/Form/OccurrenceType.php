@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Form;
 
 use AppBundle\Entity\Place;
@@ -12,21 +20,17 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- *
- */
 class OccurrenceType extends AbstractType
 {
-
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array $options
-   */
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $placeholder = [];
         foreach (['year', 'month', 'day', 'hour', 'minute'] as $key) {
-            $placeholder[$key] = 'form.type.occurrence.datetime.placeholder.' . $key;
+            $placeholder[$key] = 'form.type.occurrence.datetime.placeholder.'.$key;
         }
 
         $builder
@@ -66,9 +70,9 @@ class OccurrenceType extends AbstractType
         });
     }
 
-  /**
-   * @param OptionsResolverInterface $resolver
-   */
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -77,9 +81,9 @@ class OccurrenceType extends AbstractType
         ]);
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'adminbundle_occurrence';

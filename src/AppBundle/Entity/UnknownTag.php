@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 class UnknownTag extends BaseTag
 {
     /**
-     * @var integer $id
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -28,9 +36,6 @@ class UnknownTag extends BaseTag
      */
     protected $tag;
 
-    /**
-     *
-     */
     public function setTag(Tag $tag = null)
     {
         $this->tag = $tag;
@@ -38,9 +43,6 @@ class UnknownTag extends BaseTag
         return $this;
     }
 
-    /**
-     *
-     */
     public function getTag()
     {
         return $this->tag;

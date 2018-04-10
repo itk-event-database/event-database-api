@@ -1,13 +1,21 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\EventSubscriber;
 
 use AdminBundle\Entity\Feed;
 use AdminBundle\Service\UserManager;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Group;
-use AppBundle\Entity\Tag;
 use AppBundle\Entity\Place;
+use AppBundle\Entity\Tag;
 use AppBundle\Entity\UnknownTag;
 use AppBundle\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
@@ -22,6 +30,16 @@ class AccessSubscriber implements EventSubscriberInterface
     private $tokenStorage;
     private $roleHierarchy;
     private $userManager;
+
+    private static $requiredRoles = [
+    Event::class => 'ROLE_EVENT_EDITOR',
+    Place::class => 'ROLE_PLACE_EDITOR',
+    Group::class => 'ROLE_USER_EDITOR',
+    User::class => 'ROLE_USER_EDITOR',
+    Tag::class => 'ROLE_TAG_EDITOR',
+    UnknownTag::class => 'ROLE_TAG_EDITOR',
+    Feed::class => 'ROLE_FEED_EDITOR',
+    ];
 
     public function __construct(TokenStorageInterface $tokenStorage, RoleHierarchyInterface $roleHierarchy, UserManager $userManager)
     {
@@ -66,20 +84,10 @@ class AccessSubscriber implements EventSubscriberInterface
         }
     }
 
-    private static $requiredRoles = [
-    Event::class => 'ROLE_EVENT_EDITOR',
-    Place::class => 'ROLE_PLACE_EDITOR',
-    Group::class => 'ROLE_USER_EDITOR',
-    User::class => 'ROLE_USER_EDITOR',
-    Tag::class => 'ROLE_TAG_EDITOR',
-    UnknownTag::class => 'ROLE_TAG_EDITOR',
-    Feed::class => 'ROLE_FEED_EDITOR',
-    ];
-
     private function requireRole($roleName)
     {
         if (!$this->hasRole($roleName)) {
-            throw new AccessDeniedHttpException('Role ' . $roleName . ' required for this action');
+            throw new AccessDeniedHttpException('Role '.$roleName.' required for this action');
         }
     }
 

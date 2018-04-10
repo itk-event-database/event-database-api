@@ -1,11 +1,26 @@
 <?php
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
+    public function __construct($environment, $debug)
+    {
+        // Force the timezone to be UTC.
+        date_default_timezone_set('UTC');
+        parent::__construct($environment, $debug);
+    }
+
     public function registerBundles()
     {
         $bundles = [
@@ -58,12 +73,12 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return dirname(__DIR__) . '/var/cache/' . $this->getEnvironment();
+        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
 
     public function getLogDir()
     {
-        return dirname(__DIR__) . '/var/logs';
+        return dirname(__DIR__).'/var/logs';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -75,12 +90,5 @@ class AppKernel extends Kernel
             $container->addObjectResource($this);
         });
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
-    }
-
-    public function __construct($environment, $debug)
-    {
-        // Force the timezone to be UTC.
-        date_default_timezone_set('UTC');
-        parent::__construct($environment, $debug);
     }
 }
