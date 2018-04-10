@@ -129,7 +129,6 @@ easy_admin:
                       type: vich_image
                       type_options:
                           required: true
-                      type: url
                     - property: url
                       label: app.event.url
                       help: app.event.help.url
@@ -482,8 +481,6 @@ easy_admin:
                       type_options:
                           required: true
                       type: text
-                      type_options:
-                          required: false
             edit:
                 fields:
                     - property: enabled

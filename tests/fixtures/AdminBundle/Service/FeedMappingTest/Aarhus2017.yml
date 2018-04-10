@@ -10,7 +10,7 @@ mapping:
   ticketPurchaseUrl: TicketUrl
   tags:
     path: ArtFormList
-    split: ,
+    split: ','
   occurrences:
     type: list
     path: ScheduledEvents

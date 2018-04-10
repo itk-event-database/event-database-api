@@ -136,7 +136,7 @@ class FeedReaderTimeZoneTest extends ContainerTestCase implements Controller
     'Brazil/West',
     'Canada/Atlantic',
     'Canada/Central',
-    'Canada/East-Saskatchewan',
+    'Canada/Saskatchewan',
     'Canada/Eastern',
     'Canada/Mountain',
     'Canada/Newfoundland',

@@ -5,9 +5,11 @@ parameters:
 
 services:
     value_converter:
+        public: true
         class: AdminBundle\Service\FeedReader\ValueConverter
 
     file_handler:
+        public: true
         class: AdminBundle\Service\FileHandler
         arguments:
             - "@logger"
@@ -254,10 +256,12 @@ services:
         arguments: ['@service_container']
 
     feed_reader.json:
+        public: true
         parent: feed_reader.base
         class: AdminBundle\Service\FeedReader\Json
 
     feed_reader.xml:
+        public: true
         parent: feed_reader.base
         class: AdminBundle\Service\FeedReader\Xml
 
@@ -353,6 +357,7 @@ services:
                     unknown_tag_manager: unknown_tag_manager
 
     tag_manager:
+        public: true
         class: AppBundle\Entity\TagManager
         autowiring_types: AppBundle\Entity\TagManager
         calls:
@@ -476,4 +481,5 @@ services:
 
     # Feed import services
     app.danish_zip_code:
+        public: true
         class: AdminBundle\Service\DanishZipCode
