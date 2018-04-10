@@ -186,7 +186,6 @@ easy_admin:
                       type: vich_image
                       type_options:
                           required: false
-                      type: url
                     - property: url
                       label: app.event.url
                       help: app.event.help.url

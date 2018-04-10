@@ -5,10 +5,10 @@ namespace AdminBundle\Action;
 use ApiPlatform\Core\Bridge\Symfony\Routing\Router;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  *
@@ -33,7 +33,7 @@ class ResourceAction
    * @param \Twig_Environment $twig
    *   The TWIG environment.
    */
-    public function __construct(Router $router, ContainerInterface $container)
+    public function __construct(RouterInterface $router, ContainerInterface $container)
     {
         $this->router = $router;
         $this->container = $container;

@@ -416,9 +416,8 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
 
-    app.user_manager:
+    AdminBundle\Service\UserManager:
         public: false
-        class: AdminBundle\Service\UserManager
         arguments: [ "@security.role_hierarchy" ]
 
     app.twig_extension_easy_admin:
@@ -428,7 +427,7 @@ services:
             - '@security.access.edit_voter'
             - '@translator'
             - '@app.integrity_manager'
-            - '@app.user_manager'
+            - '@AdminBundle\Service\UserManager'
         tags:
             - { name: "twig.extension" }
 

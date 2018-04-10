@@ -7,8 +7,9 @@ use League\Uri\Modifiers\Resolve;
 use League\Uri\Schemes\Http as HttpUri;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  *
@@ -43,7 +44,7 @@ class UploadAction
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The container.
    */
-    public function __construct(Router $router, ContainerInterface $container)
+    public function __construct(RouterInterface $router, ContainerInterface $container)
     {
         $this->router = $router;
         $this->container = $container;

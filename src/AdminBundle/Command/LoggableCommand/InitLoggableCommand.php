@@ -2,7 +2,6 @@
 
 namespace AdminBundle\Command\LoggableCommand;
 
-use Symfony\Component\Yaml\Yaml;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
 use Gedmo\Loggable\LoggableListener;
@@ -10,6 +9,8 @@ use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class InitLoggableCommand extends LoggableCommand
 {
@@ -19,7 +20,7 @@ class InitLoggableCommand extends LoggableCommand
     /** @var PropertyAccessor */
     private $accessor;
 
-    public function __construct(EntityManagerInterface $manager, PropertyAccessor $accessor)
+    public function __construct(EntityManagerInterface $manager, PropertyAccessorInterface $accessor)
     {
         parent::__construct();
         $this->manager = $manager;

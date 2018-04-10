@@ -2,10 +2,10 @@
 
 namespace AdminBundle\Action;
 
-use ApiPlatform\Core\Bridge\Symfony\Routing\Router;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  *
@@ -23,7 +23,7 @@ class DefaultAction
    * @param \Twig_Environment $twig
    *   The TWIG environment.
    */
-    public function __construct(Router $router, \Twig_Environment $twig)
+    public function __construct(RouterInterface $router, \Twig_Environment $twig)
     {
         $this->router = $router;
         $this->twig = $twig;
