@@ -25,6 +25,7 @@ use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
@@ -62,7 +63,9 @@ class CustomItemNormalizer extends AbstractItemNormalizer
      */
     private $placeFactory;
 
-    public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, OrganizerFactory $organizerFactory, PlaceFactory $placeFactory)
+    private $imageCache;
+
+    public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, OrganizerFactory $organizerFactory, PlaceFactory $placeFactory, CacheManager $imageCache)
     {
         parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
 
@@ -71,6 +74,7 @@ class CustomItemNormalizer extends AbstractItemNormalizer
         $this->tagManager = $tagManager;
         $this->organizerFactory = $organizerFactory;
         $this->placeFactory = $placeFactory;
+        $this->imageCache = $imageCache;
     }
 
     /**
@@ -97,6 +101,13 @@ class CustomItemNormalizer extends AbstractItemNormalizer
 
         $data['@id'] = $this->iriConverter->getIriFromItem($object);
         $data['@type'] = ($iri = $resourceMetadata->getIri()) ? $iri : $resourceMetadata->getShortName();
+
+        if ($object instanceof Event) {
+            $formats = ['thumb', '800', '1000'];
+            foreach ($formats as $format) {
+                $data['images'][$format] = $this->imageCache->getBrowserPath('files/22f34870e77fb682f66bb5495f174827.jpg', $format);
+            }
+        }
 
         return array_merge($data, $rawData);
     }
