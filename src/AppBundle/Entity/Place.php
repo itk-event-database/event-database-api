@@ -160,7 +160,6 @@ class Place extends Thing implements Taggable, Blameable
    * @var ArrayCollection
    *
    * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="place")
-   * @Groups({"place_read"})
    */
     private $occurrences;
 
