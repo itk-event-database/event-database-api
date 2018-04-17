@@ -28,46 +28,11 @@
     },
 		"streetAddress": {
 			"type": ["string", "null"]
-    },
-    "occurrences": {
-      "type": ["null", "array"],
-      "items": {
-        "type": "object",
-        "properties": {
-          "@id": {
-            "type": "string"
-          },
-          "@type": {
-            "type": "string"
-          },
-          "event": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "place": {
-            "type": [ "object", "null" ]
-          }
-        },
-        "required": [
-          "@id",
-          "@type",
-          "event",
-          "startDate",
-          "endDate",
-          "place"
-        ]
-      }
     }
   },
   "required": [
     "@id",
     "@type",
-    "occurrences",
     "description",
     "image",
     "name",

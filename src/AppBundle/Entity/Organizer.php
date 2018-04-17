@@ -81,7 +81,6 @@ class Organizer extends Entity implements Blameable
    * @var ArrayCollection
    *
    * @ORM\OneToMany(targetEntity="Event", mappedBy="organizer")
-   * @Groups({"organizer_read"})
    */
     private $events;
 
