@@ -173,14 +173,6 @@ class Event extends Thing implements CustomTaggable, Blameable
     /**
      * @var array
      *
-     * @groups({"event_read"})
-     * @ORM\Column(type="json_array", nullable=true)
-     */
-    private $images;
-
-    /**
-     * @var array
-     *
      * @ORM\Column(type="array")
      */
     private $repeatingOccurrences = [];
@@ -466,18 +458,6 @@ class Event extends Thing implements CustomTaggable, Blameable
         $this->customTags = $this->customTags ?: new ArrayCollection();
 
         return $this->customTags;
-    }
-
-    public function setImages(array $images)
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
-    public function getImages()
-    {
-        return $this->images;
     }
 
     public function setRepeatingOccurrences(array $repeatingOccurrences)
