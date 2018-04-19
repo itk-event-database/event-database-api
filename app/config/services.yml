@@ -1,7 +1,7 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    #parameter_name: value
+    # parameter_name: value
 
 services:
     value_converter:
@@ -36,7 +36,7 @@ services:
     # Factories
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
-        abstract:  true
+        abstract: true
         arguments: ['@service_container', '@doctrine.orm.entity_manager', '@value_converter', '@tag_manager']
 
     place_factory:

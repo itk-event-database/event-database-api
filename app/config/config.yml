@@ -6,40 +6,13 @@ imports:
     - { resource: api_platform.yml }
     - { resource: easyadmin.yml }
 
-api_platform:
-    title: Event Database
-    description: API for creating and querying events
-    version: 0.1.0
-
-    collection:
-        pagination:
-            client_enabled: false
-            enabled_parameter_name: pagination
-            client_items_per_page: true # Disabled by default
-            items_per_page_parameter_name: items_per_page
-            maximum_items_per_page: 100
-
-    eager_loading:
-        force_eager: false
-
-    formats:
-        jsonld: ['application/ld+json']
-        jsonhal: ['application/hal+json']
-        xml: ['application/xml', 'text/xml']
-        json: ['application/json']
-        html: ['text/html']
-        # Custom formats
-        # AoA
-        jsonaoa: ['application/aoa+json']
-        firebase: ['application/firebase+json']
-
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: da
 
 framework:
-    #esi: ~
+    # esi: ~
     translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:
@@ -105,7 +78,7 @@ doctrine:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
                 dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity'
-                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                alias: GedmoLoggable  # (optional) it will default to the name set for the mapping
                 is_bundle: false
 
 # Swiftmailer Configuration
@@ -139,7 +112,7 @@ nelmio_cors:
 #                 json: 'application/json'
 
 fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    db_driver: orm  # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
     group:

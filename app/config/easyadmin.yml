@@ -152,11 +152,11 @@ easy_admin:
                       help: app.event.help.occurrences.collection
                       type: collection
                       type_options:
-                        entry_type: AdminBundle\Form\OccurrenceType
-                        entry_options:
-                            view_timezone: '%view_timezone%'
-                        by_reference: false
-                        required: true
+                          entry_type: AdminBundle\Form\OccurrenceType
+                          entry_options:
+                              view_timezone: '%view_timezone%'
+                          by_reference: false
+                          required: true
                       embedded: true
             edit:
                 fields:
@@ -209,11 +209,11 @@ easy_admin:
                       help: app.event.help.occurrences.collection
                       type: collection
                       type_options:
-                        entry_type: AdminBundle\Form\OccurrenceType
-                        entry_options:
-                            view_timezone: '%view_timezone%'
-                        by_reference: false
-                        required: true
+                          entry_type: AdminBundle\Form\OccurrenceType
+                          entry_options:
+                              view_timezone: '%view_timezone%'
+                          by_reference: false
+                          required: true
                       embedded: true
                     - type: group
                       css_class: repeating-occurrences

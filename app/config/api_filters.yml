@@ -25,7 +25,7 @@ services:
         parent: 'app_bundle.doctrine.orm.order_filter'
         arguments:
             - occurrences.startDate:
-                default: ASC
+                  default: ASC
               occurrences.endDate: ~
               updatedAt: ~
         tags: [{ name: 'api_platform.filter', id: 'event.order' }]
@@ -58,9 +58,9 @@ services:
         arguments:
             - occurrences.startDate: ~
               occurrences.endDate:
-                default:
-                    after: now
-                null_management: include_null_after
+                  default:
+                      after: now
+                  null_management: include_null_after
               updatedAt: ~
         tags: [{ name: 'api_platform.filter', id: 'event.search.date' }]
 
@@ -79,7 +79,7 @@ services:
         parent: 'app_bundle.doctrine.orm.order_filter'
         arguments:
             - name:
-                default: ASC
+                  default: ASC
         tags: [{ name: 'api_platform.filter', id: 'organizer.order' }]
 
     resource.place.search_filter:
@@ -98,8 +98,8 @@ services:
             -
                 property: geolocation
                 alias: geolocation
-                lat: latitude # Property on entity
-                lng: longitude # Property on entity
+                lat: latitude  # Property on entity
+                lng: longitude  # Property on entity
                 radius:
                     default: 8
                     min: 1
@@ -126,14 +126,14 @@ services:
         parent: 'app_bundle.doctrine.orm.order_filter'
         arguments:
             - name:
-                default: ASC
+                  default: ASC
         tags: [{ name: 'api_platform.filter', id: 'place.order' }]
 
     resource.occurrence.order_filter:
         parent: 'app_bundle.doctrine.orm.order_filter'
         arguments:
             - startDate:
-                    default: ASC
+                  default: ASC
               endDate: ~
         tags: [{ name: 'api_platform.filter', id: 'occurrence.order' }]
 
@@ -152,9 +152,9 @@ services:
         arguments:
             - startDate: ~
               endDate:
-                default:
-                  after: now
-                null_management: include_null_after
+                  default:
+                      after: now
+                  null_management: include_null_after
         tags: [{ name: 'api_platform.filter', id: 'occurrence.search.date' }]
 
     resource.occurrence.search_event_tag_filter:

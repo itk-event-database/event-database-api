@@ -18,8 +18,8 @@ api_login_check:
     path: '/api/login_check'
 
 admin:
-  resource: '@AdminBundle/Controller/'
-  type: 'annotation'
+    resource: '@AdminBundle/Controller/'
+    type: 'annotation'
 
 fos_user:
     resource: '@FOSUserBundle/Resources/config/routing/all.xml'
