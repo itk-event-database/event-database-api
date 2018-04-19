@@ -1,0 +1,167 @@
+services:
+    # Filters
+    app_bundle.doctrine.orm.date_filter:
+        class: AppBundle\Filter\DateFilter
+        arguments: ['@doctrine', '@request_stack', '@?logger']
+        public: false
+
+    app_bundle.doctrine.orm.tag_filter:
+        class: AppBundle\Filter\TagFilter
+        arguments: ['@doctrine', '@request_stack', '@tag_manager']
+        public: false
+
+    app_bundle.doctrine.orm.order_filter:
+        class: AppBundle\Filter\OrderFilter
+        arguments: ['@doctrine', '@request_stack', '%api_platform.collection.order_parameter_name%', '@?logger']
+        public: false
+
+    app_bundle.doctrine.orm.published_filter:
+        class: AppBundle\Filter\PublishedFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+
+    resource.event.order_filter:
+        parent: 'app_bundle.doctrine.orm.order_filter'
+        arguments:
+            - occurrences.startDate:
+                default: ASC
+              occurrences.endDate: ~
+              updatedAt: ~
+        tags: [{ name: 'api_platform.filter', id: 'event.order' }]
+
+    resource.event.search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments:
+            - name: 'partial'
+              description: 'partial'
+              langcode: 'exact'
+              createdBy: 'exact'
+              occurrences.place.name: 'partial'
+              occurrences.place.id: 'exact'
+              organizer.id: 'exact'
+        tags: [{ name: 'api_platform.filter', id: 'event.search' }]
+
+    resource.event.search_owner_filter:
+        class: AppBundle\Filter\OwnerFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+        tags: [{ name: 'api_platform.filter', id: 'event.search.owner' }]
+
+    resource.event.search_published_filter:
+        parent: 'app_bundle.doctrine.orm.published_filter'
+        tags: [{ name: 'api_platform.filter', id: 'event.search.published' }]
+
+    resource.event.search_date_filter:
+        parent: 'app_bundle.doctrine.orm.date_filter'
+        arguments:
+            - occurrences.startDate: ~
+              occurrences.endDate:
+                default:
+                    after: now
+                null_management: include_null_after
+              updatedAt: ~
+        tags: [{ name: 'api_platform.filter', id: 'event.search.date' }]
+
+    resource.event.search_tag_filter:
+        parent: 'app_bundle.doctrine.orm.tag_filter'
+        arguments: ['tags']
+        tags: [{ name: 'api_platform.filter', id: 'event.search.tag' }]
+
+    resource.organizer.search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments:
+            - name: 'partial'
+        tags: [{ name: 'api_platform.filter', id: 'organizer.search' }]
+
+    resource.organizer.order_filter:
+        parent: 'app_bundle.doctrine.orm.order_filter'
+        arguments:
+            - name:
+                default: ASC
+        tags: [{ name: 'api_platform.filter', id: 'organizer.order' }]
+
+    resource.place.search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments:
+            - name: 'partial'
+              postalCode: 'exact'
+        tags: [{ name: 'api_platform.filter', id: 'place.search' }]
+
+    resource.place.geolocation_filter:
+        class: AppBundle\Filter\GeolocationFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+            - '@?logger'
+            -
+                property: geolocation
+                alias: geolocation
+                lat: latitude # Property on entity
+                lng: longitude # Property on entity
+                radius:
+                    default: 8
+                    min: 1
+        tags: [{ name: 'api_platform.filter', id: 'place.search.geolocation' }]
+
+    resource.place.search_owner_filter:
+        class: AppBundle\Filter\OwnerFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+            -
+                filters:
+                    user: user
+                    group: group
+                    editable_by: editable_by
+        tags: [{ name: 'api_platform.filter', id: 'place.search.owner' }]
+
+    resource.place.search_tag_filter:
+        parent: 'app_bundle.doctrine.orm.tag_filter'
+        arguments: ['tags']
+        tags: [{ name: 'api_platform.filter', id: 'place.search.tag' }]
+
+    resource.place.order_filter:
+        parent: 'app_bundle.doctrine.orm.order_filter'
+        arguments:
+            - name:
+                default: ASC
+        tags: [{ name: 'api_platform.filter', id: 'place.order' }]
+
+    resource.occurrence.order_filter:
+        parent: 'app_bundle.doctrine.orm.order_filter'
+        arguments:
+            - startDate:
+                    default: ASC
+              endDate: ~
+        tags: [{ name: 'api_platform.filter', id: 'occurrence.order' }]
+
+    resource.occurrence.search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments:
+            - place.name: 'partial'
+              place.id: 'exact'
+              event.name: 'partial'
+              event.organizer.id: 'exact'
+              event.createdBy: 'exact'
+        tags: [{ name: 'api_platform.filter', id: 'occurrence.search' }]
+
+    resource.occurrence.search_date_filter:
+        parent: 'app_bundle.doctrine.orm.date_filter'
+        arguments:
+            - startDate: ~
+              endDate:
+                default:
+                  after: now
+                null_management: include_null_after
+        tags: [{ name: 'api_platform.filter', id: 'occurrence.search.date' }]
+
+    resource.occurrence.search_event_tag_filter:
+        parent: 'app_bundle.doctrine.orm.tag_filter'
+        arguments: ['event.tags']
+        tags: [{ name: 'api_platform.filter', id: 'occurrence.search.event_tag' }]
+
+    resource.occurrence.search_published_filter:
+        parent: 'app_bundle.doctrine.orm.published_filter'
+        tags: [{ name: 'api_platform.filter', id: 'occurrence.search.published' }]

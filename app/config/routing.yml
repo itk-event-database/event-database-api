@@ -1,15 +1,15 @@
 app:
     resource: '@AdminBundle/Action/'
-    type:     'annotation'
+    type: annotation
 
 app_controller:
     resource: '@AppBundle/Controller/'
-    type:     'annotation'
+    type: annotation
 
 api:
     resource: '.'
-    type:     'api_platform'
-    prefix:   '/api'
+    type: 'api_platform'
+    prefix: '/api'
 
 # doc:
 #     resource: '@ApiPlatformBundle/Resources/config/routing/swagger-ui.xml'
@@ -19,20 +19,20 @@ api_login_check:
 
 admin:
   resource: '@AdminBundle/Controller/'
-  type:     'annotation'
+  type: 'annotation'
 
 fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    resource: '@FOSUserBundle/Resources/config/routing/all.xml'
 
 fos_user_group:
-    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
+    resource: '@FOSUserBundle/Resources/config/routing/group.xml'
     prefix: /group
 
 ResqueBundle:
-    resource: "@ResqueBundle/Resources/config/routing.xml"
-    prefix:   /resque
+    resource: '@ResqueBundle/Resources/config/routing.xml'
+    prefix: /resque
 
 easy_admin_bundle:
-    resource: "@AdminBundle/Controller/AdminController.php"
-    type:     annotation
-    prefix:   /easyadmin
+    resource: '@AdminBundle/Controller/AdminController.php'
+    type: annotation
+    prefix: /easyadmin

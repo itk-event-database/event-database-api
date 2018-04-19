@@ -1,19 +1,19 @@
 # To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
+# https://symfony.com/doc/current/security.html
 security:
     role_hierarchy:
-        ROLE_API_READ:         [ ROLE_USER ]
-        ROLE_API_WRITE:        [ ROLE_API_READ ]
-        ROLE_EVENT_EDITOR:     [ ROLE_USER ]
-        ROLE_EVENT_ADMIN:      [ ROLE_EVENT_EDITOR ]
-        ROLE_PLACE_EDITOR:     [ ROLE_USER ]
-        ROLE_PLACE_ADMIN:      [ ROLE_PLACE_EDITOR ]
-        ROLE_ORGANIZER_EDITOR: [ ROLE_USER ]
-        ROLE_TAG_EDITOR:       [ ROLE_USER ]
-        ROLE_USER_EDITOR:      [ ROLE_USER ]
-        ROLE_FEED_EDITOR:      [ ROLE_USER ]
-        ROLE_ADMIN:            [ ROLE_API_WRITE, ROLE_EVENT_ADMIN, ROLE_PLACE_ADMIN, ROLE_ORGANIZER_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR ]
-        ROLE_SUPER_ADMIN:      [ ROLE_ADMIN ]
+        ROLE_API_READ: [ROLE_USER]
+        ROLE_API_WRITE: [ROLE_API_READ]
+        ROLE_EVENT_EDITOR: [ROLE_USER]
+        ROLE_EVENT_ADMIN: [ROLE_EVENT_EDITOR]
+        ROLE_PLACE_EDITOR: [ROLE_USER]
+        ROLE_PLACE_ADMIN: [ROLE_PLACE_EDITOR]
+        ROLE_ORGANIZER_EDITOR: [ROLE_USER]
+        ROLE_TAG_EDITOR: [ROLE_USER]
+        ROLE_USER_EDITOR: [ROLE_USER]
+        ROLE_FEED_EDITOR: [ROLE_USER]
+        ROLE_ADMIN: [ROLE_API_WRITE, ROLE_EVENT_ADMIN, ROLE_PLACE_ADMIN, ROLE_ORGANIZER_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -30,17 +30,17 @@ security:
             security: false
 
         login:
-            pattern:  ^/api/login
+            pattern: ^/api/login
             stateless: true
             anonymous: true
             form_login:
-                check_path:               /api/login_check
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
 
         api:
-            pattern:   ^/api
+            pattern: ^/api
             stateless: true
             methods: [POST, PUT, DELETE]
             lexik_jwt: ~
@@ -55,7 +55,7 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
             # form_login:
 
-            pattern:   ^/
+            pattern: ^/
             form_login:
                 provider: fos_userbundle
                 check_path: fos_user_security_check
@@ -68,10 +68,10 @@ security:
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # Read/write API access
-        - { path: ^/api,       roles: [ ROLE_API_WRITE ], methods: [ POST, PUT, DELETE ] }
-        - { path: ^/api/upload,       roles: [ ROLE_API_WRITE ], methods: [ POST ] }
+        - { path: ^/api, roles: [ROLE_API_WRITE], methods: [POST, PUT, DELETE] }
+        - { path: ^/api/upload, roles: [ROLE_API_WRITE], methods: [POST] }
         # Read only API access
-        - { path: ^/api,       roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/api, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
 
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

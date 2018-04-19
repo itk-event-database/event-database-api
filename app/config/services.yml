@@ -1,7 +1,7 @@
 # Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
+# https://symfony.com/doc/current/service_container.html
 parameters:
-#    parameter_name: value
+    #parameter_name: value
 
 services:
     value_converter:
@@ -12,32 +12,32 @@ services:
         public: true
         class: AdminBundle\Service\FileHandler
         arguments:
-            - "@logger"
+            - '@logger'
             -
-                base_url: "%admin.base_url%"
+                base_url: '%admin.base_url%'
                 files:
-                    path: "%admin.files_path%"
-                    url: "%admin.files_url%"
+                    path: '%admin.files_path%'
+                    url: '%admin.files_url%'
 
     authenticator:
         class: AdminBundle\Service\AuthenticatorService
         arguments:
-            - "@security.token_storage"
+            - '@security.token_storage'
             -
                 firewall: main
 
     download_files:
         class: AdminBundle\Service\DownloadFilesService
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@file_handler"
-            - "@authenticator"
+            - '@doctrine.orm.entity_manager'
+            - '@file_handler'
+            - '@authenticator'
 
     # Factories
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
         abstract:  true
-        arguments: [ "@service_container", "@doctrine.orm.entity_manager", "@value_converter", "@tag_manager" ]
+        arguments: ['@service_container', '@doctrine.orm.entity_manager', '@value_converter', '@tag_manager']
 
     place_factory:
         parent: entity_factory
@@ -51,181 +51,14 @@ services:
         parent: entity_factory
         class: AdminBundle\Factory\OccurrenceFactory
         calls:
-            - [setPlaceFactory, ["@place_factory"]]
+            - [setPlaceFactory, ['@place_factory']]
 
     event_factory:
         parent: entity_factory
         class: AdminBundle\Factory\EventFactory
         calls:
-            - [setOrganizerFactory, ["@organizer_factory"]]
-            - [setOccurrenceFactory, ["@occurrence_factory"]]
-
-    # Filters
-    app_bundle.doctrine.orm.date_filter:
-        class:      AppBundle\Filter\DateFilter
-        arguments:  [ "@doctrine", "@request_stack", "@?logger" ]
-        public:     false
-
-    app_bundle.doctrine.orm.tag_filter:
-        class:      AppBundle\Filter\TagFilter
-        arguments:  [ "@doctrine", "@request_stack", "@tag_manager" ]
-        public:     false
-
-    app_bundle.doctrine.orm.order_filter:
-        class:      AppBundle\Filter\OrderFilter
-        arguments:  [ "@doctrine", "@request_stack", "%api_platform.collection.order_parameter_name%", "@?logger" ]
-        public:     false
-
-    app_bundle.doctrine.orm.published_filter:
-        class:      AppBundle\Filter\PublishedFilter
-        arguments:
-            - "@doctrine"
-            - "@request_stack"
-
-    resource.event.order_filter:
-        parent:    "app_bundle.doctrine.orm.order_filter"
-        arguments:
-            - occurrences.startDate:
-                default: ASC
-              occurrences.endDate: ~
-              updatedAt: ~
-        tags:      [ { name: 'api_platform.filter', id: 'event.order' } ]
-
-    resource.event.search_filter:
-        parent:    "api_platform.doctrine.orm.search_filter"
-        arguments:
-            - name: "partial"
-              description: "partial"
-              langcode: "exact"
-              createdBy: "exact"
-              occurrences.place.name: "partial"
-              occurrences.place.id: "exact"
-              organizer.id: "exact"
-        tags:      [ { name: 'api_platform.filter', id: 'event.search' } ]
-
-    resource.event.search_owner_filter:
-        class:     AppBundle\Filter\OwnerFilter
-        arguments:
-            - "@doctrine"
-            - "@request_stack"
-        tags:      [ { name: 'api_platform.filter', id: 'event.search.owner' } ]
-
-    resource.event.search_published_filter:
-        parent:    "app_bundle.doctrine.orm.published_filter"
-        tags:      [ { name: 'api_platform.filter', id: 'event.search.published' } ]
-
-    resource.event.search_date_filter:
-        parent:    "app_bundle.doctrine.orm.date_filter"
-        arguments:
-            - occurrences.startDate: ~
-              occurrences.endDate:
-                default:
-                    after: now
-                null_management: include_null_after
-              updatedAt: ~
-        tags:      [ { name: 'api_platform.filter', id: 'event.search.date' } ]
-
-    resource.event.search_tag_filter:
-        parent:    "app_bundle.doctrine.orm.tag_filter"
-        arguments: [ 'tags' ]
-        tags:      [ { name: 'api_platform.filter', id: 'event.search.tag' } ]
-
-    resource.organizer.search_filter:
-        parent:    "api_platform.doctrine.orm.search_filter"
-        arguments:
-            - name: "partial"
-        tags:      [ { name: 'api_platform.filter', id: 'organizer.search' } ]
-
-    resource.organizer.order_filter:
-        parent:    "app_bundle.doctrine.orm.order_filter"
-        arguments:
-            - name:
-                default: ASC
-        tags:      [ { name: 'api_platform.filter', id: 'organizer.order' } ]
-
-    resource.place.search_filter:
-        parent:    "api_platform.doctrine.orm.search_filter"
-        arguments:
-            - name: "partial"
-              postalCode: "exact"
-        tags:      [ { name: 'api_platform.filter', id: 'place.search' } ]
-
-    resource.place.geolocation_filter:
-        class: AppBundle\Filter\GeolocationFilter
-        arguments:
-            - '@doctrine'
-            - '@request_stack'
-            - '@?logger'
-            -
-                property: geolocation
-                alias: geolocation
-                lat: latitude # Property on entity
-                lng: longitude # Property on entity
-                radius:
-                    default: 8
-                    min: 1
-        tags: [ { name: 'api_platform.filter', id: 'place.search.geolocation' } ]
-
-    resource.place.search_owner_filter:
-        class:     AppBundle\Filter\OwnerFilter
-        arguments:
-            - "@doctrine"
-            - "@request_stack"
-            -
-                filters:
-                    user: user
-                    group: group
-                    editable_by: editable_by
-        tags:      [ { name: 'api_platform.filter', id: 'place.search.owner' } ]
-
-    resource.place.search_tag_filter:
-        parent:    "app_bundle.doctrine.orm.tag_filter"
-        arguments: [ 'tags' ]
-        tags:      [ { name: 'api_platform.filter', id: 'place.search.tag' } ]
-
-    resource.place.order_filter:
-        parent:    "app_bundle.doctrine.orm.order_filter"
-        arguments:
-            - name:
-                default: ASC
-        tags:      [ { name: 'api_platform.filter', id: 'place.order' } ]
-
-    resource.occurrence.order_filter:
-        parent:    "app_bundle.doctrine.orm.order_filter"
-        arguments:
-            - startDate:
-                    default: ASC
-              endDate: ~
-        tags:      [ { name: 'api_platform.filter', id: 'occurrence.order' } ]
-
-    resource.occurrence.search_filter:
-        parent:    "api_platform.doctrine.orm.search_filter"
-        arguments:
-            - place.name: "partial"
-              place.id: "exact"
-              event.name: "partial"
-              event.organizer.id: "exact"
-              event.createdBy: "exact"
-        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search' } ]
-
-    resource.occurrence.search_date_filter:
-        parent:    "app_bundle.doctrine.orm.date_filter"
-        arguments:
-            - startDate: ~
-              endDate:
-                default:
-                  after: now
-                null_management: include_null_after
-        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.date' } ]
-
-    resource.occurrence.search_event_tag_filter:
-        parent:    "app_bundle.doctrine.orm.tag_filter"
-        arguments: [ 'event.tags' ]
-        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.event_tag' } ]
-
-    resource.occurrence.search_published_filter:
-        parent:    "app_bundle.doctrine.orm.published_filter"
-        tags:      [ { name: 'api_platform.filter', id: 'occurrence.search.published' } ]
+            - [setOrganizerFactory, ['@organizer_factory']]
+            - [setOccurrenceFactory, ['@occurrence_factory']]
 
     # https://github.com/FriendsOfSymfony/FOSUserBundle/issues/2048
     fos_user.doctrine_registry:
@@ -235,16 +68,16 @@ services:
         alias: security.role_hierarchy
 
     security.access.edit_voter:
-        class:      AppBundle\Security\Authorization\Voter\EditVoter
-        public:     false
-        arguments: [ "@security.role_hierarchy" ]
+        class: AppBundle\Security\Authorization\Voter\EditVoter
+        public: false
+        arguments: ['@security.role_hierarchy']
         tags:
             - { name: security.voter }
 
     # https://api-platform.com/doc/1.0/api-bundle/the-event-system
     event.event_listener:
         class: AppBundle\EventListener\EventListener
-        arguments: [ "@service_container" ]
+        arguments: ['@service_container']
         tags:
             - { name: doctrine.event_listener, event: preRemove }
             - { name: doctrine.event_listener, event: preUpdate }
@@ -271,38 +104,38 @@ services:
     feed_reader_event_importer:
         class: AdminBundle\Service\FeedReader\EventImporter
         arguments:
-            - "@event_factory"
-            - "@place_factory"
-            - "@organizer_factory"
-            - "@file_handler"
+            - '@event_factory'
+            - '@place_factory'
+            - '@organizer_factory'
+            - '@file_handler'
 
     feed_reader:
         class: AdminBundle\Service\FeedReader
         arguments:
-            - "@value_converter"
-            - "@feed_reader_event_importer"
+            - '@value_converter'
+            - '@feed_reader_event_importer'
             -
                 readers:
-                    json: "@feed_reader.json"
-                    xml: "@feed_reader.xml"
-            - "@logger"
-            - "@authenticator"
-            - "@stof_doctrine_extensions.listener.blameable"
-            - "@doctrine"
-            - "@feed_manager"
+                    json: '@feed_reader.json'
+                    xml: '@feed_reader.xml'
+            - '@logger'
+            - '@authenticator'
+            - '@stof_doctrine_extensions.listener.blameable'
+            - '@doctrine'
+            - '@feed_manager'
 
     feed_previewer:
         class: AdminBundle\Service\FeedPreviewer
         arguments:
-            - "@value_converter"
+            - '@value_converter'
             -
                 readers:
-                    json: "@feed_reader.json"
-                    xml: "@feed_reader.xml"
-            - "@logger"
-            - "@authenticator"
-            - "@stof_doctrine_extensions.listener.blameable"
-            - "@doctrine"
+                    json: '@feed_reader.json'
+                    xml: '@feed_reader.xml'
+            - '@logger'
+            - '@authenticator'
+            - '@stof_doctrine_extensions.listener.blameable'
+            - '@doctrine'
 
     feed_validator:
         class: AdminBundle\Service\FeedValidator
@@ -311,22 +144,22 @@ services:
     feed_manager:
         class: AdminBundle\Service\FeedManager
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - '@doctrine.orm.entity_manager'
 
     twig_extension:
         class: AdminBundle\Twig\Extension\TwigExtension
         tags:
-            - { name: "twig.extension" }
+            - { name: 'twig.extension' }
 
     description_normalizer:
         class: AdminBundle\Service\ContentNormalizer
         arguments:
-            - "@exercise_html_purifier.default"
+            - '@exercise_html_purifier.default'
 
     excerpt_normalizer:
         class: AdminBundle\Service\ContentNormalizer
         arguments:
-            - "@exercise_html_purifier.default"
+            - '@exercise_html_purifier.default'
             -
                 strip_tags: true
                 max_length: 160
@@ -336,24 +169,24 @@ services:
         public: false
         class: AppBundle\Serializer\CustomItemNormalizer
         arguments:
-            - "@api_platform.metadata.resource.metadata_factory"
-            - "@api_platform.metadata.property.name_collection_factory"
-            - "@api_platform.metadata.property.metadata_factory"
-            - "@api_platform.iri_converter"
-            - "@api_platform.resource_class_resolver"
-            - "@api_platform.jsonld.context_builder"
-            - "@api_platform.property_accessor"
-            - "@?api_platform.name_converter"
-            - "@tag_manager"
-            - "@organizer_factory"
-            - "@place_factory"
+            - '@api_platform.metadata.resource.metadata_factory'
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.jsonld.context_builder'
+            - '@api_platform.property_accessor'
+            - '@?api_platform.name_converter'
+            - '@tag_manager'
+            - '@organizer_factory'
+            - '@place_factory'
 
-        tags: [ { name: serializer.normalizer, priority: 10 } ]
+        tags: [{ name: serializer.normalizer, priority: 10 }]
 
     tag_normalizer:
         class: AdminBundle\Service\TagNormalizer
         arguments:
-            - "@service_container"
+            - '@service_container'
             -
                 services:
                     tag_manager: tag_manager
@@ -363,12 +196,12 @@ services:
         public: true
         class: AppBundle\Entity\TagManager
         calls:
-            - [setTagNormalizer, ["@tag_normalizer"]]
+            - [setTagNormalizer, ['@tag_normalizer']]
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "%fpn_tag.entity.tag.class%"
-            - "%fpn_tag.entity.tagging.class%"
-            - "@fpn_tag.slugifier"
+            - '@doctrine.orm.entity_manager'
+            - '%fpn_tag.entity.tag.class%'
+            - '%fpn_tag.entity.tagging.class%'
+            - '@fpn_tag.slugifier'
 
     AppBundle\Entity\TagManager:
         alias: tag_manager
@@ -377,18 +210,18 @@ services:
     unknown_tag_manager:
         class: AppBundle\Entity\TagManager
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - '@doctrine.orm.entity_manager'
             - AppBundle\Entity\UnknownTag
-            - "%fpn_tag.entity.tagging.class%"
-            - "@fpn_tag.slugifier"
+            - '%fpn_tag.entity.tagging.class%'
+            - '@fpn_tag.slugifier'
 
     roles_helper:
         class: AdminBundle\Service\RolesHelper
-        arguments: [ "%security.role_hierarchy.roles%" ]
+        arguments: ['%security.role_hierarchy.roles%']
 
     user.form.type:
         class: AdminBundle\Form\UserType
-        arguments: ["%fos_user.model.user.class%", "@roles_helper"]
+        arguments: ['%fos_user.model.user.class%', '@roles_helper']
         tags:
             - { name: form.type, alias: user }
 
@@ -406,15 +239,15 @@ services:
         public: false
         class: AppBundle\Serializer\AoA\ItemNormalizer
         arguments:
-            - "@api_platform.metadata.property.name_collection_factory"
-            - "@api_platform.metadata.property.metadata_factory"
-            - "@api_platform.iri_converter"
-            - "@api_platform.resource_class_resolver"
-            - "@api_platform.property_accessor"
-            - "@?api_platform.name_converter"
-            - "@tag_manager"
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+            - '@?api_platform.name_converter'
+            - '@tag_manager'
 
-        tags: [ { name: serializer.normalizer, priority: 10 } ]
+        tags: [{ name: serializer.normalizer, priority: 10 }]
 
     app.integrity_manager:
         public: false
@@ -424,7 +257,7 @@ services:
 
     AdminBundle\Service\UserManager:
         public: false
-        arguments: [ "@security.role_hierarchy" ]
+        arguments: ['@security.role_hierarchy']
 
     app.twig_extension_easy_admin:
         class: AdminBundle\Twig\Extension\EasyAdminExtension
@@ -435,7 +268,7 @@ services:
             - '@app.integrity_manager'
             - '@AdminBundle\Service\UserManager'
         tags:
-            - { name: "twig.extension" }
+            - { name: 'twig.extension' }
 
     app.encoder.firebase:
         class: AppBundle\Serializer\Firebase\Encoder
@@ -446,30 +279,30 @@ services:
         public: false
         class: AppBundle\Serializer\Firebase\ItemNormalizer
         arguments:
-            - "@api_platform.metadata.property.name_collection_factory"
-            - "@api_platform.metadata.property.metadata_factory"
-            - "@api_platform.iri_converter"
-            - "@api_platform.resource_class_resolver"
-            - "@api_platform.property_accessor"
-            - "@?api_platform.name_converter"
-            - "@tag_manager"
+            - '@api_platform.metadata.property.name_collection_factory'
+            - '@api_platform.metadata.property.metadata_factory'
+            - '@api_platform.iri_converter'
+            - '@api_platform.resource_class_resolver'
+            - '@api_platform.property_accessor'
+            - '@?api_platform.name_converter'
+            - '@tag_manager'
 
-        tags: [ { name: serializer.normalizer, priority: 10 } ]
+        tags: [{ name: serializer.normalizer, priority: 10 }]
 
     app.uploads_subscriber:
         class: AdminBundle\EventSubscriber\UploadsSubscriber
         arguments:
             -
-                base_url: "%admin.base_url%"
+                base_url: '%admin.base_url%'
                 files:
-                    path: "%admin.uploads_path%"
-                    url: "%admin.uploads_url%"
+                    path: '%admin.uploads_path%'
+                    url: '%admin.uploads_url%'
         tags:
             - { name: doctrine.event_subscriber }
 
     app.reposity.place:
         class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine.orm.entity_manager", getRepository]
+        factory: ['@doctrine.orm.entity_manager', getRepository]
         arguments:
             - AppBundle\Entity\Place
 
@@ -480,7 +313,7 @@ services:
 
     app.form.type.repeating_occurrences:
         class: AdminBundle\Form\RepeatingOccurrencesType
-        arguments: ["@app.reposity.place"]
+        arguments: ['@app.reposity.place']
         tags:
             - { name: form.type, alias: repeating_occurrences }
 

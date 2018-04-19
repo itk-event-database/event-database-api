@@ -57,8 +57,8 @@ easy_admin:
               route: fos_user_security_logout
 
     formats:
-        date:     'd/m/Y'
-        time:     'H:i'
+        date: 'd/m/Y'
+        time: 'H:i'
         datetime: 'd/m/Y H:i:s'
 
     list:
@@ -154,7 +154,7 @@ easy_admin:
                       type_options:
                         entry_type: AdminBundle\Form\OccurrenceType
                         entry_options:
-                            view_timezone: "%view_timezone%"
+                            view_timezone: '%view_timezone%'
                         by_reference: false
                         required: true
                       embedded: true
@@ -211,7 +211,7 @@ easy_admin:
                       type_options:
                         entry_type: AdminBundle\Form\OccurrenceType
                         entry_options:
-                            view_timezone: "%view_timezone%"
+                            view_timezone: '%view_timezone%'
                         by_reference: false
                         required: true
                       embedded: true
@@ -226,7 +226,7 @@ easy_admin:
                       type: AdminBundle\Form\RepeatingOccurrencesType
                       type_options:
                           required: false
-                          view_timezone: "%view_timezone%"
+                          view_timezone: '%view_timezone%'
 
             show:
                 fields:
@@ -553,7 +553,7 @@ easy_admin:
                     - property: configuration
                       type: AdminBundle\Form\YamlType
                       type_options:
-                          schema: "%kernel.root_dir%/../src/AdminBundle/Resources/public/schema/feed.schema.json"
+                          schema: '%kernel.project_dir%/src/AdminBundle/Resources/public/schema/feed.schema.json'
                     - property: cleanUpStrategy
                       type: choice
                       type_options:
@@ -566,5 +566,5 @@ vich_uploader:
     db_driver: orm
     mappings:
         thing_images:
-            upload_destination: "%admin.uploads_path%"
-            uri_prefix:         "%admin.uploads_url%"
+            upload_destination: '%admin.uploads_path%'
+            uri_prefix: '%admin.uploads_url%'
