@@ -125,7 +125,7 @@ class FileHandler
         $localUrl = $this->baseUrlResolver->__invoke(HttpUri::createFromString($path));
         $externalUrl = $this->baseUrlResolver->__invoke(HttpUri::createFromString($url));
 
-        return $localUrl === $externalUrl;
+        return (string) $localUrl === (string) $externalUrl;
     }
 
     public function getLocalPath(string $url)
