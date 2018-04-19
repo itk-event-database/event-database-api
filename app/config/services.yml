@@ -321,3 +321,22 @@ services:
     app.danish_zip_code:
         public: true
         class: AdminBundle\Service\DanishZipCode
+
+    Liip\ImagineBundle\Imagine\Cache\CacheManager:
+        alias: liip_imagine.cache.manager
+
+    Liip\ImagineBundle\Imagine\Filter\FilterManager:
+        alias: liip_imagine.filter.manager
+
+    Liip\ImagineBundle\Imagine\Data\DataManager:
+        alias: liip_imagine.data.manager
+
+
+    AdminBundle\Service\FileHandler:
+        alias: file_handler
+
+    AdminBundle\Service\AuthenticatorService:
+        alias: authenticator
+
+    AdminBundle\Service\ImageGenerator:
+        autowire: true

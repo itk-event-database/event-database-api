@@ -43,3 +43,6 @@ parameters:
     from_email_name: Event Database
 
     view_timezone: GMT
+
+    router.request_context.host: event-database-api.vm
+    router.request_context.scheme: http
