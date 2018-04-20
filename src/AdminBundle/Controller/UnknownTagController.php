@@ -10,7 +10,7 @@
 
 namespace AdminBundle\Controller;
 
-use AppBundle\Entity\TagManager;
+use AdminBundle\Service\TagManager;
 use AppBundle\Entity\UnknownTag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

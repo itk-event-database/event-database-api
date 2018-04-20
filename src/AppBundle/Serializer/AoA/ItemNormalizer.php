@@ -10,6 +10,7 @@
 
 namespace AppBundle\Serializer\AoA;
 
+use AdminBundle\Service\TagManager;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\ResourceClassResolverInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
@@ -17,7 +18,6 @@ use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInte
 use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Place;
-use AppBundle\Entity\TagManager;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;

@@ -10,8 +10,8 @@
 
 namespace AdminBundle\Controller;
 
+use AdminBundle\Service\TagManager;
 use AppBundle\Entity\Tag;
-use AppBundle\Entity\TagManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;

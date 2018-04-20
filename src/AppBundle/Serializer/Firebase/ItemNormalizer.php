@@ -10,6 +10,7 @@
 
 namespace AppBundle\Serializer\Firebase;
 
+use AdminBundle\Service\TagManager;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\ResourceClassResolverInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
@@ -19,7 +20,6 @@ use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use AppBundle\Entity\Tag;
-use AppBundle\Entity\TagManager;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;

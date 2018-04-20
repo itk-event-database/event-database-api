@@ -10,7 +10,7 @@
 
 namespace AdminBundle\EventSubscriber;
 
-use AppBundle\Entity\TagManager;
+use AdminBundle\Service\TagManager;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

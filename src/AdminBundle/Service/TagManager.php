@@ -8,9 +8,9 @@
  * This source file is subject to the MIT license.
  */
 
-namespace AppBundle\Entity;
+namespace AdminBundle\Service;
 
-use AdminBundle\Service\TagNormalizerInterface;
+use AppBundle\Entity\CustomTaggable;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager as BaseTagManager;
 

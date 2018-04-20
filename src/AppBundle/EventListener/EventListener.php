@@ -10,8 +10,8 @@
 
 namespace AppBundle\EventListener;
 
+use AdminBundle\Service\TagManager;
 use AppBundle\Entity\Event;
-use AppBundle\Entity\TagManager;
 use AppBundle\Entity\Thing;
 use AppBundle\Job\DownloadFilesJob;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;

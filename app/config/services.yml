@@ -194,7 +194,7 @@ services:
 
     tag_manager:
         public: true
-        class: AppBundle\Entity\TagManager
+        class: AdminBundle\Service\TagManager
         calls:
             - [setTagNormalizer, ['@tag_normalizer']]
         arguments:
@@ -203,12 +203,12 @@ services:
             - '%fpn_tag.entity.tagging.class%'
             - '@fpn_tag.slugifier'
 
-    AppBundle\Entity\TagManager:
+    AdminBundle\Service\TagManager:
         alias: tag_manager
         public: true
 
     unknown_tag_manager:
-        class: AppBundle\Entity\TagManager
+        class: AdminBundle\Service\TagManager
         arguments:
             - '@doctrine.orm.entity_manager'
             - AppBundle\Entity\UnknownTag

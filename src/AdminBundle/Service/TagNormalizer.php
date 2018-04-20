@@ -11,7 +11,6 @@
 namespace AdminBundle\Service;
 
 use AppBundle\Entity\Tag;
-use AppBundle\Entity\TagManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class TagNormalizer implements TagNormalizerInterface
