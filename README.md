@@ -26,6 +26,36 @@ Install assets
 bin/console assets:install
 ```
 
+Generated images
+----------------
+
+[LiipImagineBundle](https://symfony.com/doc/2.0/bundles/LiipImagineBundle/index.html)
+is used to generate scaled images. Images are generated whenever
+images are changed or added, but to get things started you have to
+generate all images from the command line.
+
+To add generated images to all Events and Places, run
+
+```
+bin/console admin:images:set AppBundle:Event
+bin/console admin:images:set AppBundle:Place
+```
+
+To reset generated images, run
+
+```
+bin/console admin:images:reset AppBundle:Event
+bin/console admin:images:reset AppBundle:Place
+```
+
+To remove all generated images (cf. [LiipImagineBundle Console
+Commands](https://symfony.com/doc/2.0/bundles/LiipImagineBundle/commands.html#remove-cache)),
+run
+
+```
+bin/console liip:imagine:cache:remove
+```
+
 Coding standard
 ---------------
 
