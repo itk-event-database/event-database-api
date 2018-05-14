@@ -22,14 +22,15 @@ Each event in the feed must provide the following data.
 
 An event must either provide a start time and an end time or a list of [*occurrences*](#occurrences) each providing a start and end time.
 
-| Property    | Type                      | Required | Comment |
-|-------------|---------------------------|----------|---------|
-| id          | integer or string         | Yes      | A unique identifier for the event. Used to detect if an event is new or an update. |
-| name        | string                    | Yes      | Name of the event |
-| image       | url                       | Yes      | Image for the event |
-| description | string                    | Yes      | Can contain HTML. |
-| excerpt     | string                    | No       | Short description. If not set, it will be generated from "description" |
-| occurrences | list of occurrences       | Yes†     | † See [Note on occurrences](#note-on-occurrences). |
+| Property    | Type                      | Required | Comment                                                                                                                                                                           |
+|-------------|---------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| id          | integer or string         | Yes      | A unique identifier for the event. Used to detect if an event is new or an update.                                                                                                |
+| url         | url                       | Yes      | Url of the event.                                                                                                                                                                 |
+| name        | string                    | Yes      | Name of the event                                                                                                                                                                 |
+| image       | url                       | Yes      | Image for the event                                                                                                                                                               |
+| description | string                    | Yes      | Can contain HTML.                                                                                                                                                                 |
+| excerpt     | string                    | No       | Short description. If not set, it will be generated from "description"                                                                                                            |
+| occurrences | list of occurrences       | Yes†     | † See [Note on occurrences](#note-on-occurrences).                                                                                                                                |
 | tags        | string or list of strings | No       | If "tags" is a string it should use a delimiter to separate tags (e.g. "Music, Heavy metal" using comma as delimiter). On import a string will be converted to a list of strings. |
 
 #### Note on occurrences
@@ -71,7 +72,7 @@ An occurrence must provide the following data.
 | endtime     | datetime\* | Yes      | The start time of the occurrence (event). Must be after "starttime". |
 | place       | place      | Yes‡     | ‡ See [Note on place](#note-on-place). |
 
-\* a "datetime" must be a string representation of a time and date. We use [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), e.g. "2017-03-16T17:00:00+00:00". If there is no timezone registered we will "guess" that the timezone is copenhagen-time, which is a guess and therefore we prefer using ISO8601. 
+\* a "datetime" must be a string representation of a time and date. We use [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), e.g. "2017-03-16T17:00:00+00:00". If there is no timezone registered we will "guess" that the timezone is copenhagen-time, which is a guess and therefore we prefer using ISO8601.
 
 #### Note on place
 
