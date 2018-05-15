@@ -80,9 +80,8 @@ Feature: Events
     And I send a "GET" request to "/api/occurrences?event.tags=a"
     And the JSON node "hydra:member" should have 3 elements
     And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/1"
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/4"
-    And the JSON node "hydra:member[2].@id" should be equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/4"
 
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/occurrences?event.tags=b"
@@ -108,25 +107,25 @@ Feature: Events
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/occurrences?event.tags[]=a&event.tags[]=c"
     And the JSON node "hydra:member" should have 3 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/4"
-    And the JSON node "hydra:member[2].@id" should be equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/1"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/4"
 
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/occurrences?event.tags[]=a&event.tags[]=b"
     And the JSON node "hydra:member" should have 4 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/3"
-    And the JSON node "hydra:member[2].@id" should be equal to "/api/occurrences/4"
-    And the JSON node "hydra:member[3].@id" should be equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/1"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/3"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/4"
 
   Scenario: Get occurrences by event tags and name
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/occurrences?event.name=event&event.tags[]=a&event.tags[]=c"
     And the JSON node "hydra:member" should have 3 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/4"
-    And the JSON node "hydra:member[2].@id" should be equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/1"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/2"
+    And the JSON node "hydra:member" should contain 1 element with "@id" equal to "/api/occurrences/4"
 
   @dropSchema
   Scenario: Drop schema
