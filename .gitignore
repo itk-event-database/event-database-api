@@ -16,9 +16,5 @@
 /vendor/
 /web/bundles/
 web/feeds
-web/images
-web/uploads
-web/files
-web/media/cache
 app/config/feeds.yml
 .php_cs.cache
