@@ -41,11 +41,11 @@ bin/console admin:images:set AppBundle:Event
 bin/console admin:images:set AppBundle:Place
 ```
 
-To reset generated images, run
+To reset generated images, add `--reset` to the commands:
 
 ```
-bin/console admin:images:reset AppBundle:Event
-bin/console admin:images:reset AppBundle:Place
+bin/console admin:images:set --reset AppBundle:Event
+bin/console admin:images:set --reset AppBundle:Place
 ```
 
 To remove all generated images (cf. [LiipImagineBundle Console
