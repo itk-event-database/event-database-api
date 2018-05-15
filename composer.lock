@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "caa2921342f7a60f40afbb32a57c650f",
+    "content-hash": "f080d5c090c4fca81b6752acf7b542d2",
     "packages": [
         {
             "name": "api-platform/core",
@@ -6441,70 +6441,6 @@
             ],
             "description": "A tool to automatically fix PHP code style",
             "time": "2018-03-21T17:41:26+00:00"
-        },
-        {
-            "name": "jeremykendall/php-domain-parser",
-            "version": "4.0.3-alpha",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jeremykendall/php-domain-parser.git",
-                "reference": "026a459bb2d32b0352731b5cb525f2c1d2b9d673"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/026a459bb2d32b0352731b5cb525f2c1d2b9d673",
-                "reference": "026a459bb2d32b0352731b5cb525f2c1d2b9d673",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-intl": "*",
-                "ext-mbstring": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "fabpot/php-cs-fixer": "^1.11",
-                "jeremykendall/debug-die": "0.0.1.*",
-                "mikey179/vfsstream": "~1.6",
-                "phing/phing": "^2.13",
-                "phpunit/phpunit": "~4.8"
-            },
-            "bin": [
-                "bin/parse",
-                "bin/update-psl"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Pdp\\": "src/"
-                },
-                "files": [
-                    "src/pdp-parse-url.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeremy Kendall",
-                    "homepage": "http://about.me/jeremykendall",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/jeremykendall/php-domain-parser/graphs/contributors"
-                }
-            ],
-            "description": "Public Suffix List based URL parsing implemented in PHP.",
-            "homepage": "https://github.com/jeremykendall/php-domain-parser",
-            "keywords": [
-                "Public Suffix List",
-                "domain parsing",
-                "url parsing"
-            ],
-            "time": "2017-09-28T15:52:11+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
