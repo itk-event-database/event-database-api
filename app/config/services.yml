@@ -13,8 +13,8 @@ services:
         class: AdminBundle\Service\FileHandler
         arguments:
             - '@logger'
+            - '@router.request_context'
             -
-                base_url: '%admin.base_url%'
                 files:
                     path: '%admin.files_path%'
                     url: '%admin.files_url%'
@@ -295,8 +295,8 @@ services:
     AdminBundle\EventSubscriber\ImagesSubscriber:
         arguments:
             - '@AdminBundle\Service\ImageGenerator'
+            - '@router.request_context'
             -
-                base_url: '%admin.base_url%'
                 files:
                     path: '%admin.uploads_path%'
                     url: '%admin.uploads_url%'
