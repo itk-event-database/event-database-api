@@ -20,6 +20,7 @@ Feature: Places
 
   Scenario: Count Places
     When I sign in with username "api-read" and password "apipass"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/places"
     Then the response status code should be 200
     And the response should be in JSON
@@ -91,7 +92,7 @@ Feature: Places
     Then the response status code should be 403
 
   Scenario: Count Places
-    When I authenticate as "api-write"
+    When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/places"
     Then the response status code should be 200
     And the response should be in JSON
@@ -100,13 +101,14 @@ Feature: Places
 
   Scenario: Delete a place
     When I authenticate as "api-write"
+    And I add "Accept" header equal to "application/ld+json"
     And I send a "DELETE" request to "/api/places/1"
     Then the response status code should be 204
     And the response should be empty
 
   @dropSchema
   Scenario: Drop schema
-    When I authenticate as "api-read"
+    When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/places"
     Then the response status code should be 200
     And the response should be in JSON

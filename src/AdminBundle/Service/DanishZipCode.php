@@ -1,34 +1,21 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 class DanishZipCode
 {
-
-    public function getCity($zipCode)
-    {
-        $cities = $this->getCities();
-        return isset($cities[$zipCode]) ? $cities[$zipCode] : null;
-    }
-
-    private function getCities()
-    {
-        return self::$cities;
-    }
-
-    private function getZipCodes()
-    {
-        if (self::$zipCodes === null) {
-            self::$zipCodes = array_flip($this->getCities());
-        }
-
-        return self::$zipCodes;
-    }
-
     private static $zipCodes = null;
 
-  // http://www.postnord.dk/da/Privat/Kundeservice/postnummerkort/Sider/postnummerkort.aspx
-  // http://www.postnord.dk/da/Documents/Lister/postnummerfil-excel.xls
+    // http://www.postnord.dk/da/Privat/Kundeservice/postnummerkort/Sider/postnummerkort.aspx
+    // http://www.postnord.dk/da/Documents/Lister/postnummerfil-excel.xls
     private static $cities = [
     '0555' => 'Scanning',
     '0800' => 'Høje Taastrup',
@@ -39,7 +26,7 @@ class DanishZipCode
     '0899' => 'Kommuneservice',
     '0900' => 'København C',
     '0910' => 'København C',
-    '914'  => 'Københavns Pakkecenter',
+    '914' => 'Københavns Pakkecenter',
     '0917' => 'Københavns Pakkecenter',
     '0918' => 'Københavns Pakke BRC',
     '0919' => 'Returprint BRC',
@@ -1342,135 +1329,156 @@ class DanishZipCode
     '3984' => 'Danmarkshavn',
     '3985' => 'Constable Pynt',
     '3992' => 'Slædepatrulje Sirius',
-    '100'  => 'Tórshavn',
-    '110'  => 'Tórshavn ',
-    '160'  => 'Argir',
-    '165'  => 'Argir ',
-    '175'  => 'Kirkjubøur',
-    '176'  => 'Velbastadur',
-    '177'  => 'Sydradalur, Streymoy',
-    '178'  => 'Nordradalur',
-    '180'  => 'Kaldbak',
-    '185'  => 'Kaldbaksbotnur',
-    '186'  => 'Sund',
-    '187'  => 'Hvitanes',
-    '188'  => 'Hoyvík',
-    '210'  => 'Sandur',
-    '215'  => 'Sandur',
-    '220'  => 'Skálavík',
-    '230'  => 'Húsavík',
-    '235'  => 'Dalur',
-    '236'  => 'Skarvanes',
-    '240'  => 'Skopun',
-    '260'  => 'Skúvoy',
-    '270'  => 'Nólsoy',
-    '280'  => 'Hestur',
-    '285'  => 'Koltur',
-    '286'  => 'Stóra Dimun',
-    '330'  => 'Stykkid',
-    '335'  => 'Leynar',
-    '336'  => 'Skællingur',
-    '340'  => 'Kvívík',
-    '350'  => 'Vestmanna',
-    '355'  => 'Vestmanna',
-    '358'  => 'Válur',
-    '360'  => 'Sandavágur',
-    '370'  => 'Midvágur',
-    '375'  => 'Midvágur',
-    '380'  => 'Sørvágur',
-    '385'  => 'Vatnsoyrar',
-    '386'  => 'Bøur',
-    '387'  => 'Gásadalur',
-    '388'  => 'Mykines',
-    '400'  => 'Oyrarbakki',
-    '405'  => 'Oyrarbakki',
-    '410'  => 'Kollafjørdur',
-    '415'  => 'Oyrareingir',
-    '416'  => 'Signabøur',
-    '420'  => 'Hósvík',
-    '430'  => 'Hvalvík',
-    '435'  => 'Streymnes',
-    '436'  => 'Saksun',
-    '437'  => 'Nesvík',
-    '438'  => 'Langasandur',
-    '440'  => 'Haldarsvík',
-    '445'  => 'Tjørnuvík',
-    '450'  => 'Oyri',
-    '460'  => 'Nordskáli',
-    '465'  => 'Svináir',
-    '466'  => 'Ljósá',
-    '470'  => 'Eidi',
-    '475'  => 'Funningur',
-    '476'  => 'Gjógv',
-    '477'  => 'Funningsfjørdur',
-    '478'  => 'Elduvík',
-    '480'  => 'Skáli',
-    '485'  => 'Skálafjørdur',
-    '490'  => 'Strendur',
-    '494'  => 'Innan Glyvur',
-    '495'  => 'Kolbanargjógv',
-    '496'  => 'Morskranes',
-    '497'  => 'Selatrad',
-    '510'  => 'Gøta',
-    '511'  => 'Gøtugjógv',
-    '512'  => 'Nordragøta',
-    '513'  => 'Sydrugøta',
-    '515'  => 'Gøta',
-    '520'  => 'Leirvík',
-    '530'  => 'Fuglafjørdur',
-    '535'  => 'Fuglafjørdur',
-    '600'  => 'Saltangará',
-    '610'  => 'Saltangará',
-    '620'  => 'Runavík',
-    '625'  => 'Glyvrar',
-    '626'  => 'Lambareidi',
-    '627'  => 'Lambi',
-    '640'  => 'Rituvík',
-    '645'  => 'Æduvík',
-    '650'  => 'Toftir',
-    '655'  => 'Nes, Eysturoy',
-    '656'  => 'Saltnes',
-    '660'  => 'Søldarfjørdur',
-    '665'  => 'Skipanes',
-    '666'  => 'Gøtueidi',
-    '690'  => 'Oyndarfjørdur',
-    '695'  => 'Hellur',
-    '700'  => 'Klaksvík',
-    '710'  => 'Klaksvík',
-    '725'  => 'Nordoyri',
-    '726'  => 'Ánir',
-    '727'  => 'Árnafjørdur',
-    '730'  => 'Norddepil',
-    '735'  => 'Depil',
-    '736'  => 'Nordtoftir',
-    '737'  => 'Múli',
-    '740'  => 'Hvannasund',
-    '750'  => 'Vidareidi',
-    '765'  => 'Svinoy',
-    '766'  => 'Kirkja',
-    '767'  => 'Hattarvík',
-    '780'  => 'Kunoy',
-    '785'  => 'Haraldssund',
-    '795'  => 'Sydradalur, Kalsoy',
-    '796'  => 'Húsar',
-    '797'  => 'Mikladalur',
-    '798'  => 'Trøllanes',
-    '800'  => 'Tvøroyri',
-    '810'  => 'Tvøroyri',
-    '825'  => 'Frodba',
-    '826'  => 'Trongisvágur',
-    '827'  => 'Øravík',
-    '850'  => 'Hvalba',
-    '860'  => 'Sandvík',
-    '870'  => 'Fámjin',
-    '900'  => 'Vágur',
-    '910'  => 'Vágur',
-    '925'  => 'Nes, Vágur',
-    '926'  => 'Lopra',
-    '927'  => 'Akrar',
-    '928'  => 'Vikarbyrgi',
-    '950'  => 'Porkeri',
-    '960'  => 'Hov',
-    '970'  => 'Sumba',
+    '100' => 'Tórshavn',
+    '110' => 'Tórshavn ',
+    '160' => 'Argir',
+    '165' => 'Argir ',
+    '175' => 'Kirkjubøur',
+    '176' => 'Velbastadur',
+    '177' => 'Sydradalur, Streymoy',
+    '178' => 'Nordradalur',
+    '180' => 'Kaldbak',
+    '185' => 'Kaldbaksbotnur',
+    '186' => 'Sund',
+    '187' => 'Hvitanes',
+    '188' => 'Hoyvík',
+    '210' => 'Sandur',
+    '215' => 'Sandur',
+    '220' => 'Skálavík',
+    '230' => 'Húsavík',
+    '235' => 'Dalur',
+    '236' => 'Skarvanes',
+    '240' => 'Skopun',
+    '260' => 'Skúvoy',
+    '270' => 'Nólsoy',
+    '280' => 'Hestur',
+    '285' => 'Koltur',
+    '286' => 'Stóra Dimun',
+    '330' => 'Stykkid',
+    '335' => 'Leynar',
+    '336' => 'Skællingur',
+    '340' => 'Kvívík',
+    '350' => 'Vestmanna',
+    '355' => 'Vestmanna',
+    '358' => 'Válur',
+    '360' => 'Sandavágur',
+    '370' => 'Midvágur',
+    '375' => 'Midvágur',
+    '380' => 'Sørvágur',
+    '385' => 'Vatnsoyrar',
+    '386' => 'Bøur',
+    '387' => 'Gásadalur',
+    '388' => 'Mykines',
+    '400' => 'Oyrarbakki',
+    '405' => 'Oyrarbakki',
+    '410' => 'Kollafjørdur',
+    '415' => 'Oyrareingir',
+    '416' => 'Signabøur',
+    '420' => 'Hósvík',
+    '430' => 'Hvalvík',
+    '435' => 'Streymnes',
+    '436' => 'Saksun',
+    '437' => 'Nesvík',
+    '438' => 'Langasandur',
+    '440' => 'Haldarsvík',
+    '445' => 'Tjørnuvík',
+    '450' => 'Oyri',
+    '460' => 'Nordskáli',
+    '465' => 'Svináir',
+    '466' => 'Ljósá',
+    '470' => 'Eidi',
+    '475' => 'Funningur',
+    '476' => 'Gjógv',
+    '477' => 'Funningsfjørdur',
+    '478' => 'Elduvík',
+    '480' => 'Skáli',
+    '485' => 'Skálafjørdur',
+    '490' => 'Strendur',
+    '494' => 'Innan Glyvur',
+    '495' => 'Kolbanargjógv',
+    '496' => 'Morskranes',
+    '497' => 'Selatrad',
+    '510' => 'Gøta',
+    '511' => 'Gøtugjógv',
+    '512' => 'Nordragøta',
+    '513' => 'Sydrugøta',
+    '515' => 'Gøta',
+    '520' => 'Leirvík',
+    '530' => 'Fuglafjørdur',
+    '535' => 'Fuglafjørdur',
+    '600' => 'Saltangará',
+    '610' => 'Saltangará',
+    '620' => 'Runavík',
+    '625' => 'Glyvrar',
+    '626' => 'Lambareidi',
+    '627' => 'Lambi',
+    '640' => 'Rituvík',
+    '645' => 'Æduvík',
+    '650' => 'Toftir',
+    '655' => 'Nes, Eysturoy',
+    '656' => 'Saltnes',
+    '660' => 'Søldarfjørdur',
+    '665' => 'Skipanes',
+    '666' => 'Gøtueidi',
+    '690' => 'Oyndarfjørdur',
+    '695' => 'Hellur',
+    '700' => 'Klaksvík',
+    '710' => 'Klaksvík',
+    '725' => 'Nordoyri',
+    '726' => 'Ánir',
+    '727' => 'Árnafjørdur',
+    '730' => 'Norddepil',
+    '735' => 'Depil',
+    '736' => 'Nordtoftir',
+    '737' => 'Múli',
+    '740' => 'Hvannasund',
+    '750' => 'Vidareidi',
+    '765' => 'Svinoy',
+    '766' => 'Kirkja',
+    '767' => 'Hattarvík',
+    '780' => 'Kunoy',
+    '785' => 'Haraldssund',
+    '795' => 'Sydradalur, Kalsoy',
+    '796' => 'Húsar',
+    '797' => 'Mikladalur',
+    '798' => 'Trøllanes',
+    '800' => 'Tvøroyri',
+    '810' => 'Tvøroyri',
+    '825' => 'Frodba',
+    '826' => 'Trongisvágur',
+    '827' => 'Øravík',
+    '850' => 'Hvalba',
+    '860' => 'Sandvík',
+    '870' => 'Fámjin',
+    '900' => 'Vágur',
+    '910' => 'Vágur',
+    '925' => 'Nes, Vágur',
+    '926' => 'Lopra',
+    '927' => 'Akrar',
+    '928' => 'Vikarbyrgi',
+    '950' => 'Porkeri',
+    '960' => 'Hov',
+    '970' => 'Sumba',
     ];
+
+    public function getCity($zipCode)
+    {
+        $cities = $this->getCities();
+
+        return isset($cities[$zipCode]) ? $cities[$zipCode] : null;
+    }
+
+    private function getCities()
+    {
+        return self::$cities;
+    }
+
+    private function getZipCodes()
+    {
+        if (null === self::$zipCodes) {
+            self::$zipCodes = array_flip($this->getCities());
+        }
+
+        return self::$zipCodes;
+    }
 }

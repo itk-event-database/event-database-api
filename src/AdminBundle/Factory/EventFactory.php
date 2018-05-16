@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Factory;
 
 use AdminBundle\Entity\Feed;
@@ -7,29 +15,26 @@ use AppBundle\Entity\Entity;
 use AppBundle\Entity\Event;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- *
- */
 class EventFactory extends EntityFactory
 {
-  /**
-   * @var Feed
-   */
+    /**
+     * @var Feed
+     */
     protected $feed;
 
-  /**
-   * @var OrganizerFactory
-   */
+    /**
+     * @var OrganizerFactory
+     */
     protected $organizerFactory;
 
-  /**
-   * @var OccurrenceFactory
-   */
+    /**
+     * @var OccurrenceFactory
+     */
     protected $occurrenceFactory;
 
-  /**
-   * @param \AdminBundle\Entity\Feed $feed
-   */
+    /**
+     * @param \AdminBundle\Entity\Feed $feed
+     */
     public function setFeed(Feed $feed)
     {
         $this->feed = $feed;
@@ -43,18 +48,19 @@ class EventFactory extends EntityFactory
         $this->organizerFactory = $organizerFactory;
     }
 
-  /**
-   * @param \AdminBundle\Factory\OccurrenceFactory $occurrenceFactory
-   */
+    /**
+     * @param \AdminBundle\Factory\OccurrenceFactory $occurrenceFactory
+     */
     public function setOccurrenceFactory(OccurrenceFactory $occurrenceFactory)
     {
         $this->occurrenceFactory = $occurrenceFactory;
     }
 
-  /**
-   * @param array $data
-   * @return \AppBundle\Entity\Event|object
-   */
+    /**
+     * @param array $data
+     *
+     * @return \AppBundle\Entity\Event|object
+     */
     public function get(array $data)
     {
         $entity = $this->getEntity($data);
@@ -67,10 +73,43 @@ class EventFactory extends EntityFactory
         return $entity;
     }
 
-  /**
-   * @param array $data
-   * @return \AppBundle\Entity\Event|object
-   */
+    /**
+     * @param \AppBundle\Entity\Entity $entity
+     * @param $key
+     * @param $value
+     */
+    protected function setValue(Entity $entity, $key, $value)
+    {
+        if ($entity instanceof Event) {
+            if ($this->accessor->isWritable($entity, $key)) {
+                switch ($key) {
+                    case 'occurrences':
+                        $occurrences = new ArrayCollection();
+                        foreach ($value as $item) {
+                            $item['event'] = $entity;
+                            $occurrence = $this->occurrenceFactory->get($item);
+                            $occurrences->add($occurrence);
+                        }
+                        $entity->setOccurrences($occurrences);
+
+                        return;
+                    case 'organizer':
+                        $organizer = $this->organizerFactory->get($value);
+                        $entity->setOrganizer($organizer);
+
+                        return;
+                }
+            }
+        }
+
+        parent::setValue($entity, $key, $value);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \AppBundle\Entity\Event|object
+     */
     private function getEntity(array $data)
     {
         $feedEventId = isset($data['id']) ? $data['id'] : null;
@@ -96,7 +135,7 @@ class EventFactory extends EntityFactory
             $filters->enable('softdeleteable');
         }
 
-        if ($event === null) {
+        if (null === $event) {
             $event = new Event();
             $event->setFeed($this->feed);
             $event->setFeedEventId($feedEventId);
@@ -105,7 +144,7 @@ class EventFactory extends EntityFactory
         $hash = $this->getEventHash($data);
 
         // Skip importing the event, if it has not changed and has not been deleted.
-        if ($hash === $event->getFeedEventHash() && $event->getDeletedAt() === null) {
+        if ($hash === $event->getFeedEventHash() && null === $event->getDeletedAt()) {
             $event->setSkipImport(true);
         }
 
@@ -118,36 +157,5 @@ class EventFactory extends EntityFactory
     private function getEventHash(array $data)
     {
         return md5(json_encode($data));
-    }
-
-  /**
-   * @param \AppBundle\Entity\Entity $entity
-   * @param $key
-   * @param $value
-   */
-    protected function setValue(Entity $entity, $key, $value)
-    {
-        if ($entity instanceof Event) {
-            if ($this->accessor->isWritable($entity, $key)) {
-                switch ($key) {
-                    case 'occurrences':
-                        $occurrences = new ArrayCollection();
-                        foreach ($value as $item) {
-                            $item['event'] = $entity;
-                            $occurrence = $this->occurrenceFactory->get($item);
-                            $occurrences->add($occurrence);
-                        }
-                        $entity->setOccurrences($occurrences);
-                        return;
-
-                    case 'organizer':
-                        $organizer = $this->organizerFactory->get($value);
-                        $entity->setOrganizer($organizer);
-                        return;
-                }
-            }
-        }
-
-        parent::setValue($entity, $key, $value);
     }
 }

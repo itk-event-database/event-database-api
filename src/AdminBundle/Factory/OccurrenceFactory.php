@@ -1,32 +1,38 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Entity;
 use AppBundle\Entity\Occurrence;
 
-/**
- *
- */
 class OccurrenceFactory extends EntityFactory
 {
-  /**
-   * @var PlaceFactory
-   */
+    /**
+     * @var PlaceFactory
+     */
     protected $placeFactory;
 
-  /**
-   * @param \AdminBundle\Factory\PlaceFactory $placeFactory
-   */
+    /**
+     * @param \AdminBundle\Factory\PlaceFactory $placeFactory
+     */
     public function setPlaceFactory(PlaceFactory $placeFactory)
     {
         $this->placeFactory = $placeFactory;
     }
 
-  /**
-   * @param array $data
-   * @return \AppBundle\Entity\Occurrence
-   */
+    /**
+     * @param array $data
+     *
+     * @return \AppBundle\Entity\Occurrence
+     */
     public function get(array $data)
     {
         $entity = $this->getEntity($data);
@@ -35,32 +41,33 @@ class OccurrenceFactory extends EntityFactory
         return $entity;
     }
 
-  /**
-   * @param array $data
-   * @return \AppBundle\Entity\Occurrence
-   */
-    private function getEntity(array $data)
-    {
-        $occurrence = new Occurrence();
-
-        return $occurrence;
-    }
-
-  /**
-   * @param \AppBundle\Entity\Entity $entity
-   * @param $key
-   * @param $value
-   */
+    /**
+     * @param \AppBundle\Entity\Entity $entity
+     * @param $key
+     * @param $value
+     */
     protected function setValue(Entity $entity, $key, $value)
     {
         if ($entity instanceof Occurrence) {
             if ($this->accessor->isWritable($entity, $key)) {
-                if ($key == 'place') {
+                if ('place' === $key) {
                     $value = $this->placeFactory->get($value);
                 }
             }
         }
 
         parent::setValue($entity, $key, $value);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return \AppBundle\Entity\Occurrence
+     */
+    private function getEntity(array $data)
+    {
+        $occurrence = new Occurrence();
+
+        return $occurrence;
     }
 }

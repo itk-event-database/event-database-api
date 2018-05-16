@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\EventSubscriber;
 
-use AppBundle\Entity\TagManager;
-use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use AdminBundle\Service\TagManager;
+use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 use AppBundle\Entity\Entity;
@@ -8,36 +16,33 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-/**
- *
- */
 class DownloadFilesService
 {
-  /**
-   * @var EntityManagerInterface
-   */
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
 
-  /**
-   * @var FileHandler
-   */
+    /**
+     * @var FileHandler
+     */
     private $fileHandler;
 
-  /**
-   * @var AuthenticatorService
-   */
+    /**
+     * @var AuthenticatorService
+     */
     private $authenticator;
 
-  /**
-   * @var OutputInterface
-   */
+    /**
+     * @var OutputInterface
+     */
     private $output;
 
-  /**
-   * @param \Doctrine\ORM\EntityManagerInterface $entityManager
-   * @param \AdminBundle\Service\FileHandler $fileHandler
-   * @param \AdminBundle\Service\AuthenticatorService $authenticator
-   */
+    /**
+     * @param \Doctrine\ORM\EntityManagerInterface      $entityManager
+     * @param \AdminBundle\Service\FileHandler          $fileHandler
+     * @param \AdminBundle\Service\AuthenticatorService $authenticator
+     */
     public function __construct(EntityManagerInterface $entityManager, FileHandler $fileHandler, AuthenticatorService $authenticator)
     {
         $this->entityManager = $entityManager;
@@ -45,10 +50,11 @@ class DownloadFilesService
         $this->authenticator = $authenticator;
     }
 
-  /**
-   * @param \Symfony\Component\Console\Output\OutputInterface $output
-   * @return $this
-   */
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return $this
+     */
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
@@ -56,11 +62,11 @@ class DownloadFilesService
         return $this;
     }
 
-  /**
-   * @param string $className
-   * @param $id
-   * @param array $fields
-   */
+    /**
+     * @param string $className
+     * @param $id
+     * @param array $fields
+     */
     public function process(string $className, $id, array $fields)
     {
         $accessor = new PropertyAccessor();
@@ -70,20 +76,20 @@ class DownloadFilesService
         if ($entities) {
             foreach ($entities as $entity) {
                 $this->authenticate($entity, $accessor);
-                $this->writeln(get_class($entity) . '::' . $entity->getId());
+                $this->writeln(get_class($entity).'::'.$entity->getId());
                 foreach ($fields as $field) {
                     $value = $accessor->getValue($entity, $field);
                     if ($value) {
                         $newValue = $this->fileHandler->download($value);
-                        $this->write("\t" . $field . ': ');
+                        $this->write("\t".$field.': ');
                         if (!$newValue) {
-                            $this->write("\t" . '(not downloaded)');
-                        } elseif ($newValue == $value) {
-                            $this->write("\t" . '(no change)');
+                            $this->write("\t".'(not downloaded)');
+                        } elseif ($newValue === $value) {
+                            $this->write("\t".'(no change)');
                         } else {
-                            $this->write("\t" . $value . ' → ' . $newValue);
+                            $this->write("\t".$value.' → '.$newValue);
                             $accessor->setValue($entity, $field, $newValue);
-                            $originalValueField = 'original_' . $field;
+                            $originalValueField = 'original_'.$field;
                             if ($accessor->isWritable($entity, $originalValueField)) {
                                 $accessor->setValue($entity, $originalValueField, $value);
                             }
@@ -97,10 +103,10 @@ class DownloadFilesService
         }
     }
 
-  /**
-   * @param \AppBundle\Entity\Entity $entity
-   * @param \Symfony\Component\PropertyAccess\PropertyAccessor $accessor
-   */
+    /**
+     * @param \AppBundle\Entity\Entity                           $entity
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessor $accessor
+     */
     private function authenticate(Entity $entity, PropertyAccessor $accessor)
     {
         try {
@@ -112,18 +118,18 @@ class DownloadFilesService
         }
     }
 
-  /**
-   * @param $messages
-   */
+    /**
+     * @param $messages
+     */
     private function writeln($messages)
     {
         $this->write($messages, true);
     }
 
-  /**
-   * @param $messages
-   * @param bool $newline
-   */
+    /**
+     * @param $messages
+     * @param bool $newline
+     */
     private function write($messages, $newline = false)
     {
         if ($this->output) {

@@ -1,52 +1,59 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Factory;
 
 use AdminBundle\Service\FeedReader\ValueConverter;
+use AppBundle\Entity\Entity;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager;
-use AppBundle\Entity\Entity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-/**
- *
- */
 abstract class EntityFactory
 {
-  /**
-   * @var ContainerInterface
-   */
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
-  /**
-   * @var EntityManagerInterface
-   */
+    /**
+     * @var EntityManagerInterface
+     */
     protected $em;
 
-  /**
-   * @var ValueConverter
-   */
+    /**
+     * @var ValueConverter
+     */
     protected $valueConverter;
 
-  /**
-   * @var TagManager
-   */
+    /**
+     * @var TagManager
+     */
     protected $tagManager;
 
-  /**
-   * @var \Symfony\Component\PropertyAccess\PropertyAccessor
-   */
+    /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessor
+     */
     protected $accessor;
 
-  /**
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   * @param \Doctrine\ORM\EntityManagerInterface $em
-   * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
-   * @param \FPN\TagBundle\Entity\TagManager $tagManager
-   */
+    protected $user;
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Doctrine\ORM\EntityManagerInterface                      $em
+     * @param \AdminBundle\Service\FeedReader\ValueConverter            $valueConverter
+     * @param \FPN\TagBundle\Entity\TagManager                          $tagManager
+     */
     public function __construct(ContainerInterface $container, EntityManagerInterface $em, ValueConverter $valueConverter, TagManager $tagManager = null)
     {
         $this->container = $container;
@@ -56,27 +63,33 @@ abstract class EntityFactory
         $this->accessor = PropertyAccess::createPropertyAccessor();
     }
 
-  /**
-   * @param $entity
-   */
+    /**
+     * @param \AppBundle\Entity\User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @param $entity
+     */
     protected function persist($entity)
     {
         $this->em->persist($entity);
     }
 
-  /**
-   *
-   */
     protected function flush()
     {
         $this->em->flush();
     }
 
-  /**
-   * @param \AppBundle\Entity\Entity $entity
-   * @param array $values
-   * @return $this
-   */
+    /**
+     * @param \AppBundle\Entity\Entity $entity
+     * @param array                    $values
+     *
+     * @return $this
+     */
     protected function setValues(Entity $entity, array $values)
     {
         foreach ($values as $key => $value) {
@@ -89,21 +102,21 @@ abstract class EntityFactory
         return $this;
     }
 
-  /**
-   * @param \AppBundle\Entity\Entity $entity
-   * @param $key
-   * @param $value
-   */
+    /**
+     * @param \AppBundle\Entity\Entity $entity
+     * @param $key
+     * @param $value
+     */
     protected function setValue(Entity $entity, $key, $value)
     {
         switch ($key) {
             case 'id':
                 return;
-
             case 'tags':
                 if ($entity instanceof Taggable && $this->tagManager) {
                     $tags = $this->tagManager->setTags($value, $entity);
                 }
+
                 return;
         }
 
@@ -112,19 +125,6 @@ abstract class EntityFactory
         }
     }
 
-    protected $user;
-
-  /**
-   * @param \AppBundle\Entity\User $user
-   */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
-
-  /**
-   *
-   */
     protected function getUser()
     {
         if ($this->user) {

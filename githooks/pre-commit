@@ -34,7 +34,7 @@ if [ "$STAGED_FILES" != "" ]; then
     (>&2 echo)
     (>&2 echo "Fix the errors before commit:")
     (>&2 echo)
-    (>&2 echo "  composer fix-coding-standards $STAGED_FILES")
+    (>&2 echo "  composer apply-coding-standards $STAGED_FILES")
     (>&2 echo)
   fi
 fi

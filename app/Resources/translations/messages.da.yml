@@ -22,7 +22,6 @@ app:
         image: Billede
         isPublished: Udgivet
         langcode: Sprog
-        name: Titel
         occurrences: Dato og tid
         organizer: Arrangør
         tags: Tags
@@ -65,10 +64,8 @@ app:
         address_locality: By
         address_region: Område
         description: Beskrivelse
-        description: Beskrivelse
         disability_access: Adgang for handicappede
         email: E-mail
-        imageFile: Billede
         imageFile: Billede
         lat_lng: Lokation
         latitude: Længdegrad

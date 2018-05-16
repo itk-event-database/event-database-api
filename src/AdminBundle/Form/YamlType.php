@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -8,15 +16,10 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- *
- */
 class YamlType extends AbstractType implements DataTransformerInterface
 {
-
     public function getParent()
     {
         return TextareaType::class;
@@ -46,18 +49,18 @@ class YamlType extends AbstractType implements DataTransformerInterface
         }
     }
 
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array $options
-   */
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer($this);
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'adminbundle_feed_configuration';

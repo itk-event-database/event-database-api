@@ -1,11 +1,17 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\DataFixtures\ORM;
 
-use AdminBundle\DataFixtures\ORM\LoadData;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use AppBundle\Entity\User;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Yaml\Yaml;
 
 class LoadTestUsers extends LoadData
@@ -28,7 +34,7 @@ class LoadTestUsers extends LoadData
             ->setEnabled(true)
             ->setPlainPassword($data['password'])
             ->setEmail($data['email'])
-            ->setRoles(array($data['role']));
+            ->setRoles([$data['role']]);
 
             $manager->persist($user);
             $manager->flush();

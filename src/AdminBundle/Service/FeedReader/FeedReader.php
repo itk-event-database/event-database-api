@@ -1,28 +1,33 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- *
- */
 abstract class FeedReader
 {
-  /**
-   * @var Feed
-   */
+    /**
+     * @var Feed
+     */
     protected $feed;
 
-  /**
-   * @var Controller
-   */
+    /**
+     * @var Controller
+     */
     protected $controller;
 
-  /**
-   * @var ContainerInterface
-   */
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
     public function __construct(ContainerInterface $container)
@@ -30,10 +35,11 @@ abstract class FeedReader
         $this->container = $container;
     }
 
-  /**
-   * @param \AdminBundle\Service\FeedReader\Controller $controller
-   * @return $this
-   */
+    /**
+     * @param \AdminBundle\Service\FeedReader\Controller $controller
+     *
+     * @return $this
+     */
     public function setController(Controller $controller)
     {
         $this->controller = $controller;
@@ -41,10 +47,11 @@ abstract class FeedReader
         return $this;
     }
 
-  /**
-   * @param \AdminBundle\Entity\Feed $feed
-   * @return $this
-   */
+    /**
+     * @param \AdminBundle\Entity\Feed $feed
+     *
+     * @return $this
+     */
     public function setFeed(Feed $feed)
     {
         $this->feed = $feed;
@@ -52,35 +59,38 @@ abstract class FeedReader
         return $this;
     }
 
-  /**
-   * @param $data
-   * @return
-   */
+    /**
+     * @param $data
+     *
+     * @return
+     */
     abstract public function read($data);
 
-  /**
-   * @param $value
-   * @param $key
-   * @return
-   */
+    /**
+     * @param $value
+     * @param $key
+     *
+     * @return
+     */
     protected function convertValue($value, $key)
     {
         return $this->controller->convertValue($value, $key);
     }
 
-  /**
-   * @param array $data
-   * @return
-   */
+    /**
+     * @param array $data
+     *
+     * @return
+     */
     protected function createEvent(array $data)
     {
         return $this->controller->createEvent($data);
     }
 
-  /**
-   * @param array $data
-   * @param array $defaults
-   */
+    /**
+     * @param array $data
+     * @param array $defaults
+     */
     protected function setDefaults(array &$data, array $defaults, array $item)
     {
         foreach ($defaults as $key => $spec) {
@@ -88,16 +98,16 @@ abstract class FeedReader
         }
     }
 
-  /**
-   * @param array $data
-   * @param string $key
-   * @param $spec
-   */
+    /**
+     * @param array  $data
+     * @param string $key
+     * @param $spec
+     */
     private function setDefaultValue(array &$data, string $key, $spec, array $item)
     {
         if (empty($data[$key])) {
             $data[$key] = isset($spec['value']) ? $spec['value'] : $spec;
-        } elseif (isset($spec['append']) && $spec['append'] == 'true') {
+        } elseif (isset($spec['append']) && $spec['append']) {
             if (is_array($data[$key])) {
                 if (is_array($spec['value'])) {
                     foreach ($spec['value'] as $item) {
@@ -114,14 +124,15 @@ abstract class FeedReader
             switch ($spec['type']) {
                 case 'map':
                     $value = $this->getMapValue($spec, $item);
-                    break;
 
+                    break;
                 case 'service':
                     $value = $this->getServiceValue($spec, $item);
+
                     break;
             }
 
-            if ($value === null && isset($spec['default'])) {
+            if (null === $value && isset($spec['default'])) {
                 $value = $spec['default'];
             }
 
@@ -133,6 +144,7 @@ abstract class FeedReader
     {
         if (isset($spec['map'], $spec['key'])) {
             $key = $this->expandValue($spec['key'], $item, []);
+
             return isset($spec['map'][$key]) ? $spec['map'][$key] : null;
         }
 
@@ -155,6 +167,7 @@ abstract class FeedReader
                         $arguments = array_map(function ($argument) use ($item) {
                             return $this->expandValue($argument, $item, []);
                         }, $arguments);
+
                         return call_user_func_array([$service, $methodName], $arguments);
                     } catch (\Exception $ex) {
                         throw $ex;
@@ -166,13 +179,14 @@ abstract class FeedReader
         return null;
     }
 
-  /**
-   * Get value from data array. Expand '@key' to value of $item[key] or $data[key].
-   */
+    /**
+     * Get value from data array. Expand '@key' to value of $item[key] or $data[key].
+     */
     private function expandValue(string $value, array $item, array $data)
     {
         if (preg_match('/^@(?<key>.+)$/', $value, $matches)) {
             $key = $matches['key'];
+
             return $item[$key] ? $item[$key] : (isset($data[$key]) ? $data[$key] : null);
         }
 

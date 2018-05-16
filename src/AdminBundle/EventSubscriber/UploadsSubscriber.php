@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\EventSubscriber;
 
 use AppBundle\Entity\Thing;
@@ -7,9 +15,6 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 
-/**
- *
- */
 class UploadsSubscriber implements EventSubscriber
 {
     protected $configuration;
@@ -44,8 +49,8 @@ class UploadsSubscriber implements EventSubscriber
             if ($object->getImageFile()) {
                 $file = $object->getImageFile();
 
-                $imageUrl = trim($this->configuration['base_url'], '/') . '/'
-                . $this->configuration['files']['url'] . $file->getFilename();
+                $imageUrl = trim($this->configuration['base_url'], '/').'/'
+                .$this->configuration['files']['url'].$file->getFilename();
                 $object->setImage($imageUrl);
             }
         }

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 use AdminBundle\Entity\Feed;
@@ -14,71 +22,73 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- *
- */
 class FeedReader implements Controller
 {
-  /**
-   * @var ValueConverter
-   */
+    /**
+     * @var ValueConverter
+     */
     protected $valueConverter;
 
-  /**
-   * @var EventImporter
-   */
+    /**
+     * @var EventImporter
+     */
     protected $eventImporter;
 
-  /**
-   * @var array
-   */
+    /**
+     * @var array
+     */
     protected $configuration;
 
-  /**
-   * @var LoggerInterface
-   */
+    /**
+     * @var LoggerInterface
+     */
     protected $logger;
 
-  /**
-   * @var AuthenticatorService
-   */
+    /**
+     * @var AuthenticatorService
+     */
     protected $authenticator;
 
-  /**
-   * @var BlameableListener
-   */
+    /**
+     * @var BlameableListener
+     */
     protected $blameableListener;
 
-  /**
-   * @var ManagerRegistry
-   */
+    /**
+     * @var ManagerRegistry
+     */
     protected $managerRegistry;
 
-  /**
-   * @var Feed
-   */
+    /**
+     * @var Feed
+     */
     protected $feed;
 
-  /**
-   * @var array
-   */
+    /**
+     * @var array
+     */
     protected $feedEventIds;
 
-  /**
-   * @var OutputInterface
-   */
+    /**
+     * @var OutputInterface
+     */
     protected $output;
 
-  /**
-   * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
-   * @param \AdminBundle\Service\FeedReader\EventImporter $eventImporter
-   * @param array $configuration
-   * @param \Psr\Log\LoggerInterface $logger
-   * @param \AdminBundle\Service\AuthenticatorService $authenticator
-   * @param \Gedmo\Blameable\BlameableListener $blameableListener
-   * @param \Symfony\Bridge\Doctrine\ManagerRegistry $managerRegistry
-   * @param \AdminBundle\Service\FeedManager $feedManager
-   */
+    /**
+     * @var null|array
+     */
+    private $cleanUpEvents;
+
+    /**
+     * @param \AdminBundle\Service\FeedReader\ValueConverter $valueConverter
+     * @param \AdminBundle\Service\FeedReader\EventImporter  $eventImporter
+     * @param array                                          $configuration
+     * @param \Psr\Log\LoggerInterface                       $logger
+     * @param \AdminBundle\Service\AuthenticatorService      $authenticator
+     * @param \Gedmo\Blameable\BlameableListener             $blameableListener
+     * @param \Symfony\Bridge\Doctrine\ManagerRegistry       $managerRegistry
+     * @param \AdminBundle\Service\FeedManager               $feedManager
+     */
     public function __construct(ValueConverter $valueConverter, EventImporter $eventImporter, array $configuration, LoggerInterface $logger, AuthenticatorService $authenticator, BlameableListener $blameableListener, ManagerRegistry $managerRegistry, FeedManager $feedManager = null)
     {
         $this->valueConverter = $valueConverter;
@@ -91,10 +101,11 @@ class FeedReader implements Controller
         $this->feedManager = $feedManager;
     }
 
-  /**
-   * @param \Symfony\Component\Console\Output\OutputInterface $output
-   * @return $this
-   */
+    /**
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return $this
+     */
     public function setOutput(OutputInterface $output)
     {
         $this->output = $output;
@@ -102,10 +113,10 @@ class FeedReader implements Controller
         return $this;
     }
 
-  /**
-   * @param \AdminBundle\Entity\Feed $feed
-   * @param \AppBundle\Entity\User $user
-   */
+    /**
+     * @param \AdminBundle\Entity\Feed $feed
+     * @param \AppBundle\Entity\User   $user
+     */
     public function read(Feed $feed, User $user = null, bool $cleanUpEvents = false)
     {
         $this->feed = $feed;
@@ -140,55 +151,71 @@ class FeedReader implements Controller
 
         $connection = $this->managerRegistry->getConnection();
         $connection->beginTransaction();
+
         try {
             $this->cleanUpEvents = null;
             if ($cleanUpEvents) {
                 $this->cleanUpEvents = $this->feedManager->getCleanUpEvents($feed);
             }
             $reader->read($content);
-            if ($this->cleanUpEvents !== null) {
+            if (null !== $this->cleanUpEvents) {
                 $this->feedManager->cleanUpEvents($feed, $this->cleanUpEvents);
             }
             $connection->commit();
         } catch (\Throwable $t) {
             $connection->rollBack();
+
             throw $t;
         }
     }
 
-  /**
-   * @var array|null
-   */
-    private $cleanUpEvents;
-
-    private function keepEvent(Event $event)
+    /**
+     * @param array $data
+     */
+    public function createEvent(array $data)
     {
-        unset($this->cleanUpEvents[$event->getId()]);
-    }
+        if (isset($data['id'])) {
+            $eventId = $data['id'];
+            if (isset($this->feedEventIds[$eventId])) {
+                $status = 'duplicated';
+                $this->writeln(sprintf('%s (#%d): Event %s: %s', $this->feed->getName(), $this->feed->getId(), $status, $eventId));
 
-  /**
-   *
-   */
-    private function getReader()
-    {
-        $readers = isset($this->configuration['readers']) ? $this->configuration['readers'] : [];
-        $type = $this->feed->getType();
-
-        if (!isset($readers[$type])) {
-            throw new \Exception('Unknown feed type: ' . $type);
+                return;
+            }
+            $this->feedEventIds[$eventId] = $eventId;
         }
-
-        $reader = $readers[$type];
-        $reader
-        ->setController($this)
-        ->setFeed($this->feed);
-
-        return $reader;
+        $event = $this->eventImporter->import($data);
+        if ($event) {
+            $status = $event->getSkipImport() ? 'not changed' : ($event->getUpdatedAt() > $event->getCreatedAt() ? 'updated' : 'created');
+            $this->writeln(sprintf('%s (#%d): Event %s: %s (%s)', $this->feed->getName(), $this->feed->getId(), $status, $event->getName(), $event->getFeedEventId()));
+            $this->keepEvent($event);
+        } else {
+            $this->writeln(sprintf('%s (#%d): Cannot import event: %s', $this->feed->getName(), $this->feed->getId(), $data['id']));
+        }
     }
 
-  /**
-   *
-   */
+    /**
+     * @param $value
+     * @param $name
+     *
+     * @return null|\DateTime|string
+     */
+    public function convertValue($value, $name)
+    {
+        return $this->valueConverter->convert($value, $name);
+    }
+
+    /**
+     * @param $messages
+     * @param int $options
+     */
+    public function writeln($messages, $options = 0)
+    {
+        if ($this->output) {
+            $this->output->writeln($messages, $options);
+        }
+    }
+
     protected function getContent()
     {
         $client = new Client();
@@ -207,7 +234,7 @@ class FeedReader implements Controller
         }
 
         $res = $client->request($method, $feedUrl, $options);
-        if ($res->getStatusCode() !== 200) {
+        if (200 !== $res->getStatusCode()) {
             return null;
         }
 
@@ -220,67 +247,46 @@ class FeedReader implements Controller
         switch ($type) {
             case 'json':
                 $content = json_decode($content, true);
-                break;
 
+                break;
             case 'xml':
                 $content = new \SimpleXmlElement($content);
+
                 break;
         }
 
         return $content;
     }
 
-  /**
-   * @param $url
-   * @return
-   */
+    private function keepEvent(Event $event)
+    {
+        unset($this->cleanUpEvents[$event->getId()]);
+    }
+
+    private function getReader()
+    {
+        $readers = isset($this->configuration['readers']) ? $this->configuration['readers'] : [];
+        $type = $this->feed->getType();
+
+        if (!isset($readers[$type])) {
+            throw new \Exception('Unknown feed type: '.$type);
+        }
+
+        $reader = $readers[$type];
+        $reader
+        ->setController($this)
+        ->setFeed($this->feed);
+
+        return $reader;
+    }
+
+    /**
+     * @param $url
+     *
+     * @return
+     */
     private function processUrl($url)
     {
         return $url;
-    }
-
-  /**
-   * @param array $data
-   */
-    public function createEvent(array $data)
-    {
-        if (isset($data['id'])) {
-            $eventId = $data['id'];
-            if (isset($this->feedEventIds[$eventId])) {
-                $status = 'duplicated';
-                $this->writeln(sprintf('%s (#%d): Event %s: %s', $this->feed->getName(), $this->feed->getId(), $status, $eventId));
-                return;
-            }
-            $this->feedEventIds[$eventId] = $eventId;
-        }
-        $event = $this->eventImporter->import($data);
-        if ($event) {
-            $status = $event->getSkipImport() ? 'not changed' : ($event->getUpdatedAt() > $event->getCreatedAt() ? 'updated' : 'created');
-            $this->writeln(sprintf('%s (#%d): Event %s: %s (%s)', $this->feed->getName(), $this->feed->getId(), $status, $event->getName(), $event->getFeedEventId()));
-            $this->keepEvent($event);
-        } else {
-            $this->writeln(sprintf('%s (#%d): Cannot import event: %s', $this->feed->getName(), $this->feed->getId(), $data['id']));
-        }
-    }
-
-  /**
-   * @param $value
-   * @param $name
-   * @return \DateTime|null|string
-   */
-    public function convertValue($value, $name)
-    {
-        return $this->valueConverter->convert($value, $name);
-    }
-
-  /**
-   * @param $messages
-   * @param int $options
-   */
-    public function writeln($messages, $options = 0)
-    {
-        if ($this->output) {
-            $this->output->writeln($messages, $options);
-        }
     }
 }

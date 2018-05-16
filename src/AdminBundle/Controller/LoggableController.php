@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Feed;
@@ -36,17 +44,20 @@ class LoggableController extends Controller
      * @Method("GET")
      *
      * @Template("AdminBundle:Loggable:index.html.twig")
+     *
+     * @param mixed $entityType
+     * @param mixed $id
      */
     public function indexAction($entityType, $id)
     {
         $className = $this->getClassName($entityType);
         $entity = $this->manager->getRepository($className)->find($id);
 
-        if ($entity === null) {
+        if (null === $entity) {
             throw new NotFoundHttpException();
         }
         if (!$entity instanceof Loggable) {
-            throw new BadRequestHttpException('Entity ' . get_class($entity) . ' is not loggable');
+            throw new BadRequestHttpException('Entity '.get_class($entity).' is not loggable');
         }
         $changes = $this->manager->getRepository(LogEntry::class)->getLogEntries($entity);
 

@@ -1,8 +1,14 @@
 services:
     # Inject our custom config manager.
     easyadmin.config.manager:
-        class: AdminBundle\Configuration\ConfigManager
-        arguments: ['@service_container', '@security.token_storage', '@security.role_hierarchy']
+        class: AdminBundle\Configuration\EasyAdminConfigManager
+        arguments:
+            - '@security.authorization_checker'
+            - '@security.token_storage'
+            - '@easyadmin.cache.manager'
+            - '@property_accessor'
+            - '%easyadmin.config%'
+            - '%kernel.debug%'
 
 easy_admin:
     site_name: '%site_name%'
@@ -51,8 +57,8 @@ easy_admin:
               route: fos_user_security_logout
 
     formats:
-        date:     'd/m/Y'
-        time:     'H:i'
+        date: 'd/m/Y'
+        time: 'H:i'
         datetime: 'd/m/Y H:i:s'
 
     list:
@@ -123,7 +129,6 @@ easy_admin:
                       type: vich_image
                       type_options:
                           required: true
-                      type: url
                     - property: url
                       label: app.event.url
                       help: app.event.help.url
@@ -147,11 +152,11 @@ easy_admin:
                       help: app.event.help.occurrences.collection
                       type: collection
                       type_options:
-                        entry_type: AdminBundle\Form\OccurrenceType
-                        entry_options:
-                            view_timezone: "%view_timezone%"
-                        by_reference: false
-                        required: true
+                          entry_type: AdminBundle\Form\OccurrenceType
+                          entry_options:
+                              view_timezone: '%view_timezone%'
+                          by_reference: false
+                          required: true
                       embedded: true
             edit:
                 fields:
@@ -181,7 +186,6 @@ easy_admin:
                       type: vich_image
                       type_options:
                           required: false
-                      type: url
                     - property: url
                       label: app.event.url
                       help: app.event.help.url
@@ -205,11 +209,11 @@ easy_admin:
                       help: app.event.help.occurrences.collection
                       type: collection
                       type_options:
-                        entry_type: AdminBundle\Form\OccurrenceType
-                        entry_options:
-                            view_timezone: "%view_timezone%"
-                        by_reference: false
-                        required: true
+                          entry_type: AdminBundle\Form\OccurrenceType
+                          entry_options:
+                              view_timezone: '%view_timezone%'
+                          by_reference: false
+                          required: true
                       embedded: true
                     - type: group
                       css_class: repeating-occurrences
@@ -222,7 +226,7 @@ easy_admin:
                       type: AdminBundle\Form\RepeatingOccurrencesType
                       type_options:
                           required: false
-                          view_timezone: "%view_timezone%"
+                          view_timezone: '%view_timezone%'
 
             show:
                 fields:
@@ -476,8 +480,6 @@ easy_admin:
                       type_options:
                           required: true
                       type: text
-                      type_options:
-                          required: false
             edit:
                 fields:
                     - property: enabled
@@ -551,7 +553,7 @@ easy_admin:
                     - property: configuration
                       type: AdminBundle\Form\YamlType
                       type_options:
-                          schema: "%kernel.root_dir%/../src/AdminBundle/Resources/public/schema/feed.schema.json"
+                          schema: '%kernel.project_dir%/src/AdminBundle/Resources/public/schema/feed.schema.json'
                     - property: cleanUpStrategy
                       type: choice
                       type_options:
@@ -564,5 +566,5 @@ vich_uploader:
     db_driver: orm
     mappings:
         thing_images:
-            upload_destination: "%admin.uploads_path%"
-            uri_prefix:         "%admin.uploads_url%"
+            upload_destination: '%admin.uploads_path%'
+            uri_prefix: '%admin.uploads_url%'

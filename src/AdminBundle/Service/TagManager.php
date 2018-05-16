@@ -1,16 +1,19 @@
 <?php
 
-namespace AppBundle\Entity;
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
 
-use AdminBundle\Service\TagNormalizerInterface;
-use Doctrine\ORM\EntityManager;
+namespace AdminBundle\Service;
+
+use AppBundle\Entity\CustomTaggable;
 use DoctrineExtensions\Taggable\Taggable;
 use FPN\TagBundle\Entity\TagManager as BaseTagManager;
-use FPN\TagBundle\Util\SlugifierInterface;
 
-/**
- *
- */
 class TagManager extends BaseTagManager
 {
     /**
@@ -18,9 +21,6 @@ class TagManager extends BaseTagManager
      */
     private $tagNormalizer;
 
-    /**
-     *
-     */
     public function setTagNormalizer(TagNormalizerInterface $tagNormalizer = null)
     {
         $this->tagNormalizer = $tagNormalizer;
@@ -55,9 +55,6 @@ class TagManager extends BaseTagManager
         }
     }
 
-    /**
-     *
-     */
     public function loadTags(array $names = null)
     {
         $builder = $this->em->createQueryBuilder();
@@ -77,17 +74,11 @@ class TagManager extends BaseTagManager
         return $tags;
     }
 
-    /**
-     *
-     */
     public function createTag($name)
     {
         return parent::createTag($name);
     }
 
-    /**
-     *
-     */
     public function deleteTag($tag)
     {
         // Delete relations to entities.

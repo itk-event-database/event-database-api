@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractFilter;
@@ -10,25 +18,23 @@ use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use DoctrineExtensions\Taggable\Taggable;
 use DoctrineExtensions\Taggable\TagManager;
 use Symfony\Component\HttpFoundation\RequestStack;
-use DoctrineExtensions\Taggable\Taggable;
 
-/**
- *
- */
 class TagFilter extends AbstractFilter
 {
     private $tagManager;
     private $property;
 
-  /**
-   * @param ManagerRegistry $managerRegistry
-   * @param RequestStack $requestStack
-   * @param \DoctrineExtensions\Taggable\TagManager $tagManager
-   * @param string $name
-   * @internal param array|null $properties
-   */
+    /**
+     * @param ManagerRegistry                         $managerRegistry
+     * @param RequestStack                            $requestStack
+     * @param \DoctrineExtensions\Taggable\TagManager $tagManager
+     * @param string                                  $name
+     *
+     * @internal param array|null $properties
+     */
     public function __construct(ManagerRegistry $managerRegistry, RequestStack $requestStack, TagManager $tagManager, string $name)
     {
         parent::__construct($managerRegistry, $requestStack, null);
@@ -37,64 +43,10 @@ class TagFilter extends AbstractFilter
         $this->property = $name;
     }
 
-  /**
-   * {@inheritdoc}
-   */
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
-    {
-        if (null === ($request = $this->requestStack->getCurrentRequest())) {
-            return;
-        }
-
-        $resource = $resourceClass === Occurrence::class ? new Event() : new $resourceClass();
-        if (!$resource instanceof Taggable) {
-            return;
-        }
-
-        $taggableType = $resource->getTaggableType();
-
-        if (str_replace('_', '.', $property) === $this->property) {
-            $intersect = true;
-            if (is_array($value)) {
-                $tagNames = $value;
-                $intersect = false;
-            } else {
-                $tagNames = $this->tagManager->splitTagNames($value);
-            }
-            $ids = null;
-            foreach ($tagNames as $tagName) {
-                $tagRepo = $this->managerRegistry->getManager()->getRepository(Tag::class);
-                $tagIds = $tagRepo->getResourceIdsForTag($taggableType, $tagName);
-                if ($ids === null) {
-                    $ids = $tagIds;
-                } elseif ($intersect) {
-                    $ids = array_intersect($ids, $tagIds);
-                } else {
-                    $ids = array_merge($ids, $tagIds);
-                }
-            }
-
-            if ($resourceClass === Occurrence::class) {
-                $alias = 'o';
-                $valueParameter = $queryNameGenerator->generateParameterName($property);
-                $queryBuilder
-                    ->join($alias.'.event', 'occurrence_event')
-                    ->andWhere(sprintf('occurrence_event.id IN (:%s)', $valueParameter))
-                    ->setParameter($valueParameter, $ids);
-            } else {
-                $alias = 'o';
-                $valueParameter = $queryNameGenerator->generateParameterName($property);
-                $queryBuilder
-                    ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
-                    ->setParameter($valueParameter, $ids);
-            }
-        }
-    }
-
-  /**
-   * {@inheritdoc}
-   */
-    public function getDescription(string $resourceClass) : array
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescription(string $resourceClass): array
     {
         $description = [];
         $property = $this->property;
@@ -114,5 +66,59 @@ class TagFilter extends AbstractFilter
         }
 
         return $description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
+    {
+        if (null === ($request = $this->requestStack->getCurrentRequest())) {
+            return;
+        }
+
+        $resource = Occurrence::class === $resourceClass ? new Event() : new $resourceClass();
+        if (!$resource instanceof Taggable) {
+            return;
+        }
+
+        $taggableType = $resource->getTaggableType();
+
+        if (str_replace('_', '.', $property) === $this->property) {
+            $intersect = true;
+            if (is_array($value)) {
+                $tagNames = $value;
+                $intersect = false;
+            } else {
+                $tagNames = $this->tagManager->splitTagNames($value);
+            }
+            $ids = null;
+            foreach ($tagNames as $tagName) {
+                $tagRepo = $this->managerRegistry->getManager()->getRepository(Tag::class);
+                $tagIds = $tagRepo->getResourceIdsForTag($taggableType, $tagName);
+                if (null === $ids) {
+                    $ids = $tagIds;
+                } elseif ($intersect) {
+                    $ids = array_intersect($ids, $tagIds);
+                } else {
+                    $ids = array_merge($ids, $tagIds);
+                }
+            }
+
+            if (Occurrence::class === $resourceClass) {
+                $alias = 'o';
+                $valueParameter = $queryNameGenerator->generateParameterName($property);
+                $queryBuilder
+                    ->join($alias.'.event', 'occurrence_event')
+                    ->andWhere(sprintf('occurrence_event.id IN (:%s)', $valueParameter))
+                    ->setParameter($valueParameter, $ids);
+            } else {
+                $alias = 'o';
+                $valueParameter = $queryNameGenerator->generateParameterName($property);
+                $queryBuilder
+                    ->andWhere(sprintf('%s.id IN (:%s)', $alias, $valueParameter))
+                    ->setParameter($valueParameter, $ids);
+            }
+        }
     }
 }

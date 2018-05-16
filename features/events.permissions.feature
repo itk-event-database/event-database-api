@@ -47,6 +47,8 @@ Feature: Events
     Then the response status code should be 200
 
     When I authenticate as "user-0-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "PUT" request to "/api/events/2" with body:
     """
     {"name": "Updated by user-0-group-0-write"}
@@ -54,6 +56,8 @@ Feature: Events
     Then the response status code should be 200
 
     When I authenticate as "user-0-group-1-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "PUT" request to "/api/events/2" with body:
     """
     {"name": "Updated by user-0-group-1-write"}
@@ -62,6 +66,8 @@ Feature: Events
 
   Scenario: Delete an event
     When I authenticate as "user-0-group-1-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "PUT" request to "/api/events/1" with body:
     """
     {"name": "I want to delete this"}
@@ -69,24 +75,34 @@ Feature: Events
     Then the response status code should be 403
 
     When I authenticate as "user-0-group-1-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "DELETE" request to "/api/events/1"
     Then the response status code should be 403
 
     When I authenticate as "user-0-group-1-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "DELETE" request to "/api/events/2"
     Then the response status code should be 403
 
     When I authenticate as "user-1-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "DELETE" request to "/api/events/1"
     Then the response status code should be 204
 
     When I authenticate as "user-0-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "DELETE" request to "/api/events/2"
     Then the response status code should be 204
 
   @dropSchema
   Scenario:
     When I authenticate as "user-0-group-0-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I send a "GET" request to "/api/events"
     Then the response status code should be 200
     And the response should be in JSON

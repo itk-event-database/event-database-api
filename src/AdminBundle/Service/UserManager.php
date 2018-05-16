@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 use AppBundle\Entity\User;
@@ -27,7 +35,7 @@ class UserManager
         }, $user->getRoles());
         $roles = $this->roleHierarchy->getReachableRoles($userRoles);
         foreach ($roles as $role) {
-            if (in_array($role->getRole(), ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'])) {
+            if (in_array($role->getRole(), ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'], true)) {
                 return false;
             }
         }

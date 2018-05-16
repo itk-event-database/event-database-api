@@ -1,0 +1,29 @@
+imports:
+    - { resource: api_filters.yml }
+
+api_platform:
+    title: Event Database
+    description: API for creating and querying events
+    version: 0.1.0
+
+    collection:
+        pagination:
+            client_enabled: false
+            enabled_parameter_name: pagination
+            client_items_per_page: true
+            items_per_page_parameter_name: items_per_page
+            maximum_items_per_page: 100
+
+    eager_loading:
+        force_eager: false
+
+    formats:
+        jsonld: ['application/ld+json']
+        jsonhal: ['application/hal+json']
+        xml: ['application/xml', 'text/xml']
+        json: ['application/json']
+        html: ['text/html']
+        # Custom formats
+        # AoA
+        jsonaoa: ['application/aoa+json']
+        firebase: ['application/firebase+json']

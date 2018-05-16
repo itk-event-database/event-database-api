@@ -1,16 +1,22 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\FeedCommand;
 
 use AdminBundle\Entity\Feed;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ReadFeedsCommand extends FeedCommand
 {
-
     protected function configure()
     {
         parent::configure();
@@ -31,10 +37,10 @@ class ReadFeedsCommand extends FeedCommand
         $feeds = $this->getFeeds($id, $name);
         $noOfFeeds = count($feeds);
 
-        if ($noOfFeeds == 0) {
+        if (0 === $noOfFeeds) {
             $this->writeln('No feeds found!');
         } else {
-            $this->writeln(sprintf('Reading %s feed%s:', $noOfFeeds, ($noOfFeeds == 1) ? '' : 's'));
+            $this->writeln(sprintf('Reading %s feed%s:', $noOfFeeds, (1 === $noOfFeeds) ? '' : 's'));
         }
 
         $reader = $this->getContainer()->get('feed_reader');

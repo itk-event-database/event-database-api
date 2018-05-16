@@ -1,14 +1,22 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Entity;
 
 use AppBundle\Entity\User;
+use AppBundle\Traits\BlameableEntity;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use AppBundle\Traits\BlameableEntity;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * Feed.
@@ -30,85 +38,90 @@ class Feed implements Loggable
     const FEED_CLEAN_UP_FUTURE = 'FEED_CLEAN_UP_FUTURE';
     const FEED_CLEAN_UP_ALL = 'FEED_CLEAN_UP_ALL';
 
-  /**
-   * @var integer
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
 
-  /**
-   * @var string
-   *
-   * @Gedmo\Versioned
-   *
-   * @ORM\Column(type="string", length=255)
-   */
+    /**
+     * @var string
+     *
+     * @Gedmo\Versioned
+     *
+     * @ORM\Column(type="string", length=255)
+     */
     private $name;
 
-  /**
-   * @var User
-   *
-   * @Gedmo\Versioned
-   *
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-   * @ORM\JoinColumn(referencedColumnName="id")
-   */
+    /**
+     * @var User
+     *
+     * @Gedmo\Versioned
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
     private $user;
 
-  /**
-   * @var string
-   *
-   * @Gedmo\Versioned
-   *
-   * @ORM\Column(type="json_array")
-   */
+    /**
+     * @var string
+     *
+     * @Gedmo\Versioned
+     *
+     * @ORM\Column(type="json_array")
+     */
     private $configuration;
 
-  /**
-   * @var \DateTime
-   *
-   * @ORM\Column(name="lastRead", type="datetime", nullable=true)
-   */
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastRead", type="datetime", nullable=true)
+     */
     private $lastRead;
 
-  /**
-   * @var bool
-   *
-   * @Gedmo\Versioned
-   *
-   * @ORM\Column(type="boolean")
-   */
+    /**
+     * @var bool
+     *
+     * @Gedmo\Versioned
+     *
+     * @ORM\Column(type="boolean")
+     */
     private $enabled = false;
 
-  /**
-   * @var string
-   *
-   * @Gedmo\Versioned
-   *
-   * @ORM\Column(type="string", length=255)
-   */
+    /**
+     * @var string
+     *
+     * @Gedmo\Versioned
+     *
+     * @ORM\Column(type="string", length=255)
+     */
     private $cleanUpStrategy = self::FEED_CLEAN_UP_NONE;
 
-  /**
-   * Get id.
-   *
-   * @return integer
-   */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
-  /**
-   * Set name.
-   *
-   * @param string $name
-   *
-   * @return Feed
-   */
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Feed
+     */
     public function setName($name)
     {
         $this->name = $name;
@@ -116,23 +129,23 @@ class Feed implements Loggable
         return $this;
     }
 
-  /**
-   * Get name.
-   *
-   * @return string
-   */
+    /**
+     * Get name.
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
-  /**
-   * Set user.
-   *
-   * @param User $user
-   *
-   * @return Feed
-   */
+    /**
+     * Set user.
+     *
+     * @param User $user
+     *
+     * @return Feed
+     */
     public function setUser($user)
     {
         $this->user = $user;
@@ -140,23 +153,23 @@ class Feed implements Loggable
         return $this;
     }
 
-  /**
-   * Get user.
-   *
-   * @return string
-   */
+    /**
+     * Get user.
+     *
+     * @return string
+     */
     public function getUser()
     {
         return $this->user;
     }
 
-  /**
-   * Set configuration.
-   *
-   * @param array $configuration
-   *
-   * @return Feed
-   */
+    /**
+     * Set configuration.
+     *
+     * @param array $configuration
+     *
+     * @return Feed
+     */
     public function setConfiguration(array $configuration)
     {
         $this->configuration = $configuration;
@@ -164,11 +177,11 @@ class Feed implements Loggable
         return $this;
     }
 
-  /**
-   * Get configuration.
-   *
-   * @return array
-   */
+    /**
+     * Get configuration.
+     *
+     * @return array
+     */
     public function getConfiguration()
     {
         return $this->configuration;
@@ -186,13 +199,13 @@ class Feed implements Loggable
         return $this->cleanUpStrategy;
     }
 
-  /**
-   * Set lastRead.
-   *
-   * @param \DateTime $lastRead
-   *
-   * @return Feed
-   */
+    /**
+     * Set lastRead.
+     *
+     * @param \DateTime $lastRead
+     *
+     * @return Feed
+     */
     public function setLastRead($lastRead)
     {
         $this->lastRead = $lastRead;
@@ -200,11 +213,11 @@ class Feed implements Loggable
         return $this;
     }
 
-  /**
-   * Get lastRead.
-   *
-   * @return \DateTime
-   */
+    /**
+     * Get lastRead.
+     *
+     * @return \DateTime
+     */
     public function getLastRead()
     {
         return $this->lastRead;
@@ -220,57 +233,36 @@ class Feed implements Loggable
         return $this->enabled;
     }
 
-  /**
-   *
-   */
     public function getUrl()
     {
         return isset($this->configuration['url']) ? $this->configuration['url'] : null;
     }
 
-  /**
-   *
-   */
     public function getType()
     {
         return isset($this->configuration['type']) ? $this->configuration['type'] : null;
     }
 
-  /**
-   *
-   */
     public function getRoot()
     {
         return isset($this->configuration['root']) ? $this->configuration['root'] : null;
     }
 
-  /**
-   *
-   */
     public function getMapping()
     {
         return isset($this->configuration['mapping']) ? $this->configuration['mapping'] : null;
     }
 
-  /**
-   *
-   */
     public function getBaseUrl()
     {
         return isset($this->configuration['baseUrl']) ? $this->configuration['baseUrl'] : null;
     }
 
-  /**
-   *
-   */
     public function getDefaults()
     {
         return isset($this->configuration['defaults']) ? $this->configuration['defaults'] : null;
     }
 
-  /**
-   *
-   */
     public function getTimeZone()
     {
         return isset($this->configuration['timeZone']) ? new \DateTimeZone($this->configuration['timeZone']) : null;
@@ -279,10 +271,5 @@ class Feed implements Loggable
     public function getDateFormat()
     {
         return isset($this->configuration['dateFormat']) ? $this->configuration['dateFormat'] : null;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

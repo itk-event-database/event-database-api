@@ -1,17 +1,24 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
 class GroupRepository extends EntityRepository
 {
-
-  /**
-   * Find groups by id or name.
-   *
-   * @param array $ids
-   */
+    /**
+     * Find groups by id or name.
+     *
+     * @param array $ids
+     */
     public function findByIds(array $ids)
     {
         return $this->getEntityManager()

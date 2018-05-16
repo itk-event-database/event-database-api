@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Tests\Controller;
 
 use AppBundle\Entity\User;
@@ -8,14 +16,14 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Tests\AppBundle\Test\DatabaseWebTestCase;
 
 /**
- *
+ * @coversNothing
  */
 class FeedControllerTest extends DatabaseWebTestCase
 {
-  /**
-   * @var \Symfony\Bundle\FrameworkBundle\Client
-   */
-    private $client = null;
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Client
+     */
+    private $client;
 
     public function setUp()
     {
@@ -27,11 +35,11 @@ class FeedControllerTest extends DatabaseWebTestCase
         $this->signIn();
 
         $crawler = $this->client->request('GET', '/');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /");
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Unexpected HTTP status code for GET /');
 
         // // Create a new entry in the database
         $crawler = $this->client->request('GET', '/admin/feed/');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /admin/feed/");
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), 'Unexpected HTTP status code for GET /admin/feed/');
         $this->assertEquals(1, $crawler->filter('h1:contains("Feed list")')->count(), 'Cannot find page title with content "Feed list"');
         $this->assertEquals(1, $crawler->selectLink('Create new feed')->count(), 'Cannot find link with text "Create new feed"');
         $crawler = $this->client->click($crawler->selectLink('Create new feed')->link());
@@ -97,7 +105,7 @@ class FeedControllerTest extends DatabaseWebTestCase
         static::$em->flush($user);
 
         $token = new UsernamePasswordToken($user, null, $firewall, ['ROLE_SUPER_ADMIN']);
-        $session->set('_security_' . $firewall, serialize($token));
+        $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 
         $cookie = new Cookie($session->getName(), $session->getId());

@@ -8,10 +8,6 @@ Feature: Events
       | username   | password | roles          |
       | api-write  | apipass  | ROLE_API_WRITE |
 
-    And I authenticate as "api-write"
-    And I add "Content-Type" header equal to "application/ld+json"
-    And I add "Accept" header equal to "application/ld+json"
-
   @createSchema
   Scenario: Get deleted events
     When I send a "GET" request to "/api/events/deleted.json"
@@ -21,7 +17,10 @@ Feature: Events
     And the JSON node "" should have 0 elements
 
   Scenario: Create an event
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "Big bang",
@@ -33,7 +32,10 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "@id" should be equal to "/api/events/1"
 
-    When I send a "POST" request to "/api/events" with body:
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
     """
     {
       "name": "Big bang",

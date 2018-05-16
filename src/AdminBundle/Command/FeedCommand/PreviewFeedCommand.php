@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\FeedCommand;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,7 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PreviewFeedCommand extends FeedCommand
 {
-
     protected function configure()
     {
         parent::configure();
@@ -26,7 +33,7 @@ class PreviewFeedCommand extends FeedCommand
         parent::execute($input, $output);
 
         $feeds = $this->getFeeds($input->getOption('id'), $input->getOption('name'));
-        if (count($feeds) !== 1) {
+        if (1 !== count($feeds)) {
             throw new \Exception('Invalid feed specification.');
         }
 

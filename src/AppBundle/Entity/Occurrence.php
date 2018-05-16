@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,15 +36,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Occurrence extends Entity
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences")
      * @Groups({"occurrence_read", "event_read", "event_write"})
@@ -64,9 +62,17 @@ class Occurrence extends Entity
      * @Groups({"occurrence_read", "event_read", "event_write"})
      */
     protected $place;
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
-     * @var string The room the event is held in.
+     * @var string the room the event is held in
      *
      * @Groups({"occurrence_read", "event_read", "event_write"})
      * @ORM\Column(nullable=true)
@@ -75,7 +81,7 @@ class Occurrence extends Entity
     private $room;
 
     /**
-     * @var string The range of prices for tickets.
+     * @var string the range of prices for tickets
      *
      * @Groups({"occurrence_read", "event_read", "event_write"})
      * @ORM\Column(nullable=true)
@@ -93,7 +99,7 @@ class Occurrence extends Entity
     private $eventStatusText;
 
     /**
-     * @var integer The status code of the event
+     * @var int The status code of the event
      *
      * 0: Normal
      * 1: Few tickets left
@@ -109,6 +115,14 @@ class Occurrence extends Entity
      * @Assert\Type(type="integer")
      */
     private $eventSalesStatus;
+
+    public function __toString()
+    {
+        $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
+        $end = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
+
+        return $start.' - '.$end.($this->getPlace() ? ' @ '.$this->getPlace()->getName() : '');
+    }
 
     /**
      * Sets id.
@@ -134,9 +148,6 @@ class Occurrence extends Entity
         return $this->id;
     }
 
-    /**
-     *
-     */
     public function setEvent(Event $event = null)
     {
         $this->event = $event;
@@ -144,9 +155,6 @@ class Occurrence extends Entity
         return $this;
     }
 
-    /**
-     *
-     */
     public function getEvent()
     {
         return $this->event;
@@ -200,9 +208,6 @@ class Occurrence extends Entity
         return $this->endDate;
     }
 
-    /**
-     *
-     */
     public function setPlace($place)
     {
         $this->place = $place;
@@ -210,9 +215,6 @@ class Occurrence extends Entity
         return $this;
     }
 
-    /**
-     *
-     */
     public function getPlace()
     {
         return $this->place;
@@ -272,13 +274,5 @@ class Occurrence extends Entity
     public function setEventStatusText($eventStatusText)
     {
         $this->eventStatusText = $eventStatusText;
-    }
-
-    public function __toString()
-    {
-        $start = empty($this->getStartDate()) ? '?' : $this->getStartDate()->format('Y-m-d H:i');
-        $end   = empty($this->getEndDate()) ? '?' : $this->getEndDate()->format('Y-m-d H:i');
-
-        return $start.' - '.$end.($this->getPlace() ? ' @ '.$this->getPlace()->getName() : '');
     }
 }

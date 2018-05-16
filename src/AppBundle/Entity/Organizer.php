@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -39,56 +47,61 @@ class Organizer extends Entity implements Blameable
     use BlameableEntity;
     use SoftDeleteableEntity;
 
-  /**
-   * @var int
-   *
-   * @Groups({"organizer_read"})
-   * @ORM\Column(type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+    /**
+     * @var int
+     *
+     * @Groups({"organizer_read"})
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
 
-  /**
-   * @var string The name.
-   *
-   * @Groups({"organizer_read", "event_read", "event_write"})
-   * @Assert\Type(type="string")
-   * @ORM\Column()
-   */
+    /**
+     * @var string the name
+     *
+     * @Groups({"organizer_read", "event_read", "event_write"})
+     * @Assert\Type(type="string")
+     * @ORM\Column()
+     */
     private $name;
 
-  /**
-   * @var string The email address.
-   *
-   * @Groups({"organizer_read", "event_read", "event_write"})
-   * @Assert\Email(
-   *   message = "The email '{{ value }}' is not a valid email."
-   * )
-   * @ORM\Column()
-   */
+    /**
+     * @var string the email address
+     *
+     * @Groups({"organizer_read", "event_read", "event_write"})
+     * @Assert\Email(
+     *   message = "The email '{{ value }}' is not a valid email."
+     * )
+     * @ORM\Column()
+     */
     private $email;
 
-  /**
-   * @var string The url address.
-   *
-   * @Groups({"organizer_read", "event_read", "event_write"})
-   * @ORM\Column()
-   */
+    /**
+     * @var string the url address
+     *
+     * @Groups({"organizer_read", "event_read", "event_write"})
+     * @ORM\Column()
+     */
     private $url;
 
-  /**
-   * @var ArrayCollection
-   *
-   * @ORM\OneToMany(targetEntity="Event", mappedBy="organizer")
-   */
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="organizer")
+     */
     private $events;
 
-  /**
-   * Gets id.
-   *
-   * @return int
-   */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
@@ -106,33 +119,33 @@ class Organizer extends Entity implements Blameable
         return $this->name;
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getEmail()
     {
         return $this->email;
     }
 
-  /**
-   * @param string $email
-   */
+    /**
+     * @param string $email
+     */
     public function setEmail($email)
     {
         $this->email = $email;
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getUrl()
     {
         return $this->url;
     }
 
-  /**
-   * @param string $url
-   */
+    /**
+     * @param string $url
+     */
     public function setUrl($url)
     {
         $this->url = $url;
@@ -141,10 +154,5 @@ class Organizer extends Entity implements Blameable
     public function getEvents()
     {
         return $this->events;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

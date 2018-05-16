@@ -1,20 +1,33 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace Tests\AppBundle\Test;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 
+/**
+ * @coversNothing
+ */
 class DatabaseTestCase extends ContainerTestCase
 {
-  /**
-   * @var \Doctrine\ORM\EntityManager
-   */
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
     protected $em;
 
-  /**
-   * {@inheritDoc}
-   */
+    private static $application;
+
+    /**
+     * {@inheritdoc}
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -26,9 +39,9 @@ class DatabaseTestCase extends ContainerTestCase
         self::runCommand('doctrine:schema:update', ['--quiet' => true, '--force' => true]);
     }
 
-  /**
-   * {@inheritDoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     protected function tearDown()
     {
         parent::tearDown();
@@ -44,21 +57,9 @@ class DatabaseTestCase extends ContainerTestCase
         $args['command'] = $command;
         $result = self::getApplication()->run(new ArrayInput($args));
 
-        if ($result !== 0) {
-            throw new \Exception('Command ' . $command . ' failed');
+        if (0 !== $result) {
+            throw new \Exception('Command '.$command.' failed');
         }
-    }
-
-    private static $application;
-
-    private static function getApplication()
-    {
-        if (self::$application === null) {
-            self::$application = new Application(self::$kernel);
-            self::$application->setAutoExit(false);
-        }
-
-        return self::$application;
     }
 
     protected function persist($entity)
@@ -73,5 +74,15 @@ class DatabaseTestCase extends ContainerTestCase
         $this->em->flush();
 
         return $this;
+    }
+
+    private static function getApplication()
+    {
+        if (null === self::$application) {
+            self::$application = new Application(self::$kernel);
+            self::$application->setAutoExit(false);
+        }
+
+        return self::$application;
     }
 }

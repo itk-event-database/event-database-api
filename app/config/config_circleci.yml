@@ -4,10 +4,10 @@ imports:
 # Doctrine Configuration
 doctrine:
     dbal:
-        host:     "127.0.0.1"
-        dbname:   "circle_test"
-        user:     "circleci"
-        password: "circleci"
+        host: '127.0.0.1'
+        dbname: 'circle_test'
+        user: 'circleci'
+        password: 'circleci'
         # This is a hack form a comment on https://github.com/doctrine/doctrine2/issues/5622#issuecomment-231727355
         # Fixes Doctrine\\DBAL\\Driver\\PDOException(code: HY000): SQLSTATE[HY000]: General error: 3065 Expression #1 of ORDER BY clause is not in SELECT list
         # error seen on CircleCI.

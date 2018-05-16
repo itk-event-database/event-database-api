@@ -1,32 +1,37 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Serializer\AoA;
 
+use AdminBundle\Service\TagManager;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\ResourceClassResolverInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
 use AppBundle\Entity\Event;
-use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
-use AppBundle\Entity\TagManager;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Class AoAItemNormalizer.
- *
- * @package AppBundle\Serializer
  */
 class ItemNormalizer extends AbstractItemNormalizer
 {
     const FORMAT = 'jsonaoa';
 
-  /**
-   * @var TagManager
-   */
+    /**
+     * @var TagManager
+     */
     private $tagManager;
 
     public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager)
@@ -35,17 +40,17 @@ class ItemNormalizer extends AbstractItemNormalizer
         $this->tagManager = $tagManager;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function supportsNormalization($data, $format = null)
     {
         return self::FORMAT === $format && parent::supportsNormalization($data, $format);
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function normalize($object, $format = null, array $context = [])
     {
         $data = parent::normalize($object, $format, $context);
@@ -58,6 +63,27 @@ class ItemNormalizer extends AbstractItemNormalizer
         }
 
         return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, $type, $format = null)
+    {
+        return false;
+    }
+
+    protected function getAttributeValue($object, $attribute, $format = null, array $context = [])
+    {
+        if ($object instanceof Taggable && 'tags' === $attribute) {
+            $this->tagManager->loadTagging($object);
+
+            return $object->getTags()->map(function ($tag) {
+                return $tag->getName();
+            });
+        }
+
+        return parent::getAttributeValue($object, $attribute, $format, $context);
     }
 
     private function normalizeEvent(Event $event, array $normalized)
@@ -79,14 +105,14 @@ class ItemNormalizer extends AbstractItemNormalizer
                 $endTime->add(new \DateInterval('PT1H'));
             }
 
-            if ($eventStartTime === null || $startTime < $eventStartTime) {
+            if (null === $eventStartTime || $startTime < $eventStartTime) {
                 $eventStartTime = $startTime;
             }
-            if ($eventEndTime === null || $endTime > $eventEndTime) {
+            if (null === $eventEndTime || $endTime > $eventEndTime) {
                 $eventEndTime = $endTime;
             }
 
-            if ($index === 0) {
+            if (0 === $index) {
                 /** @var Place $place */
                 $place = $occurrence->getPlace();
                 if ($place) {
@@ -108,7 +134,7 @@ class ItemNormalizer extends AbstractItemNormalizer
             $date = '';
             if ($occurrence->getStartDate()) {
                 $dayName = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'][$occurrence->getStartDate()->format('w')];
-                $date = $dayName . ', ' . $occurrence->getStartDate()->format('Y-m-d');
+                $date = $dayName.', '.$occurrence->getStartDate()->format('Y-m-d');
             }
             $location['details'][$occurrence->getId()] = [
             'date' => $date,
@@ -134,28 +160,5 @@ class ItemNormalizer extends AbstractItemNormalizer
         $data['location'] = $location;
 
         return $data;
-    }
-
-  /**
-   * {@inheritdoc}
-   */
-    public function supportsDenormalization($data, $type, $format = null)
-    {
-        return false;
-    }
-
-  /**
-   *
-   */
-    protected function getAttributeValue($object, $attribute, $format = null, array $context = [])
-    {
-        if ($object instanceof Taggable && $attribute === 'tags') {
-            $this->tagManager->loadTagging($object);
-            return $object->getTags()->map(function ($tag) {
-                return $tag->getName();
-            });
-        }
-
-        return parent::getAttributeValue($object, $attribute, $format, $context);
     }
 }

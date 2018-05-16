@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\FilesCommand;
 
 use AppBundle\Entity\Event;
@@ -34,7 +42,7 @@ class CleanUpFilesCommand extends FilesCommand
             $queryBuilder = $this->getContainer()->get('doctrine')->getManager()->getRepository($className)->createQueryBuilder('e');
             $query = $queryBuilder->select(['e.id', 'e.image'])
             ->where($queryBuilder->expr()->like('e.image', ':image_pattern'))
-            ->setParameter('image_pattern', $filesUrl . '/%')
+            ->setParameter('image_pattern', $filesUrl.'/%')
             ->getQuery();
             $result = $query->execute();
 
@@ -43,15 +51,15 @@ class CleanUpFilesCommand extends FilesCommand
             }
         }
 
-        $this->info('Number of files in use:  ' . count($usedFiles));
+        $this->info('Number of files in use:  '.count($usedFiles));
 
         $deletedFiles = [];
         // Iterate over all files in the base directory and delete any file that is not used by a non-deleted entity.
         $dir = new \DirectoryIterator($fileManager->getBaseDirectory());
         foreach ($dir as $fileinfo) {
-            if ($fileinfo->isFile() && !in_array($fileinfo->getRealPath(), $usedFiles)) {
+            if ($fileinfo->isFile() && !in_array($fileinfo->getRealPath(), $usedFiles, true)) {
                 $path = $fileinfo->getRealPath();
-                $this->info('Deleting file ' . $path);
+                $this->info('Deleting file '.$path);
                 $deletedFiles[] = $path;
                 if (!$dryRun) {
                     unlink($path);
@@ -59,6 +67,6 @@ class CleanUpFilesCommand extends FilesCommand
             }
         }
 
-        $this->info('Number of files deleted: ' . count($deletedFiles));
+        $this->info('Number of files deleted: '.count($deletedFiles));
     }
 }
