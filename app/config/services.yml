@@ -26,6 +26,9 @@ services:
             -
                 firewall: main
 
+    AdminBundle\Service\ImageGenerator:
+        autowire: true
+
     download_files:
         class: AdminBundle\Service\DownloadFilesService
         arguments:
@@ -289,9 +292,9 @@ services:
 
         tags: [{ name: serializer.normalizer, priority: 10 }]
 
-    app.uploads_subscriber:
-        class: AdminBundle\EventSubscriber\UploadsSubscriber
+    AdminBundle\EventSubscriber\ImagesSubscriber:
         arguments:
+            - '@AdminBundle\Service\ImageGenerator'
             -
                 base_url: '%admin.base_url%'
                 files:
@@ -321,3 +324,19 @@ services:
     app.danish_zip_code:
         public: true
         class: AdminBundle\Service\DanishZipCode
+
+    Liip\ImagineBundle\Imagine\Cache\CacheManager:
+        alias: liip_imagine.cache.manager
+
+    Liip\ImagineBundle\Imagine\Filter\FilterManager:
+        alias: liip_imagine.filter.manager
+
+    Liip\ImagineBundle\Imagine\Data\DataManager:
+        alias: liip_imagine.data.manager
+
+
+    AdminBundle\Service\FileHandler:
+        alias: file_handler
+
+    AdminBundle\Service\AuthenticatorService:
+        alias: authenticator

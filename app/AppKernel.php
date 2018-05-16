@@ -44,6 +44,7 @@ class AppKernel extends Kernel
             new ItkDev\DatabaseBundle\ItkDevDatabaseBundle(),
             new AppBundle\AppBundle(),
             new AdminBundle\AdminBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
 
             // EasyAdminBundle
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),

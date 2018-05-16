@@ -36,3 +36,6 @@ easy_admin_bundle:
     resource: '@AdminBundle/Controller/AdminController.php'
     type: annotation
     prefix: /easyadmin
+
+liip_imagine:
+    resource: '@LiipImagineBundle/Resources/config/routing.yaml'

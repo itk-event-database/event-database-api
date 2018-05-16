@@ -128,6 +128,11 @@ class FileHandler
         return (string) $localUrl === (string) $externalUrl;
     }
 
+    public function getLocalUrl(string $url)
+    {
+        return $this->isLocalUrl($url) ? HttpUri::createFromString($url)->getPath() : null;
+    }
+
     public function getLocalPath(string $url)
     {
         return realpath($this->filesPath.'/'.basename($url));

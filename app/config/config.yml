@@ -140,3 +140,15 @@ fpn_tag:
     model:
         tag_class: AppBundle\Entity\Tag
         tagging_class: AppBundle\Entity\Tagging
+
+liip_imagine:
+    # configure resolvers
+    resolvers:
+        # setup the default resolver
+        default:
+
+            # use the default web path
+            web_path: ~
+
+    # your filter sets are defined here
+    filter_sets: '%liip_imagine_filter_sets%'

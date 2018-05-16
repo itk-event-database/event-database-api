@@ -49,6 +49,14 @@ abstract class Thing extends Entity
     private $image;
 
     /**
+     * @var null|array
+     *
+     * @groups({"event_read"})
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    private $images;
+
+    /**
      * @var string
      *
      * @ORM\Column(nullable=true)
@@ -162,6 +170,18 @@ abstract class Thing extends Entity
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function setImages(array $images = null)
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+    public function getImages()
+    {
+        return $this->images;
     }
 
     /**

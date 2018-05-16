@@ -10,39 +10,47 @@
 
 namespace AdminBundle\EventSubscriber;
 
+use AdminBundle\Service\ImageGenerator;
 use AppBundle\Entity\Thing;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 
-class UploadsSubscriber implements EventSubscriber
+class ImagesSubscriber implements EventSubscriber
 {
-    protected $configuration;
+    /** @var \AdminBundle\Service\ImageGenerator */
+    private $imageGenerator;
 
-    public function __construct(array $configuration = [])
+    /** @var array */
+    private $configuration;
+
+    public function __construct(ImageGenerator $imageGenerator, array $configuration = [])
     {
+        $this->imageGenerator = $imageGenerator;
         $this->configuration = $configuration;
     }
 
     public function getSubscribedEvents()
     {
         return [
-        Events::prePersist,
-        Events::preUpdate,
+            Events::prePersist,
+            Events::preUpdate,
         ];
     }
 
     public function prePersist(LifecycleEventArgs $args)
     {
         $this->handleUploadedFile($args);
+        $this->setImages($args);
     }
 
     public function preUpdate(LifecycleEventArgs $args)
     {
         $this->handleUploadedFile($args);
+        $this->setImages($args);
     }
 
-    public function handleUploadedFile(LifecycleEventArgs $args)
+    private function handleUploadedFile(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
         if ($object instanceof Thing) {
@@ -53,6 +61,14 @@ class UploadsSubscriber implements EventSubscriber
                 .$this->configuration['files']['url'].$file->getFilename();
                 $object->setImage($imageUrl);
             }
+        }
+    }
+
+    private function setImages(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof Thing) {
+            $this->imageGenerator->setImages($object);
         }
     }
 }
