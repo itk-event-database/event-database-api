@@ -11,12 +11,13 @@
 namespace AdminBundle\Action;
 
 use ApiPlatform\Core\Bridge\Symfony\Routing\Router;
+use League\Uri\Http as HttpUri;
 use League\Uri\Modifiers\Resolve;
-use League\Uri\Schemes\Http as HttpUri;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
 
 class UploadAction
@@ -49,12 +50,16 @@ class UploadAction
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      *                                                                             The container
      */
-    public function __construct(RouterInterface $router, ContainerInterface $container)
+    public function __construct(RouterInterface $router, RequestContext $context, ContainerInterface $container)
     {
         $this->router = $router;
         $this->container = $container;
 
-        $this->baseUrlResolver = new Resolve(HttpUri::createFromString($this->container->getParameter('admin.base_url')));
+        $this->baseUrlResolver = new Resolve(HttpUri::createFromComponents([
+            'scheme' => $context->getScheme(),
+            'host' => $context->getHost(),
+        ]));
+
         $this->uploadsUrl = rtrim($this->container->getParameter('admin.uploads_url'), '/');
     }
 
@@ -76,7 +81,7 @@ class UploadAction
             $path = $this->container->getParameter('admin.uploads_path');
             $filename = uniqid($file->getBaseName()).'.'.$file->guessExtension();
             $file->move($path, $filename);
-            $data['file_url'] = $this->baseUrlResolver->__invoke(HttpUri::createFromString($this->uploadsUrl.'/'.$filename))->__toString();
+            $data['file_url'] = $this->baseUrlResolver->process(HttpUri::createFromString($this->uploadsUrl.'/'.$filename))->__toString();
         }
 
         return new JsonResponse($data);

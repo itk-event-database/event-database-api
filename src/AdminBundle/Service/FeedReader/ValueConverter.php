@@ -11,12 +11,15 @@
 namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
+use League\Uri\Http as HttpUri;
 use League\Uri\Modifiers\Resolve;
-use League\Uri\Schemes\Http as HttpUri;
 
 class ValueConverter
 {
+    /** @var Feed */
     protected $feed;
+
+    /** @var Resolve */
     protected $urlResolver;
 
     /**
@@ -44,7 +47,7 @@ class ValueConverter
             case 'url':
                 if ($this->urlResolver) {
                     $relativeUrl = HttpUri::createFromString($value);
-                    $url = $this->urlResolver->__invoke($relativeUrl);
+                    $url = $this->urlResolver->process($relativeUrl);
                     $value = (string) $url;
                 }
 

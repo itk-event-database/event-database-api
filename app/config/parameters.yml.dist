@@ -30,7 +30,6 @@ parameters:
     site_name: Event Database
     site_title: Event Database Admin
 
-    admin.base_url: http://event-database-api.vm
     admin.files_path: '%kernel.project_dir%/web/files/'
     admin.files_url: files/
     admin.uploads_path: '%kernel.project_dir%/web/uploads/'

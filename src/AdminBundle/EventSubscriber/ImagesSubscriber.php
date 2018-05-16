@@ -15,18 +15,25 @@ use AppBundle\Entity\Thing;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
+use League\Uri\Http as HttpUri;
+use League\Uri\Modifiers\Resolve;
+use Symfony\Component\Routing\RequestContext;
 
 class ImagesSubscriber implements EventSubscriber
 {
     /** @var \AdminBundle\Service\ImageGenerator */
     private $imageGenerator;
 
+    /** @var \Symfony\Component\Routing\RequestContext */
+    private $context;
+
     /** @var array */
     private $configuration;
 
-    public function __construct(ImageGenerator $imageGenerator, array $configuration = [])
+    public function __construct(ImageGenerator $imageGenerator, RequestContext $context, array $configuration = [])
     {
         $this->imageGenerator = $imageGenerator;
+        $this->context = $context;
         $this->configuration = $configuration;
     }
 
@@ -57,8 +64,11 @@ class ImagesSubscriber implements EventSubscriber
             if ($object->getImageFile()) {
                 $file = $object->getImageFile();
 
-                $imageUrl = trim($this->configuration['base_url'], '/').'/'
-                .$this->configuration['files']['url'].$file->getFilename();
+                $urlResolver = new Resolve(HttpUri::createFromComponents([
+                    'scheme' => $this->context->getScheme(),
+                    'host' => $this->context->getHost(),
+                ]));
+                $imageUrl = $urlResolver->process(HttpUri::createFromString('/'.$this->configuration['files']['url'].$file->getFilename()));
                 $object->setImage($imageUrl);
             }
         }

@@ -13,11 +13,12 @@ namespace AdminBundle\Service;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\TransferStats;
+use League\Uri\Http as HttpUri;
 use League\Uri\Modifiers\Resolve;
-use League\Uri\Schemes\Http as HttpUri;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Routing\RequestContext;
 
 class FileHandler
 {
@@ -31,11 +32,14 @@ class FileHandler
      * @param \Psr\Log\LoggerInterface $logger
      * @param array                    $configuration
      */
-    public function __construct(LoggerInterface $logger, array $configuration)
+    public function __construct(LoggerInterface $logger, RequestContext $context, array $configuration)
     {
         $this->logger = $logger;
         $this->configuration = $configuration;
-        $this->baseUrlResolver = isset($this->configuration['base_url']) ? new Resolve(HttpUri::createFromString($this->configuration['base_url'])) : null;
+        $this->baseUrlResolver = new Resolve(HttpUri::createFromComponents([
+            'scheme' => $context->getScheme(),
+            'host' => $context->getHost(),
+        ]));
         $this->filesPath = isset($this->configuration['files']['path']) ? rtrim($this->configuration['files']['path'], '/') : null;
         $this->filesUrl = isset($this->configuration['files']['url']) ? rtrim($this->configuration['files']['url'], '/') : null;
     }
@@ -103,7 +107,7 @@ class FileHandler
             }
         }
 
-        $localUrl = $this->baseUrlResolver->__invoke(HttpUri::createFromString($this->filesUrl.'/'.$filename));
+        $localUrl = $this->baseUrlResolver->process(HttpUri::createFromString($this->filesUrl.'/'.$filename));
 
         $this->log('info', 'Data written to file: '.$path.' ('.$url.')');
 
@@ -122,8 +126,8 @@ class FileHandler
     public function isLocalUrl(string $url)
     {
         $path = HttpUri::createFromString($url)->getPath();
-        $localUrl = $this->baseUrlResolver->__invoke(HttpUri::createFromString($path));
-        $externalUrl = $this->baseUrlResolver->__invoke(HttpUri::createFromString($url));
+        $localUrl = $this->baseUrlResolver->process(HttpUri::createFromString($path));
+        $externalUrl = $this->baseUrlResolver->process(HttpUri::createFromString($url));
 
         return (string) $localUrl === (string) $externalUrl;
     }
@@ -140,7 +144,7 @@ class FileHandler
 
     public function getBaseUrl()
     {
-        return $this->baseUrlResolver->__invoke(HttpUri::createFromString());
+        return $this->baseUrlResolver->process(HttpUri::createFromString());
     }
 
     public function getBaseDirectory()
