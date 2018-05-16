@@ -105,12 +105,13 @@ abstract class FeedReader
      */
     private function setDefaultValue(array &$data, string $key, $spec, array $item)
     {
-        if ($key === 'endDate' && empty($data[$key])) {
+        if ('endDate' === $key && empty($data[$key])) {
             $startDate = $data['startDate'];
             if ($startDate instanceof \DateTime) {
                 try {
-                    $endDate = new \DateTime($startDate->format(\DateTime::ATOM) . ' ' . $spec);
+                    $endDate = new \DateTime($startDate->format(\DateTime::ATOM).' '.$spec);
                     $data[$key] = $endDate;
+
                     return;
                 } catch (\Exception $e) {
                 }
