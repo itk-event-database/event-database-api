@@ -17,6 +17,8 @@ mapping:
             place:
                 mapping:
                     name: EventVenueName
+        defaults:
+            endDate: 'tomorrow'
 defaults:
     categories: [ 'Musikhuset Aarhus' ]
     occurrences.venue: 'Musikhuset Aarhus'
