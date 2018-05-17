@@ -59,16 +59,6 @@ class FeedMappingTest extends ContainerTestCase implements Controller
         $this->assertEquals(1, count($event['occurrences']));
     }
 
-    public function testMappingLivejazz()
-    {
-        $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
-    }
-
-    public function testMappingBoraBora()
-    {
-        $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
-    }
-
     public function testMappingBilletlugen()
     {
         $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
