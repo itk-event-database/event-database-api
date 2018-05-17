@@ -119,8 +119,8 @@
     });
         {% endset %}
 
-        <div class="text-right field-collection-action">
-          <a href="#" onclick="{{ js_add_item|raw }}" class="text-primary">
+        <div class="text-center field-collection-action">
+          <a href="#" onclick="{{ js_add_item|raw }}" class="btn btn-default">
             <i class="fa fa-plus-square"></i>
             {# Compute label for translation #}
             {% set label = 'action.add_' ~ (form|length == 0 ? 'new' : 'another') ~ '.' ~ name %}

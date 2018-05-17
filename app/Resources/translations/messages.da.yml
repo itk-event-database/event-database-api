@@ -41,7 +41,7 @@ app:
             name: Begivenhedens titel. Undgå titler med kun store bogstaver.
             occurrences:
                 # Main help for collection
-                collection: Angiv dato, tid og sted for begivenheden. Brug "Tilføj et element" hvis begivenheden afholdes mere end én gang.
+                collection: Angiv dato, tid og sted for begivenheden. Brug "Tilføj ny dato" hvis begivenheden afholdes mere end én gang.
                 # For each item
                 startDate: Angiv starttidspunkt.
                 endDate: Angiv sluttidspunkt. Skal være senere end starttidspunktet.
