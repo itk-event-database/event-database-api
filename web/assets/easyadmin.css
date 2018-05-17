@@ -1,3 +1,5 @@
+.easyadmin form[name=event] .event-occurrences > .field-collection > label {
+  visibility: hidden; }
 .easyadmin form[name=event] .field-occurrence > .control-label {
   display: none; }
 .easyadmin form[name=event] .repeating-occurrences .box-header {

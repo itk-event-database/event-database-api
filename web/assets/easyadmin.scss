@@ -1,5 +1,11 @@
 .easyadmin {
 	form[name=event] {
+        .event-occurrences {
+            > .field-collection > label {
+                visibility: hidden;
+            }
+        }
+
 		.field-occurrence {
 			> .control-label {
 				display: none;
