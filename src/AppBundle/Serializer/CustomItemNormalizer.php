@@ -62,9 +62,9 @@ class CustomItemNormalizer extends AbstractItemNormalizer
      */
     private $placeFactory;
 
-    public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, TagManager $tagManager, OrganizerFactory $organizerFactory, PlaceFactory $placeFactory)
+    public function __construct(ResourceMetadataFactoryInterface $resourceMetadataFactory, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, ContextBuilderInterface $contextBuilder, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, ClassMetadataFactoryInterface $classMetadataFactory = null, TagManager $tagManager, OrganizerFactory $organizerFactory, PlaceFactory $placeFactory)
     {
-        parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter);
+        parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter, $classMetadataFactory);
 
         $this->resourceMetadataFactory = $resourceMetadataFactory;
         $this->contextBuilder = $contextBuilder;
@@ -90,15 +90,19 @@ class CustomItemNormalizer extends AbstractItemNormalizer
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
         $data = $this->addJsonLdContext($this->contextBuilder, $resourceClass, $context);
 
+        // Use resolved resource class instead of given resource class to support multiple inheritance child types
+        $context['resource_class'] = $resourceClass;
+        $context['iri'] = $this->iriConverter->getIriFromItem($object);
+
         $rawData = parent::normalize($object, $format, $context);
-        if (!is_array($rawData)) {
+        if (!\is_array($rawData)) {
             return $rawData;
         }
 
-        $data['@id'] = $this->iriConverter->getIriFromItem($object);
-        $data['@type'] = ($iri = $resourceMetadata->getIri()) ? $iri : $resourceMetadata->getShortName();
+        $data['@id'] = $context['iri'];
+        $data['@type'] = $resourceMetadata->getIri() ?: $resourceMetadata->getShortName();
 
-        return array_merge($data, $rawData);
+        return $data + $rawData;
     }
 
     /**
@@ -111,12 +115,18 @@ class CustomItemNormalizer extends AbstractItemNormalizer
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function denormalize($data, $class, $format = null, array $context = [])
     {
-        // Avoid issues with proxies if we populated the object.
-        if (isset($data['@id']) && !isset($context['object_to_populate'])) {
-            $context['object_to_populate'] = $this->iriConverter->getItemFromIri($data['@id'], ['fetch_data' => true]);
+        // Avoid issues with proxies if we populated the object
+        if (isset($data['@id']) && !isset($context[self::OBJECT_TO_POPULATE])) {
+            if (isset($context['api_allow_update']) && true !== $context['api_allow_update']) {
+                throw new InvalidArgumentException('Update is not allowed for this operation.');
+            }
+
+            $context[self::OBJECT_TO_POPULATE] = $this->iriConverter->getItemFromIri($data['@id'], $context + ['fetch_data' => true]);
         }
 
         return parent::denormalize($data, $class, $format, $context);
