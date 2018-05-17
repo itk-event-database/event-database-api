@@ -180,6 +180,7 @@ services:
             - '@api_platform.jsonld.context_builder'
             - '@api_platform.property_accessor'
             - '@?api_platform.name_converter'
+            - '@?api_platform.class_metadata_factory'
             - '@tag_manager'
             - '@organizer_factory'
             - '@place_factory'
