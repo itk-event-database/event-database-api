@@ -233,6 +233,33 @@ bin/console events:feeds:read --name="Feed name"
 bin/console events:feeds:read --id=3
 ```
 
+### Reading all feed using `cron`
+
+```
+0 * * * * SYMFONY_ENV=prod bin/read-all-feeds
+```
+
+### Downloading feed files (images)
+
+Using `supervisor` (remember to set absolute paths `bin/console`):
+
+```
+# /etc/supervisor/conf.d/eventdb.conf
+
+[program:eventdb_phpresque_default]
+command = php bin/console resque:worker-start default --env=prod --foreground --verbose
+user = www-data
+stopsignal=QUIT
+
+[group:eventdb]
+programs=eventdb_phpresque_default
+```
+
+Start the show with
+
+```sh
+sudo supervisorctl start eventdb:*
+```
 
 Loading fixtures
 ----------------
