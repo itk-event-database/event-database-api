@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\FeedCommand;
 
 use AdminBundle\Entity\Feed;
@@ -12,7 +20,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class ImportFeedCommand extends FeedCommand
 {
-
     protected function configure()
     {
         parent::configure();
@@ -33,7 +40,7 @@ class ImportFeedCommand extends FeedCommand
 
         $path = $input->getArgument('filepath');
         if (!is_readable($path)) {
-            throw new \Exception('Cannot read file: ' . $path);
+            throw new \Exception('Cannot read file: '.$path);
         }
 
         $config = Yaml::parse(file_get_contents($path));
@@ -51,13 +58,13 @@ class ImportFeedCommand extends FeedCommand
 
         $helper = $this->getHelper('question');
         foreach ($config as $name => $spec) {
-            if (empty($names) || in_array($name, $names)) {
+            if (empty($names) || in_array($name, $names, true)) {
                 $question = new ConfirmationQuestion(sprintf(
                     'Import feed configuration "%s"? [y/N] ',
                     $name
                 ), false);
                 if ($yes || $helper->ask($input, $output, $question)) {
-                        $this->importFeed($name, $spec);
+                    $this->importFeed($name, $spec);
                 }
             } else {
                 $this->writeln(sprintf('<info>Skipping feed %s</info>', $name));
@@ -75,6 +82,7 @@ class ImportFeedCommand extends FeedCommand
         $user = $userRepository->findOneByUsername($configuration['user']);
         if (!$user) {
             $this->writeln(sprintf('<error>Unknown user: %s</error>', $configuration['user']));
+
             return;
         }
         unset($configuration['user']);

@@ -1,19 +1,24 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Factory;
 
 use AppBundle\Entity\Place;
 
-/**
- *
- */
 class PlaceFactory extends EntityFactory
 {
-
-  /**
-   * @param array $data
-   * @return \AppBundle\Entity\Place|object
-   */
+    /**
+     * @param array $data
+     *
+     * @return \AppBundle\Entity\Place|object
+     */
     public function get(array $data)
     {
         $entity = $this->findExisting($data);
@@ -36,10 +41,11 @@ class PlaceFactory extends EntityFactory
         return $entity;
     }
 
-  /**
-   * @param array $data
-   * @return \AppBundle\Entity\Place|object
-   */
+    /**
+     * @param array $data
+     *
+     * @return \AppBundle\Entity\Place|object
+     */
     private function findExisting(array $data)
     {
         // Try to find existing place by

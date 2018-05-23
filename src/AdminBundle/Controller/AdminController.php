@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Controller;
 
 use AppBundle\Entity\Event;
@@ -7,71 +15,11 @@ use AppBundle\Entity\Group;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\Place;
 use Doctrine\Common\Collections\ArrayCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use Gedmo\Blameable\Blameable;
-use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends BaseAdminController
 {
-
-    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
-    {
-        $this->limitByUser($dqlFilter, $entityClass, 'entity');
-        return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
-    }
-
-    protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
-    {
-        // Use only list fields in search query.
-        $this->entity['search']['fields'] = array_filter($this->entity['search']['fields'], function ($key) {
-            return isset($this->entity['list']['fields'][$key]);
-        }, ARRAY_FILTER_USE_KEY);
-
-        $this->limitByUser($dqlFilter, $entityClass, 'entity');
-        return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
-    }
-
-    private function limitByUser(string &$dqlFilter = null, string $entityClass, string $alias)
-    {
-        $limitByUserFilter = $this->getLimitByUserFilter($entityClass, $alias);
-        if ($limitByUserFilter) {
-            if ($dqlFilter) {
-                $dqlFilter .= ' and ' . $limitByUserFilter;
-            } else {
-                $dqlFilter = $limitByUserFilter;
-            }
-        }
-    }
-
-    private function getLimitByUserFilter(string $entityClass, string $alias)
-    {
-        // instanceof does not work with string as first operand.
-        if (!is_subclass_of($entityClass, Blameable::class)) {
-            return null;
-        }
-
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token ? $token->getUser() : null;
-        $filter = $this->request->get('_event_list_filter');
-        switch ($filter) {
-            case 'all':
-                return null;
-
-            case 'mine':
-            case 'my':
-                if ($user) {
-                    return $alias . '.createdBy = ' . $user->getId();
-                }
-                break;
-
-            case 'editable':
-                // @TODO: Use EditVoter to get editable events.
-                return null;
-        }
-
-        return null;
-    }
-
     public function cloneEventAction()
     {
         $id = $this->request->query->get('id');
@@ -86,21 +34,21 @@ class AdminController extends BaseAdminController
             $message = $tranlator->trans('Event %event_name% cloned', ['%event_name%' => $event->getName()]);
             $this->addFlash('info', $message);
 
-            return $this->redirectToRoute('easyadmin', array(
+            return $this->redirectToRoute('easyadmin', [
             'action' => 'edit',
             'id' => $clone->getId(),
             'entity' => $this->request->query->get('entity'),
-            ));
+            ]);
         }
 
         $refererUrl = $this->request->query->get('referer', '');
 
         return !empty($refererUrl)
         ? $this->redirect(urldecode($refererUrl))
-        : $this->redirectToRoute('easyadmin', array(
+        : $this->redirectToRoute('easyadmin', [
         'action' => 'list',
         'entity' => $this->request->query->get('entity'),
-        ));
+        ]);
     }
 
     public function createNewEventEntity()
@@ -118,7 +66,7 @@ class AdminController extends BaseAdminController
         return new Group('');
     }
 
-  // @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/fosuserbundle-integration.md
+    // @see https://github.com/javiereguiluz/EasyAdminBundle/blob/master/Resources/doc/tutorials/fosuserbundle-integration.md
 
     public function createNewUserEntity()
     {
@@ -143,6 +91,65 @@ class AdminController extends BaseAdminController
     public function preUpdateEventEntity(Event $event)
     {
         $this->handleRepeatingOccurrences($event);
+    }
+
+    protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+    {
+        $this->limitByUser($dqlFilter, $entityClass, 'entity');
+
+        return parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter);
+    }
+
+    protected function createSearchQueryBuilder($entityClass, $searchQuery, array $searchableFields, $sortField = null, $sortDirection = null, $dqlFilter = null)
+    {
+        // Use only list fields in search query.
+        $this->entity['search']['fields'] = array_filter($this->entity['search']['fields'], function ($key) {
+            return isset($this->entity['list']['fields'][$key]);
+        }, ARRAY_FILTER_USE_KEY);
+
+        $this->limitByUser($dqlFilter, $entityClass, 'entity');
+
+        return parent::createSearchQueryBuilder($entityClass, $searchQuery, $searchableFields, $sortField, $sortDirection, $dqlFilter);
+    }
+
+    private function limitByUser(string &$dqlFilter = null, string $entityClass, string $alias)
+    {
+        $limitByUserFilter = $this->getLimitByUserFilter($entityClass, $alias);
+        if ($limitByUserFilter) {
+            if ($dqlFilter) {
+                $dqlFilter .= ' and '.$limitByUserFilter;
+            } else {
+                $dqlFilter = $limitByUserFilter;
+            }
+        }
+    }
+
+    private function getLimitByUserFilter(string $entityClass, string $alias)
+    {
+        // instanceof does not work with string as first operand.
+        if (!is_subclass_of($entityClass, Blameable::class)) {
+            return null;
+        }
+
+        $token = $this->get('security.token_storage')->getToken();
+        $user = $token ? $token->getUser() : null;
+        $filter = $this->request->get('_event_list_filter');
+        switch ($filter) {
+            case 'all':
+                return null;
+            case 'mine':
+            case 'my':
+                if ($user) {
+                    return $alias.'.createdBy = '.$user->getId();
+                }
+
+                break;
+            case 'editable':
+                // @TODO: Use EditVoter to get editable events.
+                return null;
+        }
+
+        return null;
     }
 
     private function handleRepeatingOccurrences(Event $event)
@@ -178,8 +185,8 @@ class AdminController extends BaseAdminController
                     $endDay->setTime(0, 0, 0);
                     while ($startDay <= $endDay) {
                         $day = $startDay->format('N');
-                        $startTime = $repeatingOccurrences['start_time_' . $day];
-                        $endTime = $repeatingOccurrences['end_time_' . $day];
+                        $startTime = $repeatingOccurrences['start_time_'.$day];
+                        $endTime = $repeatingOccurrences['end_time_'.$day];
                         if ($startTime && $endTime) {
                             $occurrence = new Occurrence();
                             $occurrence->setPlace($place);

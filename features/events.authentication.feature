@@ -85,7 +85,8 @@ Feature: Events Authentication
     """
     Then the response status code should be 200
 
-    When I add "Content-Type" header equal to "application/ld+json"
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
     And I send a "PUT" request to "/api/events/2" with body:
     """

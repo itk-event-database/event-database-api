@@ -1,36 +1,42 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
-/**
- *
- */
 class ContentNormalizer implements ContentNormalizerInterface
 {
-  /**
-   * @var \HTMLPurifier
-   */
+    /**
+     * @var \HTMLPurifier
+     */
     private $purifier;
 
-  /**
-   * @var array
-   */
+    /**
+     * @var array
+     */
     private $configuration;
 
-  /**
-   * @param \HTMLPurifier $purifier
-   * @param array $configuration
-   */
+    /**
+     * @param \HTMLPurifier $purifier
+     * @param array         $configuration
+     */
     public function __construct(\HTMLPurifier $purifier, array $configuration = null)
     {
         $this->purifier = $purifier;
         $this->configuration = $configuration;
     }
 
-  /**
-   * @param string $content
-   * @return string
-   */
+    /**
+     * @param string $content
+     *
+     * @return string
+     */
     public function normalize($content)
     {
         if (empty($content)) {
@@ -53,18 +59,18 @@ class ContentNormalizer implements ContentNormalizerInterface
         return $content;
     }
 
-  /**
-   * Truncate a text.
-   *
-   * @see https://github.com/twigphp/Twig-extensions/blob/master/lib/Twig/Extensions/Extension/Text.php
-   *
-   * @param $value
-   * @param $length
-   * @param bool $preserve
-   * @param string $separator
-   *
-   * @return string
-   */
+    /**
+     * Truncate a text.
+     *
+     * @see https://github.com/twigphp/Twig-extensions/blob/master/lib/Twig/Extensions/Extension/Text.php
+     *
+     * @param $value
+     * @param $length
+     * @param bool   $preserve
+     * @param string $separator
+     *
+     * @return string
+     */
     private function truncate($value, $length, $preserve = false, $separator = '…')
     {
         $charset = 'UTF8';
@@ -76,8 +82,10 @@ class ContentNormalizer implements ContentNormalizerInterface
                 }
                 $length = $breakpoint;
             }
-            return rtrim(mb_substr($value, 0, $length, $charset)) . $separator;
+
+            return rtrim(mb_substr($value, 0, $length, $charset)).$separator;
         }
+
         return $value;
     }
 }

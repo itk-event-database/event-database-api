@@ -26,6 +26,56 @@ Install assets
 bin/console assets:install
 ```
 
+Generated images
+----------------
+
+[LiipImagineBundle](https://symfony.com/doc/2.0/bundles/LiipImagineBundle/index.html)
+is used to generate scaled images. Images are generated whenever
+images are changed or added, but to get things started you have to
+generate all images from the command line.
+
+To add generated images to all Events and Places, run
+
+```
+bin/console admin:images:set AppBundle:Event
+bin/console admin:images:set AppBundle:Place
+```
+
+To reset generated images, add `--reset` to the commands:
+
+```
+bin/console admin:images:set --reset AppBundle:Event
+bin/console admin:images:set --reset AppBundle:Place
+```
+
+To remove all generated images (cf. [LiipImagineBundle Console
+Commands](https://symfony.com/doc/2.0/bundles/LiipImagineBundle/commands.html#remove-cache)),
+run
+
+```
+bin/console liip:imagine:cache:remove
+```
+
+Coding standard
+---------------
+
+The [Symfony Coding Standards](https://symfony.com/doc/3.4/contributing/code/standards.html) apply.
+
+To check the code, run:
+
+```
+composer check-coding-standards
+```
+
+To apply the coding standards, run:
+
+```
+composer apply-coding-standards
+```
+
+Remember to [*run all tests after applying coding standards*](#running-tests).
+
+
 API documentation
 -----------------
 
@@ -102,11 +152,11 @@ curl --silent --verbose --request POST --header "Authorization: Bearer $token" -
   "image": "https://dummyimage.com/600x400/000/00ffd5.png",
   "langcode": "en",
   "occurrences": [ {
-	"startDate": "2000-01-01",
-	"endDate": "2001-01-01",
-	"place": {
-	  "name": "Some place"
-	}
+    "startDate": "2000-01-01",
+    "endDate": "2001-01-01",
+    "place": {
+      "name": "Some place"
+    }
   } ]
 }
 JSON
@@ -146,7 +196,7 @@ vendor/bin/behat features/events.feature
 To run unit tests:
 
 ```
-vendor/symfony/symfony/phpunit
+vendor/bin/phpunit
 ```
 
 
@@ -183,6 +233,33 @@ bin/console events:feeds:read --name="Feed name"
 bin/console events:feeds:read --id=3
 ```
 
+### Reading all feed using `cron`
+
+```
+0 * * * * SYMFONY_ENV=prod bin/read-all-feeds
+```
+
+### Downloading feed files (images)
+
+Using `supervisor` (remember to set absolute paths `bin/console`):
+
+```
+# /etc/supervisor/conf.d/eventdb.conf
+
+[program:eventdb_phpresque_default]
+command = php bin/console resque:worker-start default --env=prod --foreground --verbose
+user = www-data
+stopsignal=QUIT
+
+[group:eventdb]
+programs=eventdb_phpresque_default
+```
+
+Start the show with
+
+```sh
+sudo supervisorctl start eventdb:*
+```
 
 Loading fixtures
 ----------------

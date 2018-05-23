@@ -1,13 +1,22 @@
 <?php
 
-namespace AdminBundle\Service;
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
 
-use Tests\AppBundle\Test\ContainerTestCase;
+namespace AdminBundle\Service;
 
 use AdminBundle\Entity\Feed;
 use AdminBundle\Service\FeedReader\Controller;
-use AdminBundle\Service\FeedReader\ValueConverter;
+use Tests\AppBundle\Test\ContainerTestCase;
 
+/**
+ * @coversNothing
+ */
 class FeedMappingTest extends ContainerTestCase implements Controller
 {
     private $converter;
@@ -48,16 +57,6 @@ class FeedMappingTest extends ContainerTestCase implements Controller
 
         $event = $this->events[1];
         $this->assertEquals(1, count($event['occurrences']));
-    }
-
-    public function testMappingLivejazz()
-    {
-        $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
-    }
-
-    public function testMappingBoraBora()
-    {
-        $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
     }
 
     public function testMappingBilletlugen()
@@ -124,24 +123,6 @@ class FeedMappingTest extends ContainerTestCase implements Controller
         $this->assertEquals('Dokk1', $place['name']);
     }
 
-    private function readFeed(string $name)
-    {
-        $feedConfiguration = $this->readFixture($name . '.yml');
-        $type = $feedConfiguration['type'];
-        $data = $this->readFixture($name . '.' . $type);
-
-        $feed = new Feed();
-        $feed->setConfiguration($feedConfiguration);
-        $this->converter = $this->container->get('value_converter');
-
-        $this->events = [];
-        $reader = $this->container->get('feed_reader.' . $type);
-        $reader
-        ->setController($this)
-        ->setFeed($feed);
-        $reader->read($data);
-    }
-
     public function createEvent(array $data)
     {
         if (isset($data['image'])) {
@@ -155,5 +136,23 @@ class FeedMappingTest extends ContainerTestCase implements Controller
     public function convertValue($value, $name)
     {
         return $this->converter->convert($value, $name);
+    }
+
+    private function readFeed(string $name)
+    {
+        $feedConfiguration = $this->readFixture($name.'.yml');
+        $type = $feedConfiguration['type'];
+        $data = $this->readFixture($name.'.'.$type);
+
+        $feed = new Feed();
+        $feed->setConfiguration($feedConfiguration);
+        $this->converter = $this->container->get('value_converter');
+
+        $this->events = [];
+        $reader = $this->container->get('feed_reader.'.$type);
+        $reader
+        ->setController($this)
+        ->setFeed($feed);
+        $reader->read($data);
     }
 }

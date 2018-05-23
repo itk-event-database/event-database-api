@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 use AdminBundle\Entity\Feed;
@@ -37,11 +45,11 @@ class FeedManager
         return true;
     }
 
-  /**
-   * @param Feed $feed
-   *
-   * Remove all events imported from a feed.
-   */
+    /**
+     * @param feed $feed
+     *
+     * Remove all events imported from a feed
+     */
     public function removeEvents(Feed $feed)
     {
         $repository = $this->em->getRepository(Event::class);
@@ -67,13 +75,14 @@ class FeedManager
         $query->execute();
     }
 
-  /**
-   * Get events (indexed by id).
-   *
-   * @param \AdminBundle\Entity\Feed $feed
-   * @param string $strategy
-   * @return array|null
-   */
+    /**
+     * Get events (indexed by id).
+     *
+     * @param \AdminBundle\Entity\Feed $feed
+     * @param string                   $strategy
+     *
+     * @return null|array
+     */
     public function getCleanUpEvents(Feed $feed)
     {
         // @TODO: Get the clean up strategy from the feed.
@@ -93,8 +102,9 @@ class FeedManager
                 'now' => (new \DateTime())->format('Y-m-d H:i:s'),
                 ]);
                 $eventIds = array_map(function ($row) {
-                        return (int)$row['id'];
+                    return (int) $row['id'];
                 }, $stmt->fetchAll());
+
                 break;
             case Feed::FEED_CLEAN_UP_ALL:
                 // Get all feed events.
@@ -104,21 +114,22 @@ class FeedManager
                 'feed_id' => $feed->getId(),
                 ]);
                 $eventIds = array_map(function ($row) {
-                        return (int)$row['id'];
+                    return (int) $row['id'];
                 }, $stmt->fetchAll());
+
                 break;
         }
 
         return $eventIds ? array_combine($eventIds, $eventIds) : null;
     }
 
-  /**
-   * Clean up (i.e. delete) some events.
-   *
-   * @param \AdminBundle\Entity\Feed $feed
-   * @param array|NULL $eventIds
-   *   A result of calling getEventIds
-   */
+    /**
+     * Clean up (i.e. delete) some events.
+     *
+     * @param \AdminBundle\Entity\Feed $feed
+     * @param null|array               $eventIds
+     *                                           A result of calling getEventIds
+     */
     public function cleanUpEvents(Feed $feed, array $eventIds = null)
     {
         if ($eventIds) {

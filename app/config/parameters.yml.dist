@@ -2,38 +2,37 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: vagrant
+    database_host: 127.0.0.1
+    database_port: ~
+    database_name: event_db_api
+    database_user: root
+    database_password: ~
     # You should uncomment this if you want use pdo_sqlite
-    # database_path: "%kernel.root_dir%/data.db3"
+    # database_path: '%kernel.root_dir%/data.db3'
 
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
-    locale:            en
-    api_name:          'Event Database'
-    api_description:   'API for creating and querying events'
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: ~
+    mailer_password: ~
+    locale: en
+    api_name: 'Event Database'
+    api_description: 'API for creating and querying events'
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret: ThisTokenIsNotSoSecretChangeIt
 
     cors_allow_origin: '*'
 
-    jwt_private_key_path: %kernel.root_dir%/../var/jwt/private.pem   # ssh private key path
-    jwt_public_key_path:  %kernel.root_dir%/../var/jwt/public.pem    # ssh public key path
-    jwt_key_pass_phrase:  'test'                                     # ssh key pass phrase
-    jwt_token_ttl:        86400
+    jwt_private_key_path: '%kernel.project_dir%/var/jwt/private.pem'  # ssh private key path
+    jwt_public_key_path: '%kernel.project_dir%/var/jwt/public.pem'  # ssh public key path
+    jwt_key_pass_phrase: 'test'  # ssh key pass phrase
+    jwt_token_ttl: 86400
 
     site_name: Event Database
     site_title: Event Database Admin
 
-    admin.base_url: http://event-database-api.vm
-    admin.files_path: %kernel.root_dir%/../web/files/
+    admin.files_path: '%kernel.project_dir%/web/files/'
     admin.files_url: files/
-    admin.uploads_path: %kernel.root_dir%/../web/uploads/
+    admin.uploads_path: '%kernel.project_dir%/web/uploads/'
     admin.uploads_url: uploads/
 
     github_url: https://github.com/itk-event-database
@@ -43,3 +42,22 @@ parameters:
     from_email_name: Event Database
 
     view_timezone: GMT
+
+    router.request_context.host: event-database-api.vm
+    router.request_context.scheme: http
+
+    liip_imagine_filter_sets:
+        small:
+            filters:
+                downscale:
+                    max: [480, 480]
+
+        medium:
+            filters:
+                downscale:
+                    max: [980, 980]
+
+        large:
+            filters:
+                downscale:
+                    max: [1690, 1690]

@@ -1,15 +1,19 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Place;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use AppBundle\Entity\Place;
-use AppBundle\Entity\Tag;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
 class LoadPlaces extends LoadData
@@ -29,7 +33,7 @@ class LoadPlaces extends LoadData
         $places_count = count($config['data']);
         $loop = 0;
 
-        echo 'Places loaded (' . $places_count . '):', PHP_EOL;
+        echo 'Places loaded ('.$places_count.'):', PHP_EOL;
 
         foreach ($config['data'] as $name => $configuration) {
             $name = trim($configuration['name']);
@@ -63,7 +67,7 @@ class LoadPlaces extends LoadData
             if (!empty($configuration['promopic'])) {
                 $place->setImage($configuration['promopic']);
             }
-            $place->setLangcode("DA");
+            $place->setLangcode('DA');
             if (!empty($configuration['longitude'])) {
                 $place->setLongitude($configuration['longitude']);
             }
@@ -94,14 +98,14 @@ class LoadPlaces extends LoadData
 
             $manager->persist($place);
 
-            if ($loop % 100 == 0) {
-                echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
+            if (0 === $loop % 100) {
+                echo 'Completed '.$loop.' / '.$places_count.' places', PHP_EOL;
             }
 
-            $loop++;
+            ++$loop;
         }
 
-        echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
+        echo 'Completed '.$loop.' / '.$places_count.' places', PHP_EOL;
         echo 'Flushing to DB...', PHP_EOL;
 
         $manager->flush();

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Form;
 
 use AdminBundle\Service\RolesHelper;
@@ -8,29 +16,26 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-/**
- *
- */
 class UserType extends AbstractType
 {
-  /**
-   * @var RolesHelper
-   */
+    /**
+     * @var RolesHelper
+     */
     private $rolesHelper;
 
-  /**
-   * @param $class
-   * @param \AdminBundle\Service\RolesHelper $rolesHelper
-   */
+    /**
+     * @param $class
+     * @param \AdminBundle\Service\RolesHelper $rolesHelper
+     */
     public function __construct($class, RolesHelper $rolesHelper)
     {
         $this->rolesHelper = $rolesHelper;
     }
 
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array $options
-   */
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -45,19 +50,19 @@ class UserType extends AbstractType
         ]);
     }
 
-  /**
-   * @param OptionsResolverInterface $resolver
-   */
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults([
-          'data_class' => 'AppBundle\Entity\User'
+          'data_class' => 'AppBundle\Entity\User',
         ]);
     }
 
-  /**
-   * @return string
-   */
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'adminbundle_user';

@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\FeedCommand;
 
 use AdminBundle\Entity\Feed;
@@ -10,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class FeedCommand extends ContainerAwareCommand
 {
-  /**
-   * @var OutputInterface
-   */
+    /**
+     * @var OutputInterface
+     */
     protected $output;
 
     protected function configure()
@@ -44,11 +52,11 @@ abstract class FeedCommand extends ContainerAwareCommand
     protected function writeFeedInfo(Feed $feed)
     {
         $this->writeln([
-        'name:    ' . $feed->getName(),
-        'id:      ' . $feed->getId(),
-        'enabled: ' . ($feed->getEnabled() ? 'yes' : 'no'),
-        'url:     ' . $feed->getUrl(),
-        'user:    ' . $feed->getUser(),
+        'name:    '.$feed->getName(),
+        'id:      '.$feed->getId(),
+        'enabled: '.($feed->getEnabled() ? 'yes' : 'no'),
+        'url:     '.$feed->getUrl(),
+        'user:    '.$feed->getUser(),
         ]);
     }
 
@@ -64,10 +72,13 @@ abstract class FeedCommand extends ContainerAwareCommand
         }
     }
 
-  /**
-   * Get feeds.
-   *
-   */
+    /**
+     * Get feeds.
+     *
+     * @param mixed $ids
+     * @param mixed $names
+     * @param mixed $getAll
+     */
     protected function getFeeds($ids, $names, $getAll = false)
     {
         $repository = $this->getContainer()->get('doctrine')->getRepository('AdminBundle:Feed');

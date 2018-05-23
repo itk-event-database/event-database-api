@@ -1,21 +1,25 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Component\Yaml\Yaml;
 
-/**
- *
- */
 class LoadTags extends LoadData
 {
     protected $order = 5;
 
-  /**
-   * @param \Doctrine\Common\Persistence\ObjectManager $manager
-   */
+    /**
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $yaml = $this->loadFixture('tags.yml');
@@ -30,7 +34,7 @@ class LoadTags extends LoadData
             $knownTags[$tag->getName()] = $tag;
         }
 
-        echo 'Tags loaded (' . count($tags) . '):', PHP_EOL;
+        echo 'Tags loaded ('.count($tags).'):', PHP_EOL;
         foreach ($tags as $tag) {
             echo sprintf('% 3d: %s', $tag->getId(), $tag->getName()), PHP_EOL;
         }
@@ -43,7 +47,7 @@ class LoadTags extends LoadData
             $unknownTags[$tag->getName()] = $tag;
         }
 
-        echo 'Tags loaded (' . count($tags) . '):', PHP_EOL;
+        echo 'Tags loaded ('.count($tags).'):', PHP_EOL;
         foreach ($tags as $tag) {
             echo sprintf('% 3d: %s', $tag->getId(), $tag->getName()), PHP_EOL;
         }

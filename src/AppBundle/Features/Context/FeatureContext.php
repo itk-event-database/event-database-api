@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Features\Context;
 
 use AppBundle\Entity\Group;
@@ -14,12 +22,13 @@ use Behatch\Context\BaseContext;
 use Behatch\HttpCall\HttpCallResultPool;
 use Behatch\HttpCall\Request;
 use Behatch\Json\Json;
+use Behatch\Json\JsonInspector;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Behatch\Json\JsonInspector;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Defines application features from the specific context.
@@ -28,12 +37,6 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
 {
     private $kernel;
     private $container;
-
-    public function setKernel(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
-        $this->container = $this->kernel->getContainer();
-    }
 
     /**
      * @var ManagerRegistry
@@ -55,6 +58,8 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
      * Every scenario gets its own context instance.
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
+     *
+     * @param mixed $evaluationMode
      */
     public function __construct(
         ManagerRegistry $doctrine,
@@ -68,6 +73,12 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
         $this->classes = $this->manager->getMetadataFactory()->getAllMetadata();
         $this->request = $request;
         $this->inspector = new JsonInspector($evaluationMode);
+    }
+
+    public function setKernel(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+        $this->container = $this->kernel->getContainer();
     }
 
     /**
@@ -94,6 +105,9 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
 
     /**
      * @When I sign in with username :username and password :password
+     *
+     * @param mixed $username
+     * @param mixed $password
      */
     public function iSignInWithUsernameAndPassword($username, $password)
     {
@@ -112,6 +126,8 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
 
     /**
      * @When I authenticate as :username
+     *
+     * @param mixed $username
      */
     public function iAuthenticateAs($username)
     {
@@ -145,6 +161,7 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
         } catch (ExpectationException $ex) {
             $differ = new Differ("--- Expected\n+++ Actual\n", true);
             $message = $differ->diff($expected->encode(), $actual->encode());
+
             throw new ExpectationException($message, $this->getSession(), $ex);
         }
     }
@@ -211,6 +228,8 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
      * @Given /^the following (?P<entityClass>.+) entities(?: identified by (?P<idColumn>.+))? exist:$/
      *
      * @param mixed $type
+     * @param mixed $entityClass
+     * @param mixed $idColumn
      */
     public function theFollowingEntitiesExist($entityClass, $idColumn = 'id', TableNode $table = null)
     {
@@ -223,7 +242,7 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
         $repository = $this->manager->getRepository($entityClass);
         $accessor = $this->container->get('property_accessor');
         foreach ($table->getHash() as $row) {
-            if ($row[$idColumn] && $repository->find($row[$idColumn]) !== null) {
+            if ($row[$idColumn] && null !== $repository->find($row[$idColumn])) {
                 continue;
             }
             $entity = new $entityClass();
@@ -237,6 +256,105 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
                 }
             }
             $this->persist($entity);
+        }
+    }
+
+    /**
+     * @Then the SQL query :sql should return :count element(s)
+     *
+     * @param mixed $sql
+     * @param mixed $count
+     */
+    public function theSqlQueryShouldReturnElements($sql, $count)
+    {
+        $stmt = $this->manager->getConnection()->prepare($sql);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        $this->assertEquals($count, count($items));
+    }
+
+    /**
+     * @Then print result of :sql
+     *
+     * @param mixed $sql
+     */
+    public function printResultOfSql($sql)
+    {
+        $stmt = $this->manager->getConnection()->prepare($sql);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+
+        $rows = [];
+        foreach ($items as $index => $item) {
+            if (0 === $index) {
+                $rows[$index + 1] = array_keys($item);
+            }
+            $rows[$index + 2] = array_values($item);
+        }
+
+        // TableNode cannot handle null values.
+        foreach ($rows as &$row) {
+            $row = array_map(function ($value) {
+                return null === $value ? '(null)' : $value;
+            }, $row);
+        }
+
+        $table = new TableNode($rows);
+        echo $table->getTableAsString();
+    }
+
+    /**
+     * Checks that a list of elements contains a specific number of nodes matching a criterion.
+     *
+     * @Then the JSON node :node should contain :count element(s) with :propertyPath equal to :value
+     *
+     * @param mixed $node
+     * @param mixed $count
+     * @param mixed $propertyPath
+     * @param mixed $value
+     */
+    public function theJsonNodeShouldContainElementWithEqualTo($node, $count, $propertyPath, $value)
+    {
+        $json = $this->getJson();
+        $items = $this->inspector->evaluate($json, $node);
+        $this->assertTrue(is_array($items), sprintf('The node "%s" should be an array', $node));
+
+        // The property_accessor service caches property paths, but '@id' is not a valid cache key.
+        // Therefore we create our own property accessor.
+        $accessor = PropertyAccess::createPropertyAccessor();
+        $matches = array_filter($items, function ($item) use ($propertyPath, $value, $accessor) {
+            return $accessor->isReadable($item, $propertyPath) && $accessor->getValue($item, $propertyPath) === $value;
+        });
+        $this->assertSame($count, count($matches));
+    }
+
+    protected function getJson()
+    {
+        return new Json($this->request->getContent());
+    }
+
+    protected function persist($entity)
+    {
+        $metadata = null;
+        $idGenerator = null;
+        $idGeneratorType = null;
+        if (null !== $entity->getId()) {
+            // Remove id generator and set id manually.
+            $metadata = $this->manager->getClassMetadata(get_class($entity));
+            $idGenerator = $metadata->idGenerator;
+            $idGeneratorType = $metadata->generatorType;
+            $metadata->setIdGeneratorType($metadata::GENERATOR_TYPE_NONE);
+        }
+
+        $this->manager->persist($entity);
+        // We need to flush to force the id to be set.
+        $this->manager->flush();
+
+        // Restore id generator.
+        if (null !== $metadata) {
+            $metadata->setIdGenerator($idGenerator);
+            $metadata->setIdGeneratorType($idGeneratorType);
         }
     }
 
@@ -281,17 +399,12 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
         return $groups;
     }
 
-    protected function getJson()
-    {
-        return new Json($this->request->getContent());
-    }
-
     /**
      * Get a user by username.
      *
      * @param $username
      *
-     * @return User|null
+     * @return null|User
      */
     private function getUser($username)
     {
@@ -315,85 +428,5 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
     private function removeAuthenticationHeader()
     {
         $this->request->setHttpHeader('Authorization', '');
-    }
-
-    /**
-     * @Then the SQL query :sql should return :count element(s)
-     */
-    public function theSqlQueryShouldReturnElements($sql, $count)
-    {
-        $stmt = $this->manager->getConnection()->prepare($sql);
-        $stmt->execute();
-        $items = $stmt->fetchAll();
-
-        $this->assertEquals($count, count($items));
-    }
-
-    /**
-     * @Then print result of :sql
-     */
-    public function printResultOfSql($sql)
-    {
-        $stmt = $this->manager->getConnection()->prepare($sql);
-        $stmt->execute();
-        $items = $stmt->fetchAll();
-
-        $rows = [];
-        foreach ($items as $index => $item) {
-            if ($index === 0) {
-                $rows[$index + 1] = array_keys($item);
-            }
-            $rows[$index + 2] = array_values($item);
-        }
-
-        $table = new TableNode($rows);
-        echo $table->getTableAsString();
-    }
-
-    /**
-     * Checks that a list of elements contains a specific number of nodes matching a criterion.
-     *
-     * @Then the JSON node :node should contain :count element(s) with :propertyPath equal to :value
-     *
-     * @param mixed $node
-     * @param mixed $count
-     * @param mixed $propertyPath
-     * @param mixed $value
-     */
-    public function theJsonNodeShouldContainElementWithEqualTo($node, $count, $propertyPath, $value)
-    {
-        $json = $this->getJson();
-        $items = $this->inspector->evaluate($json, $node);
-        $this->assertTrue(is_array($items), sprintf('The node "%s" should be an array', $node));
-        $matches = array_filter($items, function ($item) use ($propertyPath, $value) {
-            $accessor = $this->container->get('property_accessor');
-
-            return $accessor->isReadable($item, $propertyPath) && $accessor->getValue($item, $propertyPath) === $value;
-        });
-        $this->assertSame($count, count($matches));
-    }
-
-    protected function persist($entity)
-    {
-        $metadata = null;
-        $idGenerator = null;
-        $idGeneratorType = null;
-        if ($entity->getId() !== null) {
-            // Remove id generator and set id manually.
-            $metadata = $this->manager->getClassMetadata(get_class($entity));
-            $idGenerator = $metadata->idGenerator;
-            $idGeneratorType = $metadata->generatorType;
-            $metadata->setIdGeneratorType($metadata::GENERATOR_TYPE_NONE);
-        }
-
-        $this->manager->persist($entity);
-        // We need to flush to force the id to be set.
-        $this->manager->flush();
-
-        // Restore id generator.
-        if ($metadata !== null) {
-            $metadata->setIdGenerator($idGenerator);
-            $metadata->setIdGeneratorType($idGeneratorType);
-        }
     }
 }

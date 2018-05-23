@@ -1,11 +1,19 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use FPN\TagBundle\Entity\Tagging as BaseTagging;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use FPN\TagBundle\Entity\Tagging as BaseTagging;
 
 /**
  * AppBundle\Entity\Tagging.
@@ -21,18 +29,18 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  */
 class Tagging extends BaseTagging
 {
-  /**
-   * @var integer $id
-   *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     protected $id;
 
-  /**
-   * @ORM\ManyToOne(targetEntity="Tag", inversedBy="tagging")
-   * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
-   **/
+    /**
+     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="tagging")
+     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+     **/
     protected $tag;
 }

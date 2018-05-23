@@ -3,34 +3,8 @@ imports:
     - { resource: parameters_platform.php }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: api_platform.yml }
     - { resource: easyadmin.yml }
-
-api_platform:
-    title:                Event Database
-    description:          API for creating and querying events
-    version:              0.1.0
-
-    collection:
-        pagination:
-            client_enabled: false
-            enabled_parameter_name: pagination
-            client_items_per_page: true # Disabled by default
-            items_per_page_parameter_name: items_per_page
-            maximum_items_per_page: 100
-
-    eager_loading:
-        force_eager: false
-
-    formats:
-        jsonld:  ['application/ld+json']
-        jsonhal: ['application/hal+json']
-        xml:     ['application/xml', 'text/xml']
-        json:    ['application/json']
-        html:    ['text/html']
-        # Custom formats
-        # AoA
-        jsonaoa: ['application/aoa+json']
-        firebase: ['application/firebase+json']
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -38,26 +12,24 @@ parameters:
     locale: da
 
 framework:
-    #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
-    secret:          "%secret%"
+    # esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.root_dir%/config/routing.yml'
         strict_requirements: ~
-    form:            ~
+    form: ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
-    serializer:      { enable_annotations: true }
+    validation: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
-    trusted_proxies: ~
+    default_locale: '%locale%'
     session:
-        # save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+        # save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
         # handler_id set to null will use default session handler from php.ini
-        handler_id:  ~
-    fragments:       ~
+        handler_id: ~
+    fragments: ~
     http_method_override: true
     assets: ~
 
@@ -65,36 +37,36 @@ framework:
 twig:
     form_themes:
         - bootstrap_3_layout.html.twig
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     globals:
-        github_url: "%github_url%"
-        editor_url: "%editor_url%"
-        site_title: "%site_title%"
-        kernelRootDir: "%kernel.root_dir%"
+        github_url: '%github_url%'
+        editor_url: '%editor_url%'
+        site_title: '%site_title%'
+        kernelRootDir: '%kernel.root_dir%'
     date:
-        timezone: "%view_timezone%"
+        timezone: '%view_timezone%'
 
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
         server_version: '5.5'
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
-        #     path:     "%database_path%"
+        #     path: '%database_path%'
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         filters:
@@ -105,55 +77,55 @@ doctrine:
             gedmo_loggable:
                 type: annotation
                 prefix: Gedmo\Loggable\Entity
-                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
-                alias: GedmoLoggable # (optional) it will default to the name set for the mapping
+                dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity'
+                alias: GedmoLoggable  # (optional) it will default to the name set for the mapping
                 is_bundle: false
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
 
 # Nelmio CORS
 nelmio_cors:
     defaults:
-        allow_origin:   ["%cors_allow_origin%"]
-        allow_methods:  ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
-        allow_headers:  ["content-type", "authorization"]
-        expose_headers: ["link"]
-        max_age:        3600
+        allow_origin: ['%cors_allow_origin%']
+        allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+        allow_headers: ['content-type', 'authorization']
+        expose_headers: ['link']
+        max_age: 3600
     paths:
         '^/': ~
 
 # # Nelmio API Doc
 # nelmio_api_doc:
 #     sandbox:
-#         accept_type:        "application/json"
+#         accept_type: 'application/json'
 #         body_format:
-#             formats:        [ "json" ]
-#             default_format: "json"
+#             formats: ['json']
+#             default_format: 'json'
 #         request_format:
 #             formats:
-#                 json:       "application/json"
+#                 json: 'application/json'
 
 fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    db_driver: orm  # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
     group:
         group_class: AppBundle\Entity\Group
     from_email:
-        address:        '%from_email_address%'
-        sender_name:    '%from_email_name%'
+        address: '%from_email_address%'
+        sender_name: '%from_email_name%'
 
 lexik_jwt_authentication:
-    private_key_path: "%jwt_private_key_path%"
-    public_key_path:  "%jwt_public_key_path%"
-    pass_phrase:      "%jwt_key_pass_phrase%"
-    token_ttl:        "%jwt_token_ttl%"
+    private_key_path: '%jwt_private_key_path%'
+    public_key_path: '%jwt_public_key_path%'
+    pass_phrase: '%jwt_key_pass_phrase%'
+    token_ttl: '%jwt_token_ttl%'
 
 stof_doctrine_extensions:
     orm:
@@ -166,5 +138,17 @@ stof_doctrine_extensions:
 
 fpn_tag:
     model:
-        tag_class:     AppBundle\Entity\Tag
+        tag_class: AppBundle\Entity\Tag
         tagging_class: AppBundle\Entity\Tagging
+
+liip_imagine:
+    # configure resolvers
+    resolvers:
+        # setup the default resolver
+        default:
+
+            # use the default web path
+            web_path: ~
+
+    # your filter sets are defined here
+    filter_sets: '%liip_imagine_filter_sets%'

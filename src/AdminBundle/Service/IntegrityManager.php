@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
 use AppBundle\Entity\Event;
@@ -12,9 +20,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class IntegrityManager
 {
-  /**
-   * @var \Doctrine\ORM\EntityManagerInterface
-   */
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -22,12 +30,12 @@ class IntegrityManager
         $this->entityManager = $entityManager;
     }
 
-  /**
-   * @param $entity
-   *
-   * @return boolean|string
-   *   Return true iff entity can be safely deleted. Otherwise, return a message telling why it cannot be deleted.
-   */
+    /**
+     * @param $entity
+     *
+     * @return bool|string
+     *                     Return true iff entity can be safely deleted. Otherwise, return a message telling why it cannot be deleted.
+     */
     public function canDelete($entity)
     {
         if ($entity instanceof Organizer) {
@@ -51,7 +59,7 @@ class IntegrityManager
         ->setParameter('organizer', $organizer);
         $count = (int) $queryBuilder->getQuery()->getSingleScalarResult();
 
-        if ($count === 0) {
+        if (0 === $count) {
             return true;
         }
 
@@ -71,7 +79,7 @@ class IntegrityManager
         ->setParameter('place', $place);
         $count = (int) $queryBuilder->getQuery()->getSingleScalarResult();
 
-        if ($count === 0) {
+        if (0 === $count) {
             return true;
         }
 
@@ -91,7 +99,7 @@ class IntegrityManager
         ->setParameter('tag', $tag);
         $count = (int) $queryBuilder->getQuery()->getSingleScalarResult();
 
-        if ($count === 0) {
+        if (0 === $count) {
             return true;
         }
 

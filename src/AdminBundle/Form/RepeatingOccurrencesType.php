@@ -1,14 +1,22 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Form;
 
 use AppBundle\Entity\Place;
 use Doctrine\ORM\EntityRepository;
-use JavierEguiluz\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminAutocompleteType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,14 +25,11 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- *
- */
 class RepeatingOccurrencesType extends AbstractType
 {
-  /**
-   * @var \Doctrine\ORM\EntityManagerInterface
-   */
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private $placeRepository;
 
     public function __construct(EntityRepository $placeRepository)
@@ -32,10 +37,10 @@ class RepeatingOccurrencesType extends AbstractType
         $this->placeRepository = $placeRepository;
     }
 
-  /**
-   * @param FormBuilderInterface $builder
-   * @param array $options
-   */
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -55,12 +60,12 @@ class RepeatingOccurrencesType extends AbstractType
         ])
         ->add('ticket_price_range', PriceRangeType::class);
 
-        for ($day = 1; $day <= 7; $day++) {
+        for ($day = 1; $day <= 7; ++$day) {
             $builder
-            ->add('start_time_' . $day, TimeType::class, [
+            ->add('start_time_'.$day, TimeType::class, [
               'placeholder' => ['hour' => 'form.type.occurrence.datetime.placeholder.hour', 'minute' => 'form.type.occurrence.datetime.placeholder.minute'],
             ])
-              ->add('end_time_' . $day, TimeType::class, [
+              ->add('end_time_'.$day, TimeType::class, [
               'placeholder' => ['hour' => 'form.type.occurrence.datetime.placeholder.hour', 'minute' => 'form.type.occurrence.datetime.placeholder.minute'],
               ]);
         }
@@ -108,14 +113,32 @@ class RepeatingOccurrencesType extends AbstractType
 
         $builder->get('place')->addModelTransformer(new CallbackTransformer(
             function ($place = null) {
-            // The input value has already been converted to a Place in the PRE_SET_DATA event.
+                // The input value has already been converted to a Place in the PRE_SET_DATA event.
                 return $place;
             },
             function (Place $place = null) {
-            // We want to only store the place id in the database (serialized).
+                // We want to only store the place id in the database (serialized).
                 return $place instanceof Place ? $place->getId() : 0;
             }
         ));
+    }
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+        'view_timezone' => 'GMT',
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'adminbundle_repeating_occurrences';
     }
 
     private function validateRepeatingOccurrences(FormEvent $event)
@@ -137,14 +160,14 @@ class RepeatingOccurrencesType extends AbstractType
             $endDay->addError(new FormError('End day must be after start day'));
         }
         $ticketPriceRange = $form->get('ticket_price_range');
-        if ($ticketPriceRange->getData() === null) {
+        if (null === $ticketPriceRange->getData()) {
             $ticketPriceRange->addError(new FormError('Please specify ticket price'));
         }
 
         $numberOfTimeIntervals = 0;
-        for ($day = 1; $day <= 7; $day++) {
-            $startTime = $form->get('start_time_' . $day);
-            $endTime = $form->get('end_time_' . $day);
+        for ($day = 1; $day <= 7; ++$day) {
+            $startTime = $form->get('start_time_'.$day);
+            $endTime = $form->get('end_time_'.$day);
 
             if ($startTime->getData() && !$endTime->getData()) {
                 $endTime->addError(new FormError('Please specify an end time'));
@@ -153,29 +176,11 @@ class RepeatingOccurrencesType extends AbstractType
             } elseif ($startTime->getData() && $endTime->getData() && $endTime->getData() <= $startTime->getData()) {
                 $endTime->addError(new FormError('End time must be after start time'));
             } elseif ($startTime->getData() && $endTime->getData()) {
-                $numberOfTimeIntervals++;
+                ++$numberOfTimeIntervals;
             }
         }
-        if ($numberOfTimeIntervals === 0) {
+        if (0 === $numberOfTimeIntervals) {
             $form->get('message')->addError(new FormError('Please specify at least one time interval'));
         }
-    }
-
-  /**
-   * @param OptionsResolverInterface $resolver
-   */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-        'view_timezone' => 'GMT',
-        ]);
-    }
-
-  /**
-   * @return string
-   */
-    public function getName()
-    {
-        return 'adminbundle_repeating_occurrences';
     }
 }

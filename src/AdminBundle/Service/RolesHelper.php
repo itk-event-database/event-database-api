@@ -1,28 +1,30 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service;
 
-/**
- *
- */
 class RolesHelper
 {
-  /**
-   * @var array
-   */
+    /**
+     * @var array
+     */
     private $roleHierarchy;
 
-  /**
-   * @param array $roleHierarchy
-   */
+    /**
+     * @param array $roleHierarchy
+     */
     public function __construct(array $roleHierarchy)
     {
         $this->roleHierarchy = $roleHierarchy;
     }
 
-  /**
-   *
-   */
     public function getRoles()
     {
         $allRoles = [];

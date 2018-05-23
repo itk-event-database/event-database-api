@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Command\FilesCommand;
 
 use AppBundle\Entity\Event;
@@ -34,13 +42,14 @@ class CheckFilesCommand extends FilesCommand
             $queryBuilder = $this->getContainer()->get('doctrine')->getManager()->getRepository($className)->createQueryBuilder('e');
             $query = $queryBuilder->select(['e.id', 'e.image'])
             ->where($queryBuilder->expr()->like('e.image', ':image_pattern'))
-            ->setParameter('image_pattern', $filesUrl . '/%')
+            ->setParameter('image_pattern', $filesUrl.'/%')
             ->getQuery();
             $result = $query->execute();
 
             foreach ($result as $row) {
                 $id = $row['id'];
                 $url = $row['image'];
+
                 try {
                     $client->head($url);
                     $this->info(sprintf('%s % 8d: %s %s', $className, $id, $url, 200));

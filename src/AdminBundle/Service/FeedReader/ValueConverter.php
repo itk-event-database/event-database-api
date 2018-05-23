@@ -1,57 +1,67 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Service\FeedReader;
 
 use AdminBundle\Entity\Feed;
+use League\Uri\Http as HttpUri;
 use League\Uri\Modifiers\Resolve;
-use League\Uri\Schemes\Http as HttpUri;
 
-/**
- *
- */
 class ValueConverter
 {
+    /** @var Feed */
     protected $feed;
+
+    /** @var Resolve */
     protected $urlResolver;
 
-  /**
-   * @param \AdminBundle\Entity\Feed $feed
-   */
+    /**
+     * @param \AdminBundle\Entity\Feed $feed
+     */
     public function setFeed(Feed $feed)
     {
         $this->feed = $feed;
         $this->urlResolver = $this->feed->getBaseUrl() ? new Resolve(HttpUri::createFromString($this->feed->getBaseUrl())) : null;
     }
 
-  /**
-   * @param $value
-   * @param $name
-   * @return \DateTime|null|string
-   */
+    /**
+     * @param $value
+     * @param $name
+     *
+     * @return null|\DateTime|string
+     */
     public function convert($value, $name)
     {
         switch ($name) {
             case 'startDate':
             case 'endDate':
                 return $this->parseDate($value);
-
             case 'image':
             case 'url':
                 if ($this->urlResolver) {
                     $relativeUrl = HttpUri::createFromString($value);
-                    $url = $this->urlResolver->__invoke($relativeUrl);
+                    $url = $this->urlResolver->process($relativeUrl);
                     $value = (string) $url;
                 }
+
                 break;
         }
 
         return $value;
     }
 
-  /**
-   * @param $value
-   * @return \DateTime|null
-   */
+    /**
+     * @param $value
+     *
+     * @return null|\DateTime
+     */
     private function parseDate($value)
     {
         if (!$value) {
@@ -71,7 +81,7 @@ class ValueConverter
             $date->setTimestamp($value);
         }
 
-        if ($date === null) {
+        if (null === $date) {
             try {
                 $timeZone = $this->feed ? $this->feed->getTimeZone() : null;
                 $format = $this->feed ? $this->feed->getDateFormat() : null;

@@ -1,23 +1,33 @@
 <?php
 
-namespace AdminBundle\Service;
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
 
-use Tests\AppBundle\Test\ContainerTestCase;
+namespace AdminBundle\Service;
 
 use AdminBundle\Entity\Feed;
 use AdminBundle\Service\FeedReader\Controller;
 use AdminBundle\Service\FeedReader\ValueConverter;
+use Tests\AppBundle\Test\ContainerTestCase;
 
+/**
+ * @coversNothing
+ */
 class FeedReaderTest extends ContainerTestCase implements Controller
 {
-  /**
-   * @var ValueConverter
-   */
+    /**
+     * @var ValueConverter
+     */
     private $converter;
 
-  /**
-   * @var FileHandler
-   */
+    /**
+     * @var FileHandler
+     */
     private $fileHandler;
 
     private $events = [];
@@ -272,17 +282,6 @@ class FeedReaderTest extends ContainerTestCase implements Controller
         $this->assertEquals('http://musikhusetaarhus.dk/media/2738/kultur-3.jpg', $event['original_image']);
     }
 
-    private function createFeed(array $configuration)
-    {
-        $feed = new Feed();
-        $feed->setConfiguration($configuration);
-        $this->converter = $this->container->get('value_converter');
-        $this->converter->setFeed($feed);
-        $this->fileHandler = $this->container->get('file_handler');
-
-        return $feed;
-    }
-
     public function createEvent(array $data)
     {
         if (isset($data['image'])) {
@@ -296,5 +295,16 @@ class FeedReaderTest extends ContainerTestCase implements Controller
     public function convertValue($value, $name)
     {
         return $this->converter->convert($value, $name);
+    }
+
+    private function createFeed(array $configuration)
+    {
+        $feed = new Feed();
+        $feed->setConfiguration($configuration);
+        $this->converter = $this->container->get('value_converter');
+        $this->converter->setFeed($feed);
+        $this->fileHandler = $this->container->get('file_handler');
+
+        return $feed;
     }
 }

@@ -1,6 +1,9 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    api_platform.metadata_cache: true
+
 framework:
     test: ~
     session:
@@ -17,4 +20,4 @@ swiftmailer:
 
 doctrine:
     dbal:
-        dbname: "%database_name%_test"
+        dbname: '%database_name%_test'

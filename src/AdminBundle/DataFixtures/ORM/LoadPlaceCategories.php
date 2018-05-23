@@ -1,13 +1,17 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Place;
-use AppBundle\Entity\Tag;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
 
 class LoadPlaceCategories extends LoadData
@@ -22,11 +26,11 @@ class LoadPlaceCategories extends LoadData
         $tagManager = $this->container->get('fpn_tag.tag_manager');
         $yaml = $this->loadFixture('categories.yml');
         $config_categories = Yaml::parse($yaml);
-        $categories = array();
+        $categories = [];
 
         $places_count = count($config_places['data']);
 
-        echo 'Adding ' . count($config_categories['data']) . ' categories to ' . $places_count . ' places', PHP_EOL;
+        echo 'Adding '.count($config_categories['data']).' categories to '.$places_count.' places', PHP_EOL;
 
         foreach ($config_categories['data'] as $name => $configuration) {
             $categories[$configuration['id']] = $tagManager->loadOrCreateTag($configuration['name']);
@@ -46,13 +50,13 @@ class LoadPlaceCategories extends LoadData
 
             $tagManager->saveTagging($place);
 
-            if ($loop % 100 == 0) {
-                echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
+            if (0 === $loop % 100) {
+                echo 'Completed '.$loop.' / '.$places_count.' places', PHP_EOL;
             }
 
-            $loop++;
+            ++$loop;
         }
-        echo 'Completed ' . $loop . ' / ' . $places_count . ' places', PHP_EOL;
+        echo 'Completed '.$loop.' / '.$places_count.' places', PHP_EOL;
         echo 'Done adding tags to places', PHP_EOL;
     }
 }

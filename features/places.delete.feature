@@ -8,10 +8,6 @@ Feature: Places
       | username   | password | roles          |
       | api-write  | apipass  | ROLE_API_WRITE |
 
-    And I authenticate as "api-write"
-    And I add "Content-Type" header equal to "application/ld+json"
-    And I add "Accept" header equal to "application/ld+json"
-
   @createSchema
   Scenario: Get deleted places
     When I send a "GET" request to "/api/places/deleted.json"
@@ -21,7 +17,10 @@ Feature: Places
     And the JSON node "" should have 0 elements
 
   Scenario: Create an place
-    When I send a "POST" request to "/api/places" with body:
+    And I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/places" with body:
     """
     {
       "name": "Dokk1",
@@ -40,7 +39,10 @@ Feature: Places
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "@id" should be equal to "/api/places/1"
 
-    When I send a "POST" request to "/api/places" with body:
+    And I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/places" with body:
     """
     {
       "name": "Dokk2",

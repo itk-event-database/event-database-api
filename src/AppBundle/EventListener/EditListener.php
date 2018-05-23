@@ -1,39 +1,33 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\TagManager;
-use AppBundle\Entity\Thing;
-use AppBundle\Job\DownloadFilesJob;
 use AppBundle\Security\Authorization\Voter\EditVoter;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use DoctrineExtensions\Taggable\Taggable;
 use Gedmo\Blameable\Blameable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AppBundle\Entity\Event;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-/**
- *
- */
 class EditListener
 {
-  /**
-   * @var ContainerInterface
-   */
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
-  /**
-   *
-   */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-  /**
-   *
-   */
     public function preUpdate(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -45,9 +39,6 @@ class EditListener
         }
     }
 
-  /**
-   *
-   */
     public function preRemove(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -59,18 +50,18 @@ class EditListener
         }
     }
 
-  /**
-   * Checks if the attributes are granted against the current authentication token and optionally supplied object.
-   *
-   * @param mixed $attributes
-   *   The attributes
-   * @param mixed $object
-   *   The object
-   *
-   * @return bool
-   *
-   * @throws \LogicException
-   */
+    /**
+     * Checks if the attributes are granted against the current authentication token and optionally supplied object.
+     *
+     * @param mixed $attributes
+     *                          The attributes
+     * @param mixed $object
+     *                          The object
+     *
+     * @throws \LogicException
+     *
+     * @return bool
+     */
     protected function isGranted($attributes, $object = null)
     {
         if (!$this->container->has('security.authorization_checker')) {

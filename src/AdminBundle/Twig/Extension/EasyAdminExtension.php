@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\Twig\Extension;
 
 use AdminBundle\Service\IntegrityManager;
@@ -14,34 +22,32 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class TwigExtension.
- *
- * @package AdminBundle\Twig\Extension
  */
 class EasyAdminExtension extends \Twig_Extension
 {
-  /**
-   * @var \AdminBundle\Twig\Extension\TokenStorageInterface
-   */
+    /**
+     * @var \AdminBundle\Twig\Extension\TokenStorageInterface
+     */
     private $tokenStorage;
 
-  /**
-   * @var \AppBundle\Security\Authorization\Voter\EditVoter
-   */
+    /**
+     * @var \AppBundle\Security\Authorization\Voter\EditVoter
+     */
     private $voter;
 
-  /**
-   * @var \Symfony\Component\CssSelector\XPath\TranslatorInterface
-   */
+    /**
+     * @var \Symfony\Component\CssSelector\XPath\TranslatorInterface
+     */
     private $translator;
 
-  /**
-   * @var \AdminBundle\Service\IntegrityManager
-   */
+    /**
+     * @var \AdminBundle\Service\IntegrityManager
+     */
     private $integrityManager;
 
-  /**
-   * @var \AdminBundle\Service\UserManager
-   */
+    /**
+     * @var \AdminBundle\Service\UserManager
+     */
     private $userManager;
 
     public function __construct(TokenStorageInterface $tokenStorage, EditVoter $voter, TranslatorInterface $translator, IntegrityManager $integrityManager, UserManager $userManager)
@@ -60,9 +66,6 @@ class EasyAdminExtension extends \Twig_Extension
         ];
     }
 
-  /**
-   *
-   */
     public function getFunctions()
     {
         return [
@@ -119,25 +122,6 @@ class EasyAdminExtension extends \Twig_Extension
         return true;
     }
 
-    private function canPerformActionOnEvent($action, Event $event, TokenInterface $token)
-    {
-        switch ($action) {
-            case 'clone':
-            case 'edit':
-                $action = EditVoter::UPDATE;
-                break;
-
-            case 'delete':
-                $action = EditVoter::REMOVE;
-                break;
-
-            case 'show':
-                return true;
-        }
-
-        return $this->voter->vote($token, $event, [$action]) == VoterInterface::ACCESS_GRANTED;
-    }
-
     public function canPerformActionOnUser($action, User $user, TokenInterface $token)
     {
         switch ($action) {
@@ -151,12 +135,13 @@ class EasyAdminExtension extends \Twig_Extension
 
     public function canDelete($entity)
     {
-        return $this->integrityManager->canDelete($entity) === true;
+        return true === $this->integrityManager->canDelete($entity);
     }
 
     public function getCannotDeleteInfo($entity)
     {
         $info = $this->integrityManager->canDelete($entity);
+
         return is_array($info) ? $info : null;
     }
 
@@ -179,6 +164,26 @@ class EasyAdminExtension extends \Twig_Extension
                 return $translated;
             }
         }
+
         return null;
+    }
+
+    private function canPerformActionOnEvent($action, Event $event, TokenInterface $token)
+    {
+        switch ($action) {
+            case 'clone':
+            case 'edit':
+                $action = EditVoter::UPDATE;
+
+                break;
+            case 'delete':
+                $action = EditVoter::REMOVE;
+
+                break;
+            case 'show':
+                return true;
+        }
+
+        return VoterInterface::ACCESS_GRANTED === $this->voter->vote($token, $event, [$action]);
     }
 }
