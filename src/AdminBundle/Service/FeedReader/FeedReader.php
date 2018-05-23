@@ -105,7 +105,7 @@ abstract class FeedReader
      */
     private function setDefaultValue(array &$data, string $key, $spec, array $item)
     {
-        if ('endDate' === $key && empty($data[$key])) {
+        if ('endDate' === $key && isset($data['startDate']) && (empty($data[$key]) || $data[$key] <= $data['startDate'])) {
             $startDate = $data['startDate'];
             if ($startDate instanceof \DateTime) {
                 try {
