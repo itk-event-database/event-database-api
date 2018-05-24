@@ -14,7 +14,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/mysql:5.7.20
+      - image: circleci/mariadb:10.2.15
         environment:
           - MYSQL_ROOT_PASSWORD=circleci
           - MYSQL_USER=circleci
