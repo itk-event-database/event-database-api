@@ -38,7 +38,7 @@
         "cweagans/composer-patches": "^1.6",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-migrations-bundle": "^1.1",
-        "doctrine/orm": "^2.5",
+        "doctrine/orm": "~2.5.0",
         "dunglas/action-bundle": "^0.3",
         "easycorp/easyadmin-bundle": "^1.17",
         "egeloen/ckeditor-bundle": "^4.0",

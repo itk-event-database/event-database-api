@@ -87,7 +87,7 @@ class Event extends Thing implements CustomTaggable, Blameable
      * @var ArrayCollection
      *
      * @Groups({"event_read", "event_write"})
-     * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Occurrence", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
      * @Assert\Count(min=1, minMessage="You must specify at least one occurrence", groups={"event_write"})
      */
