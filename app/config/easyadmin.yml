@@ -87,7 +87,7 @@ easy_admin:
                     - property: isPublished
                       type: boolean
                       template: yes_no.html.twig
-                    - property: image
+                    - property: thumbnail
                       type: image
                       sortable: false
                     - property: tags

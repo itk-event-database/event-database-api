@@ -172,6 +172,13 @@ abstract class Thing extends Entity
         return $this->image;
     }
 
+    public function getThumbnail()
+    {
+        $images = $this->getImages();
+
+        return $images['small'] ?? $this->getImage();
+    }
+
     public function setImages(array $images = null)
     {
         $this->images = $images;
