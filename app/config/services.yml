@@ -302,7 +302,8 @@ services:
                     path: '%admin.uploads_path%'
                     url: '%admin.uploads_url%'
         tags:
-            - { name: doctrine.event_subscriber }
+            # Use priority to have this run after the vich upload stuff.
+            - { name: doctrine.event_subscriber, priority: -10 }
 
     app.reposity.place:
         class: Doctrine\ORM\EntityRepository

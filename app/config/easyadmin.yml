@@ -578,3 +578,5 @@ vich_uploader:
         thing_images:
             upload_destination: '%admin.uploads_path%'
             uri_prefix: '%admin.uploads_url%'
+            # We want unique file names (e.g. to prevent overwriting existing files).
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
