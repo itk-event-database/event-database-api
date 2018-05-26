@@ -69,7 +69,7 @@ class ImagesSubscriber implements EventSubscriber
                     'host' => $this->context->getHost(),
                 ]));
                 $imageUrl = $urlResolver->process(HttpUri::createFromString('/'.$this->configuration['files']['url'].$file->getFilename()));
-                $object->setImage($imageUrl);
+                $object->setImage((string) $imageUrl);
             }
         }
     }
