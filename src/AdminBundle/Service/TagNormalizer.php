@@ -42,32 +42,36 @@ class TagNormalizer implements TagNormalizerInterface
      */
     public function normalize(array $names)
     {
-        $em = $this->container->get('doctrine')->getManager();
-        $metadata = $em->getClassMetadata(Tag::class);
-        $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
-            ? (int) $metadata->fieldMappings['name']['length'] : 50;
-        $names = array_map(function ($name) use ($maxNameLength) {
-            return substr(trim($name), 0, $maxNameLength);
-        }, $names);
-        $tagManager = $this->getTagManager();
-        $tags = $tagManager->loadTags($names);
+        if(empty($names)) {
+            return [];
+        } else {
+            $em = $this->container->get('doctrine')->getManager();
+            $metadata = $em->getClassMetadata(Tag::class);
+            $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
+                ? (int)$metadata->fieldMappings['name']['length'] : 50;
+            $names = array_map(function ($name) use ($maxNameLength) {
+                return substr(trim($name), 0, $maxNameLength);
+            }, $names);
+            $tagManager = $this->getTagManager();
+            $tags = $tagManager->loadTags($names);
 
-        $validNames = array_map(function ($tag) {
-            return $tag->getName();
-        }, $tags);
+            $validNames = array_map(function ($tag) {
+                return $tag->getName();
+            }, $tags);
 
-        $unknownNames = array_udiff($names, $validNames, 'strcasecmp');
-        if ($unknownNames) {
-            $unknownTags = $this->getUnknownTagManager()->loadOrCreateTags($unknownNames);
-            foreach ($unknownTags as $unknownTag) {
-                $tag = $unknownTag->getTag();
-                if ($tag) {
-                    $validNames[] = $tag->getName();
+            $unknownNames = array_udiff($names, $validNames, 'strcasecmp');
+            if ($unknownNames) {
+                $unknownTags = $this->getUnknownTagManager()->loadOrCreateTags($unknownNames);
+                foreach ($unknownTags as $unknownTag) {
+                    $tag = $unknownTag->getTag();
+                    if ($tag) {
+                        $validNames[] = $tag->getName();
+                    }
                 }
             }
-        }
 
-        return array_unique($validNames);
+            return array_unique($validNames);
+        }
     }
 
     /**
