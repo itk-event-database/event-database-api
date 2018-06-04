@@ -143,6 +143,7 @@ services:
         arguments:
             - place.name: 'partial'
               place.id: 'exact'
+              place.postalCode: 'exact'
               event.name: 'partial'
               event.organizer.id: 'exact'
               event.createdBy: 'exact'
