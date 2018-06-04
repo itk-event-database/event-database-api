@@ -39,6 +39,7 @@ services:
               createdBy: 'exact'
               occurrences.place.name: 'partial'
               occurrences.place.id: 'exact'
+              occurrences.place.postalCode: 'exact'
               organizer.id: 'exact'
         tags: [{ name: 'api_platform.filter', id: 'event.search' }]
 
