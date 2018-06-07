@@ -17,7 +17,7 @@ app:
     event:
         name: Titel
         description: Beskrivelse
-        eventUrl: Eventurl
+        eventUrl: Facebook URL
         excerpt: Uddrag
         image: Billede
         isPublished: Udgivet
@@ -26,12 +26,12 @@ app:
         organizer: Arrangør
         tags: Tags
         customTags: Ukendte tags
-        ticketPurchaseUrl: Billeturl
+        ticketPurchaseUrl: Billet URL
         url: Link til events hjemmeside
-        videoUrl: Videourl
+        videoUrl: Video URL
         help:
             description: Beskrivelse af begivenheden
-            eventUrl: Eventurl, fx til Facebook-event
+            eventUrl: Url til Facebook-event
             excerpt: Kort beskrivelse af begivenheden
             image: Upload et billede
             imageFile: Upload et billede. Billedet bør være minimum 1000px bredt. Filnavnet må ikke indeholde æ, ø og å.
@@ -75,7 +75,7 @@ app:
         postal_code: Postnr.
         street_address: Adresse
         telephone: Telefonnr.
-        url: Url
+        url: URL
         help:
             name: Stedets navn
             description: Beskrivelse af stedet
@@ -169,9 +169,9 @@ Search: Søg
 
 
 
-Url: Url
-Video url: Videourl
-Ticket purchase url: Billeturl
+Url: URL
+Video url: Video URL
+Ticket purchase url: Billet URL
 Description: Beskrivelse
 Occurrences: Dato og tid
 Start date: Starttidspunkt
