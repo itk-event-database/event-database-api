@@ -92,10 +92,22 @@ abstract class EntityFactory
      */
     protected function setValues(Entity $entity, array $values)
     {
+        $metadata = $this->em->getClassMetadata(get_class($entity));
         foreach ($values as $key => $value) {
             if ($this->valueConverter) {
                 $value = $this->valueConverter->convert($value, $key);
             }
+
+            // Normalize value.
+            if (isset($metadata->fieldMappings[$key])) {
+                $mapping = $metadata->fieldMappings[$key];
+                if ('string' === $mapping['type']) {
+                    // Truncate string value.
+                    $maxLength = $mapping['length'] ?: 255;
+                    $value = substr($value, 0, $maxLength);
+                }
+            }
+
             $this->setValue($entity, $key, $value);
         }
 
