@@ -128,6 +128,10 @@ class ImageGenerator
 
     private function getImages(string $url, $generate = false, OutputInterface $output = null)
     {
+        if (empty($url)) {
+            return null;
+        }
+
         $path = $this->fileHandler->getLocalUrl($url);
 
         if (null !== $path) {
