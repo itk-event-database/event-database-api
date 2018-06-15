@@ -33,22 +33,13 @@ class EventListener extends EditListener
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $object = $args->getObject();
-        if ($object instanceof Thing) {
-            if ($this->container->has('description_normalizer')) {
-                $description = $object->getDescription();
-                $description = $this->container->get('description_normalizer')
-                ->normalize($description);
-                $object->setDescription($description);
-            }
-        }
-        if ($object instanceof Event) {
-            if ($this->container->has('excerpt_normalizer')) {
-                $excerpt = $object->getExcerpt() ?: $object->getDescription();
-                $excerpt = $this->container->get('excerpt_normalizer')->normalize($excerpt);
-                $object->setExcerpt($excerpt);
-            }
-        }
+        $this->normalize($args);
+    }
+
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        parent::preUpdate($args);
+        $this->normalize($args);
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -89,6 +80,30 @@ class EventListener extends EditListener
         $object = $args->getObject();
         if ($object instanceof Event) {
             $object->getOccurrences()->clear();
+        }
+    }
+
+    /**
+     * Normalize event description and excerpt.
+     */
+    private function normalize(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof Thing) {
+            if ($this->container->has('description_normalizer')) {
+                $description = $object->getDescription();
+                $description = $this->container->get('description_normalizer')
+                    ->normalize($description);
+                $object->setDescription($description);
+            }
+        }
+        if ($object instanceof Event) {
+            if ($this->container->has('excerpt_normalizer')) {
+                $excerpt = $object->getExcerpt() ?: $object->getDescription();
+                $excerpt = $this->container->get('excerpt_normalizer')
+                    ->normalize($excerpt);
+                $object->setExcerpt($excerpt);
+            }
         }
     }
 }
