@@ -109,7 +109,13 @@ abstract class FeedReader
             $startDate = $data['startDate'];
             if ($startDate instanceof \DateTime) {
                 try {
-                    $endDate = new \DateTime($startDate->format(\DateTime::ATOM).' '.$spec);
+                    $endDate = clone $startDate;
+                    $timeZone = $this->feed->getTimeZone();
+                    if (null !== $timeZone) {
+                        $endDate->setTimeZone($timeZone);
+                    }
+                    $endDate->modify($spec);
+                    $endDate->setTimeZone(new \DateTimeZone('UTC'));
                     $data[$key] = $endDate;
 
                     return;

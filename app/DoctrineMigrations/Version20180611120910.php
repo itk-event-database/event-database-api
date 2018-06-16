@@ -1,4 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
 
 namespace Application\Migrations;
 
@@ -26,7 +36,7 @@ final class Version20180611120910 extends AbstractMigration
 
         $databaseName = $this->connection->getDatabase();
 
-        $this->addSql('ALTER DATABASE `'. $databaseName .'` DEFAULT CHARACTER SET `utf8mb4`');
+        $this->addSql('ALTER DATABASE `'.$databaseName.'` DEFAULT CHARACTER SET `utf8mb4`');
 
         $this->addSql('ALTER TABLE `event` CHARACTER SET = utf8mb4');
         $this->addSql('
@@ -68,6 +78,5 @@ final class Version20180611120910 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-
     }
 }
