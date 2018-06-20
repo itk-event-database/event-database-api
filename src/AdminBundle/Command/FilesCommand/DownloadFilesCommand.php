@@ -22,7 +22,7 @@ class DownloadFilesCommand extends FilesCommand
         ->setName('events:files:download')
         ->setDescription('Download files to local storage')
         ->addArgument('className', InputArgument::REQUIRED, 'The entity className to process')
-        ->addArgument('ids', InputArgument::REQUIRED, 'The entity ids (csv)')
+        ->addArgument('ids', InputArgument::REQUIRED, 'The entity ids (csv). Use "all" to process all entities.')
         ->addArgument('fields', InputArgument::REQUIRED, 'The entity fields to process (csv)');
     }
 
