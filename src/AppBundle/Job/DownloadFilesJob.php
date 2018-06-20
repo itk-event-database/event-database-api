@@ -21,6 +21,6 @@ class DownloadFilesJob extends ContainerAwareJob
         $fields = $args['fields'];
 
         $service = $this->getContainer()->get('download_files');
-        $service->process($className, $id, $fields);
+        $service->process($className, [$id], $fields);
     }
 }
