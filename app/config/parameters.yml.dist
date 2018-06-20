@@ -61,3 +61,5 @@ parameters:
             filters:
                 downscale:
                     max: [1690, 1690]
+
+    fallback_image_url: 'assets/images/fallback.png'

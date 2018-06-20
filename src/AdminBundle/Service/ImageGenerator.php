@@ -87,42 +87,33 @@ class ImageGenerator
         $sql = 'update '.$metadata->getTableName().' set '.$imagesField.' = :images where '.$idField.' = :id';
         $updateStmt = $this->entityManager->getConnection()->prepare($sql);
 
-        $offset = 0;
-        $limit = 100;
+        $entities = $this->getEntities($className, $entityIds);
 
-        while (true) {
-            $entities = $this->getEntities($className, $entityIds, $offset, $limit);
-            if (0 === count($entities)) {
-                break;
+        foreach ($entities as $index => $entity) {
+            $url = $entity['image'];
+            $images = $this->getImages($url, $generate);
+
+            if (null !== $output) {
+                $output->writeln(
+                    sprintf('% 8d % 8d %s %s', $index + 1, $entity['id'], $url, json_encode($images))
+                );
             }
 
-            foreach ($entities as $index => $entity) {
-                $url = $entity['image'];
-                $images = $this->getImages($url, $generate);
+            if (null !== $images) {
+                switch ($metadata->getTypeOfField('images')) {
+                    case 'json_array':
+                        $encodedImages = json_encode($images);
 
-                if (null !== $output) {
-                    $output->writeln(
-                        sprintf('% 8d % 8d %s %s', $index + $offset + 1, $entity['id'], $url, json_encode($images))
-                    );
+                        break;
+                    case 'array':
+                        $encodedImages = serialize($images);
+
+                        break;
                 }
-
-                if (null !== $images) {
-                    switch ($metadata->getTypeOfField('images')) {
-                        case 'json_array':
-                            $encodedImages = json_encode($images);
-
-                            break;
-                        case 'array':
-                            $encodedImages = serialize($images);
-
-                            break;
-                    }
-                    $updateStmt->execute(
-                        ['images' => $encodedImages, 'id' => $entity['id']]
-                    );
-                }
+                $updateStmt->execute(
+                    ['images' => $encodedImages, 'id' => $entity['id']]
+                );
             }
-            $offset += $limit;
         }
     }
 

@@ -11,7 +11,7 @@
 namespace AdminBundle\Service;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\TransferStats;
 use League\Uri\Http as HttpUri;
 use League\Uri\Modifiers\Resolve;
@@ -27,6 +27,11 @@ class FileHandler
     private $baseUrlResolver;
     private $filesPath;
     private $filesUrl;
+
+    /**
+     * @var null|GuzzleException
+     */
+    private $guzzleException;
 
     /**
      * @param \Psr\Log\LoggerInterface $logger
@@ -65,6 +70,8 @@ class FileHandler
         $actualUrl = $url;
         $content = null;
 
+        $this->guzzleException = null;
+
         try {
             $client = new Client();
             $content = $client->get($url, [
@@ -76,7 +83,8 @@ class FileHandler
             'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
             ],
             ])->getBody()->getContents();
-        } catch (ClientException $ex) {
+        } catch (GuzzleException $ex) {
+            $this->guzzleException = $ex;
             $this->log('error', 'Downloading from '.$url.' failed: '.$ex->getMessage());
 
             return null;
@@ -127,6 +135,8 @@ class FileHandler
     {
         $path = HttpUri::createFromString($url)->getPath();
         $localUrl = $this->baseUrlResolver->process(HttpUri::createFromString($path));
+        // Strip query string from url.
+        $url = preg_replace('@\?.*$@', '', $url);
         $externalUrl = $this->baseUrlResolver->process(HttpUri::createFromString($url));
 
         return (string) $localUrl === (string) $externalUrl;
@@ -150,6 +160,19 @@ class FileHandler
     public function getBaseDirectory()
     {
         return $this->filesPath;
+    }
+
+    public function resolve(string $path, array $query = null)
+    {
+        return (string) $this->baseUrlResolver->process(HttpUri::createFromComponents([
+            'path' => $path,
+            'query' => $query ? http_build_query($query) : null,
+        ]));
+    }
+
+    public function getErrorStatus()
+    {
+        return $this->guzzleException ? $this->guzzleException->getCode() : null;
     }
 
     /**

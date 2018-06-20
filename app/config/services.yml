@@ -35,6 +35,8 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@file_handler'
             - '@authenticator'
+            -
+                fallback_image_url: '%fallback_image_url%'
 
     # Factories
     entity_factory:

@@ -34,6 +34,11 @@ class DownloadFilesService
     private $authenticator;
 
     /**
+     * @var array
+     */
+    private $configuration;
+
+    /**
      * @var OutputInterface
      */
     private $output;
@@ -43,11 +48,12 @@ class DownloadFilesService
      * @param \AdminBundle\Service\FileHandler          $fileHandler
      * @param \AdminBundle\Service\AuthenticatorService $authenticator
      */
-    public function __construct(EntityManagerInterface $entityManager, FileHandler $fileHandler, AuthenticatorService $authenticator)
+    public function __construct(EntityManagerInterface $entityManager, FileHandler $fileHandler, AuthenticatorService $authenticator, array $configuration)
     {
         $this->entityManager = $entityManager;
         $this->fileHandler = $fileHandler;
         $this->authenticator = $authenticator;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -64,34 +70,53 @@ class DownloadFilesService
 
     /**
      * @param string $className
-     * @param $id
+     * @param $ids
      * @param array $fields
      */
-    public function process(string $className, $id, array $fields)
+    public function process(string $className, array $ids, array $fields)
     {
         $accessor = new PropertyAccessor();
+        $entities = (1 === count($ids) && 'all' === $ids[0])
+            ? $this->getEntitiesToProcess($className, $fields)
+            : $this->entityManager->getRepository($className)->findBy(['id' => $ids]);
 
-        $entities = $this->entityManager->getRepository($className)->findBy(['id' => $id]);
-
+        $this->writeln(sprintf('#%s: %d', $className, count($entities)));
         if ($entities) {
-            foreach ($entities as $entity) {
+            foreach ($entities as $index => $entity) {
                 $this->authenticate($entity, $accessor);
-                $this->writeln(get_class($entity).'::'.$entity->getId());
+                $this->writeln(sprintf('%04d/%04d %s::%s', $index + 1, count($entities), get_class($entity), $entity->getId()));
                 foreach ($fields as $field) {
                     $value = $accessor->getValue($entity, $field);
                     if ($value) {
                         $newValue = $this->fileHandler->download($value);
                         $this->write("\t".$field.': ');
                         if (!$newValue) {
-                            $this->write("\t".'(not downloaded)');
-                        } elseif ($newValue === $value) {
-                            $this->write("\t".'(no change)');
-                        } else {
-                            $this->write("\t".$value.' → '.$newValue);
-                            $accessor->setValue($entity, $field, $newValue);
-                            $originalValueField = 'original_'.$field;
-                            if ($accessor->isWritable($entity, $originalValueField)) {
-                                $accessor->setValue($entity, $originalValueField, $value);
+                            $status = $this->fileHandler->getErrorStatus();
+                            $this->write("\t".'(not downloaded; code '.$status.')');
+                            if (isset($this->configuration['fallback_image_url'])) {
+                                $newValue = $this->fileHandler->resolve(
+                                    $this->configuration['fallback_image_url'],
+                                    ['status' => $status]
+                                );
+                            }
+                        }
+                        if ($newValue) {
+                            if ($newValue === $value) {
+                                $this->write("\t".'(no change)');
+                            } else {
+                                $this->write("\t".$value.' → '.$newValue);
+                                $accessor->setValue($entity, $field, $newValue);
+                                $originalValueField = 'original_'.$field;
+                                if ($accessor->isWritable(
+                                    $entity,
+                                    $originalValueField
+                                )) {
+                                    $accessor->setValue(
+                                        $entity,
+                                        $originalValueField,
+                                        $value
+                                    );
+                                }
                             }
                         }
                     }
@@ -101,6 +126,28 @@ class DownloadFilesService
                 $this->entityManager->flush();
             }
         }
+    }
+
+    /**
+     * Get a list of entities that have a non-local url in at least on of the specified fields.
+     *
+     * @param string $className
+     * @param array  $fields
+     *
+     * @return mixed
+     */
+    private function getEntitiesToProcess(string $className, array $fields)
+    {
+        $baseUrl = (string) $this->fileHandler->getBaseUrl();
+        // Make sure thae baseUrl end with a /.
+        $baseUrl = rtrim($baseUrl, '/').'/';
+        $qb = $this->entityManager->getRepository($className)->createQueryBuilder('e');
+        foreach ($fields as $field) {
+            $qb->orWhere('e.'.$field.' is not null and e.'.$field.' != \'\' and e.'.$field.' NOT LIKE :baseUrl');
+        }
+        $qb->setParameter('baseUrl', $baseUrl.'%');
+
+        return $qb->getQuery()->execute();
     }
 
     /**
