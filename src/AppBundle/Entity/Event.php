@@ -60,7 +60,7 @@ class Event extends Thing implements CustomTaggable, Blameable
     /**
      * @var Organizer
      * @ORM\ManyToOne(targetEntity="Organizer", inversedBy="events")
-     * @Groups({"event_read", "event_write"})
+     * @Groups({"event_read", "event_write", "occurrence_read"})
      */
     protected $organizer;
 
