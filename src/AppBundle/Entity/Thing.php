@@ -51,7 +51,7 @@ abstract class Thing extends Entity
     /**
      * @var null|array
      *
-     * @groups({"event_read"})
+     * @groups({"event_read", "occurrence_read"})
      * @ORM\Column(type="json_array", nullable=true)
      */
     private $images;
