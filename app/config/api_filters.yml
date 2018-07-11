@@ -156,7 +156,7 @@ services:
               endDate:
                   default:
                       after: now
-                  null_management: include_null_after
+                  null_management: exclude_null
         tags: [{ name: 'api_platform.filter', id: 'occurrence.search.date' }]
 
     resource.occurrence.search_event_tag_filter:

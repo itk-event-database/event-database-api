@@ -61,6 +61,7 @@ class AppKernel extends Kernel
 
             if ('dev' === $this->getEnvironment()) {
                 $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+                $bundles[] = new Mapado\ApiPlatformProfilerBundle\MapadoApiPlatformProfilerBundle();
             }
         }
 
