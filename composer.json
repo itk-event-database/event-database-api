@@ -34,6 +34,11 @@
     },
     "require": {
         "php": "~7.2.0",
+        "ext-apcu": "*",
+        "ext-gd": "*",
+        "ext-intl": "*",
+        "ext-pcntl": "*",
+        "ext-zip": "*",
         "api-platform/core": "^2.2",
         "cweagans/composer-patches": "^1.6",
         "doctrine/doctrine-bundle": "^1.6",
@@ -83,7 +88,8 @@
         "symfony/phpunit-bridge": "^4.0",
         "friendsofphp/php-cs-fixer": "^2.11",
         "symfony/web-server-bundle": "^4.0",
-        "phpunit/phpunit": "^7.1"
+        "phpunit/phpunit": "^7.1",
+        "mapado/api-platform-profiler-bundle": "^0.1.2"
     },
     "scripts": {
         "post-install-cmd": [

@@ -42,6 +42,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "validation_groups"={"event_write"}
  *   }
  * )
+ * @ORM\Table(
+ *   indexes={
+ *     @ORM\Index(name="IDX_EVENT_NAME", columns={"name"})
+ *   }
+ * )
  */
 class Event extends Thing implements CustomTaggable, Blameable
 {
@@ -158,7 +163,7 @@ class Event extends Thing implements CustomTaggable, Blameable
      * @var ArrayCollection
      *
      * @Groups({"event_read", "occurrence_read", "event_write"})
-     * @ ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $tags;
 

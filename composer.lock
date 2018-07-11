@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a79ae562b10d8df9bf43f5c83e57bab",
+    "content-hash": "1f6303ea9c937b5465c9e3c62a915b82",
     "packages": [
         {
             "name": "api-platform/core",
@@ -6508,6 +6508,50 @@
             "time": "2018-02-14T22:26:30+00:00"
         },
         {
+            "name": "mapado/api-platform-profiler-bundle",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mapado/api-platform-profiler-bundle.git",
+                "reference": "cdd72e960c0532f97b05fd121d655b4a1c77ab16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mapado/api-platform-profiler-bundle/zipball/cdd72e960c0532f97b05fd121d655b4a1c77ab16",
+                "reference": "cdd72e960c0532f97b05fd121d655b4a1c77ab16",
+                "shasum": ""
+            },
+            "require": {
+                "api-platform/core": "*",
+                "symfony/config": "^3.3||^4.0",
+                "symfony/dependency-injection": "^3.3||^4.0",
+                "symfony/http-foundation": "^3.3||^4.0",
+                "symfony/http-kernel": "^3.3||^4.0"
+            },
+            "conflict": {
+                "api-platform/core": "<2.0.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Mapado\\ApiPlatformProfilerBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julien Deniau",
+                    "email": "julien.deniau@gmail.com"
+                }
+            ],
+            "description": "A profiler extension for api-platform server",
+            "abandoned": "api-platform/core",
+            "time": "2018-02-12T10:46:19+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.7.0",
             "source": {
@@ -8050,7 +8094,12 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.2.0"
+        "php": "~7.2.0",
+        "ext-apcu": "*",
+        "ext-gd": "*",
+        "ext-intl": "*",
+        "ext-pcntl": "*",
+        "ext-zip": "*"
     },
     "platform-dev": []
 }

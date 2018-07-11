@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Occurrence extends Entity
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences")
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences", fetch="EAGER")
      * @Groups({"occurrence_read", "event_read", "event_write"})
      */
     protected $event;
@@ -58,7 +58,7 @@ class Occurrence extends Entity
 
     /**
      * @var Place
-     * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences")
+     * @ORM\ManyToOne(targetEntity="Place", inversedBy="occurrences", fetch="EAGER")
      * @Groups({"occurrence_read", "event_read", "event_write"})
      */
     protected $place;
