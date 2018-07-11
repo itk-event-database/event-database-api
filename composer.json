@@ -34,7 +34,6 @@
     },
     "require": {
         "php": "~7.2.0",
-        "ext-apcu": "*",
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-pcntl": "*",
