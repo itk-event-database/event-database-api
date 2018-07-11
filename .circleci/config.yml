@@ -49,6 +49,10 @@ jobs:
           command: sudo docker-php-ext-install pdo_mysql && sudo docker-php-ext-enable pdo_mysql
 
       - run:
+          name: Install PHP extensions - apcu
+          command: yes '' | sudo pecl install -f APCu-5.1.12&& sudo docker-php-ext-enable apcu
+
+      - run:
           name: Set custom PHP config
           command: echo "memory_limit = 512M" | sudo tee /usr/local/etc/php/php.ini
 
