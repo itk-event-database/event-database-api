@@ -159,7 +159,7 @@ services:
     description_normalizer:
         class: AdminBundle\Service\ContentNormalizer
         arguments:
-            - '@exercise_html_purifier.default'
+            - '@exercise_html_purifier.custom'
 
     excerpt_normalizer:
         class: AdminBundle\Service\ContentNormalizer
