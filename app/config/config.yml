@@ -154,3 +154,11 @@ liip_imagine:
 
     # your filter sets are defined here
     filter_sets: '%liip_imagine_filter_sets%'
+
+exercise_html_purifier:
+    custom:
+        Attr.AllowedFrameTargets:
+            - '_blank'
+            - '_top'
+            - '_self'
+            - '_parent'
