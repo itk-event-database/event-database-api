@@ -109,6 +109,16 @@ bin/console fos:user:create admin admin@example.com password
 bin/console fos:user:promote admin ROLE_SUPER_ADMIN
 ```
 
+#### Important note for Apache users
+
+Apache server [will strip](https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/index.md#important-note-for-apache-users) any `Authorization header` not in a valid HTTP BASIC AUTH format. 
+
+To use the authorization header mode of LexikJWTAuthenticationBundle, please add those rules to your VirtualHost configuration:
+
+```apache
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+```
+
 Using the API
 -------------
 
