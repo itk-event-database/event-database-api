@@ -163,7 +163,6 @@ class Event extends Thing implements CustomTaggable, Blameable
      * @var ArrayCollection
      *
      * @Groups({"event_read", "occurrence_read", "event_write"})
-     * @ORM\Column(type="array", nullable=true)
      */
     private $tags;
 
