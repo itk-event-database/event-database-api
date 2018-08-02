@@ -11,8 +11,7 @@
 namespace AdminBundle\Controller;
 
 use AppBundle\Entity\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,9 +28,7 @@ class UserController extends Controller
     /**
      * Lists all User entities.
      *
-     * @Route("/", name="admin_user")
-     *
-     * @Method("GET")
+     * @Route("/", name="admin_user", methods={"GET"})
      *
      * @Template()
      */
@@ -48,9 +45,7 @@ class UserController extends Controller
     /**
      * Creates a new User entity.
      *
-     * @Route("/", name="admin_user_create")
-     *
-     * @Method("POST")
+     * @Route("/", name="admin_user_create", methods={"POST"})
      *
      * @Template("AdminBundle:User:new.html.twig")
      *
@@ -81,9 +76,7 @@ class UserController extends Controller
     /**
      * Displays a form to create a new User entity.
      *
-     * @Route("/new", name="admin_user_new")
-     *
-     * @Method("GET")
+     * @Route("/new", name="admin_user_new", methods={"GET"})
      *
      * @Template()
      */
@@ -104,9 +97,7 @@ class UserController extends Controller
     /**
      * Finds and displays a User entity.
      *
-     * @Route("/{id}", name="admin_user_show")
-     *
-     * @Method("GET")
+     * @Route("/{id}", name="admin_user_show", methods={"GET"})
      *
      * @Template()
      *
@@ -127,9 +118,7 @@ class UserController extends Controller
     /**
      * Displays a form to edit an existing User entity.
      *
-     * @Route("/{id}/edit", name="admin_user_edit")
-     *
-     * @Method("GET")
+     * @Route("/{id}/edit", name="admin_user_edit", methods={"GET"})
      *
      * @Template()
      *
@@ -152,9 +141,7 @@ class UserController extends Controller
     /**
      * Edits an existing User entity.
      *
-     * @Route("/{id}", name="admin_user_update")
-     *
-     * @Method("PUT")
+     * @Route("/{id}", name="admin_user_update", methods={"PUT"})
      *
      * @Template("AdminBundle:User:edit.html.twig")
      *
@@ -186,9 +173,7 @@ class UserController extends Controller
     /**
      * Deletes a User entity.
      *
-     * @Route("/{id}", name="admin_user_delete")
-     *
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_user_delete", methods={"DELETE"})
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Entity\User                    $user

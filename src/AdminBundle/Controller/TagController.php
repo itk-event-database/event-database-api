@@ -12,8 +12,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Service\TagManager;
 use AppBundle\Entity\Tag;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,9 +34,7 @@ class TagController extends Controller
     /**
      * Lists all Tag entities.
      *
-     * @Route("/", name="admin_tag")
-     *
-     * @Method("GET")
+     * @Route("/", name="admin_tag", methods={"GET"})
      *
      * @Template()
      */
@@ -53,9 +50,7 @@ class TagController extends Controller
     /**
      * Creates a new Tag entity.
      *
-     * @Route("/", name="admin_tag_create")
-     *
-     * @Method("POST")
+     * @Route("/", name="admin_tag_create", methods={"POST"})
      *
      * @Template("AppBundle:Tag:new.html.twig")
      *
@@ -89,9 +84,7 @@ class TagController extends Controller
     /**
      * Displays a form to create a new Tag entity.
      *
-     * @Route("/new", name="admin_tag_new")
-     *
-     * @Method("GET")
+     * @Route("/new", name="admin_tag_new", methods={"GET"})
      *
      * @Template()
      */
@@ -109,9 +102,7 @@ class TagController extends Controller
     /**
      * Finds and displays a Tag entity.
      *
-     * @Route("/{id}", name="admin_tag_show")
-     *
-     * @Method("GET")
+     * @Route("/{id}", name="admin_tag_show", methods={"GET"})
      *
      * @Template()
      *
@@ -132,9 +123,7 @@ class TagController extends Controller
     /**
      * Displays a form to edit an existing Tag entity.
      *
-     * @Route("/{id}/edit", name="admin_tag_edit")
-     *
-     * @Method("GET")
+     * @Route("/{id}/edit", name="admin_tag_edit", methods={"GET"})
      *
      * @Template()
      *
@@ -157,9 +146,7 @@ class TagController extends Controller
     /**
      * Edits an existing Tag entity.
      *
-     * @Route("/{id}", name="admin_tag_update")
-     *
-     * @Method("PUT")
+     * @Route("/{id}", name="admin_tag_update", methods={"PUT"})
      *
      * @Template("AppBundle:Tag:edit.html.twig")
      *
@@ -193,9 +180,7 @@ class TagController extends Controller
     /**
      * Deletes a Tag entity.
      *
-     * @Route("/{id}", name="admin_tag_delete")
-     *
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_tag_delete", methods={"DELETE"})
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Entity\Tag                     $tag
