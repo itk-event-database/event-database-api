@@ -11,8 +11,7 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Tag;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,9 +28,7 @@ class EditorController extends Controller
     /**
      * Lists all Feed entities.
      *
-     * @Route("/config.js", name="editor_config_js")
-     *
-     * @Method("GET")
+     * @Route("/config.js", name="editor_config_js", methods={"GET"})
      *
      * @Template()
      */
