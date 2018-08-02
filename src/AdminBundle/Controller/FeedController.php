@@ -11,8 +11,7 @@
 namespace AdminBundle\Controller;
 
 use AdminBundle\Entity\Feed;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,9 +29,7 @@ class FeedController extends Controller
     /**
      * Lists all Feed entities.
      *
-     * @Route("/", name="admin_feed")
-     *
-     * @Method("GET")
+     * @Route("/", name="admin_feed", methods={"GET"})
      *
      * @Template()
      */
@@ -50,9 +47,7 @@ class FeedController extends Controller
     /**
      * Creates a new Feed entity.
      *
-     * @Route("/", name="admin_feed_create")
-     *
-     * @Method("POST")
+     * @Route("/", name="admin_feed_create", methods={"POST"})
      *
      * @Template("AdminBundle:Feed:new.html.twig")
      *
@@ -85,9 +80,7 @@ class FeedController extends Controller
     /**
      * Displays a form to create a new Feed entity.
      *
-     * @Route("/new", name="admin_feed_new")
-     *
-     * @Method("GET")
+     * @Route("/new", name="admin_feed_new", methods={"GET"})
      *
      * @Template()
      */
@@ -105,9 +98,7 @@ class FeedController extends Controller
     /**
      * Finds and displays a Feed entity.
      *
-     * @Route("/{id}", name="admin_feed_show")
-     *
-     * @Method("GET")
+     * @Route("/{id}", name="admin_feed_show", methods={"GET"})
      *
      * @Template()
      *
@@ -128,9 +119,7 @@ class FeedController extends Controller
     /**
      * Displays a form to edit an existing Feed entity.
      *
-     * @Route("/{id}/edit", name="admin_feed_edit")
-     *
-     * @Method("GET")
+     * @Route("/{id}/edit", name="admin_feed_edit", methods={"GET"})
      *
      * @Template()
      *
@@ -153,9 +142,7 @@ class FeedController extends Controller
     /**
      * Edits an existing Feed entity.
      *
-     * @Route("/{id}", name="admin_feed_update")
-     *
-     * @Method("PUT")
+     * @Route("/{id}", name="admin_feed_update", methods={"PUT"})
      *
      * @Template("AdminBundle:Feed:edit.html.twig")
      *
@@ -189,9 +176,7 @@ class FeedController extends Controller
     /**
      * Deletes a Feed entity.
      *
-     * @Route("/{id}", name="admin_feed_delete")
-     *
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_feed_delete", methods={"DELETE"})
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AdminBundle\Entity\Feed                  $feed
@@ -213,9 +198,7 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/{id}/preview", name="admin_feed_preview")
-     *
-     * @Method("GET")
+     * @Route("/{id}/preview", name="admin_feed_preview", methods={"GET"})
      *
      * @param \AdminBundle\Entity\Feed $feed
      *
@@ -233,9 +216,7 @@ class FeedController extends Controller
     /**
      * Validate feed data.
      *
-     * @Route("/{id}/validate", name="admin_feed_validate")
-     *
-     * @Method("GET")
+     * @Route("/{id}/validate", name="admin_feed_validate", methods={"GET"})
      *
      * @Template("AdminBundle:Feed:validate.html.twig")
      *
@@ -257,9 +238,7 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/{id}/easyadmin", name="admin_feed_easyadmin_edit")
-     *
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/easyadmin", name="admin_feed_easyadmin_edit", methods={"GET", "POST"})
      *
      * @Security("has_role('ROLE_FEED_EDITOR')")
      */

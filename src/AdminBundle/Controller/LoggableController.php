@@ -14,8 +14,7 @@ use AdminBundle\Entity\Feed;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
 use Gedmo\Loggable\Loggable;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,14 +38,13 @@ class LoggableController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="admin_loggable_entity")
-     *
-     * @Method("GET")
+     * @Route("/{id}", name="admin_loggable_entity", methods={"GET"})
      *
      * @Template("AdminBundle:Loggable:index.html.twig")
      *
-     * @param mixed $entityType
-     * @param mixed $id
+     * @param $entityType
+     * @param $id
+     * @return array
      */
     public function indexAction($entityType, $id)
     {

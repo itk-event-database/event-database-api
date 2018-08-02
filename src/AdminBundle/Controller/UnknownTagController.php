@@ -12,8 +12,7 @@ namespace AdminBundle\Controller;
 
 use AdminBundle\Service\TagManager;
 use AppBundle\Entity\UnknownTag;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,9 +34,7 @@ class UnknownTagController extends Controller
     /**
      * Lists all UnknownTag entities.
      *
-     * @Route("/", name="admin_unknown_tag")
-     *
-     * @Method("GET")
+     * @Route("/", name="admin_unknown_tag", methods={"GET"})
      *
      * @Template()
      */
@@ -53,9 +50,7 @@ class UnknownTagController extends Controller
     /**
      * Creates a new UnknownTag entity.
      *
-     * @Route("/", name="admin_unknown_tag_create")
-     *
-     * @Method("POST")
+     * @Route("/", name="admin_unknown_tag_create", methods={"POST"})
      *
      * @Template("AppBundle:UnknownTag:new.html.twig")
      *
@@ -93,9 +88,7 @@ class UnknownTagController extends Controller
     /**
      * Displays a form to create a new UnknownTag entity.
      *
-     * @Route("/new", name="admin_unknown_tag_new")
-     *
-     * @Method("GET")
+     * @Route("/new", name="admin_unknown_tag_new", methods={"GET"})
      *
      * @Template()
      */
@@ -113,9 +106,7 @@ class UnknownTagController extends Controller
     /**
      * Finds and displays a UnknownTag entity.
      *
-     * @Route("/{id}", name="admin_unknown_tag_show")
-     *
-     * @Method("GET")
+     * @Route("/{id}", name="admin_unknown_tag_show", methods={"GET"})
      *
      * @Template()
      *
@@ -136,9 +127,7 @@ class UnknownTagController extends Controller
     /**
      * Displays a form to edit an existing UnknownTag entity.
      *
-     * @Route("/{id}/edit", name="admin_unknown_tag_edit")
-     *
-     * @Method("GET")
+     * @Route("/{id}/edit", name="admin_unknown_tag_edit", methods={"GET"})
      *
      * @Template()
      *
@@ -161,9 +150,7 @@ class UnknownTagController extends Controller
     /**
      * Edits an existing UnknownTag entity.
      *
-     * @Route("/{id}", name="admin_unknown_tag_update")
-     *
-     * @Method("PUT")
+     * @Route("/{id}", name="admin_unknown_tag_update", methods={"PUT"})
      *
      * @Template("AppBundle:UnknownTag:edit.html.twig")
      *
@@ -197,9 +184,7 @@ class UnknownTagController extends Controller
     /**
      * Deletes a UnknownTag entity.
      *
-     * @Route("/{id}", name="admin_unknown_tag_delete")
-     *
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_unknown_tag_delete", methods={"DELETE"})
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Entity\UnknownTag              $tag

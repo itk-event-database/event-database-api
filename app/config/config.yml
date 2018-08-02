@@ -154,3 +154,7 @@ liip_imagine:
 
     # your filter sets are defined here
     filter_sets: '%liip_imagine_filter_sets%'
+
+sensio_framework_extra:
+    router:
+        annotations: false
