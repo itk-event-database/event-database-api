@@ -10,7 +10,6 @@
 
 namespace AdminBundle\Command\FeedCommand;
 
-use AdminBundle\Entity\Feed;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

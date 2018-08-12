@@ -10,7 +10,6 @@
 
 namespace AdminBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Place;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Yaml\Yaml;
 
