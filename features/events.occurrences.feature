@@ -18,7 +18,7 @@ Feature: Events
     {
       "name": "Big bang",
       "excerpt": "Stort bang! Større bum",
-      "image": "http://static.billetlugen.dk/images/events/b/41677.jpg",
+      "image": "http://event-database-api.vm/files/mock/image.jpeg",
       "ticketPurchaseUrl": "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/",
       "videoUrl": "https://vimeo.com/183524061",
       "langcode": "da",
@@ -32,7 +32,7 @@ Feature: Events
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "name" should be equal to "Big bang"
-    And the JSON node "image" should be equal to "http://static.billetlugen.dk/images/events/b/41677.jpg"
+    And the JSON node "image" should be equal to "http://event-database-api.vm/files/mock/image.jpeg"
     And the JSON node "ticketPurchaseUrl" should be equal to "http://www.billetlugen.dk/referer/?r=266abe1b7fab4562a5c2531d0ae62171&p=/koeb/billetter/41677/"
     And the JSON node "videoUrl" should be equal to "https://vimeo.com/183524061"
     And the JSON node "langcode" should be equal to "da"

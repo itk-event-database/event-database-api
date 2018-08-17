@@ -34,7 +34,7 @@ Feature: AoA Events
       "name": "Litteratur, musik og videokunst Off the Record",
       "excerpt": "Der afholdes, 10. november, Litterær Lounge på Teatret Svalegangens Off the Record scene.",
       "tags": ["byliv"],
-      "image": "http://b.bimg.dk/node-images/279/15/x2048-u/15279463-01arh01arhlitter-rlounge-10jpg.jpeg",
+      "image": "http://event-database-api.vm/files/mock/image.jpeg",
       "description": "<p>Harris Lambrakis Quartet, et af Grækenlands mest respekterede jazzorkestre, blev dannet I 2006 med en klassisk klavertrio som fundament, men med et, i jazzen usædvanligt, blæseinstrument i front, nemlig en ney, en tyrkiak fløjte som er et af de ældste musikinstrumenter, der stadig er i brug.</p><p><strong>Læs også: </strong><a href=\"http://www.aoa.dk/musik/jazzsvaervaegtere-spiller-paa-atlas\" target=\"_blank\">Jazzsværvægtere spiller på Atlas</a></p><p>Gruppen henter sin inspiration fra flere forskellige genrer, både den modale jazz, græsk musik, klange fra det østlige middelhav og overordnet improvisationsmusikken.</p><p><strong>Læs også: </strong><a href=\"http://www.aoa.dk/musik/fem-aartier-med-the-savage-rose\" target=\"_blank\">Fem årtier med The Savage Rose</a></p><p>Oplev de græske musikere live, når Harris Lambrakis Quartet, 6. november, optræder på Kunsthal Aarhus.</p><p><strong>Harris Lambrakis Quartet Kunsthal Aarhus, J.M. Mørks Gade 13, Aarhus C., 6. november, kl. 17, entré.</strong></p>",
       "occurrences": [ {
         "startDate": "2016-11-10T21:00:00+00:00",
@@ -91,8 +91,8 @@ Feature: AoA Events
         "summary": "Der afholdes, 10. november, Litterær Lounge på Teatret Svalegangens Off the Record scene.",
         "body_text": "\u003Cp\u003EHarris Lambrakis Quartet, et af Grækenlands mest respekterede jazzorkestre, blev dannet I 2006 med en klassisk klavertrio som fundament, men med et, i jazzen usædvanligt, blæseinstrument i front, nemlig en ney, en tyrkiak fløjte som er et af de ældste musikinstrumenter, der stadig er i brug.\u003C\u002Fp\u003E\u003Cp\u003E\u003Cstrong\u003ELæs også: \u003C\u002Fstrong\u003E\u003Ca href=\u0022http:\u002F\u002Fwww.aoa.dk\u002Fmusik\u002Fjazzsvaervaegtere-spiller-paa-atlas\u0022\u003EJazzsværvægtere spiller på Atlas\u003C\u002Fa\u003E\u003C\u002Fp\u003E\u003Cp\u003EGruppen henter sin inspiration fra flere forskellige genrer, både den modale jazz, græsk musik, klange fra det østlige middelhav og overordnet improvisationsmusikken.\u003C\u002Fp\u003E\u003Cp\u003E\u003Cstrong\u003ELæs også: \u003C\u002Fstrong\u003E\u003Ca href=\u0022http:\u002F\u002Fwww.aoa.dk\u002Fmusik\u002Ffem-aartier-med-the-savage-rose\u0022\u003EFem årtier med The Savage Rose\u003C\u002Fa\u003E\u003C\u002Fp\u003E\u003Cp\u003EOplev de græske musikere live, når Harris Lambrakis Quartet, 6. november, optræder på Kunsthal Aarhus.\u003C\u002Fp\u003E\u003Cp\u003E\u003Cstrong\u003EHarris Lambrakis Quartet Kunsthal Aarhus, J.M. Mørks Gade 13, Aarhus C., 6. november, kl. 17, entré.\u003C\u002Fstrong\u003E\u003C\u002Fp\u003E",
         "images": {
-          "image": "http://b.bimg.dk/node-images/279/15/x2048-u/15279463-01arh01arhlitter-rlounge-10jpg.jpeg",
-          "image_full": "http://b.bimg.dk/node-images/279/15/x2048-u/15279463-01arh01arhlitter-rlounge-10jpg.jpeg",
+          "image": "http://event-database-api.vm/files/mock/image.jpeg",
+          "image_full": "http://event-database-api.vm/files/mock/image.jpeg",
           "caption": ""
         },
         "location": {
@@ -127,7 +127,7 @@ Feature: AoA Events
       "name": "Rabat på smykker",
       "excerpt": "Spar op til 80 % på tidligere kollektioner, når JewlsCph holder smykkelagersalg 10.-12. november.",
       "tags": ["shopping"],
-      "image": "http://a.bimg.dk/node-images/279/15/x2048-u/15279408-diamond.jpg",
+      "image": "http://event-database-api.vm/files/mock/image.jpeg",
       "description": "<p>10. til 12. november kan du komme til lagersalg. Det er JewlsCph, der sælger ud af de fine varer.</p>",
       "occurrences": [
         {
@@ -213,8 +213,8 @@ Feature: AoA Events
       "summary": "Spar op til 80 % på tidligere kollektioner, når JewlsCph holder smykkelagersalg 10.-12. november.",
       "body_text": "\u003Cp\u003E10. til 12. november kan du komme til lagersalg. Det er JewlsCph, der sælger ud af de fine varer.\u003C\u002Fp\u003E",
       "images": {
-        "image": "http://a.bimg.dk/node-images/279/15/x2048-u/15279408-diamond.jpg",
-        "image_full": "http://a.bimg.dk/node-images/279/15/x2048-u/15279408-diamond.jpg",
+        "image": "http://event-database-api.vm/files/mock/image.jpeg",
+        "image_full": "http://event-database-api.vm/files/mock/image.jpeg",
         "caption": ""
       },
       "location": {
