@@ -69,6 +69,12 @@ class DownloadFilesService
     }
 
     /**
+     * Process downloadable files in multiple entities.
+     *
+     * The entities will be loaded from the database,
+     * files will be downloaded and local file urls set on entities,
+     * entities will be updated and flushed to database.
+     *
      * @param string $className
      * @param $ids
      * @param array $fields
@@ -85,45 +91,58 @@ class DownloadFilesService
             foreach ($entities as $index => $entity) {
                 $this->authenticate($entity, $accessor);
                 $this->writeln(sprintf('%04d/%04d %s::%s', $index + 1, count($entities), get_class($entity), $entity->getId()));
-                foreach ($fields as $field) {
-                    $value = $accessor->getValue($entity, $field);
-                    if ($value) {
-                        $newValue = $this->fileHandler->download($value);
-                        $this->write("\t".$field.': ');
-                        if (!$newValue) {
-                            $status = $this->fileHandler->getErrorStatus();
-                            $this->write("\t".'(not downloaded; code '.$status.')');
-                            if (isset($this->configuration['fallback_image_url'])) {
-                                $newValue = $this->fileHandler->resolve(
-                                    $this->configuration['fallback_image_url'],
-                                    ['status' => $status]
-                                );
-                            }
-                        }
-                        if ($newValue) {
-                            if ($newValue === $value) {
-                                $this->write("\t".'(no change)');
-                            } else {
-                                $this->write("\t".$value.' → '.$newValue);
-                                $accessor->setValue($entity, $field, $newValue);
-                                $originalValueField = 'original_'.$field;
-                                if ($accessor->isWritable(
-                                    $entity,
-                                    $originalValueField
-                                )) {
-                                    $accessor->setValue(
-                                        $entity,
-                                        $originalValueField,
-                                        $value
-                                    );
-                                }
-                            }
+                $this->downloadFiles($entity, $fields);
+                $this->entityManager->persist($entity);
+                $this->entityManager->flush();
+            }
+        }
+    }
+
+    /**
+     * Download files and update entity with url to downloaded files.
+     *
+     * @param $entity
+     * @param array $fields
+     */
+    public function downloadFiles($entity, array $fields)
+    {
+        $accessor = new PropertyAccessor();
+
+        foreach ($fields as $field) {
+            $value = $accessor->getValue($entity, $field);
+            if ($value) {
+                $newValue = $this->fileHandler->download($value);
+                $this->write("\t".$field.': ');
+                if (!$newValue) {
+                    $status = $this->fileHandler->getErrorStatus();
+                    $this->write("\t".'(not downloaded; code '.$status.')');
+                    if (isset($this->configuration['fallback_image_url'])) {
+                        $newValue = $this->fileHandler->resolve(
+                            $this->configuration['fallback_image_url'],
+                            ['status' => $status]
+                        );
+                    }
+                }
+                if ($newValue) {
+                    if ($newValue === $value) {
+                        $this->write("\t".'(no change)');
+                    } else {
+                        $this->write("\t".$value.' → '.$newValue);
+                        $accessor->setValue($entity, $field, $newValue);
+                        $originalValueField = 'original_'.$field;
+                        if ($accessor->isWritable(
+                            $entity,
+                            $originalValueField
+                        )) {
+                            $accessor->setValue(
+                                $entity,
+                                $originalValueField,
+                                $value
+                            );
                         }
                     }
                 }
                 $this->writeln('');
-                $this->entityManager->persist($entity);
-                $this->entityManager->flush();
             }
         }
     }

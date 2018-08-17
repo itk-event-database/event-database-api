@@ -77,4 +77,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_USER }
         - { path: ^/easyadmin, role: ROLE_USER }
-        - { path: ^/resque, role: ROLE_SUPER_ADMIN }
+

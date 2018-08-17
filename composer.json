@@ -58,7 +58,6 @@
         "nelmio/cors-bundle": "^1.4",
         "phpdocumentor/reflection-docblock": "^3.0",
         "psr/log": "1.0.0",
-        "resquebundle/resque": "^1.0",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^5.0.0",
         "skyscanner/jsonpath": "^0.7.1",

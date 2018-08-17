@@ -39,9 +39,6 @@
               {% if is_granted('ROLE_USER_EDITOR') %}
                 <li><a href="{{ path('easyadmin', { 'entity': 'User' }) }}">{{ 'Users' | trans }}</a></li>
               {% endif %}
-              {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li><a href="/resque">Jobs</a></li>
-              {% endif %}
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

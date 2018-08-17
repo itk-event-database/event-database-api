@@ -28,10 +28,6 @@ fos_user_group:
     resource: '@FOSUserBundle/Resources/config/routing/group.xml'
     prefix: /group
 
-ResqueBundle:
-    resource: '@ResqueBundle/Resources/config/routing.xml'
-    prefix: /resque
-
 easy_admin_bundle:
     resource: '@AdminBundle/Controller/AdminController.php'
     type: annotation

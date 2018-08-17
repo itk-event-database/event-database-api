@@ -13,7 +13,6 @@ namespace AppBundle\EventListener;
 use AdminBundle\Service\TagManager;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Thing;
-use AppBundle\Job\DownloadFilesJob;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use DoctrineExtensions\Taggable\Taggable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,12 +33,14 @@ class EventListener extends EditListener
     public function prePersist(LifecycleEventArgs $args)
     {
         $this->normalize($args);
+        $this->downloadFiles($args);
     }
 
     public function preUpdate(LifecycleEventArgs $args)
     {
         parent::preUpdate($args);
         $this->normalize($args);
+        $this->downloadFiles($args);
     }
 
     public function postPersist(LifecycleEventArgs $args)
@@ -47,17 +48,6 @@ class EventListener extends EditListener
         $object = $args->getObject();
         if ($object instanceof Taggable) {
             $this->tagManager->saveTagging($object);
-        }
-
-        if ($object instanceof Thing) {
-            $job = new DownloadFilesJob();
-            $job->args = [
-            'className' => get_class($object),
-            'id' => $object->getId(),
-            'fields' => ['image'],
-            ];
-
-            $this->container->get('resque')->enqueue($job);
         }
     }
 
@@ -104,6 +94,15 @@ class EventListener extends EditListener
                     ->normalize($excerpt);
                 $object->setExcerpt($excerpt);
             }
+        }
+    }
+
+    private function downloadFiles(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof Thing) {
+            $this->container->get('download_files')
+                ->downloadFiles($object, ['image']);
         }
     }
 }
