@@ -10,6 +10,7 @@
 
 namespace AppBundle\EventListener;
 
+use AdminBundle\Service\ImageGenerator;
 use AdminBundle\Service\TagManager;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Thing;
@@ -24,10 +25,14 @@ class EventListener extends EditListener
      */
     protected $tagManager;
 
+    /** @var \AdminBundle\Service\ImageGenerator */
+    private $imageGenerator;
+
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
         $this->tagManager = $this->container->get('tag_manager');
+        $this->imageGenerator = $this->container->get(ImageGenerator::class);
     }
 
     public function prePersist(LifecycleEventArgs $args)
@@ -103,6 +108,7 @@ class EventListener extends EditListener
         if ($object instanceof Thing) {
             $this->container->get('download_files')
                 ->downloadFiles($object, ['image']);
+            $this->imageGenerator->setImages($object);
         }
     }
 }
