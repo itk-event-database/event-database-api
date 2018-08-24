@@ -28,8 +28,70 @@
 {% endblock %}
 
 {% block search_form %}
-  {{ parent() }}
+    <div class="row x-form-inline">
+        <div class="col-md-6">
+            <div class="pull-right">
+                <div class="input-group">
+                    {% set autocomplete_url = path('easyadmin', {action: 'autocomplete', entity: 'Tag'}) %}
+                    {# @see https://select2.org/configuration/data-attributes #}
+                    <select id="filter-event-tags" multiple class="form-control" name="tags[]" data-autocomplete-url="{{ autocomplete_url }}" data-placeholder="{{ 'Tags …'|trans }}"">
+                        {% for tag in app.request.get('tags', []) %}
+                            <option value="{{ tag }}" selected>{{ tag }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            {{ parent() }}
 
-  {% set filter_name = '_event_list_filter' %}
-  <input type="hidden" name="{{ filter_name }}" value="{{ app.request.get(filter_name) }}"/>
+            {% set filter_name = '_event_list_filter' %}
+            <input type="hidden" name="{{ filter_name }}" value="{{ app.request.get(filter_name) }}"/>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body_javascript %}
+    <script>
+        // Almost verbatim copy of easycorp/easyadmin-bundle/src/Resources/public/javascript/easyadmin.js:createAutoCompleteFields
+        var autocompleteFields = $('#filter-event-tags');
+        autocompleteFields.each(function () {
+            var $this = $(this),
+                url = $this.data('autocomplete-url');
+
+            $this.select2({
+                theme: 'bootstrap',
+                ajax: {
+                    url: url,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return { 'query': params.term, 'page': params.page };
+                    },
+                    // to indicate that infinite scrolling can be used
+                    processResults: function (data, params) {
+                        // Use tag name as id.
+                        data.results = data.results.map(function (item) {
+                            return {
+                                id: item.text,
+                                text: item.text
+                            };
+                        });
+
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.has_next_page
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: '',
+                allowClear: true,
+                minimumInputLength: 1
+            });
+        });
+    </script>
 {% endblock %}
