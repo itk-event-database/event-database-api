@@ -82,7 +82,9 @@ services:
     # https://api-platform.com/doc/1.0/api-bundle/the-event-system
     event.event_listener:
         class: AppBundle\EventListener\EventListener
-        arguments: ['@service_container']
+        arguments:
+            - '@service_container'
+            - '@AdminBundle\Service\ImageGenerator'
         tags:
             - { name: doctrine.event_listener, event: preRemove }
             - { name: doctrine.event_listener, event: preUpdate }

@@ -28,11 +28,11 @@ class EventListener extends EditListener
     /** @var \AdminBundle\Service\ImageGenerator */
     private $imageGenerator;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, ImageGenerator $imageGenerator)
     {
         parent::__construct($container);
         $this->tagManager = $this->container->get('tag_manager');
-        $this->imageGenerator = $this->container->get(ImageGenerator::class);
+        $this->imageGenerator = $imageGenerator;
     }
 
     public function prePersist(LifecycleEventArgs $args)
