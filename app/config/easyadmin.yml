@@ -620,3 +620,14 @@ vich_uploader:
             uri_prefix: '%admin.uploads_url%'
             # We want unique file names (e.g. to prevent overwriting existing files).
             namer: Vich\UploaderBundle\Naming\OrignameNamer
+
+ivory_ck_editor:
+    input_sync: true
+    default_config: base_config
+    configs:
+        base_config:
+            toolbar:
+                - { name: 'styles', items: ['Bold', 'Italic', 'Strike', 'Link'] }
+                - { name: 'lists', items: ['BulletedList', 'NumberedList', '-', 'Outdent', 'Indent'] }
+                - { name: 'clipboard', items: ['Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo'] }
+                - { name: 'advanced', items: ['Source'] }
