@@ -12,6 +12,7 @@ security:
         ROLE_TAG_EDITOR: [ROLE_USER]
         ROLE_USER_EDITOR: [ROLE_USER]
         ROLE_FEED_EDITOR: [ROLE_USER]
+        ROLE_CONFIG_EDITOR: [ROLE_USER]
         ROLE_ADMIN: [ROLE_API_WRITE, ROLE_EVENT_ADMIN, ROLE_PLACE_ADMIN, ROLE_ORGANIZER_EDITOR, ROLE_TAG_EDITOR, ROLE_USER_EDITOR, ROLE_FEED_EDITOR]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN]
 
@@ -77,4 +78,3 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_USER }
         - { path: ^/easyadmin, role: ROLE_USER }
-

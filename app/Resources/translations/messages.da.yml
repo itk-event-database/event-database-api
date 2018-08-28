@@ -150,6 +150,7 @@ ROLE_PLACE_ADMIN: Stedadministrator
 ROLE_TAG_EDITOR: Tagredaktør
 ROLE_USER_EDITOR: Brugerredaktør
 ROLE_FEED_EDITOR: Feedredaktør
+ROLE_CONFIG_EDITOR: Indstillingsredaktør
 ROLE_ADMIN: Administrator
 ROLE_SUPER_ADMIN: Superadministrator
 Groups: Grupper
