@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d99f394c3a2556178ae9a6619c6b3bed",
+    "content-hash": "d685932ab7dc4ea949e8233ee373ee4d",
     "packages": [
         {
             "name": "api-platform/core",
@@ -225,6 +225,67 @@
             "time": "2018-03-29T19:57:20+00:00"
         },
         {
+            "name": "craue/config-bundle",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/craue/CraueConfigBundle.git",
+                "reference": "9b6dffb96dd15183b4255db234284776bffa4dde"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craue/CraueConfigBundle/zipball/9b6dffb96dd15183b4255db234284776bffa4dde",
+                "reference": "9b6dffb96dd15183b4255db234284776bffa4dde",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.3",
+                "php": "^5.3.9|~7.0",
+                "symfony/framework-bundle": "~2.7|~3.0|~4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-cache-bundle": "~1.3",
+                "doctrine/orm": "^2.3.1",
+                "phpunit/phpunit": "^4.8.35|~5.7|~6.0",
+                "symfony/phpunit-bridge": "~3.2|~4.0",
+                "symfony/symfony": "~2.7|~3.0|~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Craue\\ConfigBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Raue",
+                    "email": "christian.raue@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/craue/CraueConfigBundle/contributors"
+                }
+            ],
+            "description": "Database-stored settings made available via a service for your Symfony project.",
+            "homepage": "https://github.com/craue/CraueConfigBundle",
+            "keywords": [
+                "Symfony2",
+                "config",
+                "symfony3",
+                "symfony4"
+            ],
+            "time": "2018-01-02T19:53:16+00:00"
+        },
+        {
             "name": "cweagans/composer-patches",
             "version": "1.6.5",
             "source": {
@@ -338,16 +399,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.7.1",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "b3217d58609e9c8e661cd41357a54d926c4a2a1a"
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/b3217d58609e9c8e661cd41357a54d926c4a2a1a",
-                "reference": "b3217d58609e9c8e661cd41357a54d926c4a2a1a",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/d768d58baee9a4862ca783840eca1b9add7a7f57",
+                "reference": "d768d58baee9a4862ca783840eca1b9add7a7f57",
                 "shasum": ""
             },
             "require": {
@@ -358,8 +419,9 @@
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
+                "doctrine/coding-standard": "^4.0",
                 "mongodb/mongodb": "^1.1",
-                "phpunit/phpunit": "^5.7",
+                "phpunit/phpunit": "^7.0",
                 "predis/predis": "~1.0"
             },
             "suggest": {
@@ -368,7 +430,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.8.x-dev"
                 }
             },
             "autoload": {
@@ -403,12 +465,12 @@
                 }
             ],
             "description": "Caching library offering an object-oriented API for many cache backends",
-            "homepage": "http://www.doctrine-project.org",
+            "homepage": "https://www.doctrine-project.org",
             "keywords": [
                 "cache",
                 "caching"
             ],
-            "time": "2017-08-25T07:02:50+00:00"
+            "time": "2018-08-21T18:01:43+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -1335,39 +1397,50 @@
         },
         {
             "name": "egeloen/ckeditor-bundle",
-            "version": "4.0.6",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egeloen/IvoryCKEditorBundle.git",
-                "reference": "c974b85b79ca9186809eb8625e53544b388b0411"
+                "reference": "9c9926918d3ae4b4d89ca2db578766ab9829ee7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/c974b85b79ca9186809eb8625e53544b388b0411",
-                "reference": "c974b85b79ca9186809eb8625e53544b388b0411",
+                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/9c9926918d3ae4b4d89ca2db578766ab9829ee7a",
+                "reference": "9c9926918d3ae4b4d89ca2db578766ab9829ee7a",
                 "shasum": ""
             },
             "require": {
-                "egeloen/json-builder": "^1.0|^2.0",
-                "php": ">=5.3.3",
-                "symfony/dependency-injection": "^2.2|^3.0",
-                "symfony/form": "^2.2|^3.0",
-                "symfony/framework-bundle": "^2.2|^3.0"
+                "egeloen/json-builder": "^2.0|^3.0",
+                "php": "^5.6|^7.0",
+                "symfony/dependency-injection": "^2.7|^3.0",
+                "symfony/form": "^2.7|^3.0",
+                "symfony/framework-bundle": "^2.7|^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0|^5.0",
+                "composer/composer": "^1.0",
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^5.0|^6.0",
+                "sensio/distribution-bundle": "^3.0.12|^4.0|^5.0",
+                "symfony/asset": "^2.7|^3.0",
+                "symfony/console": "^2.7|^3.0",
                 "symfony/phpunit-bridge": "^2.7|^3.0",
-                "symfony/yaml": "^2.0.5|^3.0",
+                "symfony/templating": "^2.7|^3.0",
+                "symfony/twig-bridge": "^2.7|^3.0",
+                "symfony/yaml": "^2.7|^3.0",
                 "twig/twig": "^1.12"
             },
             "suggest": {
                 "egeloen/form-extra-bundle": "Allows to load CKEditor asynchronously",
+                "sensio/distribution-bundle": "Allows to install CKEditor via a script handler",
+                "symfony/asset": "Allows to rewrite/version assets",
+                "symfony/templating": "Allows to use PHP templates",
+                "symfony/twig-bridge": "Allows to use Twig templates",
                 "twig/twig": "Allows to use Twig templates"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "6.0-dev"
                 }
             },
             "autoload": {
@@ -1389,7 +1462,7 @@
             "keywords": [
                 "CKEditor"
             ],
-            "time": "2016-10-28T16:59:01+00:00"
+            "time": "2017-08-18T08:19:45+00:00"
         },
         {
             "name": "egeloen/json-builder",
@@ -2260,6 +2333,50 @@
             "time": "2018-02-13T18:05:56+00:00"
         },
         {
+            "name": "itk-dev/config-bundle",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itk-dev/config-bundle.git",
+                "reference": "33092e1b5e66fc9ef982c1e49ee48638e2c08549"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itk-dev/config-bundle/zipball/33092e1b5e66fc9ef982c1e49ee48638e2c08549",
+                "reference": "33092e1b5e66fc9ef982c1e49ee48638e2c08549",
+                "shasum": ""
+            },
+            "require": {
+                "craue/config-bundle": "~2.1",
+                "doctrine/dbal": "^2.5",
+                "easycorp/easyadmin-bundle": "^1.17",
+                "egeloen/ckeditor-bundle": "^6.0",
+                "symfony/symfony": "^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.10",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ItkDev\\ConfigBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mikkel Ricky",
+                    "email": "rimi@aarhus.dk"
+                }
+            ],
+            "description": "A Symfony bundle to handle app config",
+            "time": "2018-04-04T11:42:20+00:00"
+        },
+        {
             "name": "itk-dev/database-bundle",
             "version": "1.2.0",
             "source": {
@@ -2298,6 +2415,46 @@
             ],
             "description": "A Symfony bundle with useful database stuff",
             "time": "2018-06-11T14:02:05+00:00"
+        },
+        {
+            "name": "itk-dev/terms-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/itk-dev/terms-bundle.git",
+                "reference": "216150a55ad55ffdd67f21e8faae1078b2c0620f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/itk-dev/terms-bundle/zipball/216150a55ad55ffdd67f21e8faae1078b2c0620f",
+                "reference": "216150a55ad55ffdd67f21e8faae1078b2c0620f",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofsymfony/user-bundle": "^2.0",
+                "symfony/symfony": "^3.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.10",
+                "squizlabs/php_codesniffer": "^3.2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "ItkDev\\TermsBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mikkel Ricky",
+                    "email": "rimi@aarhus.dk"
+                }
+            ],
+            "time": "2018-08-28T14:01:35+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -7869,7 +8026,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "friendsofsymfony/user-bundle": 20
+        "friendsofsymfony/user-bundle": 20,
+        "itk-dev/terms-bundle": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

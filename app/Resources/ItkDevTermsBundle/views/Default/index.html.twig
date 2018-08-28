@@ -1,0 +1,43 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block sidebar null %}
+{% block body_id 'fos-user' %}
+{% set wrapper_classes = ['no-menu', 'user-page'] %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="panel terms">
+                <div class="panel-heading">
+                    <h1>{{ 'Terms and conditions'|trans }}</h1>
+                </div>
+                <div class="panel-body">
+                    {{ craue_setting('app_terms_content')|raw }}
+
+                    {% block fos_user_content %}
+                        {{ form_start(form) }}
+                            <div class="checkbox">
+                                <label>
+                                    {{ form_widget(form.accept) }}
+                                    {# <b>{{ 'Yes, I accept the terms'|trans }}</b> #}
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-lg btn-primary col-md-7 pull-right', 'disabled': true}, 'label': 'Continue'|trans}) }}
+                                <a class="btn btn-lg btn-inverse col-md-4" href="{{ path('fos_user_security_logout') }}">{{ 'Leave'|trans }}</a>
+                            </div>
+                        {{ form_end(form) }}
+
+                    {% endblock fos_user_content %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var checker = document.getElementById('form_accept');
+        var sendbtn = document.getElementById('form_submit');
+        checker.onchange = function() {
+            sendbtn.disabled = !this.checked;
+        }
+    </script>
+{% endblock %}

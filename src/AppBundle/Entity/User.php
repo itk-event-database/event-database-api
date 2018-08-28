@@ -72,4 +72,22 @@ class User extends BaseUser
      * @Groups({"user_read", "user_write"})
      */
     protected $roles;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="terms_accepted_at", type="datetime", nullable=true)
+     */
+    protected $termsAcceptedAt;
+
+    public function getTermsAcceptedAt()
+    {
+        return $this->termsAcceptedAt;
+    }
+
+    public function setTermsAcceptedAt($termsAcceptedAt)
+    {
+        $this->termsAcceptedAt = $termsAcceptedAt;
+
+        return $this;
+    }
 }

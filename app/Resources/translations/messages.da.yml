@@ -286,3 +286,13 @@ Tag list: Tags
 This event is read from a feed and cannot be edited.: Denne begivenhed hentes fra et feed og kan ikke redigeres.
 More info: Flere oplysninger
 Feed event id: Feed-begivenheds-id
+
+Settings: Indstillinger
+Setting: Indstilling
+Value: Værdi
+Terms and conditions: Betingelser
+Accept Terms: Jeg har læst og accepteret brugeraftalen
+Continue: Fortsæt
+Leave: Afslut
+app_terms_content: Betingelser
+'The terms and conditions for using the app': 'Beskrivelse af betingelser for brug af systemet'
