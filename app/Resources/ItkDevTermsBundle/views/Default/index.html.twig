@@ -23,8 +23,8 @@
                                 </label>
                             </div>
                             <div class="form-group">
-                                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-lg btn-primary col-md-7 pull-right', 'disabled': true}, 'label': 'Continue'|trans}) }}
-                                <a class="btn btn-lg btn-inverse col-md-4" href="{{ path('fos_user_security_logout') }}">{{ 'Leave'|trans }}</a>
+                                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-lg btn-primary col-md-7 pull-right', 'disabled': true}, 'label': 'Accept terms and continue'|trans}) }}
+                                <a class="btn btn-lg btn-inverse col-md-4" href="{{ path('fos_user_security_logout') }}">{{ 'Leave without accepting terms'|trans }}</a>
                             </div>
                         {{ form_end(form) }}
 

@@ -293,8 +293,8 @@ Setting: Indstilling
 Value: Værdi
 Terms and conditions: Betingelser
 Accept Terms: Jeg har læst og accepteret brugeraftalen
-Continue: Fortsæt
-Leave: Afslut
+Accept terms and continue: Fortsæt
+Leave without accepting terms: Afslut uden at acceptere
 app_terms_content: Betingelser
 'The terms and conditions for using the app': 'Beskrivelse af betingelser for brug af systemet'
 Terms accepted at: Betingelser accepteret
