@@ -45,7 +45,7 @@
         "doctrine/orm": "~2.5.0",
         "dunglas/action-bundle": "^0.3",
         "easycorp/easyadmin-bundle": "^1.17",
-        "egeloen/ckeditor-bundle": "^4.0",
+        "egeloen/ckeditor-bundle": "^6.0",
         "exercise/htmlpurifier-bundle": "^1.0",
         "fpn/tag-bundle": "^0.9.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
@@ -69,7 +69,9 @@
         "symfony/symfony": "3.4.*",
         "vich/uploader-bundle": "^1.5",
         "twig/twig": "^1.0||^2.0",
-        "liip/imagine-bundle": "^1.9"
+        "liip/imagine-bundle": "^1.9",
+        "itk-dev/terms-bundle": "dev-master",
+        "itk-dev/config-bundle": "^1.1"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -94,6 +96,7 @@
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "bin/console ckeditor:install --quiet --release=full --tag=4.6.0 --clear=drop --exclude=samples",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
@@ -103,6 +106,7 @@
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "bin/console ckeditor:install --quiet --release=full --tag=4.6.0 --clear=drop --exclude=samples",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"

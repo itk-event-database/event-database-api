@@ -23,6 +23,8 @@ use Behatch\HttpCall\HttpCallResultPool;
 use Behatch\HttpCall\Request;
 use Behatch\Json\Json;
 use Behatch\Json\JsonInspector;
+use Craue\ConfigBundle\Entity\BaseSetting;
+use Craue\ConfigBundle\Entity\Setting;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -71,6 +73,10 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
         $this->manager = $doctrine->getManager();
         $this->schemaTool = new SchemaTool($this->manager);
         $this->classes = $this->manager->getMetadataFactory()->getAllMetadata();
+        // @HACK! Exclude tables from craue/config-bundle
+        $this->classes = array_filter($this->classes, function ($class) {
+            return BaseSetting::class !== $class->name && Setting::class !== $class->name;
+        });
         $this->request = $request;
         $this->inspector = new JsonInspector($evaluationMode);
     }
