@@ -66,6 +66,7 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path: '%database_path%'
+        schema_filter: ~^(?!craue_config_setting)~
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -158,3 +159,19 @@ liip_imagine:
 sensio_framework_extra:
     router:
         annotations: false
+
+craue_config:
+    entity_name: ItkDev\ConfigBundle\Entity\Setting
+
+# Optionally, enable caching for craue/config-bundle (cf. https://github.com/craue/CraueConfigBundle/#enable-caching-optional)
+services:
+  craue_config_cache_provider:
+    class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+    public: false
+    arguments:
+      - 'craue_config'
+      - 0
+      - '%kernel.cache_dir%'
+
+itk_dev_terms:
+    path: ^/easyadmin

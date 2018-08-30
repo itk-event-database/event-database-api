@@ -16,7 +16,9 @@ easy_admin:
     design:
         brand_color: '#154194'
         color_scheme: 'light'
-        form_theme: 'easy_admin/form/bootstrap_3_horizontal_layout.html.twig'
+        form_theme:
+            - 'easy_admin/form/bootstrap_3_horizontal_layout.html.twig'
+            - '@ItkDevConfig/easy_admin/form/setting.html.twig'
 
         assets:
             css:
@@ -46,6 +48,10 @@ easy_admin:
             - entity: 'User'
               icon: 'user'
               roles: [ROLE_USER_EDITOR]
+            - entity: 'Setting'
+              label: 'Settings'
+              icon: 'cog'
+              roles: [ROLE_CONFIG_EDITOR]
 
             - label: app.menu.api_docs
               icon: 'book'
@@ -465,6 +471,7 @@ easy_admin:
                       type: boolean
                       template: yes_no.html.twig
                     - lastLogin
+                    - termsAcceptedAt
             new:
                 fields:
                     - enabled
@@ -486,6 +493,7 @@ easy_admin:
                               ROLE_TAG_EDITOR: ROLE_TAG_EDITOR
                               ROLE_USER_EDITOR: ROLE_USER_EDITOR
                               ROLE_FEED_EDITOR: ROLE_FEED_EDITOR
+                              ROLE_CONFIG_EDITOR: ROLE_CONFIG_EDITOR
                     - property: plainPassword
                       type_options:
                           required: true
@@ -572,6 +580,38 @@ easy_admin:
                               FEED_CLEAN_UP_FUTURE: FEED_CLEAN_UP_FUTURE
                               FEED_CLEAN_UP_ALL: FEED_CLEAN_UP_ALL
 
+
+        Setting:
+            controller: ItkDev\ConfigBundle\Controller\SettingController
+            class: ItkDev\ConfigBundle\Entity\Setting
+            disabled_actions: [new, delete, show]
+            list:
+                fields:
+                    # - property: section
+                    - property: name
+                    - property: description
+                    - property: value
+                      label: Value
+                      template: '@ItkDevConfig/easy_admin/Setting/display_value.html.twig'
+
+            edit:
+                fields:
+                    - property: name
+                      # Important: "name" must be disabled to not overwrite the name when saving a setting
+                      type_options:
+                          disabled: true
+                    - property: value
+                      # type_options:
+                      #     Optionally, make "value" non-required
+                      #     required: false
+                      #     Optionally, hide the "Value" label
+                      #     label: false
+                    - property: description
+                      # Important: "description" must be disabled to not overwrite the name when saving a setting
+                      type_options:
+                          disabled: true
+
+
 vich_uploader:
     db_driver: orm
     mappings:
@@ -580,3 +620,14 @@ vich_uploader:
             uri_prefix: '%admin.uploads_url%'
             # We want unique file names (e.g. to prevent overwriting existing files).
             namer: Vich\UploaderBundle\Naming\OrignameNamer
+
+ivory_ck_editor:
+    input_sync: true
+    default_config: base_config
+    configs:
+        base_config:
+            toolbar:
+                - { name: 'styles', items: ['Bold', 'Italic', 'Strike', 'Link'] }
+                - { name: 'lists', items: ['BulletedList', 'NumberedList', '-', 'Outdent', 'Indent'] }
+                - { name: 'clipboard', items: ['Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo'] }
+                - { name: 'advanced', items: ['Source'] }

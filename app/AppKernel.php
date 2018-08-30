@@ -49,6 +49,12 @@ class AppKernel extends Kernel
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+
+            new ItkDev\TermsBundle\ItkDevTermsBundle(),
+            // Start of required dependencies of ItkDevConfigBundle
+            new Craue\ConfigBundle\CraueConfigBundle(),
+            // End of required dependencies for ItkDevConfigBundle
+            new ItkDev\ConfigBundle\ItkDevConfigBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test', 'circleci'], true)) {
