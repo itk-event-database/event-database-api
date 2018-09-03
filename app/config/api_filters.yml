@@ -21,14 +21,15 @@ services:
             - '@doctrine'
             - '@request_stack'
 
-    resource.event.order_filter:
-        parent: 'app_bundle.doctrine.orm.order_filter'
-        arguments:
-            - occurrences.startDate:
-                  default: ASC
-              occurrences.endDate: ~
-              updatedAt: ~
-        tags: [{ name: 'api_platform.filter', id: 'event.order' }]
+    # Breaks graphql
+    # resource.event.order_filter:
+    #     parent: 'app_bundle.doctrine.orm.order_filter'
+    #     arguments:
+    #         - occurrences.startDate:
+    #               default: ASC
+    #           occurrences.endDate: ~
+    #           updatedAt: ~
+    #     tags: [{ name: 'api_platform.filter', id: 'event.order' }]
 
     resource.event.search_filter:
         parent: 'api_platform.doctrine.orm.search_filter'
@@ -50,9 +51,10 @@ services:
             - '@request_stack'
         tags: [{ name: 'api_platform.filter', id: 'event.search.owner' }]
 
-    resource.event.search_published_filter:
-        parent: 'app_bundle.doctrine.orm.published_filter'
-        tags: [{ name: 'api_platform.filter', id: 'event.search.published' }]
+    # Breaks graphql
+    # resource.event.search_published_filter:
+    #    parent: 'app_bundle.doctrine.orm.published_filter'
+    #    tags: [{ name: 'api_platform.filter', id: 'event.search.published' }]
 
     resource.event.search_date_filter:
         parent: 'app_bundle.doctrine.orm.date_filter'
@@ -90,21 +92,22 @@ services:
               postalCode: 'exact'
         tags: [{ name: 'api_platform.filter', id: 'place.search' }]
 
-    resource.place.geolocation_filter:
-        class: AppBundle\Filter\GeolocationFilter
-        arguments:
-            - '@doctrine'
-            - '@request_stack'
-            - '@?logger'
-            -
-                property: geolocation
-                alias: geolocation
-                lat: latitude  # Property on entity
-                lng: longitude  # Property on entity
-                radius:
-                    default: 8
-                    min: 1
-        tags: [{ name: 'api_platform.filter', id: 'place.search.geolocation' }]
+    # Breaks graphql (due to "lat" and "lng" not being proper fields?)
+    # resource.place.geolocation_filter:
+    #     class: AppBundle\Filter\GeolocationFilter
+    #     arguments:
+    #         - '@doctrine'
+    #         - '@request_stack'
+    #         - '@?logger'
+    #         -
+    #             property: geolocation
+    #             alias: geolocation
+    #             lat: latitude  # Property on entity
+    #             lng: longitude  # Property on entity
+    #             radius:
+    #                 default: 8
+    #                 min: 1
+    #     tags: [{ name: 'api_platform.filter', id: 'place.search.geolocation' }]
 
     resource.place.search_owner_filter:
         class: AppBundle\Filter\OwnerFilter
@@ -164,6 +167,7 @@ services:
         arguments: ['event.tags']
         tags: [{ name: 'api_platform.filter', id: 'occurrence.search.event_tag' }]
 
-    resource.occurrence.search_published_filter:
-        parent: 'app_bundle.doctrine.orm.published_filter'
-        tags: [{ name: 'api_platform.filter', id: 'occurrence.search.published' }]
+    # Breaks graphql
+    # resource.occurrence.search_published_filter:
+    #     parent: 'app_bundle.doctrine.orm.published_filter'
+    #     tags: [{ name: 'api_platform.filter', id: 'occurrence.search.published' }]

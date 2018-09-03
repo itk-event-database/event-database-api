@@ -71,7 +71,8 @@
         "twig/twig": "^1.0||^2.0",
         "liip/imagine-bundle": "^1.9",
         "itk-dev/terms-bundle": "dev-master",
-        "itk-dev/config-bundle": "^1.1"
+        "itk-dev/config-bundle": "^1.1",
+        "webonyx/graphql-php": "^0.12.6"
     },
     "require-dev": {
         "behat/behat": "^3.4",

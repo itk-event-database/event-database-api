@@ -40,6 +40,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "denormalization_context" = { "groups" = { "event_write" } },
  *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.order", "event.order.default" },
  *     "validation_groups"={"event_write"}
+ *   },
+ *   graphql={
+ *     "query"={
+ *       "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.order", "event.order.default" }
+ *     }
  *   }
  * )
  * @ORM\Table(

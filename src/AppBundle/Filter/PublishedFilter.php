@@ -23,7 +23,7 @@ class PublishedFilter extends AbstractFilter
 
     public function apply(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
-        if (Event::class !== $resourceClass && Occurrence::class !== $resourceClass) {
+        if (Event::class !== $resourceClass) { //} && Occurrence::class !== $resourceClass) {
             return false;
         }
 
@@ -36,11 +36,11 @@ class PublishedFilter extends AbstractFilter
     public function getDescription(string $resourceClass): array
     {
         return [
-        'published' => [
-        'property' => 'published',
-        'type' => 'boolean',
-        'required' => false,
-        ],
+            'published' => [
+                'property' => 'isPublished',
+                'type' => 'boolean',
+                'required' => false,
+            ],
         ];
     }
 
