@@ -247,6 +247,9 @@ class FeedReader implements Controller
         switch ($type) {
             case 'json':
                 $content = json_decode($content, true);
+                if (null === $content) {
+                    throw new \Exception('Invalid json feed');
+                }
 
                 break;
             case 'xml':
