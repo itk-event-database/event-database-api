@@ -619,7 +619,10 @@ vich_uploader:
             upload_destination: '%admin.uploads_path%'
             uri_prefix: '%admin.uploads_url%'
             # We want unique file names (e.g. to prevent overwriting existing files).
-            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            namer:
+                service: Vich\UploaderBundle\Naming\OrignameNamer
+                options:
+                    - transliterate: true
 
 ivory_ck_editor:
     input_sync: true
