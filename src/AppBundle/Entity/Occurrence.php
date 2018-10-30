@@ -11,6 +11,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use AppBundle\Controller\OccurrencesCalendar;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,6 +27,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "normalization_context" = { "groups" = { "occurrence_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
  *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.search.event_tag", "occurrence.search.published", "occurrence.order" }
+ *   },
+ *   collectionOperations={
+ *     "get",
+ *     "calendar"={
+ *         "method"="GET",
+ *         "path"="/occurrences/calendar.{_format}",
+ *         "controller"=OccurrencesCalendar::class
+ *     }
  *   }
  * )
  * @ORM\Table(
