@@ -12,6 +12,7 @@ parameters:
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1
+    mailer_port: ~
     mailer_user: ~
     mailer_password: ~
     locale: en
@@ -40,6 +41,9 @@ parameters:
 
     from_email_address: noreply@example.com
     from_email_name: Event Database
+
+    exception_from_email: noreply@example.com
+    exception_to_email: noreply@example.com
 
     view_timezone: GMT
 
