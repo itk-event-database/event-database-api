@@ -119,6 +119,7 @@ abstract class Thing extends Entity
 
     /**
      * @Vich\UploadableField(mapping="thing_images", fileNameProperty="imagePath")
+     * @Assert\File()
      *
      * @var File
      */
