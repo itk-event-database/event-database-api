@@ -88,6 +88,17 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.lock" }}
 
+      # Run Migrations & Validate Database Schema
+      - run:
+          name: Create DB
+          command:  bin/console doctrine:database:create
+      - run:
+          name: Run Migrations
+          command:  bin/console doctrine:migrations:migrate --no-interaction
+      - run:
+          name: Validate Schema
+          command:  bin/console doctrine:schema:validate
+
       # run tests!
       - run:
           name: Run PHPUnit
