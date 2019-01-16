@@ -91,13 +91,13 @@ jobs:
       # Run Migrations & Validate Database Schema
       - run:
           name: Create DB
-          command:  bin/console doctrine:database:create
+          command:  bin/console doctrine:database:create --env=circleci
       - run:
           name: Run Migrations
-          command:  bin/console doctrine:migrations:migrate --no-interaction
+          command:  bin/console doctrine:migrations:migrate --no-interaction --env=circleci
       - run:
           name: Validate Schema
-          command:  bin/console doctrine:schema:validate
+          command:  bin/console doctrine:schema:validate --env=circleci
 
       # run tests!
       - run:
