@@ -41,8 +41,8 @@
         "api-platform/core": "^2.2",
         "cweagans/composer-patches": "^1.6",
         "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/doctrine-migrations-bundle": "^1.1",
-        "doctrine/orm": "~2.5.0",
+        "doctrine/doctrine-migrations-bundle": "^2.0",
+        "doctrine/orm": "^2.6.0",
         "dunglas/action-bundle": "^0.3",
         "easycorp/easyadmin-bundle": "^1.17",
         "egeloen/ckeditor-bundle": "^6.0",
@@ -152,6 +152,9 @@
                 "Prevent InvalidDefinitionException": "https://github.com/FabienPennequin/FPNTagBundle/compare/master...rimi-itk:Issue-39.patch"
             }
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true
