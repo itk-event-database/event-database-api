@@ -346,3 +346,9 @@ services:
 
     AdminBundle\Service\AuthenticatorService:
         alias: authenticator
+
+    # doctrine:schema:validate does not use config:schema_filter so we manually ignore here
+    ignore_tables_listener:
+        class: AdminBundle\EventListener\IgnoreTablesListener
+        tags:
+            - {name: doctrine.event_listener, event: postGenerateSchema }
