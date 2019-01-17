@@ -46,6 +46,8 @@ parameters:
     exception_to_email: noreply@example.com
 
     view_timezone: GMT
+    date_separator_time: 03:00:00
+    date_separator_timezone: Europe/Copenhagen
 
     router.request_context.host: event-database-api.vm
     router.request_context.scheme: http

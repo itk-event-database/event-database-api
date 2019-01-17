@@ -38,6 +38,12 @@ services:
             -
                 fallback_image_url: '%fallback_image_url%'
 
+    app.occurrence_splitter:
+        class: AppBundle\Service\OccurrenceSplitterService
+        arguments:
+            $dateSeparatorTime: '%date_separator_time%'
+            $dateSeparatorTimezone: '%date_separator_timezone%'
+
     # Factories
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
