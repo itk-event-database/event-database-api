@@ -37,6 +37,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Occurrence extends Entity
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="occurrences", fetch="EAGER")
      * @Groups({"occurrence_read", "event_read", "event_write"})
      */
@@ -62,14 +71,6 @@ class Occurrence extends Entity
      * @Groups({"occurrence_read", "event_read", "event_write"})
      */
     protected $place;
-    /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var string the room the event is held in
@@ -78,7 +79,7 @@ class Occurrence extends Entity
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
      */
-    private $room;
+    protected $room;
 
     /**
      * @var string the range of prices for tickets
@@ -87,7 +88,7 @@ class Occurrence extends Entity
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
      */
-    private $ticketPriceRange;
+    protected $ticketPriceRange;
 
     /**
      * @var string The status of the event
@@ -96,7 +97,7 @@ class Occurrence extends Entity
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="string")
      */
-    private $eventStatusText;
+    protected $eventStatusText;
 
     /**
      * @var int The status code of the event
@@ -114,7 +115,15 @@ class Occurrence extends Entity
      * @ORM\Column(nullable=true)
      * @Assert\Type(type="integer")
      */
-    private $eventSalesStatus;
+    protected $eventSalesStatus;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="DailyOccurrence", mappedBy="occurrence", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"startDate"="ASC", "endDate"="ASC"})
+     */
+    private $dailyOccurrences;
 
     public function __toString()
     {
