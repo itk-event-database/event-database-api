@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd32f8fe88c6160c2968fe9c55623c27",
+    "content-hash": "ac6337da0c76391e2986abb8e98e938c",
     "packages": [
         {
             "name": "api-platform/core",
@@ -8259,7 +8259,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "friendsofsymfony/user-bundle": 20,
         "itk-dev/terms-bundle": 20
     },
     "prefer-stable": true,
