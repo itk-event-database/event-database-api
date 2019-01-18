@@ -10,6 +10,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\DailyOccurrence;
 use AppBundle\Entity\Occurrence;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class OccurrenceSplitterService
 {
@@ -34,31 +35,48 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Recursively get DailyOccurrences from an Occurrence
+     * Get new DailyOccurrences from an Occurrence
      *
      * @param Occurrence $occurrence
-     * @param array $dailyOccurrences
+     *
+     * @return ArrayCollection
+     *
+     * @throws \Exception
+     */
+    public function getDailyOccurrences(Occurrence $occurrence): ArrayCollection
+    {
+        $dailyOccurrences = new ArrayCollection();
+        $this->generateDailyOccurrences($occurrence, $dailyOccurrences);
+
+        return $dailyOccurrences;
+    }
+
+    /**
+     * Recursively generate DailyOccurrences from an Occurrence
+     *
+     * @param Occurrence $occurrence
+     * @param ArrayCollection $dailyOccurrences
      *
      * @return array
      *
      * @throws \Exception
      */
-    public function getDailyOccurrences(Occurrence $occurrence, &$dailyOccurrences = []): array
+    private function generateDailyOccurrences(Occurrence $occurrence, ArrayCollection $dailyOccurrences): ArrayCollection
     {
         $tempOccurrence = clone $occurrence;
         $split = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
 
         if ($tempOccurrence->getEndDate() < $split) {
             $dailyOccurrence = new DailyOccurrence($tempOccurrence);
-            $dailyOccurrences[] = $dailyOccurrence;
+            $dailyOccurrences->add($dailyOccurrence);
         } else {
             $dailyOccurrence = new DailyOccurrence($tempOccurrence);
             $dailyOccurrence->setEndDate($split);
-            $dailyOccurrences[] = $dailyOccurrence;
+            $dailyOccurrences->add($dailyOccurrence);
 
             $tempOccurrence->setStartDate($split);
 
-            $this->getDailyOccurrences($tempOccurrence, $dailyOccurrences);
+            $this->generateDailyOccurrences($tempOccurrence, $dailyOccurrences);
         }
 
         return $dailyOccurrences;

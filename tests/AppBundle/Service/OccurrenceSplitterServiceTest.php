@@ -21,7 +21,7 @@ class OccurrenceSplitterServiceTest extends TestCase
     {
         $splitter = new OccurrenceSplitterService($dateSeparatorTime, $dateSeparatorTimezone);
 
-        $dailyOccurrences = $splitter->getDailyOccurrences($occurrence);
+        $dailyOccurrences = $splitter->getDailyOccurrences($occurrence)->toArray();
 
         $this->assertCount($expected, $dailyOccurrences);
 
