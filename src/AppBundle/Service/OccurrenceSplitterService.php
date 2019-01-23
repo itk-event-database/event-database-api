@@ -60,7 +60,9 @@ class OccurrenceSplitterService
     public function getDailyOccurrences(Occurrence $occurrence): Collection
     {
         $dailyOccurrences = new ArrayCollection();
-        $this->createDailyOccurrenceCollection($occurrence, $dailyOccurrences);
+        if ($occurrence->getStartDate() && $occurrence->getEndDate() && $occurrence->getStartDate() <= $occurrence->getEndDate()) {
+            $this->createDailyOccurrenceCollection($occurrence, $dailyOccurrences);
+        }
 
         return $dailyOccurrences;
     }
