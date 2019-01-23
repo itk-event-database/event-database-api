@@ -15,18 +15,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * An occurrence of an Event.
+ * A daily occurrence of an Event.
  *
  * @ORM\Entity
  *
  * @ApiResource(
- *   itemOperations={
- *     "get"={
- *       "method"="GET",
- *       "path"="/calendar/{id}",
- *       "requirements"={"id"="\d+"}
- *     }
- *   },
  *   collectionOperations={
  *     "get"={
  *       "method"="GET",
@@ -43,7 +36,6 @@ use Doctrine\ORM\Mapping as ORM;
  *   attributes = {
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "occurrence_read" } },
- *     "denormalization_context" = { "groups" = { "event_write" } },
  *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.search.event_tag", "occurrence.search.published", "occurrence.order" }
  *   }
  * )
