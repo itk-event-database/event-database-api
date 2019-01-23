@@ -99,6 +99,13 @@ services:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
 
+    event.occurrence_listener:
+        class: AppBundle\EventListener\OccurrenceListener
+        arguments:
+            - '@app.occurrence_splitter'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
     feed_reader.base:
         class: AdminBundle\Service\FeedReader\FeedReader
         abstract: true

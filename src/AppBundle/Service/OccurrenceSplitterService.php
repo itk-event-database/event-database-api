@@ -1,16 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: turegjorup
- * Date: 2019-01-17
- * Time: 10:54
+
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
  */
 
 namespace AppBundle\Service;
 
 use AppBundle\Entity\DailyOccurrence;
 use AppBundle\Entity\Occurrence;
+use AppBundle\Entity\OccurrenceTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 
 class OccurrenceSplitterService
 {
@@ -18,6 +24,9 @@ class OccurrenceSplitterService
     private $splitHour;
     private $splitMinute;
     private $splitSecond;
+
+    private $occurrenceTraitProperties;
+    private $propertyAccessor;
 
     /**
      * OccurrenceSplitterService constructor.
@@ -32,6 +41,11 @@ class OccurrenceSplitterService
         $this->splitMinute= (int) $exploded[1];
         $this->splitSecond= (int) $exploded[2];
         $this->dateSeparatorTimezone = new \DateTimeZone($dateSeparatorTimezone);
+
+        $propertyInfo = new ReflectionExtractor();
+        $this->occurrenceTraitProperties = $propertyInfo->getProperties(OccurrenceTrait::class);
+
+        $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
     }
 
     /**
@@ -39,47 +53,85 @@ class OccurrenceSplitterService
      *
      * @param Occurrence $occurrence
      *
-     * @return ArrayCollection
+     * @return Collection
      *
      * @throws \Exception
      */
-    public function getDailyOccurrences(Occurrence $occurrence): ArrayCollection
+    public function getDailyOccurrences(Occurrence $occurrence): Collection
     {
         $dailyOccurrences = new ArrayCollection();
-        $this->generateDailyOccurrences($occurrence, $dailyOccurrences);
+        $this->createDailyOccurrenceCollection($occurrence, $dailyOccurrences);
 
         return $dailyOccurrences;
     }
 
     /**
-     * Recursively generate DailyOccurrences from an Occurrence
+     * Copy values of OccurrenceTrait properties from one DailyOccurrence to another
+     *
+     * @param DailyOccurrence $to
+     * @param DailyOccurrence $from
+     */
+    public function copyOccurrenceTraitPropertyValues(DailyOccurrence $to, DailyOccurrence $from): void
+    {
+        foreach ($this->occurrenceTraitProperties as $propertyPath) {
+            $value = $this->propertyAccessor->getValue($from, $propertyPath);
+            $this->propertyAccessor->setValue($to, $propertyPath, $value);
+        }
+    }
+
+    /**
+     * Create a collection of DailyOccurrences from an Occurrence
      *
      * @param Occurrence $occurrence
-     * @param ArrayCollection $dailyOccurrences
+     * @param Collection $dailyOccurrences
      *
-     * @return array
+     * @return Collection
      *
      * @throws \Exception
      */
-    private function generateDailyOccurrences(Occurrence $occurrence, ArrayCollection $dailyOccurrences): ArrayCollection
+    private function createDailyOccurrenceCollection(Occurrence $occurrence, Collection $dailyOccurrences): Collection
     {
         $tempOccurrence = clone $occurrence;
-        $split = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
+        $splitDate = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
 
-        if ($tempOccurrence->getEndDate() < $split) {
-            $dailyOccurrence = new DailyOccurrence($tempOccurrence);
-            $dailyOccurrences->add($dailyOccurrence);
-        } else {
-            $dailyOccurrence = new DailyOccurrence($tempOccurrence);
-            $dailyOccurrence->setEndDate($split);
-            $dailyOccurrences->add($dailyOccurrence);
+        if ($tempOccurrence->getStartDate() < $splitDate && $tempOccurrence->getEndDate() > $splitDate) {
+            while ($tempOccurrence->getStartDate() < $splitDate && $tempOccurrence->getEndDate() > $splitDate) {
+                $dailyOccurrence = $this->createDailyOccurrence($tempOccurrence->getStartDate(), $splitDate, $occurrence);
+                $dailyOccurrences->add($dailyOccurrence);
 
-            $tempOccurrence->setStartDate($split);
-
-            $this->generateDailyOccurrences($tempOccurrence, $dailyOccurrences);
+                $tempOccurrence->setStartDate($splitDate);
+                $splitDate = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
+            }
         }
 
+        $dailyOccurrence = $this->createDailyOccurrence($tempOccurrence->getStartDate(), $tempOccurrence->getEndDate(), $occurrence);
+        $dailyOccurrences->add($dailyOccurrence);
+
         return $dailyOccurrences;
+    }
+
+    /**
+     * Create a DailyOccurrence from an Occurrence
+     *
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @param Occurrence $occurrence
+     *
+     * @return DailyOccurrence
+     */
+    private function createDailyOccurrence(\DateTime $startDate, \DateTime $endDate, Occurrence $occurrence): DailyOccurrence
+    {
+        $dailyOccurrence = new DailyOccurrence();
+        foreach ($this->occurrenceTraitProperties as $propertyPath) {
+            $value = $this->propertyAccessor->getValue($occurrence, $propertyPath);
+            $this->propertyAccessor->setValue($dailyOccurrence, $propertyPath, $value);
+        }
+
+        $dailyOccurrence->setOccurrence($occurrence);
+        $dailyOccurrence->setStartDate($startDate);
+        $dailyOccurrence->setEndDate($endDate);
+
+        return $dailyOccurrence;
     }
 
     /**
