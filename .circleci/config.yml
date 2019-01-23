@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: itkdev/php7.2-fpm
+      - image: circleci/php:7.2-apache-node-browsers
         environment:
           APP_ENV: circleci
 
@@ -24,13 +24,13 @@ jobs:
     working_directory: ~/htdocs
 
     steps:
-#      - run:
-#          name: Apt-get update
-#          command: sudo apt-get update && sudo apt-get install -y zlib* wget openssl libicu-dev libpng-dev
+      - run:
+          name: Apt-get update
+          command: sudo apt-get update && sudo apt-get install -y zlib* wget openssl libicu-dev libpng-dev
 
-#      - run:
-#          name: Install PHP extensions - zip
-#          command: sudo docker-php-ext-install zip && sudo docker-php-ext-enable zip
+      - run:
+          name: Install PHP extensions - zip
+          command: sudo docker-php-ext-install zip && sudo docker-php-ext-enable zip
 
       - run:
           name: Install PHP extensions - intl
@@ -40,13 +40,13 @@ jobs:
           name: Install PHP extensions - pcntl
           command: sudo docker-php-ext-install pcntl && sudo docker-php-ext-enable pcntl
 
-#      - run:
-#          name: Install PHP extensions - gd
-#          command: sudo docker-php-ext-install gd && sudo docker-php-ext-enable gd
+      - run:
+          name: Install PHP extensions - gd
+          command: sudo docker-php-ext-install gd && sudo docker-php-ext-enable gd
 
-#      - run:
-#          name: Install PHP extensions - pdo_mysql
-#          command: sudo docker-php-ext-install pdo_mysql && sudo docker-php-ext-enable pdo_mysql
+      - run:
+          name: Install PHP extensions - pdo_mysql
+          command: sudo docker-php-ext-install pdo_mysql && sudo docker-php-ext-enable pdo_mysql
 
       - run:
           name: Set PHP memory config
