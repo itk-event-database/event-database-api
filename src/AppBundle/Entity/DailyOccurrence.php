@@ -11,6 +11,7 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,8 +54,10 @@ use Doctrine\ORM\Mapping as ORM;
  *   }
  * )
  */
-class DailyOccurrence extends Occurrence
+class DailyOccurrence
 {
+    use OccurrenceTrait;
+
     /**
      * @var int
      *
@@ -64,19 +67,34 @@ class DailyOccurrence extends Occurrence
      */
     private $id;
 
-    public function __construct(Occurrence $occurrence)
-    {
-        foreach (get_object_vars($occurrence) as $key => $name) {
-            $this->$key = $name;
-        }
+    /**
+     * @ORM\ManyToOne(targetEntity="Occurrence")
+     */
+    private $occurrence;
 
-        $this->setOccurrence($occurrence);
+    /**
+     * Sets id.
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Occurrence", inversedBy="dailyOccurrences", fetch="EXTRA_LAZY")
+     * Gets id.
+     *
+     * @return int
      */
-    private $occurrence;
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Get occurrence
