@@ -50,7 +50,7 @@ jobs:
 
       - run:
           name: Set PHP memory config
-          command: echo "memory_limit = 1024" | sudo tee /usr/local/etc/php/php.ini
+          command: echo "memory_limit = 1024M" | sudo tee /usr/local/etc/php/php.ini
 
       - run:
           name: Install Redis
