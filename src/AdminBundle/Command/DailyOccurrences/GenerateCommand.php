@@ -67,13 +67,13 @@ class GenerateCommand extends ContainerAwareCommand
                 } else {
                     $em->persist($newDailyOccurrence);
                 }
-                $count++;
+                ++$count;
             }
 
             // If we still have exiting DailyOccurrence at this point they are redundant and should be deleted.
             while ($count < $totalExisting) {
                 $em->remove($existingDailyOccurrences[$count]);
-                $count++;
+                ++$count;
             }
 
             // Free memory when batch size is reached.
@@ -90,4 +90,3 @@ class GenerateCommand extends ContainerAwareCommand
         $progressBar->finish();
     }
 }
-

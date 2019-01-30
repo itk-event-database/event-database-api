@@ -11,7 +11,6 @@
 namespace AppBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -89,7 +88,7 @@ class DailyOccurrence
     }
 
     /**
-     * Get occurrence
+     * Get occurrence.
      *
      * @return Occurrence
      */
@@ -99,7 +98,7 @@ class DailyOccurrence
     }
 
     /**
-     * Set occurrence
+     * Set occurrence.
      *
      * @param $occurrence
      *

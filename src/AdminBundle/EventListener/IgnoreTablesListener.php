@@ -1,20 +1,28 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AdminBundle\EventListener;
 
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 
 /**
- * IgnoreTablesListener class
+ * IgnoreTablesListener class.
  */
 class IgnoreTablesListener
 {
     private $ignoredEntities = [
-        'CraueConfigBundle:Setting'
+        'CraueConfigBundle:Setting',
     ];
 
     /**
-     * Remove ignored tables /entities from Schema
+     * Remove ignored tables/entities from Schema.
      *
      * @param GenerateSchemaEventArgs $args
      */
@@ -36,8 +44,6 @@ class IgnoreTablesListener
                 // remove table from schema
                 $schema->dropTable($table);
             }
-
         }
     }
-
 }

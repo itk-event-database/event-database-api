@@ -92,7 +92,7 @@ trait OccurrenceTrait
     protected $eventSalesStatus;
 
     /**
-     * Occurrence toString
+     * Occurrence toString.
      *
      * @return string
      */
@@ -105,9 +105,9 @@ trait OccurrenceTrait
     }
 
     /**
-     * Set Event
+     * Set Event.
      *
-     * @param Event|null $event
+     * @param null|Event $event
      *
      * @return $this
      */
@@ -119,7 +119,7 @@ trait OccurrenceTrait
     }
 
     /**
-     * Get Event
+     * Get Event.
      *
      * @return mixed
      */
@@ -177,7 +177,7 @@ trait OccurrenceTrait
     }
 
     /**
-     * Set Place
+     * Set Place.
      *
      * @param $place
      *
@@ -191,7 +191,7 @@ trait OccurrenceTrait
     }
 
     /**
-     * Get Place
+     * Get Place.
      *
      * @return Place
      */

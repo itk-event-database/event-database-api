@@ -32,8 +32,6 @@ class OccurrenceListener
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param PreFlushEventArgs $args
      *
      * @throws \Exception
@@ -49,7 +47,7 @@ class OccurrenceListener
 
     /**
      * Insert new DailyOccurrences matching the Occurrences scheduled for insertion
-     * in doctrines unit of work
+     * in doctrines unit of work.
      *
      * @param EntityManager $em
      *
@@ -78,7 +76,7 @@ class OccurrenceListener
 
     /**
      * Synchronize the DailyOccurrences to match the Occurrences scheduled for updates
-     * in doctrines unit of work
+     * in doctrines unit of work.
      *
      * @param EntityManager $em
      *
@@ -112,21 +110,21 @@ class OccurrenceListener
                     $em->persist($newDailyOccurrence);
                     $uow->computeChangeSet($classMetadata, $newDailyOccurrence);
                 }
-                $count++;
+                ++$count;
             }
 
             // If we still have exiting DailyOccurrence at this point they are redundant and should be deleted.
             while ($count < $totalExisting) {
                 $em->remove($existingDailyOccurrences[$count]);
                 $uow->computeChangeSet($classMetadata, $existingDailyOccurrences[$count]);
-                $count++;
+                ++$count;
             }
         }
     }
 
     /**
      * Delete DailyOccurrences matching the Occurrences scheduled for deletion
-     * in doctrines unit of work
+     * in doctrines unit of work.
      *
      * @param EntityManager $em
      */

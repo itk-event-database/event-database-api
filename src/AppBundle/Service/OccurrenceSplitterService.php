@@ -37,9 +37,9 @@ class OccurrenceSplitterService
     public function __construct(string $dateSeparatorTime, string $dateSeparatorTimezone)
     {
         $exploded = explode(':', $dateSeparatorTime);
-        $this->splitHour= (int) $exploded[0];
-        $this->splitMinute= (int) $exploded[1];
-        $this->splitSecond= (int) $exploded[2];
+        $this->splitHour = (int) $exploded[0];
+        $this->splitMinute = (int) $exploded[1];
+        $this->splitSecond = (int) $exploded[2];
         $this->dateSeparatorTimezone = new \DateTimeZone($dateSeparatorTimezone);
 
         $propertyInfo = new ReflectionExtractor();
@@ -49,13 +49,13 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Get new DailyOccurrences from an Occurrence
+     * Get new DailyOccurrences from an Occurrence.
      *
      * @param Occurrence $occurrence
      *
-     * @return Collection
-     *
      * @throws \Exception
+     *
+     * @return Collection
      */
     public function getDailyOccurrences(Occurrence $occurrence): Collection
     {
@@ -68,7 +68,7 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Copy values of OccurrenceTrait properties from one DailyOccurrence to another
+     * Copy values of OccurrenceTrait properties from one DailyOccurrence to another.
      *
      * @param DailyOccurrence $to
      * @param DailyOccurrence $from
@@ -82,14 +82,14 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Create a collection of DailyOccurrences from an Occurrence
+     * Create a collection of DailyOccurrences from an Occurrence.
      *
      * @param Occurrence $occurrence
      * @param Collection $dailyOccurrences
      *
-     * @return Collection
-     *
      * @throws \Exception
+     *
+     * @return Collection
      */
     private function createDailyOccurrenceCollection(Occurrence $occurrence, Collection $dailyOccurrences): Collection
     {
@@ -113,10 +113,10 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Create a DailyOccurrence from an Occurrence
+     * Create a DailyOccurrence from an Occurrence.
      *
-     * @param \DateTime $startDate
-     * @param \DateTime $endDate
+     * @param \DateTime  $startDate
+     * @param \DateTime  $endDate
      * @param Occurrence $occurrence
      *
      * @return DailyOccurrence
@@ -137,13 +137,13 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Get the first split DateTime for an Occurrence based on the configured split time
+     * Get the first split DateTime for an Occurrence based on the configured split time.
      *
      * @param \DateTime $dateTime
      *
-     * @return \DateTime
-     *
      * @throws \Exception
+     *
+     * @return \DateTime
      */
     private function getFirstSplitDateTime(\DateTime $dateTime): \DateTime
     {
@@ -162,7 +162,7 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Compares if the time of the given datetime object is before the configured split time
+     * Compares if the time of the given datetime object is before the configured split time.
      *
      * @param \DateTime $dateTime
      *

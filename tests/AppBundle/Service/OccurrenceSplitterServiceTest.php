@@ -1,19 +1,30 @@
 <?php
 
+/*
+ * This file is part of Eventbase API.
+ *
+ * (c) 2017–2018 ITK Development
+ *
+ * This source file is subject to the MIT license.
+ */
+
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Occurrence;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class OccurrenceSplitterServiceTest extends TestCase
 {
     /**
      * @dataProvider occurrencesProvider
      *
      * @param Occurrence $occurrence
-     * @param string $dateSeparatorTime
-     * @param string $dateSeparatorTimezone
-     * @param int $expected
+     * @param string     $dateSeparatorTime
+     * @param string     $dateSeparatorTimezone
+     * @param int        $expected
      *
      * @throws \Exception
      */
@@ -33,7 +44,7 @@ class OccurrenceSplitterServiceTest extends TestCase
             $this->assertEquals($occurrence->getEndDate(), $end->getEndDate(), 'The end dates of the occurrence and the last daily occurrence should be equal.');
         }
 
-        if ($expected === 2) {
+        if (2 === $expected) {
             $this->assertEquals($first->getEndDate(), $end->getStartDate(), 'The end date and start date of two adjacent daily occurrences should be equal.');
         }
 
