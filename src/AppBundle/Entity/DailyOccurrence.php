@@ -19,19 +19,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  *
  * @ApiResource(
- *   collectionOperations={
- *     "get"={
- *       "method"="GET",
- *       "path"="/calendar",
- *     }
- *   },
- *   itemOperations={
- *     "get"={
- *       "method"="GET",
- *       "path"="/calendar/{id}",
- *       "requirements"={"id"="\d+"}
- *     }
- *   },
+ *   collectionOperations={"get"},
+ *   itemOperations={"get"},
  *   attributes = {
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "occurrence_read" } },

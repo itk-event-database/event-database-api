@@ -28,11 +28,11 @@ class OccurrenceSplitterServiceTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testGetDailyOccurrences(Occurrence $occurrence, string $dateSeparatorTime, string $dateSeparatorTimezone, int $expected): void
+    public function testCreateDailyOccurrenceCollection(Occurrence $occurrence, string $dateSeparatorTime, string $dateSeparatorTimezone, int $expected): void
     {
         $splitter = new OccurrenceSplitterService($dateSeparatorTime, $dateSeparatorTimezone);
 
-        $dailyOccurrences = $splitter->getDailyOccurrences($occurrence)->toArray();
+        $dailyOccurrences = $splitter->createDailyOccurrenceCollection($occurrence)->toArray();
 
         $this->assertCount($expected, $dailyOccurrences);
 

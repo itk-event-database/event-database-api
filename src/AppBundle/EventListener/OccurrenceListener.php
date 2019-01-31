@@ -65,7 +65,7 @@ class OccurrenceListener
         $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
 
         foreach ($occurrences as $occurrence) {
-            $dailyOccurrences = $this->occurrenceSplitter->getDailyOccurrences($occurrence);
+            $dailyOccurrences = $this->occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
 
             foreach ($dailyOccurrences as $dailyOccurrence) {
                 $em->persist($dailyOccurrence);
@@ -94,7 +94,7 @@ class OccurrenceListener
         $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
 
         foreach ($occurrences as $occurrence) {
-            $newDailyOccurrences = $this->occurrenceSplitter->getDailyOccurrences($occurrence);
+            $newDailyOccurrences = $this->occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
             $existingDailyOccurrences = $em->getRepository(DailyOccurrence::class)->findByOccurrence($occurrence);
 
             // Loop through new DailyOccurrences and copy their data to the first exiting DailyOccurrence to update

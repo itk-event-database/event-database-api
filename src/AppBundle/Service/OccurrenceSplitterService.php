@@ -49,7 +49,7 @@ class OccurrenceSplitterService
     }
 
     /**
-     * Get new DailyOccurrences from an Occurrence.
+     * Create a collection of DailyOccurrences in chronological order from an Occurrence.
      *
      * @param Occurrence $occurrence
      *
@@ -57,11 +57,27 @@ class OccurrenceSplitterService
      *
      * @return Collection
      */
-    public function getDailyOccurrences(Occurrence $occurrence): Collection
+    public function createDailyOccurrenceCollection(Occurrence $occurrence): Collection
     {
         $dailyOccurrences = new ArrayCollection();
         if ($occurrence->getStartDate() && $occurrence->getEndDate() && $occurrence->getStartDate() <= $occurrence->getEndDate()) {
-            $this->createDailyOccurrenceCollection($occurrence, $dailyOccurrences);
+            $tempOccurrence = clone $occurrence;
+            $splitDate = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
+
+            if ($tempOccurrence->getStartDate() < $splitDate && $tempOccurrence->getEndDate() > $splitDate) {
+                while ($tempOccurrence->getStartDate() < $splitDate && $tempOccurrence->getEndDate() > $splitDate) {
+                    $dailyOccurrence = $this->createDailyOccurrence($tempOccurrence->getStartDate(), $splitDate, $occurrence);
+                    $dailyOccurrences->add($dailyOccurrence);
+
+                    $tempOccurrence->setStartDate($splitDate);
+                    $splitDate = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
+                }
+            }
+
+            if ($tempOccurrence->getStartDate() < $tempOccurrence->getEndDate()) {
+                $dailyOccurrence = $this->createDailyOccurrence($tempOccurrence->getStartDate(), $tempOccurrence->getEndDate(), $occurrence);
+                $dailyOccurrences->add($dailyOccurrence);
+            }
         }
 
         return $dailyOccurrences;
@@ -79,37 +95,6 @@ class OccurrenceSplitterService
             $value = $this->propertyAccessor->getValue($from, $propertyPath);
             $this->propertyAccessor->setValue($to, $propertyPath, $value);
         }
-    }
-
-    /**
-     * Create a collection of DailyOccurrences from an Occurrence.
-     *
-     * @param Occurrence $occurrence
-     * @param Collection $dailyOccurrences
-     *
-     * @throws \Exception
-     *
-     * @return Collection
-     */
-    private function createDailyOccurrenceCollection(Occurrence $occurrence, Collection $dailyOccurrences): Collection
-    {
-        $tempOccurrence = clone $occurrence;
-        $splitDate = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
-
-        if ($tempOccurrence->getStartDate() < $splitDate && $tempOccurrence->getEndDate() > $splitDate) {
-            while ($tempOccurrence->getStartDate() < $splitDate && $tempOccurrence->getEndDate() > $splitDate) {
-                $dailyOccurrence = $this->createDailyOccurrence($tempOccurrence->getStartDate(), $splitDate, $occurrence);
-                $dailyOccurrences->add($dailyOccurrence);
-
-                $tempOccurrence->setStartDate($splitDate);
-                $splitDate = $this->getFirstSplitDateTime($tempOccurrence->getStartDate());
-            }
-        }
-
-        $dailyOccurrence = $this->createDailyOccurrence($tempOccurrence->getStartDate(), $tempOccurrence->getEndDate(), $occurrence);
-        $dailyOccurrences->add($dailyOccurrence);
-
-        return $dailyOccurrences;
     }
 
     /**
