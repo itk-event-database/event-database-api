@@ -53,7 +53,7 @@ class GenerateCommand extends ContainerAwareCommand
         foreach ($iterableResult as $row) {
             $occurrence = $row[0];
 
-            $newDailyOccurrences = $occurrenceSplitter->getDailyOccurrences($occurrence);
+            $newDailyOccurrences = $occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
             $existingDailyOccurrences = $em->getRepository(DailyOccurrence::class)->findByOccurrence($occurrence);
 
             // Loop through new DailyOccurrences and copy their data to the first exiting DailyOccurrence to update
