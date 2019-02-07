@@ -189,7 +189,7 @@ Feature: Occurrences
       },
       {
         "startDate": "2020-01-01",
-        "endDate": "2100-01-01",
+        "endDate": "2024-01-01",
         "place": {
           "name": "Another place"
         }
@@ -204,12 +204,12 @@ Feature: Occurrences
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
     And the JSON node "hydra:member" should have 30 elements
-    And the JSON node "hydra:totalItems" should be equal to 29588
-    And the JSON node "hydra:view.hydra:last" should be equal to "/api/daily_occurrences?startDate%5Bafter%5D=%400&endDate%5Bafter%5D=%400&page=987"
+    And the JSON node "hydra:totalItems" should be equal to 1829
+    And the JSON node "hydra:view.hydra:last" should be equal to "/api/daily_occurrences?startDate%5Bafter%5D=%400&endDate%5Bafter%5D=%400&page=61"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&page=987"
-    And the JSON node "hydra:member" should have 8 elements
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&page=61"
+    And the JSON node "hydra:member" should have 29 elements
 
   Scenario: Update an event with multiple occurrences it should update the relevant daily occurrences
     When I authenticate as "api-write"
@@ -247,7 +247,7 @@ Feature: Occurrences
                "@type": "Occurrence",
                "event": "\/api\/events\/2",
                "startDate": "2020-01-01T00:00:00+01:00",
-               "endDate": "2030-01-01T00:00:00+01:00",
+               "endDate": "2025-11-21T00:00:00+01:00",
                "place": {
                    "@id": "\/api\/places\/2",
                    "@type": "http:\/\/schema.org\/Place",
@@ -283,14 +283,14 @@ Feature: Occurrences
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
     And the JSON node "hydra:member" should have 30 elements
-    And the JSON node "hydra:totalItems" should be equal to 3685
-    And the JSON node "hydra:view.hydra:last" should be equal to "/api/daily_occurrences?startDate%5Bafter%5D=%400&endDate%5Bafter%5D=%400&page=123"
+    And the JSON node "hydra:totalItems" should be equal to 2183
+    And the JSON node "hydra:view.hydra:last" should be equal to "/api/daily_occurrences?startDate%5Bafter%5D=%400&endDate%5Bafter%5D=%400&page=73"
     And the JSON node "hydra:member[0].place.name" should be equal to "Some new place"
     And the JSON node "hydra:member[0].ticketPriceRange" should be equal to "20-30 Kr."
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&page=123"
-    And the JSON node "hydra:member" should have 25 elements
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&page=73"
+    And the JSON node "hydra:member" should have 23 elements
     And the JSON node "hydra:member[0].place.name" should be equal to "Another new place"
     And the JSON node "hydra:member[0].ticketPriceRange" should be equal to "40-50 Kr."
 

@@ -34,15 +34,15 @@ Feature: Occurrences
     {
       "name": "Repeating event",
       "occurrences": [ {
-        "startDate": "2000-01-01",
-        "endDate": "2001-01-01",
+        "startDate": "2007-01-01",
+        "endDate": "2009-01-01",
         "place": {
           "name": "Some place"
         }
       },
       {
-        "startDate": "2020-01-01",
-        "endDate": "2100-01-01",
+        "startDate": "2023-11-01",
+        "endDate": "2027-05-01",
         "place": {
           "name": "Another place"
         }
@@ -162,7 +162,7 @@ Feature: Occurrences
       },
       {
         "startDate": "2020-01-01",
-        "endDate": "2100-01-01",
+        "endDate": "2025-01-01",
         "place": {
           "name": "Another place"
         }
@@ -210,7 +210,7 @@ Feature: Occurrences
                "@type": "Occurrence",
                "event": "\/api\/events\/2",
                "startDate": "2020-01-01T00:00:00+01:00",
-               "endDate": "2100-01-01T00:00:00+01:00",
+               "endDate": "2027-01-01T00:00:00+01:00",
                "place": {
                    "@id": "\/api\/places\/2",
                    "@type": "http:\/\/schema.org\/Place",
