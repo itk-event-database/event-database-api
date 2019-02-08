@@ -71,12 +71,18 @@ class Xml extends FeedReader
      * @param bool $failOnError
      *
      * @return null|string
+     *
+     * @throws \Exception
      */
     private function getValue(\SimpleXMLElement $el, $path, $failOnError = false)
     {
+        if (!$path) {
+            return null;
+        }
+
         $values = $this->getItems($el, $path, $failOnError);
 
-        return (count($values) > 0) ? trim((string) $values[0]) : null;
+        return (is_array($values) && count($values) > 0) ? trim((string) $values[0]) : null;
     }
 
     /**
