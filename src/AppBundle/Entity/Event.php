@@ -268,18 +268,14 @@ class Event extends Thing implements CustomTaggable, Blameable
             }
         }
 
-        $this->occurrences = $occurrences;
-
-        foreach ($this->occurrences as $occurrence) {
+        foreach ($occurrences as $occurrence) {
+            $this->occurrences->add($occurrence);
             $occurrence->setEvent($this);
         }
 
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getOccurrences()
     {
         return $this->occurrences;
