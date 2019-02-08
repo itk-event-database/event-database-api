@@ -31,6 +31,8 @@ framework:
     fragments: ~
     http_method_override: true
     assets: ~
+    property_info:
+        enabled: true
 
 # Twig Configuration
 twig:
@@ -59,13 +61,7 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_general_ci
-        server_version: '10.2.15'
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path: '%database_path%'
+        server_version: 10.2.21-mariadb
         schema_filter: ~^(?!craue_config_setting)~
 
     orm:

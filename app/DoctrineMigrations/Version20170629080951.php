@@ -11,8 +11,8 @@
 namespace Application\Migrations;
 
 use AppBundle\Entity\Place;
-use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -24,7 +24,7 @@ class Version20170629080951 extends AbstractMigration
      *
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $updateSql = 'update event set repeating_occurrences = :repeating_occurrences where id = :id';
         $updateStmt = $this->connection->prepare($updateSql);
@@ -40,9 +40,9 @@ class Version20170629080951 extends AbstractMigration
                 $row['repeating_occurrences'] = serialize($data);
 
                 $updateStmt->execute([
-            'id' => $row['id'],
-            'repeating_occurrences' => $row['repeating_occurrences'],
-          ]);
+                'id' => $row['id'],
+                'repeating_occurrences' => $row['repeating_occurrences'],
+                ]);
                 echo '; place: '.$data['place'];
             }
             echo PHP_EOL;
@@ -52,7 +52,7 @@ class Version20170629080951 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         // There is no going back …
     }

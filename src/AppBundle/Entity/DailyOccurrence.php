@@ -14,25 +14,27 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * An occurrence of an Event.
+ * A daily occurrence of an Event.
  *
  * @ORM\Entity
  *
  * @ApiResource(
+ *   collectionOperations={"get"},
+ *   itemOperations={"get"},
  *   attributes = {
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "occurrence_read" } },
- *     "denormalization_context" = { "groups" = { "event_write" } },
  *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.search.event_tag", "occurrence.search.published", "occurrence.order" }
  *   }
  * )
+ *
  * @ORM\Table(
  *   indexes={
  *     @ORM\Index(name="IDX_OCCURRENCE_DATES", columns={"start_date", "end_date"})
  *   }
  * )
  */
-class Occurrence extends Entity
+class DailyOccurrence
 {
     use OccurrenceTrait;
 
@@ -44,6 +46,11 @@ class Occurrence extends Entity
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Occurrence")
+     */
+    private $occurrence;
 
     /**
      * Sets id.
@@ -67,5 +74,29 @@ class Occurrence extends Entity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get occurrence.
+     *
+     * @return Occurrence
+     */
+    public function getOccurrence(): Occurrence
+    {
+        return $this->occurrence;
+    }
+
+    /**
+     * Set occurrence.
+     *
+     * @param $occurrence
+     *
+     * @return DailyOccurrence
+     */
+    public function setOccurrence(Occurrence $occurrence): self
+    {
+        $this->occurrence = $occurrence;
+
+        return $this;
     }
 }
