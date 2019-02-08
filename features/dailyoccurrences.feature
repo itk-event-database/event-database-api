@@ -13,13 +13,30 @@ Feature: Occurrences
   @createSchema
   Scenario: Anonymous access
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/daily_occurrences"
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
 
+  Scenario: No write endpoints for daily occurrences
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/daily_occurrences"
+    Then the response status code should be 405
+
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "PUT" request to "/api/daily_occurrences"
+    Then the response status code should be 405
+
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "PATCH" request to "/api/daily_occurrences"
+    Then the response status code should be 405
+
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "DELETE" request to "/api/daily_occurrences"
+    Then the response status code should be 405
+
   Scenario: Count Occurrences
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences"
+    And I send a "GET" request to "/api/daily_occurrences"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
@@ -34,15 +51,15 @@ Feature: Occurrences
     {
       "name": "Repeating event",
       "occurrences": [ {
-        "startDate": "2007-01-01",
-        "endDate": "2009-01-01",
+        "startDate": "2011-01-02T13:00:00+00:00",
+        "endDate": "2011-01-02T14:00:00+00:00",
         "place": {
           "name": "Some place"
         }
       },
       {
-        "startDate": "2023-11-01",
-        "endDate": "2027-05-01",
+        "startDate": "2012-01-02T13:00:00+00:00",
+        "endDate": "2012-01-04T14:00:00+00:00",
         "place": {
           "name": "Another place"
         }
@@ -51,83 +68,93 @@ Feature: Occurrences
     """
     Then the response status code should be 201
 
-  Scenario: Count Occurrences
+  Scenario: Count DailyOccurrences
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON node "hydra:member" should have 2 elements
+    And the JSON node "hydra:member" should have 4 elements
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
   Scenario: Order by startDate
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&order[startDate]=asc"
-    And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/2"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&order[startDate]=asc"
+    And the JSON node "hydra:member" should have 4 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/1"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/daily_occurrences/2"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&order[startDate]=desc"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&order[startDate]=desc"
     And print last JSON response
-    And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
-    And the JSON node "hydra:member[1].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member" should have 4 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/4"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/daily_occurrences/3"
 
   Scenario: Filter by date range
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=2000-01-01&endDate[before]=2010-01-10"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=2000-01-01&endDate[before]=2011-01-10"
     And the JSON node "hydra:member" should have 1 element
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=2020-01-01&endDate[before]=2100-01-01"
-    And the JSON node "hydra:member" should have 1 element
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=2012-01-01&endDate[before]=2100-01-01"
+    And the JSON node "hydra:member" should have 3 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/2"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/daily_occurrences/3"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/daily_occurrences/4"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
   Scenario: Filter by place name
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&place.name=Some place"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&place.name=Some place"
     And the JSON node "hydra:member" should have 1 element
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/1"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&place.name=Another place"
-    And the JSON node "hydra:member" should have 1 element
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/2"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&place.name=Another place&order[startDate]=asc"
+    And the JSON node "hydra:member" should have 3 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/2"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/daily_occurrences/3"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/daily_occurrences/4"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
   Scenario: Filter by event name
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.name=Repeating+event"
-    And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&event.name=Repeating+event"
+    And the JSON node "hydra:member" should have 4 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/1"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/daily_occurrences/2"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/daily_occurrences/3"
+    And the JSON node "hydra:member[3].@id" should be equal to "/api/daily_occurrences/4"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.name=eat"
-    And the JSON node "hydra:member" should have 2 elements
-    And the JSON node "hydra:member[0].@id" should be equal to "/api/occurrences/1"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&event.name=eat"
+    And the JSON node "hydra:member" should have 4 elements
+    And the JSON node "hydra:member[0].@id" should be equal to "/api/daily_occurrences/1"
+    And the JSON node "hydra:member[1].@id" should be equal to "/api/daily_occurrences/2"
+    And the JSON node "hydra:member[2].@id" should be equal to "/api/daily_occurrences/3"
+    And the JSON node "hydra:member[3].@id" should be equal to "/api/daily_occurrences/4"
     And the JSON node "hydra:member[0].event.@id" should be equal to "/api/events/1"
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&event.name=Another event"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&event.name=Another event"
     And the JSON node "hydra:member" should have 0 elements
 
   Scenario: Filter by created by
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy=2"
-    And the JSON node "hydra:member" should have 2 elements
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy=2"
+    And the JSON node "hydra:member" should have 4 elements
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy[]=2&event.createdBy[]=87"
-    And the JSON node "hydra:member" should have 2 elements
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy[]=2&event.createdBy[]=87"
+    And the JSON node "hydra:member" should have 4 elements
 
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy=87"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&event.createdBy=87"
     And the JSON node "hydra:member" should have 0 elements
 
   Scenario: Delete event
@@ -136,16 +163,16 @@ Feature: Occurrences
     And I send a "DELETE" request to "/api/events/1"
     Then the response status code should be 204
 
-  Scenario: Count Occurrences
+  Scenario: Count Daily Occurrences
     When I authenticate as "api-write"
     And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/occurrences?startDate[after]=@0"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:member" should have 0 elements
 
-  Scenario: Create an event with multiple occurrences
+  Scenario: Create an event with multiple occurrences should create multiple daily occurrences
     When I authenticate as "api-write"
     And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
@@ -162,7 +189,7 @@ Feature: Occurrences
       },
       {
         "startDate": "2020-01-01",
-        "endDate": "2025-01-01",
+        "endDate": "2024-01-01",
         "place": {
           "name": "Another place"
         }
@@ -174,7 +201,17 @@ Feature: Occurrences
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
     And the JSON node "occurrences[1].@id" should be equal to "/api/occurrences/4"
 
-  Scenario: Update an event with multiple occurrences
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    And the JSON node "hydra:member" should have 30 elements
+    And the JSON node "hydra:totalItems" should be equal to 1829
+    And the JSON node "hydra:view.hydra:last" should be equal to "/api/daily_occurrences?startDate%5Bafter%5D=%400&endDate%5Bafter%5D=%400&page=61"
+
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&page=61"
+    And the JSON node "hydra:member" should have 29 elements
+
+  Scenario: Update an event with multiple occurrences it should update the relevant daily occurrences
     When I authenticate as "api-write"
     And I add "Content-Type" header equal to "application/ld+json"
     And I add "Accept" header equal to "application/ld+json"
@@ -190,19 +227,19 @@ Feature: Occurrences
                "@type": "Occurrence",
                "event": "\/api\/events\/2",
                "startDate": "2000-01-01T00:00:00+01:00",
-               "endDate": "2001-01-01T00:00:00+01:00",
+               "endDate": "2000-01-31T00:00:00+01:00",
                "place": {
                    "@id": "\/api\/places\/1",
                    "@type": "http:\/\/schema.org\/Place",
                    "logo": null,
                    "description": null,
                    "image": null,
-                   "name": "Some place",
+                   "name": "Some new place",
                    "url": null,
                    "videoUrl": null,
                    "langcode": null
                },
-               "ticketPriceRange": null,
+               "ticketPriceRange": "20-30 Kr.",
                "eventStatusText": null
            },
            {
@@ -210,19 +247,19 @@ Feature: Occurrences
                "@type": "Occurrence",
                "event": "\/api\/events\/2",
                "startDate": "2020-01-01T00:00:00+01:00",
-               "endDate": "2027-01-01T00:00:00+01:00",
+               "endDate": "2025-11-21T00:00:00+01:00",
                "place": {
                    "@id": "\/api\/places\/2",
                    "@type": "http:\/\/schema.org\/Place",
                    "logo": null,
                    "description": null,
                    "image": null,
-                   "name": "Another place",
+                   "name": "Another new place",
                    "url": null,
                    "videoUrl": null,
                    "langcode": null
                },
-               "ticketPriceRange": null,
+               "ticketPriceRange": "40-50 Kr.",
                "eventStatusText": null
            }
        ],
@@ -243,16 +280,19 @@ Feature: Occurrences
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
     And the JSON node "occurrences[1].@id" should be equal to "/api/occurrences/4"
 
-  Scenario: Get an event with multiple occurrences
-    When I authenticate as "api-write"
-    And I add "Content-Type" header equal to "application/ld+json"
-    And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/events/2"
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    And the JSON node "hydra:member" should have 30 elements
+    And the JSON node "hydra:totalItems" should be equal to 2183
+    And the JSON node "hydra:view.hydra:last" should be equal to "/api/daily_occurrences?startDate%5Bafter%5D=%400&endDate%5Bafter%5D=%400&page=73"
+    And the JSON node "hydra:member[0].place.name" should be equal to "Some new place"
+    And the JSON node "hydra:member[0].ticketPriceRange" should be equal to "20-30 Kr."
 
-    Then the response status code should be 200
-    And the JSON node "occurrences" should have 2 elements
-    And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
-    And the JSON node "occurrences[1].@id" should be equal to "/api/occurrences/4"
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0&page=73"
+    And the JSON node "hydra:member" should have 23 elements
+    And the JSON node "hydra:member[0].place.name" should be equal to "Another new place"
+    And the JSON node "hydra:member[0].ticketPriceRange" should be equal to "40-50 Kr."
 
   Scenario: Update an event with a single occurrences
     When I authenticate as "api-write"
@@ -270,7 +310,7 @@ Feature: Occurrences
                "@type": "Occurrence",
                "event": "\/api\/events\/2",
                "startDate": "2000-01-01T00:00:00+01:00",
-               "endDate": "2001-01-01T00:00:00+01:00",
+               "endDate": "2000-01-03T00:00:00+01:00",
                "place": {
                    "@id": "\/api\/places\/1",
                    "@type": "http:\/\/schema.org\/Place",
@@ -302,15 +342,10 @@ Feature: Occurrences
     And the JSON node "occurrences" should have 1 element
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
 
-  Scenario: Get an event with a single occurrences
-    When I authenticate as "api-write"
-    And I add "Content-Type" header equal to "application/ld+json"
-    And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/events/2"
-
-    Then the response status code should be 200
-    And the JSON node "occurrences" should have 1 element
-    And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    And the JSON node "hydra:member" should have 3 elements
+    And the JSON node "hydra:totalItems" should be equal to 3
 
   @dropSchema
   Scenario: Drop schema

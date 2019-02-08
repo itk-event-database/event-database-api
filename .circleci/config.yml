@@ -49,8 +49,8 @@ jobs:
           command: sudo docker-php-ext-install pdo_mysql && sudo docker-php-ext-enable pdo_mysql
 
       - run:
-          name: Set custom PHP config
-          command: echo "memory_limit = 512M" | sudo tee /usr/local/etc/php/php.ini
+          name: Set PHP memory config
+          command: echo "memory_limit = 1024M" | sudo tee /usr/local/etc/php/php.ini
 
       - run:
           name: Install Redis
@@ -87,6 +87,17 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.lock" }}
+
+      # Run Migrations & Validate Database Schema
+      - run:
+          name: Run Migrations
+          command:  bin/console doctrine:migrations:migrate --no-interaction --env=circleci
+      - run:
+          name: Validate Schema
+          command:  bin/console doctrine:schema:validate --env=circleci
+      - run:
+          name: Reset Database
+          command:  bin/console doctrine:database:drop --force --env=circleci && bin/console doctrine:database:create --env=circleci
 
       # run tests!
       - run:

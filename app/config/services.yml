@@ -38,6 +38,12 @@ services:
             -
                 fallback_image_url: '%fallback_image_url%'
 
+    app.occurrence_splitter:
+        class: AppBundle\Service\OccurrenceSplitterService
+        arguments:
+            $dateSeparatorTime: '%date_separator_time%'
+            $dateSeparatorTimezone: '%date_separator_timezone%'
+
     # Factories
     entity_factory:
         class: AdminBundle\Factory\EntityFactory
@@ -92,6 +98,13 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postLoad }
+
+    event.occurrence_listener:
+        class: AppBundle\EventListener\OccurrenceListener
+        arguments:
+            - '@app.occurrence_splitter'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
 
     feed_reader.base:
         class: AdminBundle\Service\FeedReader\FeedReader
@@ -346,3 +359,9 @@ services:
 
     AdminBundle\Service\AuthenticatorService:
         alias: authenticator
+
+    # doctrine:schema:validate does not use config:schema_filter so we manually ignore here
+    ignore_tables_listener:
+        class: AdminBundle\EventListener\IgnoreTablesListener
+        tags:
+            - {name: doctrine.event_listener, event: postGenerateSchema }
