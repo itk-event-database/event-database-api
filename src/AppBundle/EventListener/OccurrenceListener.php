@@ -57,12 +57,22 @@ class OccurrenceListener
     {
         $uow = $em->getUnitOfWork();
         $entities = $uow->getScheduledEntityInsertions();
+        $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
+
+        $dailyOccurrences = array_filter($entities, function ($entity) {
+            return $entity instanceof DailyOccurrence;
+        });
+
+        // Flush might get called multiple times causing duplicates if we don't remove
+        foreach ($dailyOccurrences as $dailyOccurrence) {
+            $em->remove($dailyOccurrence);
+            $uow->computeChangeSet($classMetadata, $dailyOccurrence);
+        }
 
         $occurrences = array_filter($entities, function ($entity) {
             return $entity instanceof Occurrence;
         });
 
-        $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
 
         foreach ($occurrences as $occurrence) {
             $dailyOccurrences = $this->occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
