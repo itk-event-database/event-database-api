@@ -10,6 +10,12 @@ Feature: Occurrences
       | api-write  | apipass  | ROLE_API_WRITE |
       | api-write2 | apipass  | ROLE_API_WRITE |
 
+    Given the following tags exist:
+      | name   |
+      | apple  |
+      | banana |
+      | citrus |
+
   @createSchema
   Scenario: Anonymous access
     When I add "Accept" header equal to "application/ld+json"
@@ -34,9 +40,9 @@ Feature: Occurrences
     And I send a "DELETE" request to "/api/daily_occurrences"
     Then the response status code should be 405
 
-  Scenario: Count Occurrences
+  Scenario: Count Daily Occurrences
     When I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/daily_occurrences"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
@@ -346,6 +352,85 @@ Feature: Occurrences
     And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
     And the JSON node "hydra:member" should have 3 elements
     And the JSON node "hydra:totalItems" should be equal to 3
+
+  Scenario: Delete event 2
+    When I authenticate as "api-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "DELETE" request to "/api/events/2"
+    Then the response status code should be 204
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:member" should have 0 elements
+
+  Scenario: Create an event with one occurrence
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "Single event",
+      "tags": ["apple"],
+      "occurrences": [{
+        "startDate": "2011-01-02T13:00:00+00:00",
+        "endDate": "2011-01-02T14:00:00+00:00",
+        "place": {
+          "name": "Some place"
+        }
+      }]
+    }
+    """
+    Then the response status code should be 201
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:member" should have 1 elements
+
+  Scenario: Update an event with one occurrence
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "PUT" request to "/api/events/3" with body:
+    """
+    {
+      "@context": "\/api\/contexts\/Event",
+      "@id": "\/api\/events\/1",
+      "@type": "http:\/\/schema.org\/Event",
+      "name": "Single event",
+      "tags": ["banana"],
+      "occurrences": [{
+        "startDate": "2011-01-03T13:00:00+00:00",
+        "endDate": "2011-01-03T14:00:00+00:00",
+        "place": {
+          "name": "Some other place"
+        }
+      }]
+    }
+    """
+    Then the response status code should be 200
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:member" should have 1 elements
+
+  Scenario: Delete event 3
+    When I authenticate as "api-write"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "DELETE" request to "/api/events/3"
+    Then the response status code should be 204
+    When I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/daily_occurrences?startDate[after]=@0&endDate[after]=@0"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:member" should have 0 elements
 
   @dropSchema
   Scenario: Drop schema
