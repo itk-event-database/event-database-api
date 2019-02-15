@@ -136,7 +136,7 @@ class OccurrenceSplitterService
         $split->setTimezone($this->dateSeparatorTimezone);
         $split->setTime($this->splitHour, $this->splitMinute, $this->splitSecond);
 
-        if ($this->isAfterSplitTime($dateTime)) {
+        if ($dateTime >= $split) {
             $oneDay = new \DateInterval('P1D');
             $split->add($oneDay);
         }
@@ -144,21 +144,5 @@ class OccurrenceSplitterService
         $split->setTimezone($dateTime->getTimezone());
 
         return $split;
-    }
-
-    /**
-     * Compares if the time of the given datetime object is before the configured split time.
-     *
-     * @param \DateTime $dateTime
-     *
-     * @return bool
-     */
-    private function isAfterSplitTime(\DateTime $dateTime): bool
-    {
-        $split = clone $dateTime;
-        $split->setTimezone($this->dateSeparatorTimezone);
-        $split->setTime($this->splitHour, $this->splitMinute, $this->splitSecond);
-
-        return $dateTime >= $split;
     }
 }

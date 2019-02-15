@@ -49,6 +49,7 @@ class DailyOccurrence
 
     /**
      * @ORM\ManyToOne(targetEntity="Occurrence")
+     * @ORM\JoinColumn(name="occurrence_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $occurrence;
 

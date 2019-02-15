@@ -87,6 +87,9 @@ class GenerateCommand extends ContainerAwareCommand
             ++$i;
         }
 
+        $em->flush();
+        $em->clear();
+
         $progressBar->finish();
     }
 }
