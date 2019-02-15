@@ -40,9 +40,14 @@ class OccurrenceListener
     {
         $em = $args->getEntityManager();
 
+        // Insert new
         $this->insertDailyOccurrences($em);
-        $this->deleteDailyOccurrences($em);
+
+        // Update changed
         $this->synchronizeDailyOccurrences($em);
+
+        // Delete scenario is handled on the database level by
+        // onDelete="CASCADE" on the entity relation
     }
 
     /**
@@ -129,31 +134,6 @@ class OccurrenceListener
                 $uow->computeChangeSet($classMetadata, $existingDailyOccurrences[$count]);
                 ++$count;
             }
-        }
-    }
-
-    /**
-     * Delete DailyOccurrences matching the Occurrences scheduled for deletion
-     * in doctrines unit of work.
-     *
-     * @param EntityManager $em
-     */
-    private function deleteDailyOccurrences(EntityManager $em): void
-    {
-        $uow = $em->getUnitOfWork();
-        $entities = $uow->getScheduledEntityDeletions();
-
-        $occurrences = array_filter($entities, function ($entity) {
-            return $entity instanceof Occurrence;
-        });
-
-        if ($occurrences) {
-            $qb = $em->createQueryBuilder();
-            $qb->delete(DailyOccurrence::class, 'do');
-            $qb->where('do.occurrence IN (:occurrences)');
-            $qb->setParameter('occurrences', array_values($occurrences));
-
-            $qb->getQuery()->execute();
         }
     }
 }
