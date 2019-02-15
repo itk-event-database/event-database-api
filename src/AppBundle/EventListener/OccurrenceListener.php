@@ -47,7 +47,7 @@ class OccurrenceListener
         $this->synchronizeDailyOccurrences($em);
 
         // Delete scenario is handled on the database level by
-        // onDelete="CASCADE" on the entity relation
+        // onDelete="CASCADE" on the entity relation in DailyOccurrence
     }
 
     /**
