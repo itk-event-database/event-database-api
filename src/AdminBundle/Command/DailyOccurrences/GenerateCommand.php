@@ -11,6 +11,7 @@
 namespace AdminBundle\Command\DailyOccurrences;
 
 use AppBundle\Entity\DailyOccurrence;
+use AppBundle\EventListener\OccurrenceListener;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +29,19 @@ class GenerateCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        // Disable the OccurrenceListener to prevent daily occurrences from
+        // being removed (cf. "Flush might get called multiple times causing
+        // duplicates if we don't remove")
+        $evm = $em->getEventManager();
+        foreach ($evm->getListeners() as $event => $listeners) {
+            foreach ($listeners as $hash => $listener) {
+                if ($listener instanceof OccurrenceListener) {
+                    $evm->removeEventListener(['onFlush'], $listener);
+                }
+            }
+        }
+
         $occurrenceSplitter = $this->getContainer()->get('app.occurrence_splitter');
 
         $batchSize = 50;
@@ -52,7 +66,6 @@ class GenerateCommand extends ContainerAwareCommand
 
         foreach ($iterableResult as $row) {
             $occurrence = $row[0];
-
             $newDailyOccurrences = $occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
             $existingDailyOccurrences = $em->getRepository(DailyOccurrence::class)->findByOccurrence($occurrence);
 
