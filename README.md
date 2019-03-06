@@ -1,6 +1,8 @@
 Event database – the API
 ========================
 
+[![CircleCI](https://circleci.com/gh/itk-event-database/event-database-api/tree/master.svg?style=svg)](https://circleci.com/gh/itk-event-database/event-database-api/tree/master)
+
 Based on https://api-platform.com/
 
 Installation
