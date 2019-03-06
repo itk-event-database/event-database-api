@@ -41,6 +41,7 @@ services:
               occurrences.place.id: 'exact'
               occurrences.place.postalCode: 'exact'
               organizer.id: 'exact'
+              url: 'exact'
         tags: [{ name: 'api_platform.filter', id: 'event.search' }]
 
     resource.event.search_owner_filter:
@@ -147,6 +148,7 @@ services:
               event.name: 'partial'
               event.organizer.id: 'exact'
               event.createdBy: 'exact'
+              event.url: 'exact'
         tags: [{ name: 'api_platform.filter', id: 'occurrence.search' }]
 
     resource.occurrence.search_date_filter:
