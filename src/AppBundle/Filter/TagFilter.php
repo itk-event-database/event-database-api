@@ -15,6 +15,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
+use AppBundle\Entity\OccurrenceTrait;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -77,7 +78,10 @@ class TagFilter extends AbstractFilter
             return;
         }
 
-        $resource = Occurrence::class === $resourceClass ? new Event() : new $resourceClass();
+        // @TODO check for actual event relation
+        $hasEventRelation = in_array(OccurrenceTrait::class, class_uses($resourceClass), true);
+
+        $resource = $hasEventRelation ? new Event() : new $resourceClass();
         if (!$resource instanceof Taggable) {
             return;
         }
@@ -105,7 +109,7 @@ class TagFilter extends AbstractFilter
                 }
             }
 
-            if (Occurrence::class === $resourceClass) {
+            if ($hasEventRelation) {
                 $alias = 'o';
                 $valueParameter = $queryNameGenerator->generateParameterName($property);
                 $queryBuilder
