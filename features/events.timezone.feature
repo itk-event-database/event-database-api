@@ -20,8 +20,8 @@ Feature: Events
     {
       "name": "Event",
       "occurrences": [ {
-        "startDate": "2000-01T00:00:00+00:00",
-        "endDate": "2100-01T00:00:00+00:00"
+        "startDate": "2005-01T00:00:00+00:00",
+        "endDate": "2010-01T00:00:00+00:00"
       } ]
     }
     """
@@ -30,8 +30,8 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
     And the JSON node "occurrences" should have 1 element
-    And the JSON node "occurrences[0].startDate" should be equal to "2000-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].startDate" should be equal to "2005-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2010-01-01T00:00:00+00:00"
 
   Scenario: Create another event
     When I authenticate as "api-write"
@@ -42,8 +42,8 @@ Feature: Events
     {
       "name": "Event",
       "occurrences": [ {
-        "startDate": "2000-01T00:00:00+02:00",
-        "endDate": "2100-01T00:00:00+02:00"
+        "startDate": "2019-01T00:00:00+02:00",
+        "endDate": "2025-01T00:00:00+02:00"
       } ]
     }
     """
@@ -52,8 +52,8 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
     And the JSON node "occurrences" should have 1 element
-    And the JSON node "occurrences[0].startDate" should be equal to "2000-01-01T00:00:00+02:00"
-    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+02:00"
+    And the JSON node "occurrences[0].startDate" should be equal to "2019-01-01T00:00:00+02:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2025-01-01T00:00:00+02:00"
 
   @dropSchema
   Scenario: Drop schema

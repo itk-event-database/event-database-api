@@ -21,14 +21,14 @@ Feature: Events
        "name": "Repeating event with multiple places",
        "occurrences": [ {
          "startDate": "2001-01-01T00:00:00+00:00",
-         "endDate": "2100-01-01T00:00:00+00:00",
+         "endDate": "2003-01-01T00:00:00+00:00",
          "place": {
            "name": "Place 1"
          }
        },
        {
          "startDate": "2002-01-01T00:00:00+00:00",
-         "endDate": "2100-01-01T00:00:00+00:00",
+         "endDate": "2004-01-01T00:00:00+00:00",
          "place": {
            "name": "Place 1"
          }
@@ -63,7 +63,7 @@ Feature: Events
        "name": "Repeating event with multiple places",
        "occurrences": [ {
          "startDate": "2003-01-01T00:00:00+00:00",
-         "endDate": "2100-01-01T00:00:00+00:00",
+         "endDate": "2005-01-01T00:00:00+00:00",
          "place": {
            "@id": "/api/places/1"
          }
@@ -77,7 +77,7 @@ Feature: Events
     And the JSON node "name" should be equal to "Repeating event with multiple places"
     And the JSON node "occurrences" should have 1 element
     And the JSON node "occurrences[0].startDate" should be equal to "2003-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2005-01-01T00:00:00+00:00"
     And the JSON node "occurrences[0].place.@id" should be equal to "/api/places/1"
     And the JSON node "occurrences[0].place.name" should be equal to "Place 1"
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
@@ -106,7 +106,7 @@ Feature: Events
                     "@type": "Occurrence",
                     "event": "\/api\/events\/2",
                     "startDate": "2003-01-01T00:00:00+01:00",
-                    "endDate": "2100-01-01T00:00:00+01:00",
+                    "endDate": "2007-01-01T00:00:00+01:00",
                     "place": {
                         "@id": "\/api\/places\/1",
                         "@type": "http:\/\/schema.org\/Place",
@@ -136,7 +136,7 @@ Feature: Events
     And the JSON node "occurrences" should have 1 element
     And the JSON node "occurrences[0].@id" should be equal to "/api/occurrences/3"
     And the JSON node "occurrences[0].startDate" should be equal to "2003-01-01T00:00:00+01:00"
-    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+01:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2007-01-01T00:00:00+01:00"
     And the JSON node "occurrences[0].place.@id" should be equal to "/api/places/1"
     And the JSON node "occurrences[0].place.name" should be equal to "Place 1"
 
@@ -161,7 +161,7 @@ Feature: Events
        "name": "Repeating event with multiple places",
        "occurrences": [ {
          "startDate": "2000-01T00:00:00+00:00",
-         "endDate": "2100-01T00:00:00+00:00",
+         "endDate": "2003-01T00:00:00+00:00",
          "place": {
            "@id": "/api/places/2"
          }
@@ -182,7 +182,7 @@ Feature: Events
        "name": "A new event",
        "occurrences": [ {
          "startDate": "2001-01-01T00:00:00+00:00",
-         "endDate": "2100-01-01T00:00:00+00:00",
+         "endDate": "2004-01-01T00:00:00+00:00",
          "place": {
            "name": "A new place",
            "url": "http://places.com/a-new-place"
@@ -206,7 +206,7 @@ Feature: Events
        "name": "A new event",
        "occurrences": [ {
          "startDate": "2001-01-01T00:00:00+00:00",
-         "endDate": "2100-01-01T00:00:00+00:00",
+         "endDate": "2005-01-01T00:00:00+00:00",
          "place": {
            "name": "A even newer place",
            "url": "http://places.com/a-new-place"

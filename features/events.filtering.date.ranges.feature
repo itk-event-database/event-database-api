@@ -18,7 +18,7 @@ Feature: Events
     """
     {
       "name": "The 1700s",
-      "occurrences": [ { "startDate": "1700-01-01", "endDate": "1799-12-31" } ]
+      "occurrences": [ { "startDate": "1700-01-01", "endDate": "1709-12-31" } ]
     }
     """
     Then the response status code should be 201
@@ -31,7 +31,7 @@ Feature: Events
     """
     {
       "name": "The 1800s",
-      "occurrences": [ { "startDate": "1800-01-01", "endDate": "1899-12-31" } ]
+      "occurrences": [ { "startDate": "1800-01-01", "endDate": "1802-12-31" } ]
     }
     """
     Then the response status code should be 201
@@ -44,7 +44,7 @@ Feature: Events
     """
     {
       "name": "The 1900s",
-      "occurrences": [ { "startDate": "1900-01-01", "endDate": "1999-12-31" } ]
+      "occurrences": [ { "startDate": "1900-01-01", "endDate": "1902-12-31" } ]
     }
     """
     Then the response status code should be 201
@@ -57,7 +57,7 @@ Feature: Events
     """
     {
       "name": "The 2000s",
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2099-12-31" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2002-12-31" } ]
     }
     """
     Then the response status code should be 201
@@ -70,7 +70,7 @@ Feature: Events
     """
     {
       "name": "The 2100s",
-      "occurrences": [ { "startDate": "2100-01-01", "endDate": "2199-12-31" } ]
+      "occurrences": [ { "startDate": "2100-01-01", "endDate": "2102-12-31" } ]
     }
     """
     Then the response status code should be 201
