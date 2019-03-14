@@ -1,7 +1,7 @@
 Feature: Occurrences
-  In order to manage occurrences
+  In order to read daily occurrences by tag
   As a client software developer
-  I need to be able to retrieve, create, update and delete occurrences trough the API.
+  I need to be able to retrieve daily occurrences trough the API filtered by tag.
 
   Background:
     Given the following users exist:

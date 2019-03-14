@@ -77,12 +77,12 @@ Feature: Events
     {
       "name": "Repeating event",
       "occurrences": [ {
-        "startDate": "2000-01T00:00:00+00:00",
+        "startDate": "2096-01T00:00:00+00:00",
         "endDate": "2100-01T00:00:00+00:00",
         "place": null
       },
       {
-        "startDate": "2000-01T00:00:00+00:00",
+        "startDate": "2098-01T00:00:00+00:00",
         "endDate": "2100-01T00:00:00+00:00"
       } ]
     }
@@ -93,9 +93,9 @@ Feature: Events
     And the JSON should be valid according to the schema "features/schema/api.event.response.schema.json"
     And the JSON node "name" should be equal to "Repeating event"
     And the JSON node "occurrences" should have 2 elements
-    And the JSON node "occurrences[0].startDate" should be equal to "2000-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].startDate" should be equal to "2096-01-01T00:00:00+00:00"
     And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[1].startDate" should be equal to "2000-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].startDate" should be equal to "2098-01-01T00:00:00+00:00"
     And the JSON node "occurrences[1].endDate" should be equal to "2100-01-01T00:00:00+00:00"
 
   Scenario: Count Events
@@ -129,12 +129,12 @@ Feature: Events
     {
       "name": "Repeating event (updated)",
       "occurrences": [ {
-        "startDate": "2000-01T00:00:00+00:00",
-        "endDate": "2100-01T00:00:00+00:00"
+        "startDate": "2024-01T00:00:00+00:00",
+        "endDate": "2026-01T00:00:00+00:00"
       },
       {
-        "startDate": "2000-01T00:00:00+00:00",
-        "endDate": "2100-01T00:00:00+00:00"
+        "startDate": "2026-01T00:00:00+00:00",
+        "endDate": "2028-01T00:00:00+00:00"
       } ]
     }
     """
@@ -143,10 +143,10 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "name" should be equal to "Repeating event (updated)"
     And the JSON node "occurrences" should have 2 elements
-    And the JSON node "occurrences[0].startDate" should be equal to "2000-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[0].endDate" should be equal to "2100-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[1].startDate" should be equal to "2000-01-01T00:00:00+00:00"
-    And the JSON node "occurrences[1].endDate" should be equal to "2100-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].startDate" should be equal to "2024-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[0].endDate" should be equal to "2026-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].startDate" should be equal to "2026-01-01T00:00:00+00:00"
+    And the JSON node "occurrences[1].endDate" should be equal to "2028-01-01T00:00:00+00:00"
 
   Scenario: Unauthorized attempt to delete an event
     When I authenticate as "api-read"
