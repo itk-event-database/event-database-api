@@ -1,7 +1,7 @@
-Feature: Events
-  In order to manage events
+Feature: Filter Daily Occurrences by tags
+  In order to read daily occurrences
   As a client software developer
-  I need to be able to retrieve, create, update and delete events trough the API.
+  I need to be able to retrieve occurrences trough the API filtered by tags.
 
   Background:
     Given the following users exist:

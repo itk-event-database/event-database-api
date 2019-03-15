@@ -12,6 +12,7 @@ namespace AppBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use AppBundle\Entity\DailyOccurrence;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Occurrence;
 use Doctrine\ORM\QueryBuilder;
@@ -23,7 +24,7 @@ class PublishedFilter extends AbstractFilter
 
     public function apply(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
-        if (Event::class !== $resourceClass && Occurrence::class !== $resourceClass) {
+        if (Event::class !== $resourceClass && Occurrence::class !== $resourceClass && DailyOccurrence::class !== $resourceClass) {
             return false;
         }
 
@@ -71,7 +72,7 @@ class PublishedFilter extends AbstractFilter
             $queryBuilder
                 ->andWhere(sprintf('%s.isPublished = :%s', $alias, $valueParameter))
                 ->setParameter($valueParameter, $value ? 1 : 0);
-        } elseif (Occurrence::class === $resourceClass) {
+        } elseif (Occurrence::class === $resourceClass || DailyOccurrence::class === $resourceClass) {
             $alias = 'e';
             $queryBuilder->join('o.event', $alias);
             $queryBuilder
