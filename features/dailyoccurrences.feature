@@ -1,7 +1,7 @@
-Feature: Occurrences
+Feature: Daily Occurrences
   In order to read daily occurrences by tag
   As a client software developer
-  I need to be able to retrieve daily occurrences trough the API filtered by tag.
+  I need to be able to retrieve daily occurrences through the API filtered by tag.
 
   Background:
     Given the following users exist:
