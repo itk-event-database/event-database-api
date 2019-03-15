@@ -4,11 +4,28 @@
 #
 version: 2
 jobs:
-  build_php_container:
+  build:
     docker:
+      # specify the version you desire here
       - image: circleci/php:7.2-apache-node-browsers
+        environment:
+          APP_ENV: circleci
 
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/mariadb:10.2.15
+        environment:
+          - MYSQL_ROOT_PASSWORD=circleci
+          - MYSQL_USER=circleci
+          - MYSQL_PASSWORD=circleci
+          - MYSQL_DATABASE=circle_test
+
+    working_directory: ~/htdocs
+    parallelism: 3
     steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: Apt-get update
           command: sudo apt-get update && sudo apt-get install -y zlib* wget openssl libicu-dev libpng-dev
@@ -41,59 +58,39 @@ jobs:
           name: Install Redis
           command: sudo apt-get install redis-server && sudo service redis-server start && redis-cli ping
 
-  site_install:
-    docker:
-      - image: circleci/php:7.2-apache-node-browsers
-        environment:
-          APP_ENV: circleci
-
-      - image: circleci/mariadb:10.2.15
-        environment:
-          - MYSQL_ROOT_PASSWORD=circleci
-          - MYSQL_USER=circleci
-          - MYSQL_PASSWORD=circleci
-          - MYSQL_DATABASE=circle_test
-
-    working_directory: ~/htdocs
-
-    steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "composer.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-composer
+            - v1-dependencies-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-composer
+
       # Composer install
       - run: sudo composer self-update
       - run: composer install -n --prefer-dist
+
       # JWT Setup
       - run: mkdir -p var/jwt
       - run: openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:test 4096
       - run: openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
+
       - run:
           name: Display PHP information
           command: |
             php -v
             php -i
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+
       - save_cache:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.lock" }}
 
-  validate_schema:
-    docker:
-      - image: circleci/php:7.2-apache-node-browsers
-        environment:
-          APP_ENV: circleci
-      - image: circleci/mariadb:10.2.15
-        environment:
-          - MYSQL_ROOT_PASSWORD=circleci
-          - MYSQL_USER=circleci
-          - MYSQL_PASSWORD=circleci
-          - MYSQL_DATABASE=circle_test
-    working_directory: ~/htdocs
-    steps:
+      # Run Migrations & Validate Database Schema
       - run:
           name: Run Migrations
           command:  bin/console doctrine:migrations:migrate --no-interaction --env=circleci
@@ -104,64 +101,16 @@ jobs:
           name: Reset Database
           command:  bin/console doctrine:database:drop --force --env=circleci && bin/console doctrine:database:create --env=circleci
 
-  unit_tests:
-    docker:
-      - image: circleci/php:7.2-apache-node-browsers
-        environment:
-          APP_ENV: circleci
-      - image: circleci/mariadb:10.2.15
-        environment:
-          - MYSQL_ROOT_PASSWORD=circleci
-          - MYSQL_USER=circleci
-          - MYSQL_PASSWORD=circleci
-          - MYSQL_DATABASE=circle_test
-    working_directory: ~/htdocs
-    steps:
-      - attach_workspace:
-          at: ~/
+      # run tests!
       - run:
           name: Run PHPUnit
           command: vendor/bin/phpunit
           environment:
             SYMFONY_ENV: circleci
-      - store_test_results:
-          path: ~/tests/phpunit
-
-  behat_tests:
-    docker:
-      - image: circleci/php:7.2-apache-node-browsers
-        environment:
-          APP_ENV: circleci
-      - image: circleci/mariadb:10.2.15
-        environment:
-          - MYSQL_ROOT_PASSWORD=circleci
-          - MYSQL_USER=circleci
-          - MYSQL_PASSWORD=circleci
-          - MYSQL_DATABASE=circle_test
-    working_directory: ~/htdocs
-    parallelism: 3
-    steps:
-      - attach_workspace:
-          at: ~/
       - run:
           name: Run Behat
           command: circleci tests vendor/bin/behat --profile=circleci | circleci tests split --split-by=timings
       - store_test_results:
-          path: ~/tests/behat
+          path: ~/tests/results
       - store_artifacts:
-          path: ~/tests/behat
-
-workflows:
-  version: 2
-  run-tests:
-    jobs:
-      - build_php_container
-      - site_install:
-          requires:
-            - build_php_container
-      - unit_tests:
-          requires:
-            - site_install
-      - behat_tests:
-          requires:
-            - site_install
+          path: ~/tests/artifacts
