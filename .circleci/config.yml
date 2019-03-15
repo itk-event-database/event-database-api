@@ -109,9 +109,10 @@ jobs:
             SYMFONY_ENV: circleci
       - run:
           name: Run Behat
-          command: vendor/bin/behat --profile=circleci  --list-features \
-            | circleci tests split --split-by=timings \
-            | xargs -n 1 -I % vendor/bin/behat --profile=circleci --format=junit --out=$HOME/tests/results/% --format=pretty --out=std %
+          command: |
+            vendor/bin/behat --profile=circleci  --list-features \
+              | circleci tests split --split-by=timings \
+              | xargs -n 1 -I % vendor/bin/behat --profile=circleci --format=junit --out=$HOME/tests/results/% --format=pretty --out=std %
       - store_test_results:
           path: ~/tests/results
       - store_artifacts:
