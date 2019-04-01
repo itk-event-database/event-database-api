@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.order", "event.order.default" },
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.search.text_search_filter", "event.order", "event.order.default" },
  *     "validation_groups"={"event_write"}
  *   }
  * )

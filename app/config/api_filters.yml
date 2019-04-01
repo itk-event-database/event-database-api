@@ -66,6 +66,21 @@ services:
               updatedAt: ~
         tags: [{ name: 'api_platform.filter', id: 'event.search.date' }]
 
+    resource.event.text_search_filter:
+        class: AppBundle\Filter\TextSearchFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+            - '@?logger'
+            -
+                name: search
+                fields:
+                    default:
+                    - name
+                    - excerpt
+                    - description
+        tags: [{ name: 'api_platform.filter', id: 'event.search.text_search_filter' }]
+
     resource.event.search_tag_filter:
         parent: 'app_bundle.doctrine.orm.tag_filter'
         arguments: ['tags']
