@@ -13,6 +13,7 @@ namespace AdminBundle\Factory;
 use AdminBundle\Entity\Feed;
 use AppBundle\Entity\Entity;
 use AppBundle\Entity\Event;
+use AppBundle\Entity\Occurrence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class EventFactory extends EntityFactory
