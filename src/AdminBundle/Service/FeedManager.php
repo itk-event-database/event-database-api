@@ -78,10 +78,11 @@ class FeedManager
     /**
      * Get events (indexed by id).
      *
-     * @param \AdminBundle\Entity\Feed $feed
-     * @param string                   $strategy
+     * @param Feed $feed
      *
-     * @return null|array
+     * @return array|false|null
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
     public function getCleanUpEvents(Feed $feed)
     {

@@ -114,8 +114,11 @@ class FeedReader implements Controller
     }
 
     /**
-     * @param \AdminBundle\Entity\Feed $feed
-     * @param \AppBundle\Entity\User   $user
+     * @param Feed $feed
+     * @param User|null $user
+     * @param bool $cleanUpEvents
+     *
+     * @throws \Throwable
      */
     public function read(Feed $feed, User $user = null, bool $cleanUpEvents = false)
     {

@@ -13,6 +13,7 @@ namespace AppBundle\EventListener;
 use AppBundle\Entity\DailyOccurrence;
 use AppBundle\Entity\Occurrence;
 use AppBundle\Service\OccurrenceSplitterService;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
@@ -62,17 +63,10 @@ class OccurrenceListener
     {
         $uow = $em->getUnitOfWork();
         $entities = $uow->getScheduledEntityInsertions();
-        $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
 
-        $dailyOccurrences = array_filter($entities, function ($entity) {
+        $persistedDailyOccurrences = array_filter($entities, function ($entity) {
             return $entity instanceof DailyOccurrence;
         });
-
-        // Flush might get called multiple times causing duplicates if we don't remove
-        foreach ($dailyOccurrences as $dailyOccurrence) {
-            $em->remove($dailyOccurrence);
-            $uow->computeChangeSet($classMetadata, $dailyOccurrence);
-        }
 
         $occurrences = array_filter($entities, function ($entity) {
             return $entity instanceof Occurrence;
@@ -80,12 +74,13 @@ class OccurrenceListener
 
 
         foreach ($occurrences as $occurrence) {
+            $existingDailyOccurrences = array_filter($persistedDailyOccurrences, static function ($e) use ($occurrence) {
+                return $e->getOccurrence() === $occurrence;
+            });
             $dailyOccurrences = $this->occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
 
-            foreach ($dailyOccurrences as $dailyOccurrence) {
-                $em->persist($dailyOccurrence);
-                $uow->computeChangeSet($classMetadata, $dailyOccurrence);
-            }
+            // Flush might get called multiple times causing duplicates if we don't synchronize
+            $this->synchronizeDailyOccurrenceSets($em, $existingDailyOccurrences, $dailyOccurrences);
         }
     }
 
@@ -94,7 +89,6 @@ class OccurrenceListener
      * in doctrines unit of work.
      *
      * @param EntityManager $em
-     *
      * @throws \Doctrine\ORM\ORMException
      */
     private function synchronizeDailyOccurrences(EntityManager $em): void
@@ -106,8 +100,6 @@ class OccurrenceListener
             return $entity instanceof Occurrence;
         });
 
-        $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
-
         foreach ($occurrences as $occurrence) {
             $newDailyOccurrences = $this->occurrenceSplitter->createDailyOccurrenceCollection($occurrence);
             $existingDailyOccurrences = $em->getRepository(DailyOccurrence::class)->findByOccurrence($occurrence);
@@ -115,25 +107,43 @@ class OccurrenceListener
             // Loop through new DailyOccurrences and copy their data to the first exiting DailyOccurrence to update
             // instead of doing delete/insert. Then remove the exiting DailyOccurrence.
             // Once there are no more exiting DailyOccurrences we persist new entities.
-            $count = 0;
-            $totalExisting = \count($existingDailyOccurrences);
-            foreach ($newDailyOccurrences as $newDailyOccurrence) {
-                if ($count < $totalExisting) {
-                    $this->occurrenceSplitter->copyOccurrenceTraitPropertyValues($existingDailyOccurrences[$count], $newDailyOccurrence);
-                    $uow->computeChangeSet($classMetadata, $existingDailyOccurrences[$count]);
-                } else {
-                    $em->persist($newDailyOccurrence);
-                    $uow->computeChangeSet($classMetadata, $newDailyOccurrence);
-                }
-                ++$count;
-            }
+            $this->synchronizeDailyOccurrenceSets($em, $existingDailyOccurrences, $newDailyOccurrences);
+        }
+    }
 
-            // If we still have exiting DailyOccurrence at this point they are redundant and should be deleted.
-            while ($count < $totalExisting) {
-                $em->remove($existingDailyOccurrences[$count]);
-                $uow->computeChangeSet($classMetadata, $existingDailyOccurrences[$count]);
-                ++$count;
+    /**
+     * @param EntityManager $em
+     * @param array $existingDailyOccurrences
+     * @param Collection $newDailyOccurrences
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function synchronizeDailyOccurrenceSets(EntityManager $em, array $existingDailyOccurrences, Collection $newDailyOccurrences): void
+    {
+        $uow = $em->getUnitOfWork();
+        $classMetadata = $em->getClassMetadata(DailyOccurrence::class);
+
+        // Loop through new DailyOccurrences and copy their data to the first exiting DailyOccurrence to update
+        // instead of doing delete/insert. Then remove the exiting DailyOccurrence.
+        // Once there are no more exiting DailyOccurrences we persist new entities.
+        $count = 0;
+        $existingDailyOccurrences = array_values($existingDailyOccurrences);
+        $totalExisting = \count($existingDailyOccurrences);
+        foreach ($newDailyOccurrences as $newDailyOccurrence) {
+            if ($count < $totalExisting) {
+                $this->occurrenceSplitter->copyOccurrenceTraitPropertyValues($existingDailyOccurrences[$count], $newDailyOccurrence);
+                $uow->recomputeSingleEntityChangeSet($classMetadata, $existingDailyOccurrences[$count]);
+            } else {
+                $em->persist($newDailyOccurrence);
+                $uow->computeChangeSet($classMetadata, $newDailyOccurrence);
             }
+            ++$count;
+        }
+
+        // If we still have exiting DailyOccurrence at this point they are redundant and should be deleted.
+        while ($count < $totalExisting) {
+            $em->remove($existingDailyOccurrences[$count]);
+            ++$count;
         }
     }
 }
