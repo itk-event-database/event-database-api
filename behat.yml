@@ -21,6 +21,7 @@ default:
         default:
           symfony2: ~
     Behatch\Extension: ~
+    Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
 circleci:
   extensions:
     Behat\Symfony2Extension:
