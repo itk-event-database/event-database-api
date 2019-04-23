@@ -255,8 +255,6 @@ class Event extends Thing implements CustomTaggable, Blameable
 
     public function setOccurrences($occurrences)
     {
-        // Remove (and implicitly delete) occurrences that will be orphaned after
-        // setting (new) occurrences.
         $this->occurrences->clear();
 
         foreach ($occurrences as $occurrence) {
