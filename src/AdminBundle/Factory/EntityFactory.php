@@ -104,7 +104,7 @@ abstract class EntityFactory
                 if ('string' === $mapping['type']) {
                     // Truncate string value.
                     $maxLength = $mapping['length'] ?: 255;
-                    $value = substr($value, 0, $maxLength);
+                    $value = mb_substr($value, 0, $maxLength);
                 }
             }
 
