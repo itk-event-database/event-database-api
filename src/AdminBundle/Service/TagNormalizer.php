@@ -50,7 +50,7 @@ class TagNormalizer implements TagNormalizerInterface
         $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
                 ? (int) $metadata->fieldMappings['name']['length'] : 50;
         $names = array_map(function ($name) use ($maxNameLength) {
-            return substr(trim($name), 0, $maxNameLength);
+            return mb_substr(trim($name), 0, $maxNameLength);
         }, $names);
         $tagManager = $this->getTagManager();
         $tags = $tagManager->loadTags($names);
