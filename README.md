@@ -28,6 +28,51 @@ Install assets
 bin/console assets:install
 ```
 
+## Development setup with docker
+
+```sh
+git clone --branch=develop https://github.com/itk-event-database/event-database-api event-database-api
+cd event-database-api
+docker-compose up --detach
+docker-compose exec phpfpm composer install --no-interaction
+docker-compose exec phpfpm bin/console doctrine:migrations:migrate --no-interaction
+```
+
+### Run tests
+
+```sh
+docker-compose exec phpfpm bin/console --env=test cache:clear
+docker-compose exec phpfpm vendor/bin/behat
+```
+
+### Access the site
+
+Edit `web/app_dev.php` and remove or edit the lines denying access to
+`app_dev.php`:
+
+```php
+// This check prevents access to debug front controllers that are deployed by accident to production servers.
+// Feel free to remove this, extend it, or make something more sophisticated.
+if (isset($_SERVER['HTTP_CLIENT_IP'])
+    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+    || !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'], true) || PHP_SAPI === 'cli-server')
+) {
+    header('HTTP/1.0 403 Forbidden');
+    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+}
+```
+
+```sh
+# Get url (with port) from docker
+export event_database_api_url="http://event-database-api.local.computer:$(docker-compose port reverse-proxy 80 | cut -d: -f2)"
+echo $event_database_api_url
+curl --silent --header "accept: application/ld+json" $event_database_api_url/api/events
+```
+
+**Note**: Remember to run all `bin/console` commands in the following sections
+in the `phpfpm` docker container, i.e. prepend them with `docker-compose exec
+phpfpm bin/console`.
+
 Generated images
 ----------------
 
@@ -113,7 +158,7 @@ bin/console fos:user:promote admin ROLE_SUPER_ADMIN
 
 #### Important note for Apache users
 
-Apache server [will strip](https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/index.md#important-note-for-apache-users) any `Authorization header` not in a valid HTTP BASIC AUTH format. 
+Apache server [will strip](https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/index.md#important-note-for-apache-users) any `Authorization header` not in a valid HTTP BASIC AUTH format.
 
 To use the authorization header mode of LexikJWTAuthenticationBundle, please add those rules to your VirtualHost configuration:
 
