@@ -74,18 +74,7 @@ class ContentNormalizer implements ContentNormalizerInterface
     private function truncate($value, $length, $preserve = false, $separator = '…')
     {
         $charset = 'UTF8';
-        if (mb_strlen($value, $charset) > $length) {
-            if ($preserve) {
-                // If breakpoint is on the last word, return the value without separator.
-                if (false === ($breakpoint = mb_strpos($value, ' ', $length, $charset))) {
-                    return $value;
-                }
-                $length = $breakpoint;
-            }
 
-            return rtrim(mb_substr($value, 0, $length, $charset)).$separator;
-        }
-
-        return $value;
+        return mb_substr($value, 0, $length);
     }
 }
