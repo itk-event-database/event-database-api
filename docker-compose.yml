@@ -1,19 +1,17 @@
 version: "3"
 
-services:
-  database:
-    image: itkdev/mariadb:latest
-    ports:
-      - '3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_USER=db
-      - MYSQL_PASSWORD=db
-      - MYSQL_DATABASE=db
-      #- ENCRYPT=1 # Uncomment to enable database encryptionn.
+networks:
+  frontend:
+    external: true
+  app:
+    driver: bridge
+    internal: false
 
-  database_test:
+services:
+  mariadb:
     image: itkdev/mariadb:latest
+    networks:
+      - app
     ports:
       - '3306'
     environment:
@@ -21,27 +19,30 @@ services:
       - MYSQL_USER=db
       - MYSQL_PASSWORD=db
       - MYSQL_DATABASE=db
-      #- ENCRYPT=1 # Uncomment to enable database encryptionn.
+      #- ENCRYPT=1 # Uncomment to enable database encryption.
 
   phpfpm:
     image: itkdev/php7.2-fpm:latest
+    networks:
+      - app
     environment:
       - PHP_XDEBUG=${PHP_XDEBUG:-0}
       - PHP_XDEBUG_REMOTE_AUTOSTART=${PHP_XDEBUG_REMOTE_AUTOSTART:-0}
-      - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-0.0.0.0}
       - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=256M
       # - PHP_MAIL=1 # Uncomment to enable mailhog.
-      - DOCKER_HOST_DOMAIN=${COMPOSE_PROJECT_NAME}.local.computer
+      - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
     depends_on:
-      - database
-      - database_test
+      - mariadb
     volumes:
       - .:/app:delegated
 
   nginx:
     image: nginx:latest
+    networks:
+      - app
+      - frontend
     depends_on:
       - phpfpm
     ports:
@@ -50,10 +51,14 @@ services:
       - ${PWD}/.docker/vhost.conf:/etc/nginx/conf.d/default.conf:ro
       - ./:/app:delegated
     labels:
-      - "traefik.frontend.rule=Host:${COMPOSE_PROJECT_NAME}.local.computer"
+      - "traefik.enable=true"
+      - "traefik.docker.network=frontend"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
 
   memcached:
     image: 'memcached:latest'
+    networks:
+      - app
     ports:
       - '11211'
     environment:
@@ -61,15 +66,8 @@ services:
 
   mailhog:
     image: mailhog/mailhog
+    networks:
+      - app
     ports:
       - "1025"
       - "8025"
-
-  reverse-proxy:
-    image: traefik  # The official Traefik docker image
-    command: --api --docker  # Enables the web UI and tells Traefik to listen to docker
-    ports:
-      - "80"
-      - "8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
