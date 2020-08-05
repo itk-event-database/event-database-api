@@ -33,7 +33,7 @@
         ]
     },
     "require": {
-        "php": "~7.2.0",
+        "php": "~7.2.5",
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-pcntl": "*",
@@ -67,8 +67,10 @@
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/property-access": "^3.1",
         "symfony/property-info": "^3.4",
+        "symfony/string": "^5.1",
         "symfony/swiftmailer-bundle": "^2.6.4",
         "symfony/symfony": "^3.4",
+        "symfony/translation-contracts": "^2.1",
         "twig/twig": "^1.0||^2.0",
         "vich/uploader-bundle": "^1.5"
     },
