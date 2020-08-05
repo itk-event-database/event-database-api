@@ -2,16 +2,16 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 127.0.0.1
+    database_host: mariadb
     database_port: ~
-    database_name: event_db_api
-    database_user: root
-    database_password: ~
+    database_name: db
+    database_user: db
+    database_password: db
     # You should uncomment this if you want use pdo_sqlite
     # database_path: '%kernel.root_dir%/data.db3'
 
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
+    mailer_host: mailhog
     mailer_port: ~
     mailer_user: ~
     mailer_password: ~
@@ -49,7 +49,7 @@ parameters:
     date_separator_time: 03:00:00
     date_separator_timezone: Europe/Copenhagen
 
-    router.request_context.host: event-database-api.vm
+    router.request_context.host: event-database-api.local.computer
     router.request_context.scheme: http
 
     liip_imagine_filter_sets:

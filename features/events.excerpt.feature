@@ -52,7 +52,7 @@ Feature: Events
     }
     """
     Then the response status code should be 201
-    And the JSON node "excerpt" should be equal to "Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini abcdefghijklmn"
+    And the JSON node "excerpt" should be equal to "Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini abcde"
 
     When I authenticate as "api-write"
     And I add "Content-Type" header equal to "application/ld+json"
@@ -66,7 +66,7 @@ Feature: Events
     }
     """
     Then the response status code should be 201
-    And the JSON node "excerpt" should be equal to "Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini tuo da…"
+    And the JSON node "excerpt" should be equal to "Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini tuo da gloriam. Non nobis, Domine, non nobis, sed nomini tuo d"
 
   @dropSchema
   Scenario: Drop schema

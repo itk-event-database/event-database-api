@@ -18,3 +18,4 @@
 web/feeds
 app/config/feeds.yml
 .php_cs.cache
+.env.local
