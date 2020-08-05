@@ -104,7 +104,7 @@ jobs:
       # run tests!
       - run:
           name: Run PHPUnit
-          command: vendor/bin/phpunit
+          command: vendor/bin/phpunit | circleci tests split --split-by=timings
           environment:
             SYMFONY_ENV: circleci
       - run:

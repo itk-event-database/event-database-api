@@ -12,6 +12,7 @@ namespace AdminBundle\Service;
 
 use AppBundle\Entity\Tag;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TagNormalizer implements TagNormalizerInterface
 {
@@ -49,9 +50,20 @@ class TagNormalizer implements TagNormalizerInterface
         $metadata = $em->getClassMetadata(Tag::class);
         $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
                 ? (int) $metadata->fieldMappings['name']['length'] : 50;
+
+        // Ensure we don't exceed field length in db
         $names = array_map(function ($name) use ($maxNameLength) {
             return mb_substr(trim($name), 0, $maxNameLength);
         }, $names);
+
+        // Remove accents etc. to ensure our comparisons here match the unique constraint on the db column.
+        // E.g. e === è in DB but not in PHP causing:
+        // "Integrity constraint violation: 1062 Duplicate entry 'babycafé' for key 'UNIQ_12F66F525E237E06'"
+        $slugger = new AsciiSlugger();
+        $names = array_map(function ($name) use ($slugger) {
+            $slugger->slug($name, ' ');
+        }, $names);
+
         $tagManager = $this->getTagManager();
         $tags = $tagManager->loadTags($names);
 
