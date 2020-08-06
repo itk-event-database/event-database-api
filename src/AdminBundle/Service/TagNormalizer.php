@@ -59,10 +59,11 @@ class TagNormalizer implements TagNormalizerInterface
         // Remove accents etc. to ensure our comparisons here match the unique constraint on the db column.
         // E.g. e === è in DB but not in PHP causing:
         // "Integrity constraint violation: 1062 Duplicate entry 'babycafé' for key 'UNIQ_12F66F525E237E06'"
-        $slugger = new AsciiSlugger();
-        $names = array_map(function ($name) use ($slugger) {
-            $slugger->slug($name, ' ');
-        }, $names);
+        // @TODO This bug needs to be fixed. Find better solution than this
+        // $slugger = new AsciiSlugger('da');
+        // $names = array_map(function ($name) use ($slugger) {
+        //    return $slugger->slug($name, ' ')->toString();
+        // }, $names);
 
         $tagManager = $this->getTagManager();
         $tags = $tagManager->loadTags($names);
