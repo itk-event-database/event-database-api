@@ -46,6 +46,7 @@ services:
       - PHP_MEMORY_LIMIT=256M
       # - PHP_MAIL=1 # Uncomment to enable mailhog.
       - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
+      - PHP_IDE_CONFIG=serverName=localhost
     depends_on:
       - mariadb
     volumes:
