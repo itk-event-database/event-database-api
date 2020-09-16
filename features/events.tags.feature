@@ -65,7 +65,7 @@ Feature: Events
     {
       "name": "Another tagged event",
       "tags": [ "banana", "CITRUS" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -83,7 +83,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ "æble" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -98,7 +98,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ "æble", "banan" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -114,7 +114,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ "æble", "apple" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -130,7 +130,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
