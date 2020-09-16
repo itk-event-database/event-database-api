@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "page": 1,
+    "itemsPerPage": 24,
+    "categoryFilter": "",
+    "category2Filter": "",
+    "query": "",
+    "startDate": "",
+    "endDate": "",
+    "totalPages": 8,
+    "totalResults": 179,
+    "randomize": false,
+    "ids": [],
+    "onlyBannerEvent": false
+  },
+  "events": [
+    {
+      "Id": 4855,
+      "Name": "Fotos fra egne scener",
+      "ExtraSearchWords": "",
+      "Image": "/media/2738/kultur-3.jpg",
+      "Categories": [
+        "Udstilling",
+        "Gratis",
+        "BabyCafe"
+      ],
+      "FutureEventDates": [
+        {
+          "Name": "Fotos fra egne scener",
+          "Price": "Gratis",
+          "EventSalesStatus": 0,
+          "StartDate": "/Date(1470992400000)/",
+          "EndDate": "/Date(1470996000000)/",
+          "EventVenueName": "Musikhuset Aarhus",
+          "EventVenueHall": "Strøget",
+          "EventStatusText": ""
+        }
+      ],
+      "PurchaseUrl": null,
+      "Url": "/arrangementer/fotos-fra-egne-scener/"
+    },
+    {
+      "Id": 4807,
+      "Name": "Sommer Chillout Aarhus",
+      "ExtraSearchWords": "",
+      "Image": "/media/2781/sca_web_landing.jpg",
+      "Categories": [
+        "Koncert",
+        "Gratis",
+        "BabyCafé"
+      ],
+      "FutureEventDates": [
+        {
+          "Name": "Sommer.Chillout.Aarhus",
+          "Price": "Gratis",
+          "EventSalesStatus": 0,
+          "StartDate": "/Date(1471075200000)/",
+          "EndDate": "/Date(1471075200000)/",
+          "EventVenueName": "Musikhuset Aarhus",
+          "EventVenueHall": "Amfiscenen",
+          "EventStatusText": ""
+        }
+      ],
+      "PurchaseUrl": null,
+      "Url": "/arrangementer/sommerchilloutaarhus/"
+    }
+  ]
+}
