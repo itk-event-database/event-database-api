@@ -15,7 +15,7 @@ Feature: Events
       | apple  |
       | banana |
       | citrus |
-      | café   |
+      | cafe   |
 
     And the following tags are unknown:
       | name   | tag    |
@@ -145,7 +145,7 @@ Feature: Events
     And the JSON node "tags" should have 3 elements
     And the JSON node "tags[0]" should be equal to "apple"
     And the JSON node "tags[1]" should be equal to "banana"
-    And the JSON node "tags[1]" should be equal to "cafe"
+    And the JSON node "tags[2]" should be equal to "cafe"
 
   Scenario: Filter by tags
     When I authenticate as "api-read"
