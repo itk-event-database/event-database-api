@@ -282,6 +282,29 @@ class FeedReaderTest extends ContainerTestCase implements Controller
         $this->assertEquals('http://musikhusetaarhus.dk/media/2738/kultur-3.jpg', $event['original_image']);
     }
 
+    /**
+     * @group Tags
+     */
+    public function testReadFeedWithTags()
+    {
+        $feedConfiguration = $this->readFixture('feed-with-tags.yml');
+        $json = $this->readFixture('feed-with-tags.json');
+
+        $feed = $this->createFeed($feedConfiguration);
+
+        $reader = $this->container->get('feed_reader.json');
+        $reader
+            ->setController($this)
+            ->setFeed($feed);
+        $reader->read($json);
+
+        $this->assertEquals(2, count($this->events));
+        $event = $this->events[0];
+        $this->assertEquals(1, count($event['occurrences']));
+        $this->assertEquals('Musikhuset Aarhus', $event['occurrences'][0]['venue']);
+        $this->assertEquals('http://musikhusetaarhus.dk/media/2738/kultur-3.jpg', $event['original_image']);
+    }
+
     public function createEvent(array $data)
     {
         if (isset($data['image'])) {

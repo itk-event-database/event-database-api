@@ -5,7 +5,7 @@ Feature: Events
 
   Background:
     Given the following users exist:
-      | username   | password | roles          |
+      | username   | password | roles      |
       | api-read   | apipass  | ROLE_API_READ  |
       | api-write  | apipass  | ROLE_API_WRITE |
       | api-write2 | apipass  | ROLE_API_WRITE |
@@ -15,6 +15,7 @@ Feature: Events
       | apple  |
       | banana |
       | citrus |
+      | cafe   |
 
     And the following tags are unknown:
       | name   | tag    |
@@ -27,13 +28,15 @@ Feature: Events
     When I add "Accept" header equal to "application/ld+json"
     And I send a "GET" request to "/api/tags"
     Then the response status code should be 200
-    And the JSON node "hydra:member" should have 3 elements
+    And the JSON node "hydra:member" should have 4 elements
     And the JSON node "hydra:member[0].@id" should be equal to "/api/tags/1"
     And the JSON node "hydra:member[0].name" should be equal to "apple"
     And the JSON node "hydra:member[1].@id" should be equal to "/api/tags/2"
     And the JSON node "hydra:member[1].name" should be equal to "banana"
     And the JSON node "hydra:member[2].@id" should be equal to "/api/tags/3"
     And the JSON node "hydra:member[2].name" should be equal to "citrus"
+    And the JSON node "hydra:member[3].@id" should be equal to "/api/tags/4"
+    And the JSON node "hydra:member[3].name" should be equal to "cafe"
 
   Scenario: Events with tags
     When I authenticate as "api-write"
@@ -43,15 +46,16 @@ Feature: Events
     """
     {
       "name": "A tagged event",
-      "tags": [ "apple", "Banana" ],
+      "tags": [ "apple", "Banana", "café" ],
       "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
     }
     """
     Then the response status code should be 201
     And the JSON node "name" should be equal to "A tagged event"
-    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags" should have 3 elements
     And the JSON node "tags[0]" should be equal to "apple"
     And the JSON node "tags[1]" should be equal to "banana"
+    And the JSON node "tags[2]" should be equal to "cafe"
 
     When I authenticate as "api-write"
     And I add "Content-Type" header equal to "application/ld+json"
@@ -61,7 +65,7 @@ Feature: Events
     {
       "name": "Another tagged event",
       "tags": [ "banana", "CITRUS" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -79,7 +83,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ "æble" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -94,7 +98,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ "æble", "banan" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -110,7 +114,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ "æble", "apple" ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -126,7 +130,7 @@ Feature: Events
     {
       "name": "A tagged event",
       "tags": [ ],
-      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2001-01-01" } ]
+      "occurrences": [ { "startDate": "2000-01-01", "endDate": "2000-01-02" } ]
     }
     """
     Then the response status code should be 201
@@ -138,9 +142,10 @@ Feature: Events
     Then the response status code should be 200
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "@id" should be equal to "/api/events/1"
-    And the JSON node "tags" should have 2 elements
+    And the JSON node "tags" should have 3 elements
     And the JSON node "tags[0]" should be equal to "apple"
     And the JSON node "tags[1]" should be equal to "banana"
+    And the JSON node "tags[2]" should be equal to "cafe"
 
   Scenario: Filter by tags
     When I authenticate as "api-read"
