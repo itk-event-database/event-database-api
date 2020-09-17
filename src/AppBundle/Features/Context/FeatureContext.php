@@ -10,6 +10,7 @@
 
 namespace AppBundle\Features\Context;
 
+use AdminBundle\Service\TagManager;
 use AppBundle\Entity\Group;
 use AppBundle\Entity\User;
 use Behat\Behat\Context\Context;
@@ -177,8 +178,10 @@ class FeatureContext extends BaseContext implements Context, KernelAwareContext
      */
     public function theFollowingTagsExist(TableNode $table)
     {
+        /** @var TagManager $tagManager */
         $tagManager = $this->container->get('tag_manager');
         $tagManager->setTagNormalizer(null);
+        $tagManager->setUnknownTagManager(null);
         $names = array_map(function ($row) {
             return $row['name'];
         }, $table->getHash());

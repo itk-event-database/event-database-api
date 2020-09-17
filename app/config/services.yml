@@ -1,7 +1,7 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    # parameter_name: value
+# parameter_name: value
 
 services:
     value_converter:
@@ -207,17 +207,14 @@ services:
     tag_normalizer:
         class: AdminBundle\Service\TagNormalizer
         arguments:
-            - '@service_container'
-            -
-                services:
-                    tag_manager: tag_manager
-                    unknown_tag_manager: unknown_tag_manager
+            - '@doctrine.orm.entity_manager'
 
     tag_manager:
         public: true
         class: AdminBundle\Service\TagManager
         calls:
             - [setTagNormalizer, ['@tag_normalizer']]
+            - [setUnknownTagManager, ['@unknown_tag_manager']]
         arguments:
             - '@doctrine.orm.entity_manager'
             - '%fpn_tag.entity.tag.class%'

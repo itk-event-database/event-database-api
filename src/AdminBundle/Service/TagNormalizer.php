@@ -11,32 +11,30 @@
 namespace AdminBundle\Service;
 
 use AppBundle\Entity\Tag;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TagNormalizer implements TagNormalizerInterface
 {
     /**
-     * @var ContainerInterface
+     * @var EntityManager
      */
-    private $container;
+    private $em;
 
     /**
-     * @var array
+     * TagNormalizer constructor.
+     *
+     * @param EntityManager $em
      */
-    private $configuration;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param array                                                     $configuration
-     */
-    public function __construct(ContainerInterface $container, array $configuration)
+    public function __construct(EntityManager $em)
     {
-        $this->container = $container;
-        $this->configuration = $configuration;
+        $this->em = $em;
     }
 
     /**
+     * Normalize list of names to ensure they fit the DB schema.
+     *
      * @param array $names
      *
      * @return array
@@ -46,59 +44,15 @@ class TagNormalizer implements TagNormalizerInterface
         if (empty($names)) {
             return [];
         }
-        $em = $this->container->get('doctrine')->getManager();
-        $metadata = $em->getClassMetadata(Tag::class);
+        $metadata = $this->em->getClassMetadata(Tag::class);
         $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
-                ? (int) $metadata->fieldMappings['name']['length'] : 50;
+            ? (int) $metadata->fieldMappings['name']['length'] : 50;
 
         // Ensure we don't exceed field length in db
         $names = array_map(function ($name) use ($maxNameLength) {
             return mb_substr(trim($name), 0, $maxNameLength);
         }, $names);
 
-        // Remove accents etc. to ensure our comparisons here match the unique constraint on the db column.
-        // E.g. e === è in DB but not in PHP causing:
-        // "Integrity constraint violation: 1062 Duplicate entry 'babycafé' for key 'UNIQ_12F66F525E237E06'"
-        // @TODO This bug needs to be fixed. Find better solution than this
-        // $slugger = new AsciiSlugger('da');
-        // $names = array_map(function ($name) use ($slugger) {
-        //    return $slugger->slug($name, ' ')->toString();
-        // }, $names);
-
-        $tagManager = $this->getTagManager();
-        $tags = $tagManager->loadTags($names);
-
-        $validNames = array_map(function ($tag) {
-            return $tag->getName();
-        }, $tags);
-
-        $unknownNames = array_udiff($names, $validNames, 'strcasecmp');
-        if ($unknownNames) {
-            $unknownTags = $this->getUnknownTagManager()->loadOrCreateTags($unknownNames);
-            foreach ($unknownTags as $unknownTag) {
-                $tag = $unknownTag->getTag();
-                if ($tag) {
-                    $validNames[] = $tag->getName();
-                }
-            }
-        }
-
-        return array_unique($validNames);
-    }
-
-    /**
-     * @return TagManager
-     */
-    private function getTagManager()
-    {
-        return $this->container->get($this->configuration['services']['tag_manager']);
-    }
-
-    /**
-     * @return TagManager
-     */
-    private function getUnknownTagManager()
-    {
-        return $this->container->get($this->configuration['services']['unknown_tag_manager']);
+        return $names;
     }
 }
