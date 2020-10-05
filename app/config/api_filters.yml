@@ -63,7 +63,7 @@ services:
 
     resource.event.search_access_filter:
         parent: 'app_bundle.doctrine.orm.access_filter'
-        tags: [{ name: 'api_platform.filter', id: 'event.search.published' }]
+        tags: [{ name: 'api_platform.filter', id: 'event.search.access' }]
 
     resource.event.search_date_filter:
         parent: 'app_bundle.doctrine.orm.date_filter'
