@@ -21,6 +21,12 @@ services:
             - '@doctrine'
             - '@request_stack'
 
+    app_bundle.doctrine.orm.access_filter:
+        class: AppBundle\Filter\AccessFilter
+        arguments:
+            - '@doctrine'
+            - '@request_stack'
+
     resource.event.order_filter:
         parent: 'app_bundle.doctrine.orm.order_filter'
         arguments:
@@ -53,6 +59,10 @@ services:
 
     resource.event.search_published_filter:
         parent: 'app_bundle.doctrine.orm.published_filter'
+        tags: [{ name: 'api_platform.filter', id: 'event.search.published' }]
+
+    resource.event.search_access_filter:
+        parent: 'app_bundle.doctrine.orm.access_filter'
         tags: [{ name: 'api_platform.filter', id: 'event.search.published' }]
 
     resource.event.search_date_filter:
@@ -165,6 +175,10 @@ services:
         parent: 'app_bundle.doctrine.orm.tag_filter'
         arguments: ['event.tags']
         tags: [{ name: 'api_platform.filter', id: 'occurrence.search.event_tag' }]
+
+    resource.occurrence.search_access_filter:
+        parent: 'app_bundle.doctrine.orm.access_filter'
+        tags: [{ name: 'api_platform.filter', id: 'occurrence.search.access' }]
 
     resource.occurrence.search_published_filter:
         parent: 'app_bundle.doctrine.orm.published_filter'
