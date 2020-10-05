@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "occurrence_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.search.event_tag", "occurrence.search.published", "occurrence.order" }
+ *     "filters" = { "occurrence.search", "occurrence.search.date", "occurrence.search.event_tag", "occurrence.search.published", "occurrence.search.access", "occurrence.order" }
  *   }
  * )
  * @ORM\Table(
