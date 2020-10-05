@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.order", "event.order.default" },
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.search.access", "event.order", "event.order.default" },
  *     "validation_groups"={"event_write"}
  *   }
  * )
@@ -87,6 +87,16 @@ class Event extends Thing implements CustomTaggable, Blameable
      * @ApiProperty(iri="http://schema.org/Boolean")
      */
     private $isPublished = true;
+
+    /**
+     * @var bool
+     *
+     * @Groups({"event_read", "occurrence_read", "event_write"})
+     * @ORM\Column(type="boolean")
+     * @Assert\Type(type="boolean")
+     * @ApiProperty(iri="http://schema.org/Boolean")
+     */
+    private $hasPublicAccess = true;
 
     /**
      * @var ArrayCollection
@@ -251,6 +261,30 @@ class Event extends Thing implements CustomTaggable, Blameable
     public function getIsPublished()
     {
         return $this->isPublished;
+    }
+
+    /**
+     * Sets hasPublicAccess.
+     *
+     * @param bool $hasPublicAccess
+     *
+     * @return $this
+     */
+    public function setHasPublicAccess(bool $hasPublicAccess)
+    {
+        $this->hasPublicAccess = $hasPublicAccess;
+
+        return $this;
+    }
+
+    /**
+     * Gets hasPublicAccess.
+     *
+     * @return bool
+     */
+    public function getHasPublicAccess()
+    {
+        return $this->hasPublicAccess;
     }
 
     public function setOccurrences($occurrences)
