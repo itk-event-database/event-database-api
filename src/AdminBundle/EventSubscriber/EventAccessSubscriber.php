@@ -40,7 +40,7 @@ class EventAccessSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EasyAdminEvents::PRE_PERSIST => ['setEventAccessFromUSer'],
+            EasyAdminEvents::PRE_PERSIST => ['setEventAccessFromUser'],
         ];
     }
 
@@ -49,7 +49,7 @@ class EventAccessSubscriber implements EventSubscriberInterface
      *
      * @param GenericEvent $event
      */
-    public final function setEventAccessFromUSer(GenericEvent $event): void
+    public final function setEventAccessFromUser(GenericEvent $event): void
     {
         $entity = $event->getSubject();
 
