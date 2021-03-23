@@ -21,6 +21,7 @@ app:
         excerpt: Uddrag
         image: Billede
         isPublished: Udgivet
+        hasFullAccess: Adgang
         langcode: Sprog
         occurrences: Dato og tid
         organizer: Arrangør
@@ -33,6 +34,10 @@ app:
             description: Beskrivelse af begivenheden
             eventUrl: Url til Facebook-event
             excerpt: Kort beskrivelse af begivenheden
+            hasFullAccess:
+                '<strong>Fuld adgang:</strong> Begivenheden henvender sig til et stort og bredt publikum eksempelvis en teaterforestilling eller en koncert, der naturligt tiltrækker publikum og deltagere fra et stort opland.
+                <br/>
+                <strong>Begrænset adgang:</strong> Begivenheden er åben for alle, men henvender sig primært til en mindre målgruppe. Det kan være en afgrænset målgruppe eller et afgrænset geografisk område eksempelvis et loppemarked, byfest eller amatørteater.'
             image: Upload et billede
             imageFile: Upload et billede. Billedet bør være minimum 1000px bredt. Filnavnet må ikke indeholde æ, ø og å.
             isPublished: Angiv om begivenheden skal vises
@@ -115,6 +120,8 @@ action:
 label:
     yes: ja
     no: nej
+    full: Fuld
+    limited: Begrænset
     form:
         empty_value: (tom)
 
@@ -143,6 +150,8 @@ ROLE_USER: Bruger
 ROLE_API_READ: API-læseadgang
 ROLE_API_WRITE: API-skriveadgang
 ROLE_EVENT_EDITOR: Begivenhedsredaktør
+ROLE_FULL_ACCESS_EVENT_EDITOR: Begivenhedsredaktør (Kan oprette begivenheder m. "Fuld adgang")
+ROLE_LIMITED_ACCESS_EVENT_EDITOR: Begivenhedsredaktør (Kan oprette begivenheder m. "Begrænset adgang")
 ROLE_EVENT_ADMIN: Begivenhedsadministrator
 ROLE_ORGANIZER_EDITOR: Arrangørredaktør
 ROLE_PLACE_EDITOR: Stedredaktør
@@ -161,6 +170,9 @@ Plain password: Adgangskode
 
 
 Is published: Udgivet
+Has full access: Adgang
+Full Access: Fuld adgang
+Limited Access: Begrænset adgang
 Image: Billede
 Tags: Tags
 

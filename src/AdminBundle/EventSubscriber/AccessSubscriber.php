@@ -32,13 +32,13 @@ class AccessSubscriber implements EventSubscriberInterface
     private $userManager;
 
     private static $requiredRoles = [
-    Event::class => 'ROLE_EVENT_EDITOR',
-    Place::class => 'ROLE_PLACE_EDITOR',
-    Group::class => 'ROLE_USER_EDITOR',
-    User::class => 'ROLE_USER_EDITOR',
-    Tag::class => 'ROLE_TAG_EDITOR',
-    UnknownTag::class => 'ROLE_TAG_EDITOR',
-    Feed::class => 'ROLE_FEED_EDITOR',
+        Event::class => 'ROLE_EVENT_EDITOR',
+        Place::class => 'ROLE_PLACE_EDITOR',
+        Group::class => 'ROLE_USER_EDITOR',
+        User::class => 'ROLE_USER_EDITOR',
+        Tag::class => 'ROLE_TAG_EDITOR',
+        UnknownTag::class => 'ROLE_TAG_EDITOR',
+        Feed::class => 'ROLE_FEED_EDITOR',
     ];
 
     public function __construct(TokenStorageInterface $tokenStorage, RoleHierarchyInterface $roleHierarchy, UserManager $userManager)
@@ -51,8 +51,8 @@ class AccessSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-        EasyAdminEvents::PRE_LIST => ['preList'],
-        EasyAdminEvents::PRE_EDIT => ['preEdit'],
+            EasyAdminEvents::PRE_LIST => ['preList'],
+            EasyAdminEvents::PRE_EDIT => ['preEdit'],
         ];
     }
 
@@ -94,6 +94,7 @@ class AccessSubscriber implements EventSubscriberInterface
     private function hasRole($roleName)
     {
         $token = $this->tokenStorage->getToken();
+
         foreach ($this->roleHierarchy->getReachableRoles($token->getRoles()) as $role) {
             if ($roleName === $role->getRole()) {
                 return true;
