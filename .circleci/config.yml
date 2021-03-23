@@ -67,7 +67,7 @@ jobs:
             - v1-dependencies-composer
 
       # Composer install
-      - run: sudo composer self-update
+      - run: sudo composer self-update --1
       - run: composer install -n --prefer-dist
 
       # JWT Setup
