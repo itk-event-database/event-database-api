@@ -9,15 +9,15 @@ Feature: Events
             | api-write  | apipass  | ROLE_API_WRITE |
 
     @createSchema
-    Scenario: Create Public/Private Events
+    Scenario: Create Full/Limited Events
         When I authenticate as "api-write"
         And I add "Content-Type" header equal to "application/ld+json"
         And I add "Accept" header equal to "application/ld+json"
         And I send a "POST" request to "/api/events" with body:
     """
     {
-      "name": "The public event",
-      "hasPublicAccess": true,
+      "name": "The full access event",
+      "hasFullAccess": true,
       "occurrences": [ {
         "startDate": "2100-01-01",
         "endDate": "2100-01-02"
@@ -33,8 +33,8 @@ Feature: Events
         And I send a "POST" request to "/api/events" with body:
     """
     {
-      "name": "The private event",
-      "hasPublicAccess": false,
+      "name": "The limited access event",
+      "hasFullAccess": false,
       "occurrences": [ {
         "startDate": "2100-01-01",
         "endDate": "2100-01-02"
@@ -44,7 +44,7 @@ Feature: Events
         Then the response status code should be 201
         And the JSON node "@id" should be equal to "/api/events/2"
 
-    Scenario: Get events should only return the public event
+    Scenario: Get events should only return the full access event
         When I add "Content-Type" header equal to "application/ld+json"
         And I add "Accept" header equal to "application/ld+json"
         And I send a "GET" request to "/api/events"
@@ -59,17 +59,17 @@ Feature: Events
         And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
         And the JSON node "hydra:member[1].@id" should be equal to "/api/events/2"
 
-    Scenario: Private: Get events should only return private events if queried for 'private'
+    Scenario: Limited: Get events should only return limited access events if queried for 'limited'
         When I add "Content-Type" header equal to "application/ld+json"
         And I add "Accept" header equal to "application/ld+json"
-        And I send a "GET" request to "/api/events?access=private"
+        And I send a "GET" request to "/api/events?access=limited"
         And the JSON node "hydra:member" should have 1 element
         And the JSON node "hydra:member[0].@id" should be equal to "/api/events/2"
 
-    Scenario: Public: Get events should only return public events if queried for 'public'
+    Scenario: Full: Get events should only return full access events if queried for 'full'
         When I add "Content-Type" header equal to "application/ld+json"
         And I add "Accept" header equal to "application/ld+json"
-        And I send a "GET" request to "/api/events?access=public"
+        And I send a "GET" request to "/api/events?access=full"
         And the JSON node "hydra:member" should have 1 element
         And the JSON node "hydra:member[0].@id" should be equal to "/api/events/1"
 

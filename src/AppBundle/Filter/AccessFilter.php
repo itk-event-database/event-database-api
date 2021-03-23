@@ -26,10 +26,10 @@ class AccessFilter extends AbstractFilter
 {
     private const PROPERTY = 'access';
     private const ALL = 'all';
-    private const PUBLIC = 'public';
-    private const PRIVATE = 'private';
+    private const FULL = 'full';
+    private const LIMITED = 'limited';
 
-    private const ALLOWED_VALUES = [self::ALL, self::PRIVATE, self::PUBLIC];
+    private const ALLOWED_VALUES = [self::ALL, self::LIMITED, self::FULL];
 
     /** {@inheritDoc} */
     public function apply(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
@@ -59,7 +59,7 @@ class AccessFilter extends AbstractFilter
         $properties = $request->query->all();
 
         if (!array_key_exists(self::PROPERTY, $properties)) {
-            $properties[self::PROPERTY] = self::PUBLIC;
+            $properties[self::PROPERTY] = self::FULL;
         }
 
         return $properties;
@@ -75,7 +75,7 @@ class AccessFilter extends AbstractFilter
 
         $value = strtolower($value);
         if (!in_array($value, self::ALLOWED_VALUES)) {
-            throw new InvalidArgumentException('Allowed values for "access" are "public", "private", "all".');
+            throw new InvalidArgumentException('Allowed values for "access" are "full", "limited", "all".');
         }
 
         if (self::ALL === $value) {
@@ -87,13 +87,13 @@ class AccessFilter extends AbstractFilter
         $hasPublicAccess = $this->propertyValueToBoolean($value);
         if (Event::class === $resourceClass) {
             $queryBuilder
-                ->andWhere(sprintf('%s.hasPublicAccess = :%s', $alias, $valueParameter))
+                ->andWhere(sprintf('%s.hasFullAccess = :%s', $alias, $valueParameter))
                 ->setParameter($valueParameter, $hasPublicAccess);
         } elseif (Occurrence::class === $resourceClass || DailyOccurrence::class === $resourceClass) {
             $alias = 'event';
             $queryBuilder->join('o.event', $alias);
             $queryBuilder
-                ->andWhere(sprintf('%s.hasPublicAccess = :%s', $alias, $valueParameter))
+                ->andWhere(sprintf('%s.hasFullAccess = :%s', $alias, $valueParameter))
                 ->setParameter($valueParameter, $hasPublicAccess);
         }
     }
@@ -107,12 +107,12 @@ class AccessFilter extends AbstractFilter
     private function propertyValueToBoolean(string $value): bool
     {
         switch ($value) {
-            case self::PUBLIC:
+            case self::FULL:
                 return true;
-            case self::PRIVATE:
+            case self::LIMITED:
                 return false;
             default:
-                throw new InvalidArgumentException('Allowed values for "access" are "public", "private", "all".');
+                throw new InvalidArgumentException('Allowed values for "access" are "full", "limited", "all".');
         }
     }
 }
