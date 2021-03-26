@@ -18,10 +18,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class EasyAdminConfigManager extends ConfigManager
 {
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface */
+    /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    /** @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface */
+    /** @var TokenStorageInterface */
     protected $tokenStorage;
 
     private $cache = [];
@@ -69,12 +69,34 @@ class EasyAdminConfigManager extends ConfigManager
                 if ('design.menu' === $propertyPath) {
                     $this->reindexMenu($config);
                 }
+
+                $this->reConfigEventAccessField($config);
             }
         }
 
         $this->cache[$cacheKey] = $config;
 
         return $config;
+    }
+
+    /**
+     * Reconfigure the Event forms depending on logged in users roles.
+     *
+     * @param array $config
+     */
+    private function reConfigEventAccessField(array &$config): void
+    {
+        // If the editor doesn't have the rights to create both "full access" and
+        // "limited access" events we remove field from the "new" and "edit" pages.
+        if (!$this->hasRole(['ROLE_FULL_ACCESS_EVENT_EDITOR']) || !$this->hasRole(['ROLE_LIMITED_ACCESS_EVENT_EDITOR'])) {
+            if (isset($config['entities']['Event']['edit']['fields']['hasFullAccess'])) {
+                unset($config['entities']['Event']['edit']['fields']['hasFullAccess']);
+            }
+
+            if (isset($config['entities']['Event']['new']['fields']['hasFullAccess'])) {
+                unset($config['entities']['Event']['new']['fields']['hasFullAccess']);
+            }
+        }
     }
 
     private function reindexMenu(array &$config, $menuIndex = null)

@@ -96,7 +96,7 @@ class Event extends Thing implements CustomTaggable, Blameable
      * @Assert\Type(type="boolean")
      * @ApiProperty(iri="http://schema.org/Boolean")
      */
-    private $hasPublicAccess = true;
+    private $hasFullAccess = true;
 
     /**
      * @var ArrayCollection
@@ -264,27 +264,27 @@ class Event extends Thing implements CustomTaggable, Blameable
     }
 
     /**
-     * Sets hasPublicAccess.
+     * Sets hasFullAccess.
      *
-     * @param bool $hasPublicAccess
+     * @param bool $hasFullAccess
      *
      * @return $this
      */
-    public function setHasPublicAccess(bool $hasPublicAccess)
+    public function setHasFullAccess(bool $hasFullAccess)
     {
-        $this->hasPublicAccess = $hasPublicAccess;
+        $this->hasFullAccess = $hasFullAccess;
 
         return $this;
     }
 
     /**
-     * Gets hasPublicAccess.
+     * Gets hasFullAccess.
      *
      * @return bool
      */
-    public function getHasPublicAccess()
+    public function getHasFullAccess()
     {
-        return $this->hasPublicAccess;
+        return $this->hasFullAccess;
     }
 
     public function setOccurrences($occurrences)
