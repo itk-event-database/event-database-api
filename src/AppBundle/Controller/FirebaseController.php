@@ -46,7 +46,7 @@ class FirebaseController extends Controller
         }
 
         $sql = 'select * from event where id in (select event_id from occurrence where end_date >= :now or end_date is null)';
-        $sql .= ' and deleted_at is null and is_published = 1';
+        $sql .= ' and deleted_at is null and is_published = 1 and and has_full_access = 1';
         $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
         $stmt->execute(['now' => $this->getNow()]);
         $data = [];
@@ -75,7 +75,7 @@ class FirebaseController extends Controller
      */
     public function eventsDeletedAction()
     {
-        $sql = 'select * from event where deleted_at is not null';
+        $sql = 'select * from event where deleted_at is not null and and has_full_access = 1';
         $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
         $stmt->execute();
         $data = [];
@@ -135,7 +135,7 @@ class FirebaseController extends Controller
     public function occurrencesAction()
     {
         $sql = 'select * from occurrence where (end_date >= :now or end_date is null)';
-        $sql .= ' and event_id in (select id from event where deleted_at is null and is_published = 1)';
+        $sql .= ' and event_id in (select id from event where deleted_at is null and is_published = 1 and has_full_access = 1)';
         $sql .= ' order by start_date';
         $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
         $stmt->execute(['now' => $this->getNow()]);

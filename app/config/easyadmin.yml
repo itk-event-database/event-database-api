@@ -123,6 +123,17 @@ easy_admin:
                       type: ckeditor
                       type_options:
                           required: true
+                    - property: hasFullAccess
+                      template: full_limited_edit.html.twig
+                      type: choice
+                      type_options:
+                        expanded: true
+                        multiple: false
+                        choices:
+                          - 'Full Access': true
+                          - 'Limited Access': false
+                        placeholder: false
+                      help: app.event.help.hasFullAccess
                     - property: organizer
                       help: app.event.help.organizer
                       type_options:
@@ -186,6 +197,16 @@ easy_admin:
                       type: ckeditor
                       type_options:
                           required: true
+                    - property: hasFullAccess
+                      template: full_limited_edit.html.twig
+                      type: choice
+                      type_options:
+                          expanded: true
+                          multiple: false
+                          choices:
+                              - 'Full Access': true
+                              - 'Limited Access': false
+                          placeholder: false
                     - property: organizer
                       help: app.event.help.organizer
                       type_options:
@@ -252,6 +273,10 @@ easy_admin:
                       label: app.event.organizer
                     - property: isPublished
                       label: app.event.isPublished
+                    - property: hasFullAccess
+                      label: app.event.hasFullAccess
+                      template: full_limited_show.html.twig
+                      help: app.event.help.hasFullAccess
                     - property: langcode
                       label: app.event.langcode
                     - property: image
@@ -485,7 +510,8 @@ easy_admin:
                           expanded: true
                           choices: &role_list
                               ROLE_API_WRITE: ROLE_API_WRITE
-                              ROLE_EVENT_EDITOR: ROLE_EVENT_EDITOR
+                              ROLE_FULL_ACCESS_EVENT_EDITOR: ROLE_FULL_ACCESS_EVENT_EDITOR
+                              ROLE_LIMITED_ACCESS_EVENT_EDITOR: ROLE_LIMITED_ACCESS_EVENT_EDITOR
                               ROLE_EVENT_ADMIN: ROLE_EVENT_ADMIN
                               ROLE_ORGANIZER_EDITOR: ROLE_ORGANIZER_EDITOR
                               ROLE_PLACE_EDITOR: ROLE_PLACE_EDITOR
