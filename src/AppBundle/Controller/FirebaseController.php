@@ -46,7 +46,7 @@ class FirebaseController extends Controller
         }
 
         $sql = 'select * from event where id in (select event_id from occurrence where end_date >= :now or end_date is null)';
-        $sql .= ' and deleted_at is null and is_published = 1 and and has_full_access = 1';
+        $sql .= ' and deleted_at is null and is_published = 1 and has_full_access = 1';
         $stmt = $this->getDoctrine()->getManager()->getConnection()->prepare($sql);
         $stmt->execute(['now' => $this->getNow()]);
         $data = [];
