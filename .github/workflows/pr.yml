@@ -34,8 +34,16 @@ jobs:
             - name: Validate composer files
               run: composer validate composer.json --strict
 
+            - name: '[prod] Composer install with exported .env variables'
+              run: |
+                  set -a && source .env && set +a
+                  SYMFONY_ENV=prod composer install --no-dev -o
+
+            - name: Reset composer install
+              run: rm -rf ./vendor
+
             - name: '[dev] Composer install'
-              run: composer install -n --prefer-dist
+              run: SYMFONY_ENV=dev composer install --no-interaction --prefer-dist
 
     validate-doctrine-schema:
         runs-on: ubuntu-latest
@@ -87,7 +95,7 @@ jobs:
               run: php bin/console doctrine:migrations:migrate --no-interaction
 
             - name: Validate Doctrine schema
-              run: php bin/console doctrine:schema:validate
+              run: SYMFONY_ENV=github-actions php bin/console doctrine:schema:validate
 
     phpunit:
         runs-on: ubuntu-latest
@@ -134,7 +142,7 @@ jobs:
               run: composer install --no-interaction --prefer-dist
 
             - name: PHP Unit
-              run: SYMFONY_ENV=circleci vendor/bin/phpunit
+              run: SYMFONY_ENV=github-actions vendor/bin/phpunit
 
     behat:
         runs-on: ubuntu-latest
@@ -187,7 +195,7 @@ jobs:
                 openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
 
             - name: Behat
-              run: vendor/bin/behat --profile=githubactions --list-features
+              run: vendor/bin/behat --profile=github-actions --list-features
 
     apispec:
         runs-on: ubuntu-latest
