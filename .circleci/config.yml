@@ -26,9 +26,15 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
+
       - run:
           name: Apt-get update
           command: sudo apt-get update && sudo apt-get install -y zlib* wget openssl libicu-dev libpng-dev
+
+      - run:
+          # @see https://github.com/CircleCI-Public/cimg-php#php-extensions
+          name: Before Install PHP extensions
+          command: sudo docker-php-source extract
 
       - run:
           name: Install PHP extensions - zip
@@ -49,6 +55,11 @@ jobs:
       - run:
           name: Install PHP extensions - pdo_mysql
           command: sudo docker-php-ext-install pdo_mysql && sudo docker-php-ext-enable pdo_mysql
+
+      - run:
+            # @see https://github.com/CircleCI-Public/cimg-php#php-extensions
+            name: After Install PHP extensions
+            command: docker-php-source delete
 
       - run:
           name: Set PHP memory config
