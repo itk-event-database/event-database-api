@@ -138,6 +138,12 @@ API documentation
 
 Go to http://event-database-api.vm/api/doc to see automatically generated API documentation.
 
+The API spec is also exported as `/web/api/api-spec-v1.json`. A job in github actions
+checks if there are changes to the api spec and fails if there is.
+
+If your changes are intentional you can re-export an updated API spec by running
+`docker compose exec phpfpm composer update-api-spec` and commint the changes.
+
 Security
 --------
 

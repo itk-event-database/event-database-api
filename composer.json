@@ -129,6 +129,9 @@
             "@apply-coding-standards/php-cs-fixer",
             "@apply-coding-standards/phpcs"
         ],
+        "update-api-spec": [
+            "php bin/console api:swagger:export > ./web/api/api-spec-v1.json"
+        ],
         "install-git-hooks": [
             "ln -sf ../../githooks/pre-commit .git/hooks"
         ]

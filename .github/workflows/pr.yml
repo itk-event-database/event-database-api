@@ -192,3 +192,54 @@ jobs:
               env:
                   PORT: ${{ job.services.mariadb.ports[3306] }}
               run: vendor/bin/behat
+
+    apispec:
+        runs-on: ubuntu-latest
+        services:
+            mariadb:
+                image: mariadb:10.5
+                ports:
+                    - 3306
+                env:
+                    MYSQL_USER: db
+                    MYSQL_PASSWORD: db
+                    MYSQL_DATABASE: db_test
+                    MYSQL_ROOT_PASSWORD: password
+                options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ["7.2"]
+        name: API Specification validation
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup PHP, with composer and extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php}}
+                  extensions: apcu, ctype, iconv, imagick, json, redis, soap, xmlreader, zip
+                  coverage: none
+                  tools: composer:v1
+
+            - name: Get composer cache directory
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: Cache composer dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ matrix.php }}-composer-
+
+            - name: Install Dependencies
+              run: composer install --no-interaction --prefer-dist
+
+            - name: Export specifications (json)
+              run: composer update-api-spec
+
+            - name: Check for changes in specifications (json)
+              run: git diff --diff-filter=ACMRT --exit-code web/api/api-spec-v1.json
+
