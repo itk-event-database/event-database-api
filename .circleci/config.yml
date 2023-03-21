@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/php:7.2-apache-node-browsers
+      - image: cimg/php:7.2.34
         environment:
           APP_ENV: circleci
 
@@ -57,6 +57,9 @@ jobs:
       - run:
           name: Install Redis
           command: sudo apt-get install redis-server && sudo service redis-server start && redis-cli ping
+      - run:
+          name: Ensure Composer 1
+          command: sudo composer self-update --1
 
       - checkout
       # Download and cache dependencies
