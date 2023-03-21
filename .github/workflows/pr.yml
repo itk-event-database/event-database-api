@@ -149,15 +149,16 @@ jobs:
         runs-on: ubuntu-latest
         services:
             mariadb:
+            mariadb:
                 image: mariadb:10.5
-                ports:
-                    - 3306
                 env:
                     MYSQL_USER: db
                     MYSQL_PASSWORD: db
                     MYSQL_DATABASE: db_test
-                    MYSQL_ROOT_PASSWORD: password
-                options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+                    MYSQL_ROOT_PASSWORD: db
+                ports:
+                    - 3306:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         strategy:
             fail-fast: false
             matrix:
@@ -196,7 +197,7 @@ jobs:
                 openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
 
             - name: Behat
-              run: vendor/bin/behat --profile=githubactions
+              run: SYMFONY_ENV=githubactions vendor/bin/behat --profile=githubactions
 
     apispec:
         runs-on: ubuntu-latest
