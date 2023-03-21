@@ -134,9 +134,7 @@ jobs:
               run: composer install --no-interaction --prefer-dist
 
             - name: PHP Unit
-              env:
-                  PORT: ${{ job.services.mariadb.ports[3306] }}
-              run: vendor/bin/phpunit
+              run: SYMFONY_ENV=circleci vendor/bin/phpunit
 
     behat:
         runs-on: ubuntu-latest
@@ -189,9 +187,7 @@ jobs:
                 openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
 
             - name: Behat
-              env:
-                  PORT: ${{ job.services.mariadb.ports[3306] }}
-              run: vendor/bin/behat
+              run: vendor/bin/behat --profile=githubactions --list-features
 
     apispec:
         runs-on: ubuntu-latest
