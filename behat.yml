@@ -27,8 +27,8 @@ circleci:
     Behat\Symfony2Extension:
       kernel:
         env: "circleci"
-github-actions:
+githubactions:
   extensions:
     Behat\Symfony2Extension:
       kernel:
-        env: "github-actions"
+        env: "githubactions"
