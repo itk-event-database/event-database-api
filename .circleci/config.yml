@@ -31,35 +31,10 @@ jobs:
           name: Apt-get update
           command: sudo apt-get update && sudo apt-get install -y zlib* wget openssl libicu-dev libpng-dev
 
-      - run:
-          # @see https://github.com/CircleCI-Public/cimg-php#php-extensions
-          name: Before Install PHP extensions
-          command: sudo docker-php-source extract
 
       - run:
-          name: Install PHP extensions - zip
-          command: sudo docker-php-ext-install zip && sudo docker-php-ext-enable zip
-
-      - run:
-          name: Install PHP extensions - intl
-          command: sudo docker-php-ext-configure intl && sudo docker-php-ext-install intl && sudo docker-php-ext-enable intl
-
-      - run:
-          name: Install PHP extensions - pcntl
-          command: sudo docker-php-ext-install pcntl && sudo docker-php-ext-enable pcntl
-
-      - run:
-          name: Install PHP extensions - gd
-          command: sudo docker-php-ext-install gd && sudo docker-php-ext-enable gd
-
-      - run:
-          name: Install PHP extensions - pdo_mysql
-          command: sudo docker-php-ext-install pdo_mysql && sudo docker-php-ext-enable pdo_mysql
-
-      - run:
-            # @see https://github.com/CircleCI-Public/cimg-php#php-extensions
-            name: After Install PHP extensions
-            command: docker-php-source delete
+          name: Install PHP extensions
+          command: sudo -E install-php-extensions zip intl pcntl gd pdo_mysql
 
       - run:
           name: Set PHP memory config
