@@ -58,7 +58,7 @@ jobs:
                 env:
                     MYSQL_USER: db
                     MYSQL_PASSWORD: db
-                    MYSQL_DATABASE: db
+                    MYSQL_DATABASE: db_test
                     MYSQL_ROOT_PASSWORD: db
                 ports:
                     - 3306:3306
@@ -196,7 +196,7 @@ jobs:
                 openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:test
 
             - name: Behat
-              run: vendor/bin/behat --profile=githubactions --list-features
+              run: vendor/bin/behat --profile=githubactions
 
     apispec:
         runs-on: ubuntu-latest
