@@ -80,9 +80,9 @@ class FeedManager
      *
      * @param Feed $feed
      *
-     * @return array|false|null
-     *
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return null|array|false
      */
     public function getCleanUpEvents(Feed $feed)
     {

@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Class EventAccessSubscriber
+ * Class EventAccessSubscriber.
  */
 class EventAccessSubscriber implements EventSubscriberInterface
 {
@@ -35,7 +35,7 @@ class EventAccessSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function getSubscribedEvents(): array
     {
@@ -45,11 +45,11 @@ class EventAccessSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Set access for event depending on logged in users role
+     * Set access for event depending on logged in users role.
      *
      * @param GenericEvent $event
      */
-    public final function setEventAccessFromUser(GenericEvent $event): void
+    final public function setEventAccessFromUser(GenericEvent $event): void
     {
         $entity = $event->getSubject();
 

@@ -12,7 +12,7 @@ namespace AdminBundle\Service;
 
 class DanishZipCode
 {
-    private static $zipCodes = null;
+    private static $zipCodes;
 
     // http://www.postnord.dk/da/Privat/Kundeservice/postnummerkort/Sider/postnummerkort.aspx
     // http://www.postnord.dk/da/Documents/Lister/postnummerfil-excel.xls

@@ -21,6 +21,8 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_before_statement' => true,
         'combine_consecutive_unsets' => true,
+        'phpdoc_align' => false,
+        'no_superfluous_phpdoc_tags' => false,
         // one should use PHPUnit methods to set up expected exception instead of annotations
         'general_phpdoc_annotation_remove' => ['annotations' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp']],
         'header_comment' => ['header' => $header],

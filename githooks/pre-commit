@@ -27,14 +27,14 @@ STAGED_FILES=$(git diff-index --name-only --cached --diff-filter=ACMR HEAD | gre
 if [ "$STAGED_FILES" != "" ]; then
   echo "Checking coding standard …"
   echo ""
-  composer check-coding-standards $STAGED_FILES
+  docker compose exec phpfpm composer check-coding-standards $STAGED_FILES
   status=$?
   if [ $status != 0 ]
   then
     (>&2 echo)
     (>&2 echo "Fix the errors before commit:")
     (>&2 echo)
-    (>&2 echo "  composer apply-coding-standards $STAGED_FILES")
+    (>&2 echo "  docker compose exec phpfpm composer apply-coding-standards $STAGED_FILES")
     (>&2 echo)
   fi
 fi

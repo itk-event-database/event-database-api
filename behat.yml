@@ -22,8 +22,8 @@ default:
           symfony2: ~
     Behatch\Extension: ~
     Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
-circleci:
+githubactions:
   extensions:
     Behat\Symfony2Extension:
       kernel:
-        env: "circleci"
+        env: "githubactions"

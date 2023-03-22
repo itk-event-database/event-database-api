@@ -72,7 +72,6 @@ class OccurrenceListener
             return $entity instanceof Occurrence;
         });
 
-
         foreach ($occurrences as $occurrence) {
             $existingDailyOccurrences = array_filter($persistedDailyOccurrences, static function ($e) use ($occurrence) {
                 return $e->getOccurrence() === $occurrence;
@@ -89,6 +88,7 @@ class OccurrenceListener
      * in doctrines unit of work.
      *
      * @param EntityManager $em
+     *
      * @throws \Doctrine\ORM\ORMException
      */
     private function synchronizeDailyOccurrences(EntityManager $em): void
