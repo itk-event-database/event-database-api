@@ -152,6 +152,9 @@
         "patches": {
             "fpn/tag-bundle": {
                 "Prevent InvalidDefinitionException": "https://github.com/FabienPennequin/FPNTagBundle/compare/master...rimi-itk:Issue-39.patch"
+            },
+            "friendsofphp/php-cs-fixer": {
+                "Ensure PHP Extentions Installed": "./patches/php-cs-fixer.patch"
             }
         }
     },
