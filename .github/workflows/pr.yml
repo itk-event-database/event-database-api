@@ -131,6 +131,13 @@ jobs:
             - name: '[dev] Composer install'
               run: composer install --no-interaction --prefer-dist
 
+            - name: debug
+              run: |
+                  php -v
+                  composer --version
+                  symfony php -v
+                  symfony composer --version
+
             - name: Check Coding Standards
               run: symfony composer check-coding-standards
 
