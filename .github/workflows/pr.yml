@@ -99,8 +99,6 @@ jobs:
               run: SYMFONY_ENV=githubactions php bin/console doctrine:schema:validate
 
     php-cs-fixer:
-
-    validate-doctrine-schema:
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
