@@ -1,7 +1,7 @@
 Event database – the API
 ========================
 
-![example workflow](https://github.com/itk-event-database/event-database-api/actions/workflows/pr.yml/badge.svg)
+[![Review](https://github.com/itk-event-database/event-database-api/actions/workflows/pr.yml/badge.svg)](https://github.com/itk-event-database/event-database-api/actions/workflows/pr.yml)
 
 Based on [API Platform v.2.2](https://api-platform.com/docs/v2.2/core/)
 
