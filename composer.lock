@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd5e9c8ca1e223f2b0b07b0b8b70f687",
+    "content-hash": "4393b3721354a566c69479e4a7ffd93d",
     "packages": [
         {
             "name": "api-platform/core",
@@ -7165,6 +7165,9 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.19-dev"
+                },
+                "patches_applied": {
+                    "Ensure PHP Extentions Installed": "./patches/php-cs-fixer.patch"
                 }
             },
             "autoload": {
