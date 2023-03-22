@@ -70,9 +70,9 @@ class Xml extends FeedReader
      * @param $path
      * @param bool $failOnError
      *
-     * @return null|string
-     *
      * @throws \Exception
+     *
+     * @return null|string
      */
     private function getValue(\SimpleXMLElement $el, $path, $failOnError = false)
     {

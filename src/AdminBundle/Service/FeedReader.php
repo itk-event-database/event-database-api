@@ -115,7 +115,7 @@ class FeedReader implements Controller
 
     /**
      * @param Feed $feed
-     * @param User|null $user
+     * @param null|User $user
      * @param bool $cleanUpEvents
      *
      * @throws \Throwable

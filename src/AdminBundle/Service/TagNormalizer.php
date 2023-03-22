@@ -62,7 +62,7 @@ class TagNormalizer implements TagNormalizerInterface
     {
         $metadata = $this->em->getClassMetadata(Tag::class);
         $maxNameLength = isset($metadata->fieldMappings, $metadata->fieldMappings['name'], $metadata->fieldMappings['name']['length'])
-            ? (int)$metadata->fieldMappings['name']['length'] : 50;
+            ? (int) $metadata->fieldMappings['name']['length'] : 50;
 
         // Ensure we don't exceed field length in db
         return array_map(function ($name) use ($maxNameLength) {
@@ -85,13 +85,13 @@ class TagNormalizer implements TagNormalizerInterface
     private function normalizeToDbName(array $names): array
     {
         $tagRepository = $this->em->getRepository(Tag::class);
-        $unknownTagRepository  = $this->em->getRepository(UnknownTag::class);
+        $unknownTagRepository = $this->em->getRepository(UnknownTag::class);
 
         $normalizedNames = [];
         foreach ($names as $name) {
             $tag = $tagRepository->findOneBy(['name' => $name]);
             if ($tag) {
-                 $normalizedNames[] = $tag->getName();
+                $normalizedNames[] = $tag->getName();
             } else {
                 $unknownTag = $unknownTagRepository->findOneBy(['name' => $name]);
                 if ($unknownTag) {

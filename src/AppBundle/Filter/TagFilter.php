@@ -14,7 +14,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use AppBundle\Entity\Event;
-use AppBundle\Entity\Occurrence;
 use AppBundle\Entity\OccurrenceTrait;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Persistence\ManagerRegistry;

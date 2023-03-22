@@ -20,7 +20,7 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class AccessFilter
+ * Class AccessFilter.
  */
 class AccessFilter extends AbstractFilter
 {
@@ -69,12 +69,12 @@ class AccessFilter extends AbstractFilter
     protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
         $property = strtolower($property);
-        if ($property !== self::PROPERTY) {
+        if (self::PROPERTY !== $property) {
             return;
         }
 
         $value = strtolower($value);
-        if (!in_array($value, self::ALLOWED_VALUES)) {
+        if (!in_array($value, self::ALLOWED_VALUES, true)) {
             throw new InvalidArgumentException('Allowed values for "access" are "full", "limited", "all".');
         }
 
@@ -99,9 +99,10 @@ class AccessFilter extends AbstractFilter
     }
 
     /**
-     * Convert the given "access" value to boolean
+     * Convert the given "access" value to boolean.
      *
      * @param string $value
+     *
      * @return bool
      */
     private function propertyValueToBoolean(string $value): bool

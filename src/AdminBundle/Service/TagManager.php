@@ -25,7 +25,7 @@ class TagManager extends BaseTagManager
     private $unknownTagManager;
 
     /**
-     * @param TagNormalizerInterface|null $tagNormalizer
+     * @param null|TagNormalizerInterface $tagNormalizer
      */
     public function setTagNormalizer(TagNormalizerInterface $tagNormalizer = null)
     {
@@ -131,9 +131,9 @@ class TagManager extends BaseTagManager
      * @param array $names
      *   A normalized list of tag names
      *
-     * @return UnknownTag[]
-     *
      * @throws DBALException
+     *
+     * @return UnknownTag[]
      */
     private function loadOrCreateUnknownTags(array $names): array
     {
@@ -145,10 +145,10 @@ class TagManager extends BaseTagManager
         $stmt = $conn->prepare($sql);
 
         foreach ($names as $name) {
-            $stmt->execute(array('name' => $name));
+            $stmt->execute(['name' => $name]);
             $result = $stmt->fetch();
 
-            if ($result['tagExists'] === '0') {
+            if ('0' === $result['tagExists']) {
                 $unknownTagNames[] = $name;
             }
         }
