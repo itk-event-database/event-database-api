@@ -41,9 +41,14 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 }
 ```
 
+If you use ITK docker compose setup you can simply run `itkdev-docker-compose open`
+or you can access http://event-database-api.local.itkdev.dk/ in your browser.
+
+Otherwise run this to access your `dev` installation:
+
 ```sh
 # Get url (with port) from docker
-export event_database_api_url="http://event-database-api.local.computer:$(docker compose port reverse-proxy 80 | cut -d: -f2)"
+export event_database_api_url="http://$(docker compose port nginx 8080)"
 echo $event_database_api_url
 curl --silent --header "accept: application/ld+json" $event_database_api_url/api/events
 ```
@@ -111,7 +116,7 @@ The API spec is also exported as `/web/api/api-spec-v1.json`. A job in github ac
 checks if there are changes to the api spec and fails if there is.
 
 If your changes are intentional you can re-export an updated API spec by running
-`docker compose exec phpfpm composer update-api-spec` and commint the changes.
+`docker compose exec phpfpm composer update-api-spec` and commit the changes.
 
 Security
 --------
