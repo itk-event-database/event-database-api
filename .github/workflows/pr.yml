@@ -115,7 +115,7 @@ jobs:
                   php-version: ${{ matrix.php}}
                   extensions: apcu, ctype, iconv, imagick, json, redis, soap, xmlreader, zip
                   coverage: none
-                  tools: composer:v1
+                  tools: composer:v1, symfony-cli
 
             - name: Get composer cache directory
               id: composer-cache
@@ -132,7 +132,7 @@ jobs:
               run: composer install --no-interaction --prefer-dist
 
             - name: Check Coding Standards
-              run: composer check-coding-standards
+              run: symfony composer check-coding-standards
 
     phpunit:
         runs-on: ubuntu-latest
