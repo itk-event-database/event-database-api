@@ -132,7 +132,7 @@ jobs:
               run: composer install --no-interaction --prefer-dist
 
             - name: Check Coding Standards
-              run: symfony composer check-coding-standards
+              run: composer check-coding-standards
 
     phpunit:
         runs-on: ubuntu-latest
