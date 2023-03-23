@@ -1596,7 +1596,15 @@
                     "format": "date-time"
                 },
                 "organizer": {
+                    "description": "The primary event organizer.",
                     "$ref": "#\/definitions\/Organizer-event_read"
+                },
+                "partnerOrganizers": {
+                    "description": "Partner Organizers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Organizer-event_read"
+                    }
                 },
                 "isPublished": {
                     "type": "boolean"
@@ -1673,7 +1681,15 @@
             },
             "properties": {
                 "organizer": {
+                    "description": "The primary event organizer.",
                     "$ref": "#\/definitions\/Organizer-event_write"
+                },
+                "partnerOrganizers": {
+                    "description": "Partner Organizers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Organizer-event_write"
+                    }
                 },
                 "isPublished": {
                     "type": "boolean"
@@ -1736,7 +1752,15 @@
             },
             "properties": {
                 "organizer": {
+                    "description": "The primary event organizer.",
                     "$ref": "#\/definitions\/Organizer-occurrence_read"
+                },
+                "partnerOrganizers": {
+                    "description": "Partner Organizers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Organizer-occurrence_read"
+                    }
                 },
                 "hasFullAccess": {
                     "type": "boolean"
