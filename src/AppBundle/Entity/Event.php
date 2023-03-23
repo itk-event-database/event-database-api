@@ -63,11 +63,27 @@ class Event extends Thing implements CustomTaggable, Blameable
     protected $updatedAt;
 
     /**
+     * The primary event organizer.
+     *
      * @var Organizer
      * @ORM\ManyToOne(targetEntity="Organizer", inversedBy="events")
      * @Groups({"event_read", "event_write", "occurrence_read"})
      */
     protected $organizer;
+
+    /**
+     * Partner Organizers.
+     *
+     * @var ArrayCollection
+     *
+     * @Groups({"event_read", "event_write", "occurrence_read"})
+     * @ORM\ManyToMany(targetEntity="Organizer", inversedBy="partnerEvents", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\JoinTable(name="event__partner_organizers",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="organizer_id", referencedColumnName="id")}
+     * )
+     */
+    private $partnerOrganizers;
 
     /**
      * @var int
@@ -194,6 +210,7 @@ class Event extends Thing implements CustomTaggable, Blameable
     public function __construct()
     {
         $this->occurrences = new ArrayCollection();
+        $this->partnerOrganizers = new ArrayCollection();
     }
 
     public function __clone()
@@ -207,6 +224,11 @@ class Event extends Thing implements CustomTaggable, Blameable
             $clone->setEvent($self);
 
             return $clone;
+        });
+        $this->partnerOrganizers = $this->getPartnerOrganizers()->map(function ($organizer) use ($self) {
+            $organizer->addAdditionalEvent($self);
+
+            return $organizer;
         });
     }
 
@@ -396,6 +418,33 @@ class Event extends Thing implements CustomTaggable, Blameable
     public function getOrganizer()
     {
         return $this->organizer;
+    }
+
+    public function addPartnerOrganizers($partnerOrganizer)
+    {
+        if (!$this->partnerOrganizers->contains($partnerOrganizer)) {
+            $this->partnerOrganizers->add($partnerOrganizer);
+            $partnerOrganizer->addAdditionalEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function setPartnerOrganizers($partnerOrganizers)
+    {
+        $this->partnerOrganizers->clear();
+
+        foreach ($partnerOrganizers as $partnerOrganizer) {
+            $this->partnerOrganizers->add($partnerOrganizer);
+            $partnerOrganizer->addAdditionalEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function getPartnerOrganizers()
+    {
+        return $this->partnerOrganizers;
     }
 
     /**

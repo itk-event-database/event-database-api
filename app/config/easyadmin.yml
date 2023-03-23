@@ -139,6 +139,9 @@ easy_admin:
                       type_options:
                           placeholder: ''
                           required: true
+                    - property: partnerOrganizers
+                      label: app.event.partnerOrganizers
+                      help: app.event.help.partnerOrganizers
                     - property: isPublished
                       help: app.event.help.isPublished
                     - property: imageFile
@@ -211,6 +214,9 @@ easy_admin:
                       help: app.event.help.organizer
                       type_options:
                           required: true
+                    - property: partnerOrganizers
+                      label: app.event.partnerOrganizers
+                      help: app.event.help.partnerOrganizers
                     - property: isPublished
                       help: app.event.help.isPublished
                     - property: imageFile
@@ -271,6 +277,8 @@ easy_admin:
                       label: app.event.name
                     - property: organizer
                       label: app.event.organizer
+                    - property: partnerOrganizers
+                      label: app.event.partnerOrganizers
                     - property: isPublished
                       label: app.event.isPublished
                     - property: hasFullAccess

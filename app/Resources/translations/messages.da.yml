@@ -25,6 +25,7 @@ app:
         langcode: Sprog
         occurrences: Dato og tid
         organizer: Arrangør
+        partnerOrganizers: Partnere
         tags: Tags
         customTags: Ukendte tags
         ticketPurchaseUrl: Billet URL
@@ -62,6 +63,7 @@ app:
                 start_day: Dag hvor begivenheden starter
                 end_day: Dag hvor begivenheden slutter
             organizer: Vælg arrangør
+            partnerOrganizers: Vælg yderligere arrangører der er partnere i arrangemenet
 
     place:
         address: Adresse

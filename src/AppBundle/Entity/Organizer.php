@@ -92,6 +92,18 @@ class Organizer extends Entity implements Blameable
      */
     private $events;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\manyToMany(targetEntity="Event", mappedBy="partnerOrganizers")
+     */
+    private $partnerEvents;
+
+    public function __construct()
+    {
+        $this->partnerEvents = new ArrayCollection();
+    }
+
     public function __toString()
     {
         return $this->getName();
@@ -154,5 +166,19 @@ class Organizer extends Entity implements Blameable
     public function getEvents()
     {
         return $this->events;
+    }
+
+    public function getPartnerEvents()
+    {
+        return $this->partnerEvents;
+    }
+
+    public function addPartnerEvent($partnerEvent)
+    {
+        if (!$this->partnerEvents->contains($partnerEvent)) {
+            $this->partnerEvents->add($partnerEvent);
+        }
+
+        return $this;
     }
 }
