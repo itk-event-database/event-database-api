@@ -20,8 +20,20 @@ Feature: Events
       "organizer": {
         "name": "The organizer",
         "email": "organizer@example.com",
-        "url": "http://example.com/organizer"
+        "url": "https://example.com/organizer"
       },
+      "partnerOrganizers": [
+        {
+          "name": "The First Partner",
+          "email": "first.partner@example.com",
+          "url": "https://partner-1.com/organizer"
+        },
+        {
+          "name": "The Second Partner",
+          "email": "second.partner@example.com",
+          "url": "https://partner-2.com/organizer"
+        }
+      ],
       "occurrences": [ {
         "startDate": "2000-01-01T00:00:00+00:00",
         "endDate": "2001-01-01T00:00:00+00:00"
@@ -33,6 +45,12 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "organizer.name" should be equal to "The organizer"
     And the JSON node "organizer.@id" should be equal to "/api/organizers/1"
+    And print last JSON response
+    And the JSON node "partnerOrganizers" should have 2 element
+    And the JSON node "partnerOrganizers[0].name" should be equal to "The First Partner"
+    And the JSON node "partnerOrganizers[0].@id" should be equal to "/api/organizers/2"
+    And the JSON node "partnerOrganizers[1].name" should be equal to "The Second Partner"
+    And the JSON node "partnerOrganizers[1].@id" should be equal to "/api/organizers/3"
 
   Scenario: Create another event
     When I authenticate as "api-write"
@@ -44,7 +62,7 @@ Feature: Events
       "name": "Another event",
       "organizer": {
         "name": "The organizer",
-        "email": "organizer@example.com",
+        "email": "organizer@exampl.com",
         "url": "http://example.com/organizer"
       },
       "occurrences": [ {

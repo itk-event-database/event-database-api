@@ -22,14 +22,29 @@ class FeedMappingTest extends ContainerTestCase implements Controller
     private $converter;
     private $events;
 
-    public function testMappingBibliotekerne()
+    public function testMappingAakbDk()
     {
         $this->readFeed(preg_replace('/^testMapping/', '', __FUNCTION__));
 
-        $this->assertEquals(10, count($this->events));
-        foreach ($this->events as $event) {
-            $this->assertEquals(1, count($event['occurrences']));
-        }
+        $this->assertCount(4, $this->events);
+
+        $this->assertEquals('Hovedbiblioteket', $this->events[0]['organizer']['name']);
+        $this->assertEquals('Gellerup Bibliotek', $this->events[1]['organizer']['name']);
+
+        $this->assertCount(1, $this->events[0]['partnerOrganizers']);
+        $this->assertEmpty($this->events[0]['partnerOrganizers'][0]);
+
+        $this->assertCount(1, $this->events[1]['partnerOrganizers']);
+        $this->assertEmpty($this->events[1]['partnerOrganizers'][0]);
+
+        $this->assertCount(2, $this->events[2]['partnerOrganizers']);
+        $this->assertEquals('International Community Aarhus', $this->events[2]['partnerOrganizers'][0]['name']);
+        $this->assertEquals('FOF Aarhus', $this->events[2]['partnerOrganizers'][1]['name']);
+
+        $this->assertCount(3, $this->events[3]['partnerOrganizers']);
+        $this->assertEquals('DR; Litteratursiden.dk', $this->events[3]['partnerOrganizers'][0]['name']);
+        $this->assertEquals('International Community Aarhus', $this->events[3]['partnerOrganizers'][1]['name']);
+        $this->assertEquals('FOF Aarhus', $this->events[3]['partnerOrganizers'][2]['name']);
     }
 
     public function testMappingSpotFestival()
