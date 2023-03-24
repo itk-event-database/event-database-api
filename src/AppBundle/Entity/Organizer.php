@@ -25,6 +25,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Organizer of events.
  *
  * @ORM\Entity
+ * @ORM\Table(
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="name_soft_unique",columns={"name", "deleted_at"}),
+ *          @ORM\UniqueConstraint(name="email_soft_unique",columns={"email", "deleted_at"}),
+ *          @ORM\UniqueConstraint(name="url_soft_unique",columns={"url", "deleted_at"})
+ *      }
+ * )
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @ApiResource(
  *   collectionOperations={
@@ -73,7 +80,7 @@ class Organizer extends Entity implements Blameable
      * @Assert\Email(
      *   message = "The email '{{ value }}' is not a valid email."
      * )
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      */
     private $email;
 
@@ -81,7 +88,7 @@ class Organizer extends Entity implements Blameable
      * @var string the url address
      *
      * @Groups({"organizer_read", "event_read", "event_write"})
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      */
     private $url;
 

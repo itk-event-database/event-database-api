@@ -76,12 +76,12 @@ class Event extends Thing implements CustomTaggable, Blameable
      *
      * @var ArrayCollection
      *
-     * @Groups({"event_read", "event_write", "occurrence_read"})
      * @ORM\ManyToMany(targetEntity="Organizer", inversedBy="partnerEvents", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="event__partner_organizers",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="organizer_id", referencedColumnName="id")}
      * )
+     * @Groups({"event_read", "event_write", "occurrence_read"})
      */
     private $partnerOrganizers;
 
@@ -226,7 +226,7 @@ class Event extends Thing implements CustomTaggable, Blameable
             return $clone;
         });
         $this->partnerOrganizers = $this->getPartnerOrganizers()->map(function ($organizer) use ($self) {
-            $organizer->addAdditionalEvent($self);
+            $organizer->addPartnerEvent($self);
 
             return $organizer;
         });
@@ -424,7 +424,7 @@ class Event extends Thing implements CustomTaggable, Blameable
     {
         if (!$this->partnerOrganizers->contains($partnerOrganizer)) {
             $this->partnerOrganizers->add($partnerOrganizer);
-            $partnerOrganizer->addAdditionalEvent($this);
+            $partnerOrganizer->addPartnerEvent($this);
         }
 
         return $this;
@@ -436,7 +436,7 @@ class Event extends Thing implements CustomTaggable, Blameable
 
         foreach ($partnerOrganizers as $partnerOrganizer) {
             $this->partnerOrganizers->add($partnerOrganizer);
-            $partnerOrganizer->addAdditionalEvent($this);
+            $partnerOrganizer->addPartnerEvent($this);
         }
 
         return $this;
