@@ -45,7 +45,7 @@ Feature: Events
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "organizer.name" should be equal to "The organizer"
     And the JSON node "organizer.@id" should be equal to "/api/organizers/1"
-    And the JSON node "partnerOrganizers" should have 2 element
+    And the JSON node "partnerOrganizers" should have 2 elements
     And the JSON node "partnerOrganizers[0].name" should be equal to "The First Partner"
     And the JSON node "partnerOrganizers[0].@id" should be equal to "/api/organizers/2"
     And the JSON node "partnerOrganizers[1].name" should be equal to "The Second Partner"
@@ -132,7 +132,7 @@ Feature: Events
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
-    And the JSON node "hydra:member" should have 3 element
+    And the JSON node "hydra:member" should have 3 elements
 
   Scenario: Create an event with a new organizer
     When I authenticate as "api-write"

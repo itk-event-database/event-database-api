@@ -420,7 +420,7 @@ class Event extends Thing implements CustomTaggable, Blameable
         return $this->organizer;
     }
 
-    public function addPartnerOrganizers($partnerOrganizer)
+    public function addPartnerOrganizer($partnerOrganizer)
     {
         if (!$this->partnerOrganizers->contains($partnerOrganizer)) {
             $this->partnerOrganizers->add($partnerOrganizer);

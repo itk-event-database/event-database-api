@@ -63,7 +63,7 @@ app:
                 start_day: Dag hvor begivenheden starter
                 end_day: Dag hvor begivenheden slutter
             organizer: Vælg arrangør
-            partnerOrganizers: Vælg yderligere arrangører der er partnere i arrangemenet
+            partnerOrganizers: Vælg yderligere arrangører der er partnere i arrangementet
 
     place:
         address: Adresse
