@@ -102,7 +102,7 @@ class Organizer extends Entity implements Blameable
     /**
      * @var ArrayCollection
      *
-     * @ORM\manyToMany(targetEntity="Event", mappedBy="partnerOrganizers")
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="partnerOrganizers")
      */
     private $partnerEvents;
 
