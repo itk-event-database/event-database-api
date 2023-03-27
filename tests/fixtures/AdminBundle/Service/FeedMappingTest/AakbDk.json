@@ -1,0 +1,267 @@
+[
+
+    {
+        "nid": "30506",
+        "url": "https://www.aakb.dk/arrangementer/teknologi/aabent-lab-60",
+        "title": "Åbent Lab ",
+        "language": "und",
+        "changed": "2021-07-06T10:33:24+02:00",
+        "categories": "Teknologi",
+        "tags": [
+            "laserskæring",
+            "lasercut",
+            "3D print",
+            "teknologi",
+            "DIY",
+            "prototyper",
+            "3D design",
+            "Maker-Lab"
+        ],
+        "category_tags": [
+            "Teknologi",
+            "laserskæring",
+            "lasercut",
+            "3D print",
+            "teknologi",
+            "DIY",
+            "prototyper",
+            "3D design",
+            "Maker-Lab"
+        ],
+        "groups": [],
+        "lead": "Vi holder åbent i labbet - kig forbi, hvis du er nysgerrig, har en ide eller en fil du gerne vil have skåret/printet.",
+        "body": "<p><strong>Vi holder åbent i labbet - kig forbi, hvis du er nysgerrig, har en ide eller en fil du gerne vil have skåret/printet.</strong></p> <p>På Dokk1 har vi et Maker Lab, hvor der er laserskærer og 3D printer. Vi har også forskellig hobby elektronik, som Micro:bit, Arduino og Little Bits.</p>\n<p>Åbent Lab er ikke en workshop eller undervisning; det er dig, din ide og motivation, der sætter rammen!</p>\n<p>Vi har åbent de fleste onsdage og enkelte lørdage, se mere på vores<a href=\"http://www.aakb.dk/makerlab\"> temaside</a>.</p>\n<p>Alle er velkomne fra 12 år.</p>\n<h3> </h3>\n<h3><strong>Covid-19</strong></h3>\n<p>Deltagelse kræver gyldigt coronapas</p>\n<p><br />Vi forbeholder os ret til at foretage ændringer i de enkelte arrangementer, hvis corona-situationen skulle ændre sig.</p>\n<p>Aarhus Bibliotekerne følger sundhedsmyndighedernes anvisninger, så det er trygt at deltage i bibliotekernes arrangementer både for brugere og for ansatte.</p>",
+        "date": {
+            "start": "2021-06-09T13:30:00+00:00",
+            "stop": "2021-06-09T15:30:00+00:00"
+        },
+        "images": {
+            "list": "https://www.aakb.dk/sites/www.aakb.dk/files/list_image/event/lampeprototyper.jpg",
+            "title": "https://www.aakb.dk/sites/www.aakb.dk/files/title_image/event/makerlab_1.jpg"
+        },
+        "location": {
+            "hint": "",
+            "thoroughfare": "Hack Kampmanns Plads 2",
+            "postal_code": "8000",
+            "locality": "Aarhus",
+            "mail": "dokk1-hovedbiblioteket@aarhus.dk",
+            "phone": "89 40 92 00 Borgerservice og Bibliotekers hovednummer",
+            "name": "Hovedbiblioteket",
+            "coordinates": {
+                "lat": "56.1535",
+                "lon": "10.2142"
+            }
+        },
+        "room": "Maker-Lab, niveau 2.2",
+        "price": "0",
+        "targets": {
+            "tid": "10",
+            "vid": "4",
+            "name": "For alle",
+            "description": "",
+            "format": "plain_text",
+            "weight": "0",
+            "uuid": "8c514b8e-c695-4cf7-a0ab-98ba5412b91a",
+            "vocabulary_machine_name": "event_target"
+        },
+        "unpublish_on": 0,
+        "partners": [{
+            "id": null,
+            "name": null
+        }],
+        "tickets": {
+            "url": ""
+        }
+    },
+    {
+        "nid": "35831",
+        "url": "https://www.aakb.dk/arrangementer/boern/familieloerdag-forskellige-familier",
+        "title": "Familielørdag - Forskellige familier",
+        "language": "und",
+        "changed": "2022-06-21T16:51:11+02:00",
+        "categories": "Børn",
+        "tags": [
+            "leg",
+            null,
+            "For børn"
+        ],
+        "groups": [],
+        "lead": "Leg og lær om forskellige familier",
+        "body": "<p><strong>Leg og lær om forskellige familier</strong></p> <p>Kom og begynd jeres weekend med os, når vi den sidste lørdag i måneden gør det lidt ekstra hyggeligt at være sammen på biblioteket.</p>\n<p>Hver måned har vi et nyt tema, som vi udfolder gennem hyggelige familieaktiviteter. I juni er temaet forskellige familier. </p>\n<p>Vi glæder os til at se jer!</p>\n",
+        "date": {
+            "start": "2022-06-25T08:00:00+00:00",
+            "stop": "2022-06-25T11:00:00+00:00"
+        },
+        "images": {
+            "list": "https://www.aakb.dk/sites/www.aakb.dk/files/list_image/event/mieke-campbell-q6dmzleejke-unsplash.jpg",
+            "title": "https://www.aakb.dk/sites/www.aakb.dk/files/title_image/event/mieke-campbell-q6dmzleejke-unsplash.jpg"
+        },
+        "location": {
+            "hint": "",
+            "thoroughfare": "Karen Blixens Boulevard 23",
+            "postal_code": "8220",
+            "locality": "Brabrand",
+            "mail": "Gellerupbibliotek@aarhus.dk",
+            "phone": "89 40 95 00 Borgerservice og Biblioteker",
+            "name": "Gellerup Bibliotek",
+            "coordinates": {
+                "lat": "56.1555",
+                "lon": "10.1343"
+            }
+        },
+        "room": "",
+        "price": "0",
+        "targets": {
+            "tid": "11",
+            "vid": "4",
+            "name": "For børn",
+            "description": "",
+            "format": "plain_text",
+            "weight": "1",
+            "uuid": "b5058689-f90b-4df4-925c-9006b930bcb3",
+            "vocabulary_machine_name": "event_target"
+        },
+        "unpublish_on": 0,
+        "partners": [{
+            "id": null,
+            "name": null
+        }],
+        "tickets": {
+            "url": ""
+        }
+    },
+    {
+        "nid": "36043",
+        "url": "https://www.aakb.dk/arrangementer/blandet-godt/rundvisning-paa-dokk1-107",
+        "title": "Rundvisning på Dokk1",
+        "language": "da",
+        "changed": "2022-10-25T08:22:08+02:00",
+        "categories": "Blandet godt",
+        "tags": [
+            "rundvisning",
+            "Dokk1",
+            "gratis"
+        ],
+        "groups": [{
+            "nid": "6331",
+            "title": "Welcome to the Library",
+            "link": "https://www.aakb.dk/temaer/welcome-library"
+        }],
+        "lead": "Tilmeld dig til rundvisning på Dokk1.",
+        "body": "<p><strong>Tilmeld dig til rundvisning på Dokk1.</strong></p> <p>Rundvisningerne er  for enkeltpersoner og mindre grupper (op til 25 personer).</p>\n<p><strong>Der er rundvisning torsdage kl. 16.30</strong></p>\n<p>Turen tager ca. 1 time og starter ved Informationen på niveau 1.<br /> </p>\n<p>Hvis I er en gruppe på mere end 25 personer, der ønsker at deltage i en rundvisning, så kontakt os på <a href=\"mailto:rundvisninger@dokk1.dk\">rundvisninger@dokk1.dk</a> med jeres forespørgsel.</p>\n<p>Har du bestilt en plads på en af vores rundvisninger, men bliver forhindret i at deltage, bedes du annullere din billet via link i din bestillingsmail.</p>\n<p>Vi forbeholder os ret til at aflyse rundvisningen ved for få tilmeldinger<em>. </em>Information herom udsendes på mail.</p>\n<p> </p>\n<p> </p>",
+        "date": {
+            "start": "2022-10-25T11:00:00+00:00",
+            "stop": "2022-10-25T12:00:00+00:00"
+        },
+        "images": {
+            "list": "https://www.aakb.dk/sites/www.aakb.dk/files/list_image/event/rundvisninger_1_3.jpg",
+            "title": "https://www.aakb.dk/sites/www.aakb.dk/files/title_image/event/rundvisninger_7_8.jpg"
+        },
+        "location": {
+            "hint": "Informationen, Dokk1",
+            "thoroughfare": "Hack Kampmanns Plads 2",
+            "postal_code": "8000",
+            "locality": "Aarhus",
+            "mail": "dokk1-hovedbiblioteket@aarhus.dk",
+            "phone": "89 40 92 00 Borgerservice og Bibliotekers hovednummer",
+            "name": "Hovedbiblioteket",
+            "coordinates": {
+                "lat": "56.1535",
+                "lon": "10.2142"
+            }
+        },
+        "room": "",
+        "price": "0",
+        "targets": {
+            "tid": "10",
+            "vid": "4",
+            "name": "For alle",
+            "description": "",
+            "format": "plain_text",
+            "weight": "0",
+            "uuid": "8c514b8e-c695-4cf7-a0ab-98ba5412b91a",
+            "vocabulary_machine_name": "event_target"
+        },
+        "unpublish_on": "2023-07-01T19:00:00+02:00",
+        "partners": [
+            {
+                "id": null,
+                "name": "International Community Aarhus"
+            },
+            {
+                "id": null,
+                "name": "FOF Aarhus"
+            }
+        ],
+        "tickets": {
+            "url": "https://pretix.eu/aakb/Rundvisning/3210934/"
+        }
+    },
+    {
+        "nid": "36093",
+        "url": "https://www.aakb.dk/arrangementer/blandet-godt/er-mit-barn-ordblind-1",
+        "title": "Er mit barn ordblind?",
+        "language": "und",
+        "changed": "2023-01-05T13:01:20+01:00",
+        "categories": "Blandet godt",
+        "tags": [
+            "ordblind",
+            "ordblindhed",
+            "verdensmål"
+        ],
+        "groups": [],
+        "lead": "Fokus på indskoling og mellemtrinnet",
+        "body": "<p><strong>Fokus på indskoling og mellemtrinnet</strong></p> <p>Kompetencecenter for Læsning vil fortælle om ordblindhed, og hvilke tegn man skal være opmærksom på. Hvilke test tages i Aarhus Kommune?<br />\nVi kommer ind på de følgevirkninger, der kan følge med det at være ordblind.<br />\nEn elev fortæller om det at være ordblind i folkeskolen, og sammen deler vi vores erfaringer og anbefalinger.</p>\n<p>Det er for forældre til børn i indskolingen og mellemtrinnet.</p>\n<p>Vi forbeholder os ret til at foretage ændringer i arrangementerne, hvis corona-situationen skulle ændre sig. Aarhus Bibliotekerne følger sundhedsmyndighedernes anvisninger, så det er trygt at deltage i bibliotekernes arrangementer både for brugere og for ansatte.</p>\n",
+        "date": {
+            "start": "2023-04-19T14:30:00+00:00",
+            "stop": "2023-04-19T16:00:00+00:00"
+        },
+        "images": {
+            "list": "https://www.aakb.dk/sites/www.aakb.dk/files/list_image/event/mit_barn_har_svaert_ved_at_laese_og_skrive.jpg",
+            "title": "https://www.aakb.dk/sites/www.aakb.dk/files/title_image/event/mit_barn_har_svaert_ved_at_laese_og_skrive.jpg"
+        },
+        "location": {
+            "hint": "Dokk1",
+            "thoroughfare": "Hack Kampmanns Plads 2",
+            "postal_code": "8000",
+            "locality": "Aarhus",
+            "mail": "dokk1-hovedbiblioteket@aarhus.dk",
+            "phone": "89 40 92 00 Borgerservice og Bibliotekers hovednummer",
+            "name": "Hovedbiblioteket",
+            "coordinates": {
+                "lat": "56.1535",
+                "lon": "10.2142"
+            }
+        },
+        "room": "M2",
+        "price": "0",
+        "targets": {
+            "tid": "4711",
+            "vid": "4",
+            "name": "For forældre",
+            "description": "",
+            "format": "ding_wysiwyg",
+            "weight": "2",
+            "uuid": "9efa8f1a-7af0-4581-94cd-4f323279aec7",
+            "vocabulary_machine_name": "event_target"
+        },
+        "unpublish_on": "2023-06-05T10:58:39+02:00",
+        "partners": [
+            {
+                "id": "14036",
+                "name": "DR; Litteratursiden.dk"
+            },
+            {
+                "id": null,
+                "name": "International Community Aarhus"
+            },
+            {
+                "id": null,
+                "name": "FOF Aarhus"
+            }
+        ],
+        "tickets": {
+            "url": "https://pretix.eu/aakb/36093/"
+        }
+    }
+]

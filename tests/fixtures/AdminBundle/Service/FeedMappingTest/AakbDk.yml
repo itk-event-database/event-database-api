@@ -1,0 +1,55 @@
+# url: 'https://www.aakb.dk/feeds/eventdb'
+type: json
+mapping:
+    id: nid
+    name: title
+    description: body
+    tags:
+        path: tags
+        _split: ','
+    image: images.list
+    url: url
+    langcode: language
+    ticketPurchaseUrl: tickets.url
+    organizer:
+        type: object
+        mapping:
+            name: location.name
+        defaults:
+            name: 'Aarhus Kommunes Biblioteker'
+    partnerOrganizers:
+        path: partners
+        mapping:
+            id: id
+            name: name
+    occurrences:
+        type: list
+        mapping:
+            startDate: date.start
+            endDate: date.stop
+            ticketPriceRange: price
+            eventStatusText: null
+            eventSalesStatus: null
+            room: room
+            place:
+                type: object
+                path: location
+                mapping:
+                    name: name
+                    url: null
+                    telephone: phone
+                    logo: null
+                    address_country: null
+                    address_locality: locality
+                    postal_code: portal_code
+                    street_address: thoroughfare
+                    latitude: coordinates.lat
+                    longitude: coordinates.lon
+                    email: mail
+defaults:
+    excerpt: ''
+    langcode: da
+    tags:
+        value:
+            - 'Aarhus Kommunes Biblioteker'
+        append: true

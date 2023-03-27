@@ -1,0 +1,21 @@
+--- ./vendor/friendsofphp/php-cs-fixer/php-cs-fixer	2021-11-15 18:17:55
++++ ./vendor/friendsofphp/php-cs-fixer/php-cs-fixer-patched	2023-03-22 16:09:43
+@@ -50,6 +50,18 @@
+     }
+ }
+ 
++// Hack to avoid "PHP extension ext-json is missing from your system. Install or enable it."
++// error on Github Actions experienced with "json Enabled" in setup.
++// For install issues on MAcOS
++// @see https://github.com/cweagans/composer-patches/issues/423#issuecomment-1301026697
++foreach (['json', 'tokenizer'] as $extension) {
++    if (!extension_loaded($extension)) {
++        $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
++        dl($prefix . $extension . '.' . PHP_SHLIB_SUFFIX);
++    }
++}
++unset($prefix);
++
+ foreach (['json', 'tokenizer'] as $extension) {
+     if (!extension_loaded($extension)) {
+         fwrite(STDERR, sprintf("PHP extension ext-%s is missing from your system. Install or enable it.\n", $extension));

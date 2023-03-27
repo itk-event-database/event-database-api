@@ -1,0 +1,2377 @@
+{
+    "swagger": "2.0",
+    "basePath": "\/",
+    "info": {
+        "title": "Event Database",
+        "version": "0.1.0",
+        "description": "API for creating and querying events"
+    },
+    "paths": {
+        "\/api\/daily_occurrences": {
+            "get": {
+                "tags": [
+                    "DailyOccurrence"
+                ],
+                "operationId": "getDailyOccurrenceCollection",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves the collection of DailyOccurrence resources.",
+                "responses": {
+                    "200": {
+                        "description": "DailyOccurrence collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#\/definitions\/DailyOccurrence-occurrence_read"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "place.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "place.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "place.id[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "place.postalCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "place.postalCode[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.organizer.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "event.organizer.id[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "event.createdBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.createdBy[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.url[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.tags",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.tags[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "published",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[startDate]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[endDate]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The collection page number"
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of items per page"
+                    }
+                ]
+            }
+        },
+        "\/api\/daily_occurrences\/{id}": {
+            "get": {
+                "tags": [
+                    "DailyOccurrence"
+                ],
+                "operationId": "getDailyOccurrenceItem",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves a DailyOccurrence resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "DailyOccurrence resource response",
+                        "schema": {
+                            "$ref": "#\/definitions\/DailyOccurrence-occurrence_read"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/events": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "operationId": "getEventCollection",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves the collection of Event resources.",
+                "responses": {
+                    "200": {
+                        "description": "Event collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#\/definitions\/Event-event_read"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "langcode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "langcode[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "createdBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "createdBy[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.place.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.place.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "occurrences.place.id[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "occurrences.place.postalCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.place.postalCode[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "organizer.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "organizer.id[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "url[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.startDate[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.startDate[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.startDate[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.startDate[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.endDate[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.endDate[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.endDate[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "occurrences.endDate[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updatedAt[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updatedAt[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updatedAt[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "updatedAt[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tags",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tags[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "published",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[occurrences.startDate]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[occurrences.endDate]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[updatedAt]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The collection page number"
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of items per page"
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "operationId": "postEventCollection",
+                "consumes": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Creates a Event resource.",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "body",
+                        "description": "The new Event resource",
+                        "schema": {
+                            "$ref": "#\/definitions\/Event-event_write"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Event resource created",
+                        "schema": {
+                            "$ref": "#\/definitions\/Event-event_read"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/events\/{id}": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "operationId": "getEventItem",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves a Event resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event resource response",
+                        "schema": {
+                            "$ref": "#\/definitions\/Event-event_read"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Event"
+                ],
+                "operationId": "deleteEventItem",
+                "summary": "Removes the Event resource.",
+                "responses": {
+                    "204": {
+                        "description": "Event resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Event"
+                ],
+                "operationId": "putEventItem",
+                "consumes": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Replaces the Event resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "event",
+                        "in": "body",
+                        "description": "The updated Event resource",
+                        "schema": {
+                            "$ref": "#\/definitions\/Event-event_write"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event resource updated",
+                        "schema": {
+                            "$ref": "#\/definitions\/Event-event_read"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/occurrences": {
+            "get": {
+                "tags": [
+                    "Occurrence"
+                ],
+                "operationId": "getOccurrenceCollection",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves the collection of Occurrence resources.",
+                "responses": {
+                    "200": {
+                        "description": "Occurrence collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#\/definitions\/Occurrence-occurrence_read"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "place.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "place.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "place.id[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "place.postalCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "place.postalCode[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.organizer.id",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "event.organizer.id[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "event.createdBy",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.createdBy[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.url",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.url[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "startDate[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[strictly_before]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "endDate[strictly_after]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.tags",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "event.tags[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "published",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[startDate]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[endDate]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The collection page number"
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of items per page"
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Occurrence"
+                ],
+                "operationId": "postOccurrenceCollection",
+                "consumes": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Creates a Occurrence resource.",
+                "parameters": [
+                    {
+                        "name": "occurrence",
+                        "in": "body",
+                        "description": "The new Occurrence resource",
+                        "schema": {
+                            "$ref": "#\/definitions\/Occurrence-event_write"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Occurrence resource created",
+                        "schema": {
+                            "$ref": "#\/definitions\/Occurrence-occurrence_read"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/occurrences\/{id}": {
+            "get": {
+                "tags": [
+                    "Occurrence"
+                ],
+                "operationId": "getOccurrenceItem",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves a Occurrence resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Occurrence resource response",
+                        "schema": {
+                            "$ref": "#\/definitions\/Occurrence-occurrence_read"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Occurrence"
+                ],
+                "operationId": "deleteOccurrenceItem",
+                "summary": "Removes the Occurrence resource.",
+                "responses": {
+                    "204": {
+                        "description": "Occurrence resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Occurrence"
+                ],
+                "operationId": "putOccurrenceItem",
+                "consumes": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Replaces the Occurrence resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "occurrence",
+                        "in": "body",
+                        "description": "The updated Occurrence resource",
+                        "schema": {
+                            "$ref": "#\/definitions\/Occurrence-event_write"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Occurrence resource updated",
+                        "schema": {
+                            "$ref": "#\/definitions\/Occurrence-occurrence_read"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/organizers": {
+            "get": {
+                "tags": [
+                    "Organizer"
+                ],
+                "operationId": "getOrganizerCollection",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves the collection of Organizer resources.",
+                "responses": {
+                    "200": {
+                        "description": "Organizer collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#\/definitions\/Organizer-organizer_read"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[name]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The collection page number"
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of items per page"
+                    }
+                ]
+            }
+        },
+        "\/api\/organizers\/{id}": {
+            "get": {
+                "tags": [
+                    "Organizer"
+                ],
+                "operationId": "getOrganizerItem",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves a Organizer resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Organizer resource response",
+                        "schema": {
+                            "$ref": "#\/definitions\/Organizer-organizer_read"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/places": {
+            "get": {
+                "tags": [
+                    "Place"
+                ],
+                "operationId": "getPlaceCollection",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves the collection of Place resources.",
+                "responses": {
+                    "200": {
+                        "description": "Place collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#\/definitions\/Place-place_read_event_read_occurrence_read"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "postalCode",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "postalCode[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tags",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tags[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "description": "Origin of search; format: \u00ablatitude\u00bb,\u00ablongitude\u00bb, e.g. 56.1535557,10.2120222. Alternatively, use \u201clat\u201d and \u201clng\u201d.",
+                        "type": "string",
+                        "name": "geolocation[origin]",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "description": "Latitude of origin of search. Specify both \u201clat\u201d and \u201clng\u201d in query or use \u201corigin\u201d.",
+                        "type": "number",
+                        "name": "geolocation[lat]",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "description": "Longitude of origin of search. Specify both \u201clat\u201d and \u201clng\u201d in query or use \u201corigin\u201d.",
+                        "type": "number",
+                        "name": "geolocation[lng]",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "description": "Search radius in km (default: 8.00; min: 1.00)",
+                        "type": "number",
+                        "name": "geolocation[radius]",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order[name]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The collection page number"
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of items per page"
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Place"
+                ],
+                "operationId": "postPlaceCollection",
+                "consumes": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Creates a Place resource.",
+                "parameters": [
+                    {
+                        "name": "place",
+                        "in": "body",
+                        "description": "The new Place resource",
+                        "schema": {
+                            "$ref": "#\/definitions\/Place-event_write_place_write"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Place resource created",
+                        "schema": {
+                            "$ref": "#\/definitions\/Place-place_read_event_read_occurrence_read"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/places\/{id}": {
+            "get": {
+                "tags": [
+                    "Place"
+                ],
+                "operationId": "getPlaceItem",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves a Place resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Place resource response",
+                        "schema": {
+                            "$ref": "#\/definitions\/Place-place_read_event_read_occurrence_read"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Place"
+                ],
+                "operationId": "deletePlaceItem",
+                "summary": "Removes the Place resource.",
+                "responses": {
+                    "204": {
+                        "description": "Place resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Place"
+                ],
+                "operationId": "putPlaceItem",
+                "consumes": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Replaces the Place resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "place",
+                        "in": "body",
+                        "description": "The updated Place resource",
+                        "schema": {
+                            "$ref": "#\/definitions\/Place-event_write_place_write"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Place resource updated",
+                        "schema": {
+                            "$ref": "#\/definitions\/Place-place_read_event_read_occurrence_read"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        },
+        "\/api\/tags": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "operationId": "getTagCollection",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves the collection of Tag resources.",
+                "responses": {
+                    "200": {
+                        "description": "Tag collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#\/definitions\/Tag-read"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The collection page number"
+                    },
+                    {
+                        "name": "items_per_page",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer",
+                        "description": "The number of items per page"
+                    }
+                ]
+            }
+        },
+        "\/api\/tags\/{id}": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "operationId": "getTagItem",
+                "produces": [
+                    "application\/ld+json",
+                    "application\/hal+json",
+                    "application\/xml",
+                    "text\/xml",
+                    "text\/csv",
+                    "application\/json",
+                    "text\/html",
+                    "application\/aoa+json",
+                    "application\/firebase+json"
+                ],
+                "summary": "Retrieves a Tag resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tag resource response",
+                        "schema": {
+                            "$ref": "#\/definitions\/Tag-read"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "DailyOccurrence-occurrence_read": {
+            "type": "object",
+            "description": "A daily occurrence of an Event.",
+            "properties": {
+                "event": {
+                    "$ref": "#\/definitions\/Event-occurrence_read"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "place": {
+                    "$ref": "#\/definitions\/Place-occurrence_read"
+                },
+                "room": {
+                    "description": "the room the event is held in",
+                    "type": "string"
+                },
+                "ticketPriceRange": {
+                    "description": "the range of prices for tickets",
+                    "type": "string"
+                },
+                "eventStatusText": {
+                    "description": "The status of the event",
+                    "type": "string"
+                },
+                "eventSalesStatus": {
+                    "readOnly": true,
+                    "description": "The status code of the event\n\n0: Normal\n1: Few tickets left\n2: Sold out\n3: Cancelled\n4: Not in sale\n5: Waiting\n6: Moved\n7: Ekstra show",
+                    "type": "string"
+                }
+            }
+        },
+        "Event-event_read": {
+            "type": "object",
+            "description": "An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Event"
+            },
+            "properties": {
+                "updatedAt": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "organizer": {
+                    "description": "The primary event organizer.",
+                    "$ref": "#\/definitions\/Organizer-event_read"
+                },
+                "partnerOrganizers": {
+                    "description": "Partner Organizers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Organizer-event_read"
+                    }
+                },
+                "isPublished": {
+                    "type": "boolean"
+                },
+                "hasFullAccess": {
+                    "type": "boolean"
+                },
+                "occurrences": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Occurrence-event_read"
+                    }
+                },
+                "ticketPurchaseUrl": {
+                    "description": "The URI for ticket purchase",
+                    "type": "string"
+                },
+                "eventUrl": {
+                    "description": "the URI for (Facebook) event",
+                    "type": "string"
+                },
+                "excerpt": {
+                    "description": "Excerpt, i.e. short description, without any markup",
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "customTags": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "images": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Event-event_write": {
+            "type": "object",
+            "description": "An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Event"
+            },
+            "properties": {
+                "organizer": {
+                    "description": "The primary event organizer.",
+                    "$ref": "#\/definitions\/Organizer-event_write"
+                },
+                "partnerOrganizers": {
+                    "description": "Partner Organizers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Organizer-event_write"
+                    }
+                },
+                "isPublished": {
+                    "type": "boolean"
+                },
+                "hasFullAccess": {
+                    "type": "boolean"
+                },
+                "occurrences": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Occurrence-event_write"
+                    }
+                },
+                "ticketPurchaseUrl": {
+                    "description": "The URI for ticket purchase",
+                    "type": "string"
+                },
+                "eventUrl": {
+                    "description": "the URI for (Facebook) event",
+                    "type": "string"
+                },
+                "excerpt": {
+                    "description": "Excerpt, i.e. short description, without any markup",
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Event-occurrence_read": {
+            "type": "object",
+            "description": "An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Event"
+            },
+            "properties": {
+                "organizer": {
+                    "description": "The primary event organizer.",
+                    "$ref": "#\/definitions\/Organizer-occurrence_read"
+                },
+                "partnerOrganizers": {
+                    "description": "Partner Organizers.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#\/definitions\/Organizer-occurrence_read"
+                    }
+                },
+                "hasFullAccess": {
+                    "type": "boolean"
+                },
+                "ticketPurchaseUrl": {
+                    "description": "The URI for ticket purchase",
+                    "type": "string"
+                },
+                "eventUrl": {
+                    "description": "the URI for (Facebook) event",
+                    "type": "string"
+                },
+                "excerpt": {
+                    "description": "Excerpt, i.e. short description, without any markup",
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "images": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Occurrence-event_read": {
+            "type": "object",
+            "description": "An occurrence of an Event.",
+            "properties": {
+                "event": {
+                    "$ref": "#\/definitions\/Event-event_read"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "place": {
+                    "$ref": "#\/definitions\/Place-event_read"
+                },
+                "room": {
+                    "description": "the room the event is held in",
+                    "type": "string"
+                },
+                "ticketPriceRange": {
+                    "description": "the range of prices for tickets",
+                    "type": "string"
+                },
+                "eventStatusText": {
+                    "description": "The status of the event",
+                    "type": "string"
+                },
+                "eventSalesStatus": {
+                    "readOnly": true,
+                    "description": "The status code of the event\n\n0: Normal\n1: Few tickets left\n2: Sold out\n3: Cancelled\n4: Not in sale\n5: Waiting\n6: Moved\n7: Ekstra show",
+                    "type": "string"
+                }
+            }
+        },
+        "Occurrence-event_write": {
+            "type": "object",
+            "description": "An occurrence of an Event.",
+            "properties": {
+                "event": {
+                    "$ref": "#\/definitions\/Event-event_write"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "place": {
+                    "$ref": "#\/definitions\/Place-event_write"
+                },
+                "room": {
+                    "description": "the room the event is held in",
+                    "type": "string"
+                },
+                "ticketPriceRange": {
+                    "description": "the range of prices for tickets",
+                    "type": "string"
+                },
+                "eventStatusText": {
+                    "description": "The status of the event",
+                    "type": "string"
+                },
+                "eventSalesStatus": {
+                    "readOnly": true,
+                    "description": "The status code of the event\n\n0: Normal\n1: Few tickets left\n2: Sold out\n3: Cancelled\n4: Not in sale\n5: Waiting\n6: Moved\n7: Ekstra show",
+                    "type": "string"
+                }
+            }
+        },
+        "Occurrence-occurrence_read": {
+            "type": "object",
+            "description": "An occurrence of an Event.",
+            "properties": {
+                "event": {
+                    "$ref": "#\/definitions\/Event-occurrence_read"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "endDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "place": {
+                    "$ref": "#\/definitions\/Place-occurrence_read"
+                },
+                "room": {
+                    "description": "the room the event is held in",
+                    "type": "string"
+                },
+                "ticketPriceRange": {
+                    "description": "the range of prices for tickets",
+                    "type": "string"
+                },
+                "eventStatusText": {
+                    "description": "The status of the event",
+                    "type": "string"
+                },
+                "eventSalesStatus": {
+                    "readOnly": true,
+                    "description": "The status code of the event\n\n0: Normal\n1: Few tickets left\n2: Sold out\n3: Cancelled\n4: Not in sale\n5: Waiting\n6: Moved\n7: Ekstra show",
+                    "type": "string"
+                }
+            }
+        },
+        "Organizer-event_read": {
+            "type": "object",
+            "description": "Organizer of events.",
+            "properties": {
+                "name": {
+                    "description": "the name",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "the url address",
+                    "type": "string"
+                }
+            }
+        },
+        "Organizer-event_write": {
+            "type": "object",
+            "description": "Organizer of events.",
+            "properties": {
+                "name": {
+                    "description": "the name",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "the url address",
+                    "type": "string"
+                }
+            }
+        },
+        "Organizer-occurrence_read": {
+            "type": "object",
+            "description": "Organizer of events."
+        },
+        "Organizer-organizer_read": {
+            "type": "object",
+            "description": "Organizer of events.",
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "the name",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "the url address",
+                    "type": "string"
+                }
+            }
+        },
+        "Place-event_read": {
+            "type": "object",
+            "description": "Entities that have a somewhat fixed, physical extension.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Place"
+            },
+            "properties": {
+                "telephone": {
+                    "description": "the telephone number",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "logo": {
+                    "description": "the logo of the item",
+                    "type": "string"
+                },
+                "disabilityAccess": {
+                    "description": "Does the place have disability access?",
+                    "type": "boolean"
+                },
+                "latitude": {
+                    "description": "The latitude of the location",
+                    "type": "number"
+                },
+                "longitude": {
+                    "description": "The longitude of the location",
+                    "type": "number"
+                },
+                "tags": {
+                    "description": "Returns the collection of tags for this Taggable entity.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "images": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Place-event_write": {
+            "type": "object",
+            "description": "Entities that have a somewhat fixed, physical extension.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Place"
+            },
+            "properties": {
+                "telephone": {
+                    "description": "the telephone number",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "logo": {
+                    "description": "the logo of the item",
+                    "type": "string"
+                },
+                "disabilityAccess": {
+                    "description": "Does the place have disability access?",
+                    "type": "boolean"
+                },
+                "tags": {
+                    "description": "Returns the collection of tags for this Taggable entity.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Place-event_write_place_write": {
+            "type": "object",
+            "description": "Entities that have a somewhat fixed, physical extension.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Place"
+            },
+            "properties": {
+                "telephone": {
+                    "description": "the telephone number",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "logo": {
+                    "description": "the logo of the item",
+                    "type": "string"
+                },
+                "disabilityAccess": {
+                    "description": "Does the place have disability access?",
+                    "type": "boolean"
+                },
+                "addressCountry": {
+                    "description": "The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http:\/\/en.wikipedia.org\/wiki\/ISO_3166-1).",
+                    "type": "string"
+                },
+                "addressLocality": {
+                    "description": "The locality. For example, Mountain View.",
+                    "type": "string"
+                },
+                "addressRegion": {
+                    "description": "The region. For example, CA.",
+                    "type": "string"
+                },
+                "postalCode": {
+                    "description": "The postal code. For example, 94043.",
+                    "type": "string"
+                },
+                "streetAddress": {
+                    "description": "The street address. For example, 1600 Amphitheatre Pkwy.",
+                    "type": "string"
+                },
+                "latitude": {
+                    "description": "The latitude of the location",
+                    "type": "number"
+                },
+                "longitude": {
+                    "description": "The longitude of the location",
+                    "type": "number"
+                },
+                "tags": {
+                    "description": "Returns the collection of tags for this Taggable entity.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Place-occurrence_read": {
+            "type": "object",
+            "description": "Entities that have a somewhat fixed, physical extension.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Place"
+            },
+            "properties": {
+                "telephone": {
+                    "description": "the telephone number",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "logo": {
+                    "description": "the logo of the item",
+                    "type": "string"
+                },
+                "disabilityAccess": {
+                    "description": "Does the place have disability access?",
+                    "type": "boolean"
+                },
+                "addressCountry": {
+                    "description": "The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http:\/\/en.wikipedia.org\/wiki\/ISO_3166-1).",
+                    "type": "string"
+                },
+                "addressLocality": {
+                    "description": "The locality. For example, Mountain View.",
+                    "type": "string"
+                },
+                "addressRegion": {
+                    "description": "The region. For example, CA.",
+                    "type": "string"
+                },
+                "postalCode": {
+                    "description": "The postal code. For example, 94043.",
+                    "type": "string"
+                },
+                "streetAddress": {
+                    "description": "The street address. For example, 1600 Amphitheatre Pkwy.",
+                    "type": "string"
+                },
+                "latitude": {
+                    "description": "The latitude of the location",
+                    "type": "number"
+                },
+                "longitude": {
+                    "description": "The longitude of the location",
+                    "type": "number"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "images": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Place-place_read_event_read_occurrence_read": {
+            "type": "object",
+            "description": "Entities that have a somewhat fixed, physical extension.",
+            "externalDocs": {
+                "url": "http:\/\/schema.org\/Place"
+            },
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "integer"
+                },
+                "telephone": {
+                    "description": "the telephone number",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "the email address",
+                    "type": "string"
+                },
+                "logo": {
+                    "description": "the logo of the item",
+                    "type": "string"
+                },
+                "disabilityAccess": {
+                    "description": "Does the place have disability access?",
+                    "type": "boolean"
+                },
+                "addressCountry": {
+                    "description": "The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http:\/\/en.wikipedia.org\/wiki\/ISO_3166-1).",
+                    "type": "string"
+                },
+                "addressLocality": {
+                    "description": "The locality. For example, Mountain View.",
+                    "type": "string"
+                },
+                "addressRegion": {
+                    "description": "The region. For example, CA.",
+                    "type": "string"
+                },
+                "postalCode": {
+                    "description": "The postal code. For example, 94043.",
+                    "type": "string"
+                },
+                "streetAddress": {
+                    "description": "The street address. For example, 1600 Amphitheatre Pkwy.",
+                    "type": "string"
+                },
+                "latitude": {
+                    "description": "The latitude of the location",
+                    "type": "number"
+                },
+                "longitude": {
+                    "description": "The longitude of the location",
+                    "type": "number"
+                },
+                "tags": {
+                    "description": "Returns the collection of tags for this Taggable entity.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Gets description.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "Gets image.",
+                    "type": "string"
+                },
+                "images": {
+                    "readOnly": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "description": "Gets name.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "Gets url.",
+                    "type": "string"
+                },
+                "videoUrl": {
+                    "description": "Gets videoURL.",
+                    "type": "string"
+                },
+                "langcode": {
+                    "description": "Gets langcode.",
+                    "type": "string"
+                }
+            }
+        },
+        "Tag-read": {
+            "type": "object",
+            "description": "AppBundle\\Entity\\Tag.",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

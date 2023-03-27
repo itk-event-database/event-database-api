@@ -20,5 +20,7 @@ swiftmailer:
 
 doctrine:
     dbal:
-        host: '%database_host%_test'
-        dbname: '%database_name%'
+        host: '%database_host%'
+        dbname: '%database_name%_test'
+        user: 'root'
+        password: 'password'

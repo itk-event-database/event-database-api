@@ -61,7 +61,7 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_general_ci
-        server_version: 10.2.21-mariadb
+        server_version: 10.5.10-mariadb
         schema_filter: ~^(?!craue_config_setting)~
 
     orm:
