@@ -98,6 +98,11 @@ class EventFactory extends EntityFactory
                         $entity->setOrganizer($organizer);
 
                         return;
+                    case 'partnerOrganizers':
+                        $partnerOrganizers = array_map([$this->organizerFactory, 'get'], $value);
+                        $entity->setPartnerOrganizers($partnerOrganizers);
+
+                        return;
                 }
             }
         }
