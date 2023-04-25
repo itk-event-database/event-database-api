@@ -190,5 +190,87 @@ Feature: Events
     And the JSON node "organizer.name" should be equal to "Damage, Inc."
     And the JSON node "organizer.@id" should be equal to "/api/organizers/4"
 
+  Scenario: Create an event with existing partner organizers
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "The first event (again)",
+      "organizer": {
+        "name": "The organizer",
+        "email": "organizer@example.com",
+        "url": "https://example.com/organizer"
+      },
+      "partnerOrganizers": [
+        {
+          "name": "The First Partner",
+          "email": "first.partner@example.com",
+          "url": "https://partner-1.com/organizer"
+        },
+        {
+          "name": "The Second Partner",
+          "email": "second.partner@example.com",
+          "url": "https://partner-2.com/organizer"
+        }
+      ],
+      "occurrences": [ {
+        "startDate": "2000-01-01T00:00:00+00:00",
+        "endDate": "2001-01-01T00:00:00+00:00"
+      } ]
+    }
+    """
+    Then the response status code should be 201
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "organizer.name" should be equal to "The organizer"
+    And the JSON node "organizer.@id" should be equal to "/api/organizers/1"
+    And the JSON node "partnerOrganizers" should have 2 elements
+    And the JSON node "partnerOrganizers[0].name" should be equal to "The First Partner"
+    And the JSON node "partnerOrganizers[0].@id" should be equal to "/api/organizers/2"
+    And the JSON node "partnerOrganizers[1].name" should be equal to "The Second Partner"
+    And the JSON node "partnerOrganizers[1].@id" should be equal to "/api/organizers/3"
+
+  Scenario: Create an event with existing partner organizers
+    When I authenticate as "api-write"
+    And I add "Content-Type" header equal to "application/ld+json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "POST" request to "/api/events" with body:
+    """
+    {
+      "name": "The first event (again)",
+      "organizer": {
+        "name": "The organizer",
+        "email": "organizer@example.com",
+        "url": "https://example.com/organizer"
+      },
+      "partnerOrganizers": [
+        {
+          "@id": "/api/organizers/2"
+        },
+        {
+          "name": "The Second Partner",
+          "email": "second.partner@example.com",
+          "url": "https://partner-2.com/organizer"
+        }
+      ],
+      "occurrences": [ {
+        "startDate": "2000-01-01T00:00:00+00:00",
+        "endDate": "2001-01-01T00:00:00+00:00"
+      } ]
+    }
+    """
+    Then the response status code should be 201
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "organizer.name" should be equal to "The organizer"
+    And the JSON node "organizer.@id" should be equal to "/api/organizers/1"
+    And the JSON node "partnerOrganizers" should have 2 elements
+    And the JSON node "partnerOrganizers[0].name" should be equal to "The First Partner"
+    And the JSON node "partnerOrganizers[0].@id" should be equal to "/api/organizers/2"
+    And the JSON node "partnerOrganizers[1].name" should be equal to "The Second Partner"
+    And the JSON node "partnerOrganizers[1].@id" should be equal to "/api/organizers/3"
+
   @dropSchema
   Scenario: Drop schema

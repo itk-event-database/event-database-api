@@ -162,6 +162,28 @@ class CustomItemNormalizer extends AbstractItemNormalizer
                 }
             }
         }
+        if ($object instanceof Event && 'partnerOrganizers' === $attribute) {
+            if (is_array($value)) {
+                // Try to map all items without an `@id` key to an organizer
+                // provided by the organizer factory.
+                $value = array_map(
+                    function ($data) {
+                        if (is_array($data) && empty($data['@id'])) {
+                            // Get unidentified organizer (with no specified id) from factory.
+                            $organizer = $this->organizerFactory->get($data);
+                            if ($organizer) {
+                                return sprintf('/api/organizers/%s', $organizer->getId());
+                            }
+                        }
+
+                        // We have an `@id` or the factory cannot provide an organizer.
+                        return $data;
+                    },
+                    $value
+                );
+            }
+        }
+
         parent::setAttributeValue($object, $attribute, $value, $format, $context);
     }
 
