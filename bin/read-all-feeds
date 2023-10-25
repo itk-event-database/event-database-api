@@ -1,7 +1,14 @@
-#!/usr/bin/env bash
-dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+#!/usr/bin/env sh
+
+# This do not work when running through  docker compose exec.
+# It defaults to /home/deploy and not the working dir.
+#
+#dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+#
+# So for now lets assume we always are inside an ITKDev docker cotainer.
+dir=/app/bin
 
 # Read all feeds one by one to isoloate any fatal errors thrown when reading a feed.
 for id in $($dir/console events:feed:read --list | grep '^id:' | sed 's/^id: *//'); do
-    $dir/console events:feed:read --id=$id
+    php -d memory_limit=-1 $dir/console events:feed:read --id=$id
 done
