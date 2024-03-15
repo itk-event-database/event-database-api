@@ -496,6 +496,12 @@
                         "type": "string"
                     },
                     {
+                        "name": "feed[exists]",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "required": false,
@@ -1628,6 +1634,14 @@
                 },
                 "excerpt": {
                     "description": "Excerpt, i.e. short description, without any markup",
+                    "type": "string"
+                },
+                "feed": {
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "feedEventId": {
+                    "readOnly": true,
                     "type": "string"
                 },
                 "tags": {
