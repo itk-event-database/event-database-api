@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "jsonld_embed_context" = true,
  *     "normalization_context" = { "groups" = { "event_read" } },
  *     "denormalization_context" = { "groups" = { "event_write" } },
- *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.search.access", "event.order", "event.order.default" },
+ *     "filters" = { "event.search", "event.search.date", "event.search.tag", "event.search.owner", "event.search.published", "event.search.access", "event.order", "event.order.default", "resource.event.exists_filter" },
  *     "validation_groups"={"event_write"}
  *   }
  * )
@@ -167,6 +167,7 @@ class Event extends Thing implements CustomTaggable, Blameable
     /**
      * @var Feed
      *
+     * @Groups({"event_read"})
      * @ORM\ManyToOne(targetEntity="AdminBundle\Entity\Feed")
      */
     private $feed;
@@ -174,6 +175,7 @@ class Event extends Thing implements CustomTaggable, Blameable
     /**
      * @var string
      *
+     * @Groups({"event_read"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $feedEventId;

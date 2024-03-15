@@ -50,6 +50,12 @@ services:
               url: 'exact'
         tags: [{ name: 'api_platform.filter', id: 'event.search' }]
 
+    resource.event.exists_filter:
+        parent: 'api_platform.doctrine.orm.exists_filter'
+        arguments: 
+            - feed: '~'
+        tags: [{ name: 'api_platform.filter' }]
+
     resource.event.search_owner_filter:
         class: AppBundle\Filter\OwnerFilter
         arguments:
