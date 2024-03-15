@@ -52,7 +52,8 @@ services:
 
     resource.event.exists_filter:
         parent: 'api_platform.doctrine.orm.exists_filter'
-        arguments: [ { feed: '~' } ]
+        arguments: 
+            - feed: '~'
         tags: [{ name: 'api_platform.filter' }]
 
     resource.event.search_owner_filter:
