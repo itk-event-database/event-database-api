@@ -105,7 +105,7 @@ class Place extends Thing implements Taggable, Blameable
     /**
      * @var string The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
      *
-     * @Groups({"place_read", "occurrence_read", "place_write"})
+     * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
      * @Assert\Type(type="string")
      * @ORM\Column(nullable=true)
      */
@@ -114,7 +114,7 @@ class Place extends Thing implements Taggable, Blameable
     /**
      * @var string The locality. For example, Mountain View.
      *
-     * @Groups({"place_read", "occurrence_read", "place_write"})
+     * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
      * @Assert\Type(type="string")
      * @ORM\Column(nullable=true)
      */
@@ -123,7 +123,7 @@ class Place extends Thing implements Taggable, Blameable
     /**
      * @var string The region. For example, CA.
      *
-     * @Groups({"place_read", "occurrence_read", "place_write"})
+     * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
      * @Assert\Type(type="string")
      * @ORM\Column(nullable=true)
      */
@@ -132,7 +132,7 @@ class Place extends Thing implements Taggable, Blameable
     /**
      * @var string The postal code. For example, 94043.
      *
-     * @Groups({"place_read", "occurrence_read", "place_write"})
+     * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
      * @Assert\Type(type="string")
      * @ORM\Column(nullable=true)
      */
@@ -141,7 +141,7 @@ class Place extends Thing implements Taggable, Blameable
     /**
      * @var string The street address. For example, 1600 Amphitheatre Pkwy.
      *
-     * @Groups({"place_read", "occurrence_read", "place_write"})
+     * @Groups({"event_read", "place_read", "occurrence_read", "place_write"})
      * @Assert\Type(type="string")
      * @ORM\Column(nullable=true)
      */
