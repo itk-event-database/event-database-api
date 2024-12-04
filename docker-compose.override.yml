@@ -1,0 +1,9 @@
+# itk-version: 3.2.1
+services:
+  nginx:
+    labels:
+      # Scope hosting by path prefix to allow shared hosting with EventDB v2
+      # 'https://api.detskeriaarhus.dk/v1/' -> Legacy EventDB (v1)
+      # 'https://api.detskeriaarhus.dk/api/' -> Legacy EventDB API (v1)
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.rule=Host(`${COMPOSE_DOMAIN}`) && (PathPrefix(`/v1`) || PathPrefix(`/api`))"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`) && (PathPrefix(`/v1`) || PathPrefix(`/api`))"

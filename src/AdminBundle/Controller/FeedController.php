@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Feed controller.
  *
- * @Route("/admin/feed")
+ * @Route("/v1/admin/feed")
  * @Security("has_role('ROLE_FEED_EDITOR')")
  */
 class FeedController extends Controller

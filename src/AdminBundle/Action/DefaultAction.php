@@ -35,7 +35,7 @@ class DefaultAction
     }
 
     /**
-     * @Route("/", name="default")
+     * @Route("/v1", name="default")
      *
      * Using annotations is not mandatory, XML and YAML configuration files can be used instead.
      * If you want to decouple your actions from the framework, don't use annotations.

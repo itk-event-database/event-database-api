@@ -45,7 +45,7 @@ class ResourceAction
     }
 
     /**
-     * @Route("/resource/", name="resource")
+     * @Route("/v1/resource/", name="resource")
      *
      * Using annotations is not mandatory, XML and YAML configuration files can be used instead.
      * If you want to decouple your actions from the framework, don't use annotations.

@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Tag controller.
  *
- * @Route("/admin/tag")
+ * @Route("/v1/admin/tag")
  * @Security("has_role('ROLE_TAG_EDITOR')")
  */
 class TagController extends Controller
