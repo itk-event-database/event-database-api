@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * UnknownTag controller.
  *
- * @Route("/admin/unknown_tag")
+ * @Route("/v1/admin/unknown_tag")
  * @Security("has_role('ROLE_TAG_EDITOR')")
  */
 class UnknownTagController extends Controller

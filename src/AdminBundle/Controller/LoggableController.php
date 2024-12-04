@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Loggable controller.
  *
- * @Route("/admin/loggable/{entityType}")
+ * @Route("/v1/admin/loggable/{entityType}")
  * @Security("has_role('ROLE_SUPER_ADMIN')")
  */
 class LoggableController extends Controller

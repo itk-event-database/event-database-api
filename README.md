@@ -1,3 +1,8 @@
+# Archived dec. 2024
+Project is archived and unmaintained. Please see:
+* https://github.com/itk-dev/event-database-imports
+* https://github.com/itk-dev/event-database-api
+
 Event database – the API
 ========================
 

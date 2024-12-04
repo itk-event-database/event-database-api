@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Editor/SPA controller.
  *
- * @Route("/editor")
+ * @Route("/v1/editor")
  * @Security("has_role('ROLE_EVENT_EDITOR')")
  */
 class EditorController extends Controller
