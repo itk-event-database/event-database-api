@@ -1,0 +1,60 @@
+server {
+    listen ${NGINX_PORT};
+    server_name localhost;
+
+    root ${NGINX_WEB_ROOT};
+
+    client_max_body_size ${NGINX_MAX_BODY_SIZE};
+
+    # This also needs to be set in the single server tag and not only in http.
+    set_real_ip_from 172.16.0.0/16;
+    real_ip_recursive on;
+    real_ip_header X-Forwarded-For;
+
+    location / {
+        # try to serve file directly, fallback to app.php
+        #try_files $uri /app.php$is_args$args;
+        try_files $uri /app_dev.php$is_args$args;
+    }
+
+    # Protect files and directories from prying eyes.
+    location ~* \.(engine|inc|install|make|module|profile|po|sh|.*sql|.tar|.gz|.bz2|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\.(?!well-known).*|Entries.*|Repository|Root|Tag|Template|composer\.(json|lock)|web\.config)$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig|\.save)$ {
+        deny all;
+        return 404;
+    }
+
+    # Development
+    location ~ ^/(app_dev|config)\.php(/|$) {
+        fastcgi_buffers 16 32k;
+        fastcgi_buffer_size 64k;
+        fastcgi_busy_buffers_size 64k;
+
+        fastcgi_pass ${NGINX_FPM_SERVICE};
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+    }
+
+    # Production
+    location ~ ^/app\.php(/|$) {
+        fastcgi_pass ${NGINX_FPM_SERVICE};
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        internal;
+    }
+
+
+    location ~ \.php$ {
+        return 404;
+    }
+
+    # Send log message to files symlinked to stdout/stderr.
+    error_log /dev/stderr;
+    access_log /dev/stdout main;
+}
