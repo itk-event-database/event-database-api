@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Helper controller.
  *
- * @Route("/helper")
+ * @Route("/v1/helper")
  */
 class HelperController extends Controller
 {

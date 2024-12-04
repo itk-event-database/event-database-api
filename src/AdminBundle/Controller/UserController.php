@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * User controller.
  *
- * @Route("/admin/user")
+ * @Route("/v1/admin/user")
  * @Security("has_role('ROLE_USER_EDITOR')")
  */
 class UserController extends Controller

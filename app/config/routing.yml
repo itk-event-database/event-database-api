@@ -23,19 +23,21 @@ admin:
 
 fos_user:
     resource: '@FOSUserBundle/Resources/config/routing/all.xml'
+    prefix: /v1
 
 fos_user_group:
     resource: '@FOSUserBundle/Resources/config/routing/group.xml'
-    prefix: /group
+    prefix: /v1/group
 
 easy_admin_bundle:
     resource: '@AdminBundle/Controller/AdminController.php'
     type: annotation
-    prefix: /easyadmin
+    prefix: /v1/easyadmin
 
 liip_imagine:
     resource: '@LiipImagineBundle/Resources/config/routing.yaml'
+    prefix: /v1
 
 terms_bundle:
     resource: '@ItkDevTermsBundle/Resources/config/routing.xml'
-    prefix: /terms
+    prefix: /v1/terms
