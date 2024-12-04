@@ -58,13 +58,16 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
             # form_login:
 
-            pattern: ^/
+            pattern: ^/v1
             form_login:
                 provider: fos_userbundle
                 check_path: fos_user_security_check
                 login_path: fos_user_security_login
+                default_target_path: default
                 # csrf_provider: security.csrf.token_manager
-            logout: true
+            logout:
+                path: fos_user_security_logout
+                target: default
             logout_on_user_change: true
 
     access_control:
@@ -75,8 +78,8 @@ security:
         # Read only API access
         - { path: ^/api, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
 
-        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, role: ROLE_USER }
-        - { path: ^/easyadmin, role: ROLE_USER }
+        - { path: ^/v1/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/v1/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/v1/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/v1/admin, role: ROLE_USER }
+        - { path: ^/v1/easyadmin, role: ROLE_USER }

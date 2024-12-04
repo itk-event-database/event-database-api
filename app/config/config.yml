@@ -30,7 +30,8 @@ framework:
         handler_id: ~
     fragments: ~
     http_method_override: true
-    assets: ~
+    assets:
+        base_path: '/v1'
     property_info:
         enabled: true
 
